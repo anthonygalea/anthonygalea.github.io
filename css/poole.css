@@ -334,17 +334,19 @@ html {
   }
 }
 
+
 /*
  * Sidebar
  *
  * Flexible banner for housing site name, intro, and "footer" content. Starts
  * out above content in mobile and later moves to the side with wider viewports.
  */
+
 .sidebar {
   text-align: center;
   padding: 2rem 1rem;
   color: rgba(255,255,255,.5);
-  background-color: #fff;
+  background-color: #202020;
 }
 
 @media (min-width: 48em) {
@@ -353,13 +355,20 @@ html {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 16rem;
-    margin-bottom: 1rem;
+    width: 18rem;
+    text-align: left;
+  }
+
+  .sidebar-sticky {
+    position: absolute;
+    right:  1rem;
+    bottom: 1rem;
+    left:   1rem;
   }
 }
 
 .sidebar a {
-  color: #202020;
+  color: #fff;
   text-decoration: none;
 }
 
@@ -367,7 +376,7 @@ html {
   color: #fff;
   margin-top: 0;
   font-family: "Abril Fatface", serif;
-  font-size: 3.25rem;
+  font-size: 2.5rem;
 }
 
 .sidebar-nav {
@@ -385,20 +394,22 @@ a.sidebar-nav-item:focus {
   font-weight: bold;
 }
 
+.content {
+  padding-top:    4rem;
+  padding-bottom: 2rem;
+}
 
 @media (min-width: 48em) {
   .content {
     max-width: 38rem;
-    margin-left: 15rem;
+    margin-left: 22rem;
     margin-right: 2rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
   }
 }
 
 @media (min-width: 64em) {
   .content {
-    margin-left: 15rem;
+    margin-left: 22rem;
   }
 }
 
@@ -424,11 +435,6 @@ pre {
   padding-bottom: 0;
 }
 
-.sidebar-about h1 {
-  margin-top: 0;
-  font-size: 2.0rem;
-}
-
 .sidebar-nav {
   padding-left: 0;
   list-style: none;
@@ -444,23 +450,6 @@ pre {
   color: #fff;
   background-color: #337ab7;
 }
-
-.fa-github-square {
-  color: black;
-}
-
-.fa-linkedin-square {
-  color: #1B86BC;
-}
-
-.fa-envelope-square {
-  color: #DB4437;
-}
-
-.fa-rss-square {
-  color: #FFBB1B;
-}
-
 
 
 /* From bootstrap.css 3.3.2 - start */
