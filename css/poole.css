@@ -91,7 +91,7 @@ strong {
 /* Lists */
 ul, ol, dl {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 dt {
@@ -148,14 +148,15 @@ pre {
 }
 pre code {
   padding: 0;
-  font-size: 100%;
+  font-size: 90%;
   color: inherit;
   background-color: transparent;
 }
 
 /* Pygments via Jekyll */
 .highlight {
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 4px;
 }
 .highlight pre {
@@ -182,7 +183,7 @@ blockquote p:last-child {
 img {
   display: block;
   max-width: 100%;
-  margin: auto auto 1rem;
+  margin: auto auto;
   border-radius: 5px;
 }
 
@@ -344,7 +345,7 @@ html {
 
 .sidebar {
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   color: rgba(255,255,255,.5);
   background-color: #202020;
 }
@@ -395,7 +396,7 @@ a.sidebar-nav-item:focus {
 }
 
 .content {
-  padding-top:    4rem;
+  padding-top:    2rem;
   padding-bottom: 2rem;
 }
 
@@ -420,7 +421,7 @@ a.sidebar-nav-item:focus {
 }
 
 .post p {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0 0;
   text-align: justify;
 }
 
@@ -438,7 +439,8 @@ pre {
 .sidebar-nav {
   padding-left: 0;
   list-style: none;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  padding-top: 0.3rem;
 }
 
 .sidebar-nav .label {
@@ -624,4 +626,41 @@ a.label:focus {
 
 .tableblock .MathJax_Display {
   margin: 0 0;
+}
+
+.toc {
+  /*display: none;*/
+  position: fixed;
+  /*top: 11.5rem;*/
+  top: 2rem;
+  left: 64rem;
+  /*left: 80rem;*/
+}
+
+#toctitle {
+  display: none;
+}
+
+.toc ul {
+  list-style-type: none;
+  margin-bottom: 0;
+}
+
+.toc a {
+  color: #fff;
+}
+
+.toc a:hover {
+  text-decoration: none;
+}
+
+.toc-bg {
+  /*display: none;*/
+  z-index: -1;
+  position: fixed;
+  left: 64rem;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #202020;
 }
