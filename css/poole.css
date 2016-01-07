@@ -633,7 +633,7 @@ a.label:focus {
   position: fixed;
   /*top: 11.5rem;*/
   top: 2rem;
-  left: 64rem;
+  left: 63rem;
   /*left: 80rem;*/
 }
 
@@ -648,10 +648,15 @@ a.label:focus {
 
 .toc a {
   color: #fff;
+  padding-left: 1rem;
 }
 
 .toc a:hover {
   text-decoration: none;
+}
+
+.toc a.active {
+  border-left: 3px solid #fff;
 }
 
 .toc-bg {
