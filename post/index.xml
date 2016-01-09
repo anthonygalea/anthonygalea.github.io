@@ -6,8 +6,197 @@
     <description>Recent content in Posts on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 03 Jan 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 09 Jan 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.anthony-galea.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>The Builder Pattern in Java</title>
+      <link>http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</link>
+      <pubDate>Sat, 09 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</guid>
+      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
+&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
+&lt;ul class=&#34;sectlevel1&#34;&gt;
+&lt;li&gt;&lt;a href=&#34;#_telescoping_constructor_anti_pattern&#34;&gt;Telescoping constructor anti-pattern&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_using_a_javabean&#34;&gt;Using a JavaBean&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_using_a_builder&#34;&gt;Using a builder&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_intellij_idea_refactoring&#34;&gt;IntelliJ IDEA refactoring&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;The Builder pattern is a &lt;code&gt;creational design pattern&lt;/code&gt; which can be used to address the telescoping constructor anti-pattern. It accomplishes this by separating the construction of an object from its representation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_telescoping_constructor_anti_pattern&#34;&gt;Telescoping constructor anti-pattern&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;This pattern arises when there are multiple ways of constructing an object, usually because some properties are optional. You can see that as the number of fields for an object increases, the number of constructors we need to provide can grow exponentially:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;tok-c1&#34;&gt;//required&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;tok-c1&#34;&gt;//optional&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;tok-c1&#34;&gt;//optional&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;surname&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;surname&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;address&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;address&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_using_a_javabean&#34;&gt;Using a JavaBean&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Instead of providing constructors we could write a JavaBean which exposes getters and setters for each field:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;getFirstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;setFirstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;tok-o&#34;&gt;...&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;and then only call the setters for the fields we want to set:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;person&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;setName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Jack&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;setSurname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Johnson&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;The problem with this is that the object may be in an inconsistent state partway through its construction. Also, the JavaBeans pattern doesn&amp;#8217;t allow us to make the class immutable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_using_a_builder&#34;&gt;Using a builder&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;The third option is to use the builder pattern where &lt;code&gt;Person&lt;/code&gt; is only used to represent a person and &lt;code&gt;Person.Builder&lt;/code&gt; is responsible for creating objects of type &lt;code&gt;Person&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;img src=&#34;http://www.anthony-galea.com/images/2016-01-09-builder.png&#34; alt=&#34;2016 01 09 builder&#34;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;This is how we could add a &lt;code&gt;Builder&lt;/code&gt; to the example above:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Builder&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;builder&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;builder&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;surname&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;builder&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;address&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;builder&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;Builder&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+
+    &lt;span class=&#34;tok-n&#34;&gt;Builder&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Builder&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;lastName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;lastName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;lastName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;lastName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+      &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Builder&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;address&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;address&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+      &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;createPerson&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Note that the constructor for &lt;code&gt;Person&lt;/code&gt; is private, accessible only to the &lt;code&gt;Builder&lt;/code&gt;. Then we use the builder like this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;jack&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;Builder&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Jack&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;lastName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Johnson&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt;
+                                        &lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;createPerson&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;As you can see the client works with a fluent API, that is very easy to write. It is immediately clear that &lt;code&gt;name&lt;/code&gt; is a required parameter and &lt;code&gt;lastName&lt;/code&gt; and &lt;code&gt;address&lt;/code&gt; are optional.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_intellij_idea_refactoring&#34;&gt;IntelliJ IDEA refactoring&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;IntelliJ has a nice &lt;a href=&#34;https://www.jetbrains.com/idea/help/replace-constructor-with-builder.html&#34;&gt;Replace Constructor with Builder&lt;/a&gt; refactoring which allows you to quickly generate a builder and replace the existing constructor call.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;img src=&#34;http://www.anthony-galea.com/images/2016-01-09-refactor-constructor-with-builder.png&#34; alt=&#34;2016 01 09 refactor constructor with builder&#34;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;When you generate the builder you can also use the &lt;a href=&#34;https://www.jetbrains.com/idea/help/move-refactorings.html&#34;&gt;Move Refactoring&lt;/a&gt; to make it an inner class of the class for which it generates an object.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;img src=&#34;http://www.anthony-galea.com/images/2016-01-09-move.png&#34; alt=&#34;2016 01 09 move&#34;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;You can find this pattern and many other good practices for Java described in the book &lt;a href=&#34;https://www.goodreads.com/book/show/105099.Effective_Java_Programming_Language_Guide&#34;&gt;Effective Java by Joshua Bloch&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>An Introduction to Load Testing with Gatling</title>

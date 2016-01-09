@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>The Builder Pattern in Java</title>
+
+  
+  <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
+  
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-38752250-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body>
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1><a href="/">Anthony Galea</a></h1>
+      
+    </div>
+
+    <ul class="sidebar-nav">
+
+      
+    </ul>
+
+    
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      <a href="https://at.linkedin.com/in/anthonygalea" target="_blank"><i class="fa fa-linkedin-square fa-3x"></i></a>
+      
+      
+      <a href="https://twitter.com/_anthonygalea" target="_blank"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="fa fa-envelope-square fa-3x"></i></a>
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="fa fa-rss-square fa-3x"></i></a>
+      </li>
+    </ul>
+
+    
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1 class="post-title">The Builder Pattern in Java</h1>
+    <span class="post-date">
+    Jan 9, 2016 &middot; 3 minute read &middot;
+    
+    <a class="label" href="http://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="http://www.anthony-galea.com/categories/java">java</a>
+    
+    <hr>
+
+    
+    </span>
+    <div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_telescoping_constructor_anti_pattern">Telescoping constructor anti-pattern</a></li>
+<li><a href="#_using_a_javabean">Using a JavaBean</a></li>
+<li><a href="#_using_a_builder">Using a builder</a></li>
+<li><a href="#_intellij_idea_refactoring">IntelliJ IDEA refactoring</a></li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Builder pattern is a <code>creational design pattern</code> which can be used to address the telescoping constructor anti-pattern. It accomplishes this by separating the construction of an object from its representation.</p>
+</div>
+<div class="sect1">
+<h2 id="_telescoping_constructor_anti_pattern">Telescoping constructor anti-pattern</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This pattern arises when there are multiple ways of constructing an object, usually because some properties are optional. You can see that as the number of fields for an object increases, the number of constructors we need to provide can grow exponentially:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-kd">public</span> <span class="tok-kd">class</span> <span class="tok-nc">Person</span> <span class="tok-o">{</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">;</span> <span class="tok-c1">//required</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">surname</span><span class="tok-o">;</span>   <span class="tok-c1">//optional</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">address</span><span class="tok-o">;</span>   <span class="tok-c1">//optional</span>
+
+  <span class="tok-kd">public</span> <span class="tok-nf">Person</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span> <span class="tok-o">=</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+
+  <span class="tok-kd">public</span> <span class="tok-nf">Person</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">,</span> <span class="tok-n">String</span> <span class="tok-n">surname</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span> <span class="tok-o">=</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">surname</span> <span class="tok-o">=</span> <span class="tok-n">surname</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+
+  <span class="tok-kd">public</span> <span class="tok-nf">Person</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">,</span> <span class="tok-n">String</span> <span class="tok-n">surname</span><span class="tok-o">,</span> <span class="tok-n">String</span> <span class="tok-n">address</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span> <span class="tok-o">=</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">surname</span> <span class="tok-o">=</span> <span class="tok-n">surname</span><span class="tok-o">;</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">address</span> <span class="tok-o">=</span> <span class="tok-n">address</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+
+  <span class="tok-kd">public</span> <span class="tok-nf">Person</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">,</span> <span class="tok-n">String</span> <span class="tok-n">address</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span> <span class="tok-o">=</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">address</span> <span class="tok-o">=</span> <span class="tok-n">address</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_a_javabean">Using a JavaBean</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Instead of providing constructors we could write a JavaBean which exposes getters and setters for each field:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-kd">public</span> <span class="tok-kd">class</span> <span class="tok-nc">Person</span> <span class="tok-o">{</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">surname</span><span class="tok-o">;</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">address</span><span class="tok-o">;</span>
+
+  <span class="tok-kd">public</span> <span class="tok-nf">getFirstName</span><span class="tok-o">()</span> <span class="tok-o">{</span>
+    <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+
+  <span class="tok-kd">public</span> <span class="tok-nf">setFirstName</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span> <span class="tok-o">=</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+
+  <span class="tok-o">...</span>
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and then only call the setters for the fields we want to set:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">Person</span> <span class="tok-n">person</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-nf">Person</span><span class="tok-o">();</span>
+<span class="tok-n">person</span><span class="tok-o">.</span><span class="tok-na">setName</span><span class="tok-o">(</span><span class="tok-s">&quot;Jack&quot;</span><span class="tok-o">);</span>
+<span class="tok-n">person</span><span class="tok-o">.</span><span class="tok-na">setSurname</span><span class="tok-o">(</span><span class="tok-s">&quot;Johnson&quot;</span><span class="tok-o">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The problem with this is that the object may be in an inconsistent state partway through its construction. Also, the JavaBeans pattern doesn&#8217;t allow us to make the class immutable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_a_builder">Using a builder</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The third option is to use the builder pattern where <code>Person</code> is only used to represent a person and <code>Person.Builder</code> is responsible for creating objects of type <code>Person</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2016-01-09-builder.png" alt="2016 01 09 builder">
+</div>
+</div>
+<div class="paragraph">
+<p>This is how we could add a <code>Builder</code> to the example above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-kd">public</span> <span class="tok-kd">class</span> <span class="tok-nc">Person</span> <span class="tok-o">{</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">surname</span><span class="tok-o">;</span>
+  <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">address</span><span class="tok-o">;</span>
+
+  <span class="tok-kd">private</span> <span class="tok-nf">Person</span><span class="tok-o">(</span><span class="tok-n">Builder</span> <span class="tok-n">builder</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span> <span class="tok-o">=</span> <span class="tok-n">builder</span><span class="tok-o">.</span><span class="tok-na">firstName</span><span class="tok-o">;</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">surname</span> <span class="tok-o">=</span> <span class="tok-n">builder</span><span class="tok-o">.</span><span class="tok-na">surname</span><span class="tok-o">;</span>
+    <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">address</span> <span class="tok-o">=</span> <span class="tok-n">builder</span><span class="tok-o">.</span><span class="tok-na">address</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+
+  <span class="tok-kd">public</span> <span class="tok-kd">static</span> <span class="tok-kd">class</span> <span class="tok-nc">Builder</span> <span class="tok-o">{</span>
+    <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+    <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">surname</span><span class="tok-o">;</span>
+    <span class="tok-kd">private</span> <span class="tok-n">String</span> <span class="tok-n">address</span><span class="tok-o">;</span>
+
+    <span class="tok-n">Builder</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">firstName</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+      <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span> <span class="tok-o">=</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
+    <span class="tok-o">}</span>
+
+    <span class="tok-kd">public</span> <span class="tok-n">Builder</span> <span class="tok-nf">lastName</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">lastName</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+      <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">lastName</span> <span class="tok-o">=</span> <span class="tok-n">lastName</span><span class="tok-o">;</span>
+      <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-o">;</span>
+    <span class="tok-o">}</span>
+
+    <span class="tok-kd">public</span> <span class="tok-n">Builder</span> <span class="tok-nf">address</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">address</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+      <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">address</span> <span class="tok-o">=</span> <span class="tok-n">address</span><span class="tok-o">;</span>
+      <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-o">;</span>
+    <span class="tok-o">}</span>
+
+    <span class="tok-kd">public</span> <span class="tok-nf">createPerson</span><span class="tok-o">()</span> <span class="tok-o">{</span>
+      <span class="tok-k">return</span> <span class="tok-k">new</span> <span class="tok-nf">Person</span><span class="tok-o">(</span><span class="tok-k">this</span><span class="tok-o">);</span>
+    <span class="tok-o">}</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the constructor for <code>Person</code> is private, accessible only to the <code>Builder</code>. Then we use the builder like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">Person</span> <span class="tok-n">jack</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-n">Person</span><span class="tok-o">.</span><span class="tok-na">Builder</span><span class="tok-o">(</span><span class="tok-s">&quot;Jack&quot;</span><span class="tok-o">).</span><span class="tok-na">lastName</span><span class="tok-o">(</span><span class="tok-s">&quot;Johnson&quot;</span><span class="tok-o">)</span>
+                                        <span class="tok-o">.</span><span class="tok-na">createPerson</span><span class="tok-o">();</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see the client works with a fluent API, that is very easy to write. It is immediately clear that <code>name</code> is a required parameter and <code>lastName</code> and <code>address</code> are optional.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_intellij_idea_refactoring">IntelliJ IDEA refactoring</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>IntelliJ has a nice <a href="https://www.jetbrains.com/idea/help/replace-constructor-with-builder.html">Replace Constructor with Builder</a> refactoring which allows you to quickly generate a builder and replace the existing constructor call.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2016-01-09-refactor-constructor-with-builder.png" alt="2016 01 09 refactor constructor with builder">
+</div>
+</div>
+<div class="paragraph">
+<p>When you generate the builder you can also use the <a href="https://www.jetbrains.com/idea/help/move-refactorings.html">Move Refactoring</a> to make it an inner class of the class for which it generates an object.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2016-01-09-move.png" alt="2016 01 09 move">
+</div>
+</div>
+<div class="paragraph">
+<p>You can find this pattern and many other good practices for Java described in the book <a href="https://www.goodreads.com/book/show/105099.Effective_Java_Programming_Language_Guide">Effective Java by Joshua Bloch</a>.</p>
+</div>
+</div>
+</div>
+
+
+    <hr>
+    
+    <a href="http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/">← Previous Post</a>
+    
+    
+
+    
+    
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+
+    
+
+    <ul>
+      
+        
+        
+        
+      
+        
+        
+        
+      
+    </ul>
+  </div>
+  
+</div>
+
+<div class="toc-bg"></div>
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.5.3/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="/js/gumshoe.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+gumshoe.init({
+  selector: '.sectlevel1 a', 
+  selectorHeader: '#toc', 
+  offset: 0,
+  activeClass: 'active',
+  callback: function (nav) {}
+});
+</script>
+</body>
+</html>
+
