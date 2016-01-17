@@ -175,7 +175,7 @@
 &lt;h2 id=&#34;_intellij_idea_refactoring&#34;&gt;IntelliJ IDEA refactoring&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;IntelliJ has a nice &lt;a href=&#34;https://www.jetbrains.com/idea/help/replace-constructor-with-builder.html&#34;&gt;Replace Constructor with Builder&lt;/a&gt; refactoring which allows you to quickly generate a builder and replace the existing constructor call.&lt;/p&gt;
+&lt;p&gt;IntelliJ has a nice &lt;a href=&#34;https://www.jetbrains.com/idea/help/replace-constructor-with-builder.html&#34;&gt;Replace Constructor with Builder&lt;/a&gt; refactoring which allows you to quickly generate a builder and replace the existing constructor call:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;imageblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -183,7 +183,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;When you generate the builder you can also use the &lt;a href=&#34;https://www.jetbrains.com/idea/help/move-refactorings.html&#34;&gt;Move Refactoring&lt;/a&gt; to make it an inner class of the class for which it generates an object.&lt;/p&gt;
+&lt;p&gt;When you generate the builder you can also use the &lt;a href=&#34;https://www.jetbrains.com/idea/help/move-refactorings.html&#34;&gt;Move Refactoring&lt;/a&gt; to make it an inner class of the class for which it generates an object:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;imageblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;

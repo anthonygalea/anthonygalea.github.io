@@ -6,8 +6,142 @@
     <description>Recent content on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 09 Jan 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 17 Jan 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.anthony-galea.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Better APIs with Java Optional</title>
+      <link>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</link>
+      <pubDate>Sun, 17 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</guid>
+      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
+&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
+&lt;ul class=&#34;sectlevel1&#34;&gt;
+&lt;li&gt;&lt;a href=&#34;#_the_groovy_operator&#34;&gt;The Groovy ?. operator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_enter_java_8_optional&#34;&gt;Enter Java 8 Optional&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_not_on_java_8&#34;&gt;Not on Java 8?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;In java codebases it is very typical to come across code similar to the following:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;PlaneProvider&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{}&lt;/span&gt;
+  &lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;The contract for &lt;code&gt;PlaneProvider.getPlane()&lt;/code&gt; indicates that a &lt;code&gt;Plane&lt;/code&gt; will be returned. Typically a client using this interface would use it writing something like this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;tok-kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Notice that if the client doesn&amp;#8217;t perform the null check and a &lt;code&gt;null&lt;/code&gt; is returned by &lt;code&gt;getPlane()&lt;/code&gt; we would get a &lt;code&gt;NullPointerException&lt;/code&gt; at runtime when we call &lt;code&gt;plane.fly()&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_the_groovy_operator&#34;&gt;The Groovy ?. operator&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Groovy provides the &lt;code&gt;?.&lt;/code&gt; operator in an attempt to provide a cleaner way to write the client code:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;?.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;If &lt;code&gt;plane&lt;/code&gt; is &lt;code&gt;null&lt;/code&gt; the call to &lt;code&gt;fly()&lt;/code&gt; will not be performed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_enter_java_8_optional&#34;&gt;Enter Java 8 Optional&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Using the new &lt;code&gt;Optional&amp;lt;T&amp;gt;&lt;/code&gt; type in Java 8 we could rewrite the &lt;code&gt;PlaneProvider&lt;/code&gt; interface above like this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;tok-nn&#34;&gt;java.util.Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;tok-kd&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;PlaneProvider&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{}&lt;/span&gt;
+  &lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Just by reading the signature of &lt;code&gt;PlaneProvider.getPlane()&lt;/code&gt; we can immediately tell that a plane may or may not be returned. The concrete implementation of &lt;code&gt;PlaneProvider&lt;/code&gt; would use &lt;code&gt;Optional.of(somePlane)&lt;/code&gt; to return a value or &lt;code&gt;Optional.empty()&lt;/code&gt; to indicate what was previously indicated with a &lt;code&gt;null&lt;/code&gt; value:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;PlaneProviderImpl&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;implements&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;PlaneProvider&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-n&#34;&gt;havePlane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;empty&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;In the client we can then use &lt;code&gt;Optional.isPresent()&lt;/code&gt; and &lt;code&gt;Optional.get()&lt;/code&gt; to check for the presence of a value and retrieve it if we want, leading to more readable code:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;isPresent&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;())&lt;/span&gt;
+  &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;The &lt;code&gt;Optional&lt;/code&gt; class provides additional methods which support a more functional style when writing code:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;ifPresent&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(()&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;());&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;//or&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;ifPresent&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nl&#34;&gt;Plane:&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;We can also model the case where a plane cannot be provided by the &lt;code&gt;PlaneProvider&lt;/code&gt; using &lt;code&gt;orElse()&lt;/code&gt; and using another object &lt;code&gt;mySparePlane&lt;/code&gt; as fallback:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;orElse&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;mySparePlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;And in the case where we don&amp;#8217;t have any spare planes we can write:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;orElseThrow&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nl&#34;&gt;IllegalStateException:&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_not_on_java_8&#34;&gt;Not on Java 8?&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;If for some reason you&amp;#8217;re on a version of Java prior to Java 8 you can still use &lt;code&gt;Optional&lt;/code&gt; by using the &lt;a href=&#34;https://code.google.com/p/guava-libraries/wiki/UsingAndAvoidingNullExplained#Optional&#34;&gt;Guava&lt;/a&gt; library.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>The Builder Pattern in Java</title>
@@ -175,7 +309,7 @@
 &lt;h2 id=&#34;_intellij_idea_refactoring&#34;&gt;IntelliJ IDEA refactoring&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;IntelliJ has a nice &lt;a href=&#34;https://www.jetbrains.com/idea/help/replace-constructor-with-builder.html&#34;&gt;Replace Constructor with Builder&lt;/a&gt; refactoring which allows you to quickly generate a builder and replace the existing constructor call.&lt;/p&gt;
+&lt;p&gt;IntelliJ has a nice &lt;a href=&#34;https://www.jetbrains.com/idea/help/replace-constructor-with-builder.html&#34;&gt;Replace Constructor with Builder&lt;/a&gt; refactoring which allows you to quickly generate a builder and replace the existing constructor call:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;imageblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -183,7 +317,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;When you generate the builder you can also use the &lt;a href=&#34;https://www.jetbrains.com/idea/help/move-refactorings.html&#34;&gt;Move Refactoring&lt;/a&gt; to make it an inner class of the class for which it generates an object.&lt;/p&gt;
+&lt;p&gt;When you generate the builder you can also use the &lt;a href=&#34;https://www.jetbrains.com/idea/help/move-refactorings.html&#34;&gt;Move Refactoring&lt;/a&gt; to make it an inner class of the class for which it generates an object:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;imageblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
