@@ -6,8 +6,453 @@
     <description>Recent content on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Jan 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Mar 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.anthony-galea.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Solutions to 4clojure Elementary Problems</title>
+      <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</link>
+      <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</guid>
+      <description>&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;In this post I will share solutions to the elementary problems I solved on &lt;a href=&#34;http://www.4clojure.com&#34;&gt;4clojure&lt;/a&gt;. You can find all the solutions on &lt;a href=&#34;https://github.com/anthonygalea/solutions-4clojure&#34;&gt;github&lt;/a&gt;. If you have any suggestions/alternative solutions I would love to hear from you.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_solutions&#34;&gt;Solutions&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_1_nothing_but_the_truth&#34;&gt;1. Nothing but the Truth&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; This is a clojure form.&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; Enter a value which will make the form evaluate to true.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-nv&#34;&gt;true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_2_simple_math&#34;&gt;2. Simple Math&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; If you are not familiar with polish notation, simple arithmetic might seem confusing.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;- &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;* &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_3_intro_to_strings&#34;&gt;3. Intro to Strings&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Clojure strings are Java strings.&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; This means that you can use any of the Java string methods on Clojure strings.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;.toUpperCase&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;HELLO WORLD&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_4_intro_to_lists&#34;&gt;4. Intro to Lists&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Lists can be constructed with either a function or a quoted form.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;list &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_5_lists_conj&#34;&gt;5. Lists: conj&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; When operating on a list, the conj function will return a new list with one or more items &amp;quot;added&amp;quot; to the front.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_6_intro_to_vectors&#34;&gt;6. Intro to Vectors&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Vectors can be constructed several ways. You can compare them with lists.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;list &lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;vec&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;vector &lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_7_vectors_conj&#34;&gt;7. Vectors: conj&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; When operating on a Vector, the conj function will return a new vector with one or more items &amp;quot;added&amp;quot; to the end.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_8_intro_to_sets&#34;&gt;8. Intro to Sets&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Sets are collections of unique values.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;set &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:d&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:d&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;clojure.set/union&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:d&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}))&lt;/span&gt;
+
+&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:d&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_9_sets_conj&#34;&gt;9. Sets: conj&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; When operating on a set, the conj function returns a new set with one or more keys &amp;quot;added&amp;quot;.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_10_intro_to_maps&#34;&gt;10. Intro to Maps&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Maps store key-value pairs.&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; Both maps and keywords can be used as lookup functions.&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; Commas can be used to make maps more readable, but they are not required.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;hash-map &lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;10&lt;/span&gt;, &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;20&lt;/span&gt;, &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;10&lt;/span&gt;, &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;20&lt;/span&gt;, &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}))&lt;/span&gt;
+
+&lt;span class=&#34;tok-mi&#34;&gt;20&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_11_maps_conj&#34;&gt;11. Maps: conj&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; When operating on a map, the conj function returns a new map with one or more key-value pairs &amp;quot;added&amp;quot;.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;, &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;, &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_12_intro_to_sequences&#34;&gt;12. Intro to Sequences&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; All Clojure collections support sequencing.&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; You can operate on sequences with functions like first, second, and last.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;first &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;second &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;last &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;list &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+
+&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_13_sequences_rest&#34;&gt;13. Sequences: rest&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; The rest function will return all the items of a sequence except the first.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;rest &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;20&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;30&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;40&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;20&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;30&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;40&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_14_intro_to_functions&#34;&gt;14. Intro to Functions&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Clojure has many different ways to create functions.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;add-five&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;partial + &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-mi&#34;&gt;8&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_15_double_down&#34;&gt;15. Double Down&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Write a function which doubles a number.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;22&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-nb&#34;&gt;* &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_16_hello_world&#34;&gt;16. Hello World&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Write a function which returns a personalized greeting.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Dave&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Hello, Dave!&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Jenn&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Hello, Jenn!&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Rhea&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Hello, Rhea!&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;str &lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Hello, &amp;quot;&lt;/span&gt; &lt;span class=&#34;tok-nb&#34;&gt;name &lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;!&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_17_sequences_map&#34;&gt;17. Sequences: map&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; The map function takes two arguments: a function (f) and a sequence (s). Map returns a new sequence consisting of the result of applying f to each item of s. Do not confuse the map function with the map data structure.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;map &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+
+&lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_18_sequences_filter&#34;&gt;18. Sequences: filter&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; The filter function takes two arguments: a predicate function (f) and a sequence (s). Filter returns a new sequence consisting of all the items of s for which (f item) returns true.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;filter &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+
+&lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_35_local_bindings&#34;&gt;35. Local bindings&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Clojure lets you give local names to values using the special let-form.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;, &lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;- &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;21&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;/ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))&lt;/span&gt;
+
+&lt;span class=&#34;tok-mi&#34;&gt;7&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_36_let_it_be&#34;&gt;36. Let it Be&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Can you bind x, y, and z so that these are all true?&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;z&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;z&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;7&lt;/span&gt;, &lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;, &lt;span class=&#34;tok-nv&#34;&gt;z&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_37_regular_expressions&#34;&gt;37. Regular Expressions&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Regex patterns are supported with a special reader macro.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;apply str &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;re-seq &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;[A-Z]+&amp;quot;&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;bA1B3Ce &amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+
+&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ABC&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_52_intro_to_destructuring&#34;&gt;52. Intro to Destructuring&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Let bindings and function parameter lists support destructuring.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;d&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]]&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_57_simple_recursion&#34;&gt;57. Simple Recursion&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; A recursive function is a function which calls itself. This is one of the fundamental techniques used in functional programming.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;when &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;dec &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_64_intro_to_reduce&#34;&gt;64. Intro to Reduce&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Reduce takes a 2 argument function and an optional starting value. It then applies the function to the first 2 items in the sequence (or the starting value and the first element of the sequence). In the next iteration the function will be called on the previous return value and the next item from the sequence, thus reducing the entire collection to one value. Don&amp;#39;t worry, it&amp;#39;s not as complicated as it sounds.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;15&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;reduce &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;reduce &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[]))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;reduce &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]))&lt;/span&gt;
+
+&lt;span class=&#34;tok-nv&#34;&gt;+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_68_recurring_theme&#34;&gt;68. Recurring Theme&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Clojure only has one non-stack-consuming looping construct: recur. Either a function or a loop can be used as the recursion point. Either way, recur rebinds the bindings of the recursion point to the values it is passed. Recur must be called from the tail-position, and calling it elsewhere will result in an error.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;loop &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;
+         &lt;span class=&#34;tok-nv&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[]]&lt;/span&gt;
+    &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+      &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;recur&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;dec &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+      &lt;span class=&#34;tok-nv&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_71_rearranging_code&#34;&gt;71. Rearranging Code: - &amp;gt;&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; The -&amp;gt; macro threads an expression x through a variable number of forms. First, x is inserted as the second item in the first form, making a list of it if it is not a list already. Then the first form is inserted as the second item in the second form, making a list of that form if necessary. This process continues for all the forms. Using -&amp;gt; can sometimes make your code more readable.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;sort &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;rest &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;reverse &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]))))&lt;/span&gt;
+   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;-&amp;gt; &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;reverse&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;rest&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;sort&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+   &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-nv&#34;&gt;last&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_72_rearranging_code&#34;&gt;72. Rearranging Code: - &amp;gt; &amp;gt;&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; The -&amp;gt;&amp;gt; macro threads an expression x through a variable number of forms. First, x is inserted as the last item in the first form, making a list of it if it is not a list already. Then the first form is inserted as the last item in the second form, making a list of that form if necessary. This process continues for all the forms. Using -&amp;gt;&amp;gt; can sometimes make your code more readable.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;map inc &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;take &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;drop &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]))))&lt;/span&gt;
+   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;-&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;drop &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;take &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;map &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;inc&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+   &lt;span class=&#34;tok-mi&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-nb&#34;&gt;reduce &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_134_a_nil_key&#34;&gt;134. A nil key&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Write a function which, given a key and map, returns true iff the map contains an entry with that key and its value is nil.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;true? &lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;false? &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;false? &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;key &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;contains? map &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;key &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+  	&lt;span class=&#34;tok-nv&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_145_for_the_win&#34;&gt;145. For the win&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Clojure&amp;#39;s for macro is a tremendously versatile mechanism for producing a sequence based on some other sequence(s). It can take some time to understand how to use it properly, but that investment will be paid back with clear, concise sequence-wrangling later. With that in mind, read over these for expressions and try to see how each of them produces the same result.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;for &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;range &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;40&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;tok-ss&#34;&gt;:when&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;rem &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))]&lt;/span&gt;
+        &lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;for &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;iterate &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;tok-ss&#34;&gt;:let&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;z&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;inc &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)]&lt;/span&gt;
+            &lt;span class=&#34;tok-ss&#34;&gt;:while&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;&amp;lt; &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;z&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;40&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)]&lt;/span&gt;
+        &lt;span class=&#34;tok-nv&#34;&gt;z&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;for &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;partition&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;range &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))]&lt;/span&gt;
+        &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;9&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;13&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;17&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;21&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;25&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;29&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;33&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;37&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_156_map_defaults&#34;&gt;156. Map Defaults&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; When retrieving values from a map, you can specify default values in case the key is not found:&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:foo&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:bar&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;, &lt;span class=&#34;tok-ss&#34;&gt;:baz&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; However, what if you want the map itself to contain the default values?&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; Write a function which takes a default value and a sequence of keys and constructs a map.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;])&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:c&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;x&amp;quot;&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;])&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;x&amp;quot;&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;x&amp;quot;&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:foo&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:bar&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;])&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:foo&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:bar&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:a&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:b&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]})&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;keys&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;zipmap keys &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;repeat &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_161_subset_and_superset&#34;&gt;161. Subset and Superset&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; Set A is a subset of set B, or equivalently B is a superset of A, if A is &amp;quot;contained&amp;quot; inside B. A and B may coincide.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;clojure.set/superset?&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;clojure.set/subset?&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;clojure.set/superset?&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;clojure.set/subset?&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect2&#34;&gt;
+&lt;h3 id=&#34;_162_logical_falsity_and_truth&#34;&gt;162. Logical falsity and truth&lt;/h3&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-c1&#34;&gt;;; In Clojure, only nil and false represent the values of logical falsity in conditional tests - anything else is logical truth.&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;if-not &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;false&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;if-not &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;These set of problems are pretty simple to solve which is excellent if you&amp;#8217;re just getting started with a language. In future posts I will continue with harder problems. If you want to dive deeper into &lt;a href=&#34;https://clojure.org/&#34;&gt;Clojure&lt;/a&gt; check out Daniel Higginbotham&amp;#8217;s book: &lt;a href=&#34;http://www.braveclojure.com/&#34;&gt;Clojure for the Brave and True&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Better APIs with Java Optional</title>
@@ -18,17 +463,21 @@
       <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
 &lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
 &lt;ul class=&#34;sectlevel1&#34;&gt;
+&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#_the_groovy_operator&#34;&gt;The Groovy ?. operator&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#_enter_java_8_optional&#34;&gt;Enter Java 8 Optional&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#_not_on_java_8&#34;&gt;Not on Java 8?&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;In java codebases it is very typical to come across code similar to the following:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;PlaneProvider&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{}&lt;/span&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;PlaneProvider&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
   &lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
 &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -46,6 +495,8 @@
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;Notice that if the client doesn&amp;#8217;t perform the null check and a &lt;code&gt;null&lt;/code&gt; is returned by &lt;code&gt;getPlane()&lt;/code&gt; we would get a &lt;code&gt;NullPointerException&lt;/code&gt; at runtime when we call &lt;code&gt;plane.fly()&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;sect1&#34;&gt;
 &lt;h2 id=&#34;_the_groovy_operator&#34;&gt;The Groovy ?. operator&lt;/h2&gt;
@@ -84,7 +535,7 @@
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;PlaneProviderImpl&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;implements&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;PlaneProvider&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;RyanairPlaneProvider&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;implements&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;PlaneProvider&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
   &lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
     &lt;span class=&#34;tok-n&#34;&gt;havePlane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;empty&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
   &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
@@ -113,12 +564,12 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;We can also model the case where a plane cannot be provided by the &lt;code&gt;PlaneProvider&lt;/code&gt; using &lt;code&gt;orElse()&lt;/code&gt; and using another object &lt;code&gt;mySparePlane&lt;/code&gt; as fallback:&lt;/p&gt;
+&lt;p&gt;We can also model the case where a plane cannot be provided by the &lt;code&gt;PlaneProvider&lt;/code&gt; using &lt;code&gt;orElse()&lt;/code&gt; and using another object &lt;code&gt;sparePlane&lt;/code&gt; as fallback:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
-&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;orElse&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;mySparePlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;orElse&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;sparePlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
@@ -152,14 +603,21 @@
       <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
 &lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
 &lt;ul class=&#34;sectlevel1&#34;&gt;
+&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#_telescoping_constructor_anti_pattern&#34;&gt;Telescoping constructor anti-pattern&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#_using_a_javabean&#34;&gt;Using a JavaBean&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#_using_a_builder&#34;&gt;Using a builder&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#_intellij_idea_refactoring&#34;&gt;IntelliJ IDEA refactoring&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;The Builder pattern is a &lt;code&gt;creational design pattern&lt;/code&gt; which can be used to address the telescoping constructor anti-pattern. It accomplishes this by separating the construction of an object from its representation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;sect1&#34;&gt;
 &lt;h2 id=&#34;_telescoping_constructor_anti_pattern&#34;&gt;Telescoping constructor anti-pattern&lt;/h2&gt;
@@ -324,6 +782,11 @@
 &lt;img src=&#34;http://www.anthony-galea.com/images/2016-01-09-move.png&#34; alt=&#34;2016 01 09 move&#34;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;You can find this pattern and many other good practices for Java described in the book &lt;a href=&#34;https://www.goodreads.com/book/show/105099.Effective_Java_Programming_Language_Guide&#34;&gt;Effective Java by Joshua Bloch&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
@@ -341,13 +804,18 @@
       <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
 &lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
 &lt;ul class=&#34;sectlevel1&#34;&gt;
-&lt;li&gt;&lt;a href=&#34;#report&#34;&gt;Start with the end in mind&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#report&#34;&gt;Report&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#describe&#34;&gt;Describe a Load Test&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#run&#34;&gt;Run a Simulation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;http://gatling.io&#34;&gt;Gatling&lt;/a&gt; is a great tool for load testing. It provides:&lt;/p&gt;
+&lt;p&gt;Many developers are familiar with the &lt;a href=&#34;http://jmeter.apache.org/&#34;&gt;Apache JMeter&lt;/a&gt; or &lt;a href=&#34;https://httpd.apache.org/docs/2.2/programs/ab.html&#34;&gt;Apache Bench&lt;/a&gt; tools for writing load tests. &lt;a href=&#34;http://gatling.io&#34;&gt;Gatling&lt;/a&gt; is an alternative tool which provides:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;ulist&#34;&gt;
 &lt;ul&gt;
@@ -358,12 +826,14 @@
 &lt;p&gt;a simple means to &lt;a href=&#34;#run&#34;&gt;Run a Simulation&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;a nice html &lt;a href=&#34;#report&#34;&gt;report&lt;/a&gt; with all the results&lt;/p&gt;
+&lt;p&gt;a nice html &lt;a href=&#34;#report&#34;&gt;Report&lt;/a&gt; with all the results&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;report&#34;&gt;Start with the end in mind&lt;/h2&gt;
+&lt;h2 id=&#34;report&#34;&gt;Report&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;Let&amp;#8217;s start by looking at the typical output of a Gatling load test. We have overall distribution of response time for the whole load test:&lt;/p&gt;
@@ -534,6 +1004,24 @@
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;bash&#34;&gt;mvn gatling:execute -Dgatling.simulationClass&lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt;com.company.service.YourSimulation&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;I have found Gatling to be a very effective tool for load testing. The DSL is succinct and the reports generated provide all the information typically needed out of the box. Other alternatives which I have not yet experimented with are:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;ulist&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/newsapps/beeswithmachineguns&#34;&gt;Bees with Machine Guns&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;http://locust.io/&#34;&gt;Locust&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
