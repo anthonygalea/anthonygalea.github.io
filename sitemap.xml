@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://www.anthony-galea.com/</loc>
-    <lastmod>2016-03-23T00:00:00+00:00</lastmod>
+    <lastmod>2016-03-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</loc>
+    <lastmod>2016-03-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
