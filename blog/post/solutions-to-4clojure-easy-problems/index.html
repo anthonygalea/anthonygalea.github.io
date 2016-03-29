@@ -197,7 +197,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="__26_fibonacci_sequence">.26 Fibonacci Sequence</h3>
+<h3 id="_26_fibonacci_sequence">26. Fibonacci Sequence</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which returns the first X fibonacci numbers.</span>
@@ -228,63 +228,6 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_29_get_the_caps">29. Get the Caps</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which takes a string and returns a new string containing only the capital letters.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;HeLlO, WoRlD!&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;HLOWRD&quot;</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nf">empty?</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;nothing&quot;</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;$#A(*&amp;987Zf&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;AZ&quot;</span><span class="tok-p">)</span>
-
-<span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">apply str </span><span class="tok-p">(</span><span class="tok-nb">re-seq </span><span class="tok-o">#</span><span class="tok-s">&quot;[A-Z]+&quot;</span> <span class="tok-nv">%</span><span class="tok-p">))</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_32_duplicate_a_sequence">32. Duplicate a Sequence</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which duplicates each element of a sequence.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">])</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span><span class="tok-p">])</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]])</span> <span class="tok-o">&#39;</span><span class="tok-p">([</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]])</span> <span class="tok-o">&#39;</span><span class="tok-p">([</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]))</span>
-
-<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
-  <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">%1</span> <span class="tok-nv">%2</span><span class="tok-p">)</span> <span class="tok-nv">%2</span><span class="tok-p">)</span> <span class="tok-p">[]</span> <span class="tok-nv">s</span><span class="tok-p">))</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_38_maximum_value">38. Maximum value</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which takes a variable number of parameters and returns the maximum value.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">1</span> <span class="tok-mi">8</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">)</span> <span class="tok-mi">8</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">30</span> <span class="tok-mi">20</span><span class="tok-p">)</span> <span class="tok-mi">30</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">45</span> <span class="tok-mi">67</span> <span class="tok-mi">11</span><span class="tok-p">)</span> <span class="tok-mi">67</span><span class="tok-p">)</span>
-
-<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-o">&amp;</span> <span class="tok-nv">params</span><span class="tok-p">]</span>
-  <span class="tok-p">(</span><span class="tok-nf">reduce</span>
-    <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">]</span>
-      <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">&lt; </span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">)</span> <span class="tok-nv">y</span> <span class="tok-nv">x</span><span class="tok-p">))</span>
-    <span class="tok-nv">params</span><span class="tok-p">))</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_48_intro_to_some">48. Intro to some</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; The some function takes a predicate function and a collection. It returns the first logical true value of (predicate x) where x is an item in the collection.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">some </span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span> <span class="tok-mi">7</span> <span class="tok-mi">6</span><span class="tok-p">}</span> <span class="tok-p">[</span><span class="tok-mi">5</span> <span class="tok-mi">6</span> <span class="tok-mi">7</span> <span class="tok-mi">8</span><span class="tok-p">]))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">some </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">when </span><span class="tok-p">(</span><span class="tok-nf">even?</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">5</span> <span class="tok-mi">6</span> <span class="tok-mi">7</span> <span class="tok-mi">8</span><span class="tok-p">]))</span>
-
-<span class="tok-mi">6</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_28_flatten_a_sequence">28. Flatten a Sequence</h3>
 <div class="listingblock">
 <div class="content">
@@ -298,6 +241,19 @@
             <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nf">sequential?</span> <span class="tok-nv">element</span><span class="tok-p">)</span>
               <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-nv">myflatten</span> <span class="tok-nv">collection</span> <span class="tok-nv">element</span><span class="tok-p">)</span>
               <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">collection</span> <span class="tok-nv">element</span><span class="tok-p">)))</span> <span class="tok-p">[]</span> <span class="tok-nv">s</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_29_get_the_caps">29. Get the Caps</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which takes a string and returns a new string containing only the capital letters.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;HeLlO, WoRlD!&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;HLOWRD&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nf">empty?</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;nothing&quot;</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;$#A(*&amp;987Zf&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;AZ&quot;</span><span class="tok-p">)</span>
+
+<span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">apply str </span><span class="tok-p">(</span><span class="tok-nb">re-seq </span><span class="tok-o">#</span><span class="tok-s">&quot;[A-Z]+&quot;</span> <span class="tok-nv">%</span><span class="tok-p">))</span></code></pre>
 </div>
 </div>
 </div>
@@ -330,6 +286,21 @@
 </div>
 </div>
 <div class="sect2">
+<h3 id="_32_duplicate_a_sequence">32. Duplicate a Sequence</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which duplicates each element of a sequence.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">])</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span><span class="tok-p">])</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]])</span> <span class="tok-o">&#39;</span><span class="tok-p">([</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]])</span> <span class="tok-o">&#39;</span><span class="tok-p">([</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">%1</span> <span class="tok-nv">%2</span><span class="tok-p">)</span> <span class="tok-nv">%2</span><span class="tok-p">)</span> <span class="tok-p">[]</span> <span class="tok-nv">s</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_33_replicate_a_sequence">33. Replicate a Sequence</h3>
 <div class="listingblock">
 <div class="content">
@@ -356,6 +327,23 @@
 
 <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">start</span> <span class="tok-nv">end</span><span class="tok-p">]</span>
   <span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-p">(</span><span class="tok-nb">- </span><span class="tok-nv">end</span> <span class="tok-nv">start</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">iterate inc </span><span class="tok-nv">start</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_38_maximum_value">38. Maximum value</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which takes a variable number of parameters and returns the maximum value.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">1</span> <span class="tok-mi">8</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">)</span> <span class="tok-mi">8</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">30</span> <span class="tok-mi">20</span><span class="tok-p">)</span> <span class="tok-mi">30</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">45</span> <span class="tok-mi">67</span> <span class="tok-mi">11</span><span class="tok-p">)</span> <span class="tok-mi">67</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-o">&amp;</span> <span class="tok-nv">params</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">reduce</span>
+    <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">]</span>
+      <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">&lt; </span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">)</span> <span class="tok-nv">y</span> <span class="tok-nv">x</span><span class="tok-p">))</span>
+    <span class="tok-nv">params</span><span class="tok-p">))</span></code></pre>
 </div>
 </div>
 </div>
@@ -441,6 +429,18 @@
 <span class="tok-p">(</span><span class="tok-nb">not </span><span class="tok-p">(</span><span class="tok-nb">contains? </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-nv">__</span><span class="tok-p">))</span>
 
 <span class="tok-mi">4</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_48_intro_to_some">48. Intro to some</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; The some function takes a predicate function and a collection. It returns the first logical true value of (predicate x) where x is an item in the collection.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">some </span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span> <span class="tok-mi">7</span> <span class="tok-mi">6</span><span class="tok-p">}</span> <span class="tok-p">[</span><span class="tok-mi">5</span> <span class="tok-mi">6</span> <span class="tok-mi">7</span> <span class="tok-mi">8</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">some </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">when </span><span class="tok-p">(</span><span class="tok-nf">even?</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">5</span> <span class="tok-mi">6</span> <span class="tok-mi">7</span> <span class="tok-mi">8</span><span class="tok-p">]))</span>
+
+<span class="tok-mi">6</span></code></pre>
 </div>
 </div>
 </div>
