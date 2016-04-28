@@ -6,8 +6,300 @@
     <description>Recent content in Clojure on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 29 Mar 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Apr 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.anthony-galea.com/categories/clojure/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>An account service in Clojure - Part 1</title>
+      <link>http://www.anthony-galea.com/blog/post/an-account-service-in-clojure---part-1/</link>
+      <pubDate>Thu, 28 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.anthony-galea.com/blog/post/an-account-service-in-clojure---part-1/</guid>
+      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
+&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
+&lt;ul class=&#34;sectlevel1&#34;&gt;
+&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_install_leiningen&#34;&gt;Install Leiningen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_create_a_project&#34;&gt;Create a project&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_getting_started_with_ring&#34;&gt;Getting started with Ring&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_run_the_server&#34;&gt;Run the server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_live_reload&#34;&gt;Live reload&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_using_compojure_api&#34;&gt;Using compojure-api&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_packaging&#34;&gt;Packaging&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#_conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;In this post I will give a walkthrough of building a simple account service in clojure. Specifically the service will provide the possibility of:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;ulist&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;creating an account with some initial balance&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;and transferring some amount from one account to another.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_install_leiningen&#34;&gt;Install Leiningen&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;http://leiningen.org/&#34;&gt;Leiningen&lt;/a&gt; provides build automation and dependency management when working with Clojure projects. If you don&amp;#8217;t already have it installed you will need to install it. If you&amp;#8217;re onn Mac OS and using &lt;code&gt;brew&lt;/code&gt; you can just open the shell and run &lt;code&gt;brew install leiningen&lt;/code&gt;. If you&amp;#8217;re on another platform follow the instructions at &lt;a href=&#34;http://leiningen.org&#34;&gt;leiningen.org&lt;/a&gt;. After installing &lt;code&gt;leiningen&lt;/code&gt; you should be able to open a shell and run &lt;code&gt;lein --version&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;lein --version
+Leiningen 2.6.1 on Java 1.8.0_31 Java HotSpot&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;TM&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; 64-Bit Server VM&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_create_a_project&#34;&gt;Create a project&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;With &lt;code&gt;leiningen&lt;/code&gt; installed run &lt;code&gt;lein new account-service&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;lein new account-service
+&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;cd &lt;/span&gt;account-service
+&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;tree
+.
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── doc
+│   └── intro.md
+├── project.clj
+├── resources
+├── src
+│   └── account_service
+│       └── core.clj
+└── &lt;span class=&#34;tok-nb&#34;&gt;test&lt;/span&gt;
+    └── account_service
+        └── core_test.clj&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_getting_started_with_ring&#34;&gt;Getting started with Ring&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;We will start by demonstrating a simple use case using the &lt;a href=&#34;https://github.com/ring-clojure/ring&#34;&gt;ring&lt;/a&gt; library. Take a look inside &lt;code&gt;src/account-service/core.clj&lt;/code&gt;. You will see:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;ns &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;account-service.core&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;foo&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;I don&amp;#39;t do a whole lot.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;println &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Hello, World!&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Replace &lt;code&gt;foo&lt;/code&gt; with a simple &lt;code&gt;handler&lt;/code&gt; function:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;ns &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;account-service.core&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;handler&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:body&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Hello from ring&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;We will use this &lt;code&gt;handler&lt;/code&gt; function to handle all incoming requests. As you can see it just returns a simple &lt;code&gt;map&lt;/code&gt; in which we have an entry with key &lt;code&gt;:body&lt;/code&gt; and a &lt;code&gt;string&lt;/code&gt; as the value. Now take a look inside &lt;code&gt;project.clj&lt;/code&gt;. You will see:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defproject &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;account-service&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;0.1.0-SNAPSHOT&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:description&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;FIXME: write description&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:url&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;http://example.com/FIXME&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:license&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:name&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Eclipse Public License&amp;quot;&lt;/span&gt;
+            &lt;span class=&#34;tok-ss&#34;&gt;:url&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;http://www.eclipse.org/legal/epl-v10.html&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:dependencies&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;org.clojure/clojure&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;1.8.0&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;You can remove the &lt;code&gt;:description&lt;/code&gt;, &lt;code&gt;:url&lt;/code&gt; and &lt;code&gt;:license&lt;/code&gt; entries for now, and add the &lt;code&gt;ring&lt;/code&gt; dependency, the &lt;code&gt;lein-ring&lt;/code&gt; plugin and the reference to the ring &lt;code&gt;handler&lt;/code&gt; which we wrote in the previous step:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defproject &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;account-service&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;0.1.0-SNAPSHOT&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:dependencies&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;org.clojure/clojure&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;1.8.0&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+                 &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;ring&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;1.4.0&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]]&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:ring&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:handler&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;account-service.core/handler&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:profiles&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:dev&lt;/span&gt;
+              &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:plugins&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;lein-ring&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;0.9.7&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]]}})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;That&amp;#8217;s it. We have instructed &lt;code&gt;Ring&lt;/code&gt; where it can find the function to process all incoming &lt;code&gt;HTTP&lt;/code&gt; requests. Now let&amp;#8217;s run our simple web application.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_run_the_server&#34;&gt;Run the server&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;In your shell run:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;lein ring server-headless
+...
+Started server on port 3000&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;This starts a server which will handle incoming &lt;code&gt;HTTP&lt;/code&gt; requests on port 3000. In another shell we can test the server by running:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;curl http://localhost:3000/
+Hello from ring&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;As you can see we have the response containing &lt;code&gt;Hello from ring&lt;/code&gt; which we wrote previously in our &lt;code&gt;handler&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_live_reload&#34;&gt;Live reload&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;With the ring server still running, change the message in the &lt;code&gt;handler&lt;/code&gt; function in &lt;code&gt;core.clj&lt;/code&gt;, save the file, and rerun &lt;code&gt;curl &lt;a href=&#34;http://localhost:3000/&#34; class=&#34;bare&#34;&gt;http://localhost:3000/&lt;/a&gt;&lt;/code&gt;. You should see the updated message.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_using_compojure_api&#34;&gt;Using compojure-api&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;Compojure-api&lt;/a&gt; is a library that makes it very easy to build web APIs. It is built on top of &lt;a href=&#34;https://github.com/weavejester/compojure&#34;&gt;compojure&lt;/a&gt; and &lt;a href=&#34;https://github.com/ring-clojure/ring&#34;&gt;ring&lt;/a&gt;. It also uses the &lt;a href=&#34;https://github.com/plumatic/schema&#34;&gt;schema&lt;/a&gt; library for describing and validating requests, and &lt;a href=&#34;https://github.com/metosin/ring-swagger&#34;&gt;ring-swagger&lt;/a&gt; to expose API documentation. First let&amp;#8217;s add some requires in &lt;code&gt;core.clj&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;ns &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;account-service.core&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:require&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;compojure.api.sweet&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:refer&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:all&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+            &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;ring.util.http-response&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:refer&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:all&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+            &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;schema.core&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:as&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+            &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;ring.swagger.schema&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:as&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;rs&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Next we define schemas for the payloads:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;s/defschema&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;Account&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:id&lt;/span&gt;      &lt;span class=&#34;tok-nv&#34;&gt;Long&lt;/span&gt;
+   &lt;span class=&#34;tok-ss&#34;&gt;:balance&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;s/Num&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;})&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;s/defschema&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;NewAccount&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;dissoc &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;Account&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:id&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;s/defschema&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;Transfer&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:id&lt;/span&gt;           &lt;span class=&#34;tok-nv&#34;&gt;Long&lt;/span&gt;
+   &lt;span class=&#34;tok-ss&#34;&gt;:from-account&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;s/Int&lt;/span&gt;
+   &lt;span class=&#34;tok-ss&#34;&gt;:to-account&lt;/span&gt;   &lt;span class=&#34;tok-nv&#34;&gt;s/Int&lt;/span&gt;
+   &lt;span class=&#34;tok-ss&#34;&gt;:amount&lt;/span&gt;       &lt;span class=&#34;tok-nv&#34;&gt;s/Num&lt;/span&gt;
+   &lt;span class=&#34;tok-ss&#34;&gt;:status&lt;/span&gt;       &lt;span class=&#34;tok-nv&#34;&gt;s/Keyword&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;})&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;s/defschema&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;NewTransfer&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;dissoc &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;Transfer&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:id&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:status&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;And finally let&amp;#8217;s define our routes, one to create an account, and one to request a transfer. Replace the handler function we wrote earlier with:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;def &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;app&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;api&lt;/span&gt;
+    &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:swagger&lt;/span&gt;
+     &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:ui&lt;/span&gt;   &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;
+      &lt;span class=&#34;tok-ss&#34;&gt;:spec&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;/swagger.json&amp;quot;&lt;/span&gt;
+      &lt;span class=&#34;tok-ss&#34;&gt;:data&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:info&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:title&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Account Service&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;
+             &lt;span class=&#34;tok-ss&#34;&gt;:tags&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:name&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;api&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}]}}}&lt;/span&gt;
+    &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;context&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;/api&amp;quot;&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[]&lt;/span&gt;
+             &lt;span class=&#34;tok-ss&#34;&gt;:tags&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;api&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+             &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;/account&amp;quot;&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[]&lt;/span&gt;
+                   &lt;span class=&#34;tok-ss&#34;&gt;:body&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;account&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;describe&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;NewAccount&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;new account&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)]&lt;/span&gt;
+                   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;ok&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+             &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;/transfer&amp;quot;&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[]&lt;/span&gt;
+                   &lt;span class=&#34;tok-ss&#34;&gt;:body&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;transfer&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;describe&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;NewTransfer&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;new transfer&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)]&lt;/span&gt;
+                   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;ok&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Finally replace &lt;code&gt;ring&lt;/code&gt; with the &lt;code&gt;compojure-api&lt;/code&gt; dependency in &lt;code&gt;project.clj&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defproject &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;account-service&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;0.1.0-SNAPSHOT&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:dependencies&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;org.clojure/clojure&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;1.8.0&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+                 &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;metosin/compojure-api&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;1.0.2&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]]&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:ring&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:handler&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;account-service.core/app&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;tok-ss&#34;&gt;:profiles&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:dev&lt;/span&gt;
+             &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-ss&#34;&gt;:plugins&lt;/span&gt;      &lt;span class=&#34;tok-p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;lein-ring&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;0.9.7&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]]&lt;/span&gt;
+              &lt;span class=&#34;tok-ss&#34;&gt;:dependencies&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;javax.servlet/servlet-api&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;2.5&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]]}})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;With that in place run &lt;code&gt;lein ring server&lt;/code&gt; in the shell and go to &lt;a href=&#34;http://localhost:3000/index.html&#34; class=&#34;bare&#34;&gt;http://localhost:3000/index.html&lt;/a&gt; in your browser. You should see a Swagger UI which allows you to try out the endpoints:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;img src=&#34;http://www.anthony-galea.com/images/2016-04-28-swagger.png&#34; alt=&#34;2016 04 28 swagger&#34;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;You should get &lt;code&gt;200&lt;/code&gt; for valid requests and &lt;code&gt;400&lt;/code&gt; for requests that don&amp;#8217;t conform to the schema we defined.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_packaging&#34;&gt;Packaging&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;For packaging your app, you can either create an &lt;code&gt;uberjar&lt;/code&gt; and then simply run it like this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;lein ring uberjar
+&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;or create a &lt;code&gt;war&lt;/code&gt; and deploy it in your favorite container:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;tok-nv&#34;&gt;$ &lt;/span&gt;lein ring uberwar&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;sect1&#34;&gt;
+&lt;h2 id=&#34;_conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;div class=&#34;sectionbody&#34;&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;In this post we have exposed a simple API using &lt;code&gt;compojure-api&lt;/code&gt;. You can find all the source code on &lt;a href=&#34;http://github.com/anthonygalea/account-service&#34;&gt;github&lt;/a&gt;. In the next post we will show how to use datomic for persistence.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Solutions to 4clojure Easy Problems</title>

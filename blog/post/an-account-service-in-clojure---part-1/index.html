@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>An account service in Clojure - Part 1</title>
+
+  
+  <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
+  
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-38752250-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body>
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1><a href="/">Anthony Galea</a></h1>
+      
+    </div>
+
+    <ul class="sidebar-nav">
+
+      
+    </ul>
+
+    
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      <a href="https://at.linkedin.com/in/anthonygalea" target="_blank"><i class="fa fa-linkedin-square fa-3x"></i></a>
+      
+      
+      <a href="https://twitter.com/_anthonygalea" target="_blank"><i class="fa fa-twitter-square fa-3x"></i></a>
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="fa fa-envelope-square fa-3x"></i></a>
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="fa fa-rss-square fa-3x"></i></a>
+      </li>
+    </ul>
+
+    
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1 class="post-title">An account service in Clojure - Part 1</h1>
+    <span class="post-date">
+    Apr 28, 2016 &middot; 4 minute read &middot;
+    
+    <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
+    
+    <hr>
+
+    
+    </span>
+    <div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_install_leiningen">Install Leiningen</a></li>
+<li><a href="#_create_a_project">Create a project</a></li>
+<li><a href="#_getting_started_with_ring">Getting started with Ring</a></li>
+<li><a href="#_run_the_server">Run the server</a></li>
+<li><a href="#_live_reload">Live reload</a></li>
+<li><a href="#_using_compojure_api">Using compojure-api</a></li>
+<li><a href="#_packaging">Packaging</a></li>
+<li><a href="#_conclusion">Conclusion</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this post I will give a walkthrough of building a simple account service in clojure. Specifically the service will provide the possibility of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>creating an account with some initial balance</p>
+</li>
+<li>
+<p>and transferring some amount from one account to another.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_install_leiningen">Install Leiningen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="http://leiningen.org/">Leiningen</a> provides build automation and dependency management when working with Clojure projects. If you don&#8217;t already have it installed you will need to install it. If you&#8217;re onn Mac OS and using <code>brew</code> you can just open the shell and run <code>brew install leiningen</code>. If you&#8217;re on another platform follow the instructions at <a href="http://leiningen.org">leiningen.org</a>. After installing <code>leiningen</code> you should be able to open a shell and run <code>lein --version</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>lein --version
+Leiningen 2.6.1 on Java 1.8.0_31 Java HotSpot<span class="tok-o">(</span>TM<span class="tok-o">)</span> 64-Bit Server VM</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_a_project">Create a project</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With <code>leiningen</code> installed run <code>lein new account-service</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>lein new account-service
+<span class="tok-nv">$ </span><span class="tok-nb">cd </span>account-service
+<span class="tok-nv">$ </span>tree
+.
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── doc
+│   └── intro.md
+├── project.clj
+├── resources
+├── src
+│   └── account_service
+│       └── core.clj
+└── <span class="tok-nb">test</span>
+    └── account_service
+        └── core_test.clj</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_started_with_ring">Getting started with Ring</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We will start by demonstrating a simple use case using the <a href="https://github.com/ring-clojure/ring">ring</a> library. Take a look inside <code>src/account-service/core.clj</code>. You will see:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.core</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">foo</span>
+  <span class="tok-s">&quot;I don&#39;t do a whole lot.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">println </span><span class="tok-nv">x</span> <span class="tok-s">&quot;Hello, World!&quot;</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Replace <code>foo</code> with a simple <code>handler</code> function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.core</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">handler</span> <span class="tok-p">[</span><span class="tok-nv">request</span><span class="tok-p">]</span>
+  <span class="tok-p">{</span><span class="tok-ss">:body</span> <span class="tok-s">&quot;Hello from ring&quot;</span><span class="tok-p">})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We will use this <code>handler</code> function to handle all incoming requests. As you can see it just returns a simple <code>map</code> in which we have an entry with key <code>:body</code> and a <code>string</code> as the value. Now take a look inside <code>project.clj</code>. You will see:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defproject </span><span class="tok-nv">account-service</span> <span class="tok-s">&quot;0.1.0-SNAPSHOT&quot;</span>
+  <span class="tok-ss">:description</span> <span class="tok-s">&quot;FIXME: write description&quot;</span>
+  <span class="tok-ss">:url</span> <span class="tok-s">&quot;http://example.com/FIXME&quot;</span>
+  <span class="tok-ss">:license</span> <span class="tok-p">{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;Eclipse Public License&quot;</span>
+            <span class="tok-ss">:url</span> <span class="tok-s">&quot;http://www.eclipse.org/legal/epl-v10.html&quot;</span><span class="tok-p">}</span>
+  <span class="tok-ss">:dependencies</span> <span class="tok-p">[[</span><span class="tok-nv">org.clojure/clojure</span> <span class="tok-s">&quot;1.8.0&quot;</span><span class="tok-p">]])</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can remove the <code>:description</code>, <code>:url</code> and <code>:license</code> entries for now, and add the <code>ring</code> dependency, the <code>lein-ring</code> plugin and the reference to the ring <code>handler</code> which we wrote in the previous step:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defproject </span><span class="tok-nv">account-service</span> <span class="tok-s">&quot;0.1.0-SNAPSHOT&quot;</span>
+  <span class="tok-ss">:dependencies</span> <span class="tok-p">[[</span><span class="tok-nv">org.clojure/clojure</span> <span class="tok-s">&quot;1.8.0&quot;</span><span class="tok-p">]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">ring</span> <span class="tok-s">&quot;1.4.0&quot;</span><span class="tok-p">]]</span>
+  <span class="tok-ss">:ring</span> <span class="tok-p">{</span><span class="tok-ss">:handler</span> <span class="tok-nv">account-service.core/handler</span><span class="tok-p">}</span>
+  <span class="tok-ss">:profiles</span> <span class="tok-p">{</span><span class="tok-ss">:dev</span>
+              <span class="tok-p">{</span><span class="tok-ss">:plugins</span> <span class="tok-p">[[</span><span class="tok-nv">lein-ring</span> <span class="tok-s">&quot;0.9.7&quot;</span><span class="tok-p">]]}})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That&#8217;s it. We have instructed <code>Ring</code> where it can find the function to process all incoming <code>HTTP</code> requests. Now let&#8217;s run our simple web application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_run_the_server">Run the server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In your shell run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>lein ring server-headless
+...
+Started server on port 3000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This starts a server which will handle incoming <code>HTTP</code> requests on port 3000. In another shell we can test the server by running:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>curl http://localhost:3000/
+Hello from ring</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see we have the response containing <code>Hello from ring</code> which we wrote previously in our <code>handler</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_live_reload">Live reload</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With the ring server still running, change the message in the <code>handler</code> function in <code>core.clj</code>, save the file, and rerun <code>curl <a href="http://localhost:3000/" class="bare">http://localhost:3000/</a></code>. You should see the updated message.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_compojure_api">Using compojure-api</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://github.com/metosin/compojure-api">Compojure-api</a> is a library that makes it very easy to build web APIs. It is built on top of <a href="https://github.com/weavejester/compojure">compojure</a> and <a href="https://github.com/ring-clojure/ring">ring</a>. It also uses the <a href="https://github.com/plumatic/schema">schema</a> library for describing and validating requests, and <a href="https://github.com/metosin/ring-swagger">ring-swagger</a> to expose API documentation. First let&#8217;s add some requires in <code>core.clj</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.core</span>
+  <span class="tok-p">(</span><span class="tok-ss">:require</span> <span class="tok-p">[</span><span class="tok-nv">compojure.api.sweet</span> <span class="tok-ss">:refer</span> <span class="tok-ss">:all</span><span class="tok-p">]</span>
+            <span class="tok-p">[</span><span class="tok-nv">ring.util.http-response</span> <span class="tok-ss">:refer</span> <span class="tok-ss">:all</span><span class="tok-p">]</span>
+            <span class="tok-p">[</span><span class="tok-nv">schema.core</span> <span class="tok-ss">:as</span> <span class="tok-nv">s</span><span class="tok-p">]</span>
+            <span class="tok-p">[</span><span class="tok-nv">ring.swagger.schema</span> <span class="tok-ss">:as</span> <span class="tok-nv">rs</span><span class="tok-p">]))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next we define schemas for the payloads:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">s/defschema</span> <span class="tok-nv">Account</span>
+  <span class="tok-p">{</span><span class="tok-ss">:id</span>      <span class="tok-nv">Long</span>
+   <span class="tok-ss">:balance</span> <span class="tok-nv">s/Num</span><span class="tok-p">})</span>
+
+<span class="tok-p">(</span><span class="tok-nf">s/defschema</span> <span class="tok-nv">NewAccount</span> <span class="tok-p">(</span><span class="tok-nb">dissoc </span><span class="tok-nv">Account</span> <span class="tok-ss">:id</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-nf">s/defschema</span> <span class="tok-nv">Transfer</span>
+  <span class="tok-p">{</span><span class="tok-ss">:id</span>           <span class="tok-nv">Long</span>
+   <span class="tok-ss">:from-account</span> <span class="tok-nv">s/Int</span>
+   <span class="tok-ss">:to-account</span>   <span class="tok-nv">s/Int</span>
+   <span class="tok-ss">:amount</span>       <span class="tok-nv">s/Num</span>
+   <span class="tok-ss">:status</span>       <span class="tok-nv">s/Keyword</span><span class="tok-p">})</span>
+
+<span class="tok-p">(</span><span class="tok-nf">s/defschema</span> <span class="tok-nv">NewTransfer</span> <span class="tok-p">(</span><span class="tok-nb">dissoc </span><span class="tok-nv">Transfer</span> <span class="tok-ss">:id</span> <span class="tok-ss">:status</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And finally let&#8217;s define our routes, one to create an account, and one to request a transfer. Replace the handler function we wrote earlier with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">app</span>
+  <span class="tok-p">(</span><span class="tok-nf">api</span>
+    <span class="tok-p">{</span><span class="tok-ss">:swagger</span>
+     <span class="tok-p">{</span><span class="tok-ss">:ui</span>   <span class="tok-s">&quot;/&quot;</span>
+      <span class="tok-ss">:spec</span> <span class="tok-s">&quot;/swagger.json&quot;</span>
+      <span class="tok-ss">:data</span> <span class="tok-p">{</span><span class="tok-ss">:info</span> <span class="tok-p">{</span><span class="tok-ss">:title</span> <span class="tok-s">&quot;Account Service&quot;</span><span class="tok-p">}</span>
+             <span class="tok-ss">:tags</span> <span class="tok-p">[{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;api&quot;</span><span class="tok-p">}]}}}</span>
+    <span class="tok-p">(</span><span class="tok-nf">context</span> <span class="tok-s">&quot;/api&quot;</span> <span class="tok-p">[]</span>
+             <span class="tok-ss">:tags</span> <span class="tok-p">[</span><span class="tok-s">&quot;api&quot;</span><span class="tok-p">]</span>
+             <span class="tok-p">(</span><span class="tok-nf">POST</span> <span class="tok-s">&quot;/account&quot;</span> <span class="tok-p">[]</span>
+                   <span class="tok-ss">:body</span> <span class="tok-p">[</span><span class="tok-nv">account</span> <span class="tok-p">(</span><span class="tok-nf">describe</span> <span class="tok-nv">NewAccount</span> <span class="tok-s">&quot;new account&quot;</span><span class="tok-p">)]</span>
+                   <span class="tok-p">(</span><span class="tok-nf">ok</span><span class="tok-p">))</span>
+             <span class="tok-p">(</span><span class="tok-nf">POST</span> <span class="tok-s">&quot;/transfer&quot;</span> <span class="tok-p">[]</span>
+                   <span class="tok-ss">:body</span> <span class="tok-p">[</span><span class="tok-nv">transfer</span> <span class="tok-p">(</span><span class="tok-nf">describe</span> <span class="tok-nv">NewTransfer</span> <span class="tok-s">&quot;new transfer&quot;</span><span class="tok-p">)]</span>
+                   <span class="tok-p">(</span><span class="tok-nf">ok</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally replace <code>ring</code> with the <code>compojure-api</code> dependency in <code>project.clj</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defproject </span><span class="tok-nv">account-service</span> <span class="tok-s">&quot;0.1.0-SNAPSHOT&quot;</span>
+  <span class="tok-ss">:dependencies</span> <span class="tok-p">[[</span><span class="tok-nv">org.clojure/clojure</span> <span class="tok-s">&quot;1.8.0&quot;</span><span class="tok-p">]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">metosin/compojure-api</span> <span class="tok-s">&quot;1.0.2&quot;</span><span class="tok-p">]]</span>
+  <span class="tok-ss">:ring</span> <span class="tok-p">{</span><span class="tok-ss">:handler</span> <span class="tok-nv">account-service.core/app</span><span class="tok-p">}</span>
+  <span class="tok-ss">:profiles</span> <span class="tok-p">{</span><span class="tok-ss">:dev</span>
+             <span class="tok-p">{</span><span class="tok-ss">:plugins</span>      <span class="tok-p">[[</span><span class="tok-nv">lein-ring</span> <span class="tok-s">&quot;0.9.7&quot;</span><span class="tok-p">]]</span>
+              <span class="tok-ss">:dependencies</span> <span class="tok-p">[[</span><span class="tok-nv">javax.servlet/servlet-api</span> <span class="tok-s">&quot;2.5&quot;</span><span class="tok-p">]]}})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With that in place run <code>lein ring server</code> in the shell and go to <a href="http://localhost:3000/index.html" class="bare">http://localhost:3000/index.html</a> in your browser. You should see a Swagger UI which allows you to try out the endpoints:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2016-04-28-swagger.png" alt="2016 04 28 swagger">
+</div>
+</div>
+<div class="paragraph">
+<p>You should get <code>200</code> for valid requests and <code>400</code> for requests that don&#8217;t conform to the schema we defined.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_packaging">Packaging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For packaging your app, you can either create an <code>uberjar</code> and then simply run it like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>lein ring uberjar
+<span class="tok-nv">$ </span>java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or create a <code>war</code> and deploy it in your favorite container:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>lein ring uberwar</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this post we have exposed a simple API using <code>compojure-api</code>. You can find all the source code on <a href="http://github.com/anthonygalea/account-service">github</a>. In the next post we will show how to use datomic for persistence.</p>
+</div>
+</div>
+</div>
+
+
+    <hr>
+    
+    <a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">← Previous Post</a>
+    
+    
+
+    
+    
+    
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+
+    <h1>See also</h1>
+
+    <ul>
+      
+        
+        
+        
+      
+        
+        
+        
+          <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4clojure Easy Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+        
+      
+        
+        
+        
+      
+        
+        
+        
+          <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4clojure Elementary Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+        
+      
+        
+        
+        
+      
+        
+        
+        
+      
+        
+        
+        
+      
+    </ul>
+  </div>
+  
+</div>
+
+<div class="toc-bg"></div>
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.5.3/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="/js/gumshoe.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+gumshoe.init({
+  selector: '.sectlevel1 a', 
+  selectorHeader: '#toc', 
+  offset: 0,
+  activeClass: 'active',
+  callback: function (nav) {}
+});
+</script>
+</body>
+</html>
+
