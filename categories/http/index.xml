@@ -15,17 +15,7 @@
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</guid>
-      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
-&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
-&lt;ul class=&#34;sectlevel1&#34;&gt;
-&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#report&#34;&gt;Report&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#describe&#34;&gt;Describe a Load Test&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#run&#34;&gt;Run a Simulation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
+      <description>&lt;div class=&#34;sect1&#34;&gt;
 &lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;

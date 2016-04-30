@@ -15,21 +15,7 @@
       <pubDate>Thu, 28 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/an-account-service-in-clojure---part-1/</guid>
-      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
-&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
-&lt;ul class=&#34;sectlevel1&#34;&gt;
-&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_install_leiningen&#34;&gt;Install Leiningen&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_create_a_project&#34;&gt;Create a project&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_getting_started_with_ring&#34;&gt;Getting started with Ring&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_run_the_server&#34;&gt;Run the server&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_live_reload&#34;&gt;Live reload&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_using_compojure_api&#34;&gt;Using compojure-api&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_packaging&#34;&gt;Packaging&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
+      <description>&lt;div class=&#34;sect1&#34;&gt;
 &lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
@@ -1286,22 +1272,7 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Wed, 23 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/</guid>
-      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
-&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
-&lt;ul class=&#34;sectlevel1&#34;&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_control_and_attitude&#34;&gt;On Control and Attitude&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_emotion&#34;&gt;On Emotion&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_taking_risks_and_having_a_plan&#34;&gt;On taking Risks and having a Plan&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_criticism&#34;&gt;On Criticism&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_success&#34;&gt;On Success&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_iatrogenics&#34;&gt;On Iatrogenics&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_convincing_others&#34;&gt;On Convincing Others&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_knowledge&#34;&gt;On Knowledge&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_leadership&#34;&gt;On Leadership&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_on_humility&#34;&gt;On Humility&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
+      <description>&lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;In his book &lt;a href=&#34;https://www.goodreads.com/book/show/18170143-an-astronaut-s-guide-to-life-on-earth&#34;&gt;An Astronaut&amp;#8217;s Guide to Life on Earth&lt;/a&gt;, Christian Hadfield presents a collection of sometimes counterintuitive lessons he learned during his career as an astronaut. It is a fun read interspersed with paragraphs like:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;quoteblock&#34;&gt;
@@ -1916,16 +1887,7 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Sun, 17 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</guid>
-      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
-&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
-&lt;ul class=&#34;sectlevel1&#34;&gt;
-&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_the_groovy_operator&#34;&gt;The Groovy ?. operator&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_enter_java_8_optional&#34;&gt;Enter Java 8 Optional&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_not_on_java_8&#34;&gt;Not on Java 8?&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
+      <description>&lt;div class=&#34;sect1&#34;&gt;
 &lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
@@ -2056,18 +2018,7 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Sat, 09 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</guid>
-      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
-&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
-&lt;ul class=&#34;sectlevel1&#34;&gt;
-&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_telescoping_constructor_anti_pattern&#34;&gt;Telescoping constructor anti-pattern&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_using_a_javabean&#34;&gt;Using a JavaBean&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_using_a_builder&#34;&gt;Using a builder&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_intellij_idea_refactoring&#34;&gt;IntelliJ IDEA refactoring&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
+      <description>&lt;div class=&#34;sect1&#34;&gt;
 &lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
@@ -2257,17 +2208,7 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</guid>
-      <description>&lt;div id=&#34;toc&#34; class=&#34;toc&#34;&gt;
-&lt;div id=&#34;toctitle&#34;&gt;Table of Contents&lt;/div&gt;
-&lt;ul class=&#34;sectlevel1&#34;&gt;
-&lt;li&gt;&lt;a href=&#34;#_introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#report&#34;&gt;Report&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#describe&#34;&gt;Describe a Load Test&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#run&#34;&gt;Run a Simulation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#_conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
+      <description>&lt;div class=&#34;sect1&#34;&gt;
 &lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
