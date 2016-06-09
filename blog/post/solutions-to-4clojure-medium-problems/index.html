@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Solutions to 4clojure Medium Problems</title>
+
+  
+  <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
+  
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
+  
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="4clojure,medium,problems,clojure">
+  
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-38752250-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container">
+  <div class="title">
+    <h1><a href="/">Anthony Galea</a></h1>
+  </div>
+  <div class="links">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="fa fa-github-square fa-1x"></i></a>
+      
+      
+      <a href="https://at.linkedin.com/in/anthonygalea" target="_blank"><i class="fa fa-linkedin-square fa-1x"></i></a>
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="fa fa-envelope-square fa-1x"></i></a>
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="fa fa-rss-square fa-1x"></i></a>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+
+
+<div class="content">
+  <div class="post">
+    <div class="post-header">
+      <h1 class="post-title">Solutions to 4clojure Medium Problems</h1>
+      <span class="post-date">
+      Jun 9, 2016 &middot; 21 minute read
+      
+      <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
+      
+
+      
+      </span>
+    </div>
+    <div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is the third post on solutions to <a href="http://www.4clojure.com">4clojure</a> problems. Once again all solutions are on <a href="https://github.com/anthonygalea/solutions-4clojure">github</a>, and if you have any suggestions for alternative solutions I would love to hear from you.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_solutions">Solutions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_43_reverse_interleave">43. Reverse Interleave</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which reverses the interleave process into x number of subsequences.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">6</span><span class="tok-p">]</span> <span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-o">&#39;</span><span class="tok-p">((</span><span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">2</span> <span class="tok-mi">4</span> <span class="tok-mi">6</span><span class="tok-p">)))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">9</span><span class="tok-p">)</span> <span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-o">&#39;</span><span class="tok-p">((</span><span class="tok-mi">0</span> <span class="tok-mi">3</span> <span class="tok-mi">6</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-mi">4</span> <span class="tok-mi">7</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">2</span> <span class="tok-mi">5</span> <span class="tok-mi">8</span><span class="tok-p">)))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">10</span><span class="tok-p">)</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-o">&#39;</span><span class="tok-p">((</span><span class="tok-mi">0</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-mi">6</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">2</span> <span class="tok-mi">7</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">3</span> <span class="tok-mi">8</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">4</span> <span class="tok-mi">9</span><span class="tok-p">)))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">reverse-interleave</span> <span class="tok-p">[</span><span class="tok-nv">s</span> <span class="tok-nv">n</span><span class="tok-p">]</span>
+  <span class="tok-p">((</span><span class="tok-k">fn </span><span class="tok-nv">reverse-interleave</span> <span class="tok-p">[</span><span class="tok-nv">s</span> <span class="tok-nv">n</span> <span class="tok-nv">i</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">i</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+    <span class="tok-p">(</span><span class="tok-nb">list </span><span class="tok-p">(</span><span class="tok-nb">take-nth </span><span class="tok-nv">n</span> <span class="tok-nv">s</span><span class="tok-p">))</span>
+    <span class="tok-p">(</span><span class="tok-nb">cons </span><span class="tok-p">(</span><span class="tok-nb">take-nth </span><span class="tok-nv">n</span> <span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">reverse-interleave</span> <span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-nv">n</span> <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">i</span><span class="tok-p">)))))</span>
+   <span class="tok-nv">s</span> <span class="tok-nv">n</span> <span class="tok-nv">n</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_44_rotate_sequence">44. Rotate Sequence</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which can rotate a sequence in either direction.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">2</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">])</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">-2</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">])</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">6</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">])</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">1</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">1</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">))</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:b</span> <span class="tok-ss">:c</span> <span class="tok-ss">:a</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">-4</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">))</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:c</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">rotate-sequence</span> <span class="tok-p">[</span><span class="tok-nv">n</span> <span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">c</span> <span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">n</span> <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">s</span><span class="tok-p">))]</span>
+    <span class="tok-p">(</span><span class="tok-nb">concat </span><span class="tok-p">(</span><span class="tok-nb">drop </span><span class="tok-nv">c</span> <span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-nv">c</span> <span class="tok-nv">s</span><span class="tok-p">))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_46_flipping_out">46. Flipping out</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a higher-order function which flips the order of the arguments of an input function.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">3</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-nv">nth</span><span class="tok-p">)</span> <span class="tok-mi">2</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">true</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-nv">&gt;</span><span class="tok-p">)</span> <span class="tok-mi">7</span> <span class="tok-mi">8</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">4</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-nv">quot</span><span class="tok-p">)</span> <span class="tok-mi">2</span> <span class="tok-mi">8</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-nv">take</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">]</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">flipping-out</span> <span class="tok-p">[</span><span class="tok-nv">f</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-nf">f</span> <span class="tok-nv">b</span> <span class="tok-nv">a</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_50_split_by_type">50. Split by Type</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which takes a sequence consisting of items with different types and splits them up into a set of homogeneous sub-sequences. The internal order of each sub-sequence should be maintained, but the sub-sequences themselves can be returned in any order (this is why &#39;set&#39; is used in the test cases).</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">set </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-ss">:a</span> <span class="tok-mi">2</span> <span class="tok-ss">:b</span> <span class="tok-mi">3</span> <span class="tok-ss">:c</span><span class="tok-p">]))</span> <span class="tok-o">#</span><span class="tok-p">{[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">]})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">set </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-s">&quot;foo&quot;</span>  <span class="tok-s">&quot;bar&quot;</span> <span class="tok-ss">:b</span><span class="tok-p">]))</span> <span class="tok-o">#</span><span class="tok-p">{[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">]})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">set </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-ss">:a</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-mi">5</span> <span class="tok-mi">6</span> <span class="tok-ss">:b</span><span class="tok-p">]))</span> <span class="tok-o">#</span><span class="tok-p">{[[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]]</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">5</span> <span class="tok-mi">6</span><span class="tok-p">]})</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">split-by-type</span> <span class="tok-p">[</span><span class="tok-nv">v</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">vals </span><span class="tok-p">(</span><span class="tok-nf">group-by</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">type</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-nv">v</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_54_partition_a_sequence">54. Partition a Sequence</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which returns a sequence of lists of x items each. Lists of less than x items should not be returned.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">3</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">9</span><span class="tok-p">))</span> <span class="tok-o">&#39;</span><span class="tok-p">((</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">6</span> <span class="tok-mi">7</span> <span class="tok-mi">8</span><span class="tok-p">)))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">2</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">8</span><span class="tok-p">))</span> <span class="tok-o">&#39;</span><span class="tok-p">((</span><span class="tok-mi">0</span> <span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">6</span> <span class="tok-mi">7</span><span class="tok-p">)))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">3</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">8</span><span class="tok-p">))</span> <span class="tok-o">&#39;</span><span class="tok-p">((</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">)))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">partition-a-sequence</span> <span class="tok-p">[</span><span class="tok-nv">n</span> <span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-nv">n</span> <span class="tok-p">(</span><span class="tok-nb">drop </span><span class="tok-nv">%</span> <span class="tok-nv">s</span><span class="tok-p">))</span>
+       <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">0</span>
+              <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-p">(</span><span class="tok-nb">quot </span><span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-nv">n</span><span class="tok-p">)</span> <span class="tok-nv">n</span><span class="tok-p">)</span>
+              <span class="tok-nv">n</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_55_count_occurrences">55. Count Occurrences</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which returns a map containing the number of occurrences of each distinct item in a sequence.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">])</span> <span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">4</span>, <span class="tok-mi">2</span> <span class="tok-mi">2</span>, <span class="tok-mi">3</span> <span class="tok-mi">1</span><span class="tok-p">})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:b</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">])</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">2</span>, <span class="tok-ss">:b</span> <span class="tok-mi">3</span><span class="tok-p">})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">&#39;</span><span class="tok-p">([</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">]))</span> <span class="tok-p">{[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-mi">1</span>, <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-mi">2</span><span class="tok-p">})</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">count-occurrences</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-p">{}</span> <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-nv">%</span><span class="tok-p">)))</span> <span class="tok-p">(</span><span class="tok-nf">group-by</span> <span class="tok-nb">identity </span><span class="tok-nv">s</span><span class="tok-p">))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_56_find_distinct_items">56. Find Distinct Items</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which removes the duplicates from a sequence. Order of the items must be maintained.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">4</span><span class="tok-p">])</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span> <span class="tok-ss">:c</span><span class="tok-p">])</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">&#39;</span><span class="tok-p">([</span><span class="tok-mi">2</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">]))</span> <span class="tok-o">&#39;</span><span class="tok-p">([</span><span class="tok-mi">2</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">50</span><span class="tok-p">))</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">50</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">find-distinct-items</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">sort-by </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">.indexOf</span> <span class="tok-nv">s</span> <span class="tok-nv">%</span><span class="tok-p">)</span>
+           <span class="tok-p">(</span><span class="tok-nb">keys </span><span class="tok-p">(</span><span class="tok-nf">group-by</span> <span class="tok-nb">identity </span><span class="tok-nv">s</span><span class="tok-p">))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_58_function_composition">58. Function Composition</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which allows you to create function compositions. The parameter list should take a variable number of functions, and create a function that applies them from right-to-left.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-nb">rest </span><span class="tok-nv">reverse</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">5</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">partial + </span><span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-nv">second</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">true</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-nb">zero? </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">%</span> <span class="tok-mi">8</span><span class="tok-p">)</span> <span class="tok-nv">+</span><span class="tok-p">)</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span> <span class="tok-mi">7</span> <span class="tok-mi">9</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-s">&quot;HELLO&quot;</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">.toUpperCase</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">apply str </span><span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-nv">take</span><span class="tok-p">)</span> <span class="tok-mi">5</span> <span class="tok-s">&quot;hello world&quot;</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">function-composition</span> <span class="tok-p">[</span><span class="tok-o">&amp;</span> <span class="tok-nv">functions</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-o">&amp;</span> <span class="tok-nv">args</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-nf">first</span>
+      <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">result</span> <span class="tok-nv">function</span><span class="tok-p">]</span>
+                <span class="tok-p">(</span><span class="tok-nb">list </span><span class="tok-p">(</span><span class="tok-nb">apply </span><span class="tok-nv">function</span> <span class="tok-nv">result</span><span class="tok-p">)))</span>
+              <span class="tok-nv">args</span>
+              <span class="tok-p">(</span><span class="tok-nb">reverse </span><span class="tok-nv">functions</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_59_juxtaposition">59. Juxtaposition</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Take a set of functions and return a new function that takes a variable number of arguments and returns a sequence containing the result of applying each function left-to-right to the argument list.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">21</span> <span class="tok-mi">6</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-nb">+ max </span><span class="tok-nv">min</span><span class="tok-p">)</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span> <span class="tok-mi">1</span> <span class="tok-mi">6</span> <span class="tok-mi">4</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-s">&quot;HELLO&quot;</span> <span class="tok-mi">5</span><span class="tok-p">]</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">.toUpperCase</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-nv">count</span><span class="tok-p">)</span> <span class="tok-s">&quot;hello&quot;</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">6</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-ss">:a</span> <span class="tok-ss">:c</span> <span class="tok-ss">:b</span><span class="tok-p">)</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">2</span>, <span class="tok-ss">:b</span> <span class="tok-mi">4</span>, <span class="tok-ss">:c</span> <span class="tok-mi">6</span>, <span class="tok-ss">:d</span> <span class="tok-mi">8</span> <span class="tok-ss">:e</span> <span class="tok-mi">10</span><span class="tok-p">}))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">juxtaposition</span> <span class="tok-p">[</span><span class="tok-o">&amp;</span> <span class="tok-nv">functions</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-o">&amp;</span> <span class="tok-nv">parameters</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">apply </span><span class="tok-nv">%</span> <span class="tok-nv">parameters</span><span class="tok-p">)</span> <span class="tok-nv">functions</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_60_sequence_reductions">60. Sequence Reductions</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which behaves like reduce, but returns each intermediate value of the reduction. Your function must accept either two or three arguments, and the return sequence must be lazy.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">5</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">+ </span><span class="tok-p">(</span><span class="tok-nf">range</span><span class="tok-p">)))</span> <span class="tok-p">[</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">6</span> <span class="tok-mi">10</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">conj </span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">])</span> <span class="tok-p">[[</span><span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">last </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">* </span><span class="tok-mi">2</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">]))</span> <span class="tok-p">(</span><span class="tok-nb">reduce * </span><span class="tok-mi">2</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">])</span> <span class="tok-mi">120</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">sequence-reductions</span>
+  <span class="tok-p">([</span><span class="tok-nv">f</span> <span class="tok-nv">s</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-nf">sequence-reductions</span> <span class="tok-nv">f</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-nv">s</span><span class="tok-p">)))</span>
+  <span class="tok-p">([</span><span class="tok-nv">f</span> <span class="tok-nv">i</span> <span class="tok-nv">s</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-nb">cons </span><span class="tok-nv">i</span>
+         <span class="tok-p">(</span><span class="tok-nf">lazy-seq</span>
+           <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">not </span><span class="tok-p">(</span><span class="tok-nf">empty?</span> <span class="tok-nv">s</span><span class="tok-p">))</span>
+             <span class="tok-p">(</span><span class="tok-nf">sequence-reductions</span> <span class="tok-nv">f</span>
+                                  <span class="tok-p">(</span><span class="tok-nf">f</span> <span class="tok-nv">i</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">s</span><span class="tok-p">))</span>
+                                  <span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-nv">s</span><span class="tok-p">)))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_65_black_box_testing">65. Black Box Testing</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Clojure has many sequence types, which act in subtly different ways. The core functions typically convert them into a uniform &quot;sequence&quot; type and work with them that way, but it can be important to understand the behavioral and performance differences so that you know which kind is appropriate for your application.</span>
+<span class="tok-c1">;; Write a function which takes a collection and returns one of :map, :set, :list, or :vector - describing the type of collection it was given.</span>
+<span class="tok-c1">;; You won&#39;t be allowed to inspect their class or use the built-in predicates like list? - the point is to poke at them and understand their behavior.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-ss">:map</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">1</span>, <span class="tok-ss">:b</span> <span class="tok-mi">2</span><span class="tok-p">}))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-ss">:list</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-p">(</span><span class="tok-nb">rand-int </span><span class="tok-mi">20</span><span class="tok-p">))))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-ss">:vector</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">6</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-ss">:set</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">10</span> <span class="tok-p">(</span><span class="tok-nb">rand-int </span><span class="tok-mi">5</span><span class="tok-p">)}))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-ss">:map</span> <span class="tok-ss">:set</span> <span class="tok-ss">:vector</span> <span class="tok-ss">:list</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-nv">__</span> <span class="tok-p">[{}</span> <span class="tok-o">#</span><span class="tok-p">{}</span> <span class="tok-p">[]</span> <span class="tok-p">()]))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">black-box-testing</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">result</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-p">(</span><span class="tok-nf">empty</span> <span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">])]</span>
+    <span class="tok-p">(</span><span class="tok-nf">cond</span>
+      <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">1</span> <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">result</span><span class="tok-p">))</span> <span class="tok-ss">:map</span>
+      <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">2</span> <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">result</span><span class="tok-p">))</span> <span class="tok-ss">:set</span>
+      <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">result</span><span class="tok-p">))</span> <span class="tok-ss">:vector</span>
+      <span class="tok-ss">:else</span> <span class="tok-ss">:list</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_67_prime_numbers">67. Prime Numbers</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which returns the first x number of prime numbers.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span> <span class="tok-mi">7</span> <span class="tok-mi">11</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">last </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">100</span><span class="tok-p">))</span> <span class="tok-mi">541</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">prime-numbers</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-nv">n</span>
+    <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">.isProbablePrime</span> <span class="tok-p">(</span><span class="tok-nf">BigInteger/valueOf</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-mi">10</span><span class="tok-p">)</span>
+            <span class="tok-p">(</span><span class="tok-nf">range</span><span class="tok-p">))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_69_merge_with_a_function">69. Merge with a Function</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which takes a function f and a variable number of maps. Your function should return a map that consists of the rest of the maps conj-ed onto the first. If a key occurs in more than one map, the mapping(s) from the latter (left-to-right) should be combined with the mapping in the result by calling (f val-in-result val-in-latter)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">* </span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">2</span>, <span class="tok-ss">:b</span> <span class="tok-mi">3</span>, <span class="tok-ss">:c</span> <span class="tok-mi">4</span><span class="tok-p">}</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">2</span><span class="tok-p">}</span> <span class="tok-p">{</span><span class="tok-ss">:b</span> <span class="tok-mi">2</span><span class="tok-p">}</span> <span class="tok-p">{</span><span class="tok-ss">:c</span> <span class="tok-mi">5</span><span class="tok-p">})</span>
+   <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">4</span>, <span class="tok-ss">:b</span> <span class="tok-mi">6</span>, <span class="tok-ss">:c</span> <span class="tok-mi">20</span><span class="tok-p">})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">- </span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">10</span>, <span class="tok-mi">2</span> <span class="tok-mi">20</span><span class="tok-p">}</span> <span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">3</span>, <span class="tok-mi">2</span> <span class="tok-mi">10</span>, <span class="tok-mi">3</span> <span class="tok-mi">15</span><span class="tok-p">})</span>
+   <span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">7</span>, <span class="tok-mi">2</span> <span class="tok-mi">10</span>, <span class="tok-mi">3</span> <span class="tok-mi">15</span><span class="tok-p">})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">concat </span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-p">[</span><span class="tok-mi">3</span><span class="tok-p">]</span>, <span class="tok-ss">:b</span> <span class="tok-p">[</span><span class="tok-mi">6</span><span class="tok-p">]}</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-p">[</span><span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">]</span>, <span class="tok-ss">:c</span> <span class="tok-p">[</span><span class="tok-mi">8</span> <span class="tok-mi">9</span><span class="tok-p">]}</span> <span class="tok-p">{</span><span class="tok-ss">:b</span> <span class="tok-p">[</span><span class="tok-mi">7</span><span class="tok-p">]})</span>
+   <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">]</span>, <span class="tok-ss">:b</span> <span class="tok-p">[</span><span class="tok-mi">6</span> <span class="tok-mi">7</span><span class="tok-p">]</span>, <span class="tok-ss">:c</span> <span class="tok-p">[</span><span class="tok-mi">8</span> <span class="tok-mi">9</span><span class="tok-p">]})</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">merge-with-a-function</span> <span class="tok-p">[</span><span class="tok-nv">f</span> <span class="tok-o">&amp;</span> <span class="tok-nv">m</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-p">{}</span>
+    <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">e</span><span class="tok-p">]</span>
+           <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-p">(</span><span class="tok-nb">val </span><span class="tok-nv">e</span><span class="tok-p">))</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+               <span class="tok-p">[(</span><span class="tok-nb">key </span><span class="tok-nv">e</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-nv">f</span> <span class="tok-p">(</span><span class="tok-nb">map second </span><span class="tok-p">(</span><span class="tok-nb">val </span><span class="tok-nv">e</span><span class="tok-p">)))]</span>
+               <span class="tok-p">[(</span><span class="tok-nb">key </span><span class="tok-nv">e</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-p">(</span><span class="tok-nb">val </span><span class="tok-nv">e</span><span class="tok-p">)))]))</span>
+      <span class="tok-p">(</span><span class="tok-nf">group-by</span> <span class="tok-nb">first </span><span class="tok-p">(</span><span class="tok-nb">apply concat </span><span class="tok-nv">m</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_70_word_sorting">70. Word Sorting</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function that splits a sentence up into a sorted list of words. Capitalization should not affect sort order and punctuation should be ignored.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span>  <span class="tok-s">&quot;Have a nice day.&quot;</span><span class="tok-p">)</span>
+   <span class="tok-p">[</span><span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;day&quot;</span> <span class="tok-s">&quot;Have&quot;</span> <span class="tok-s">&quot;nice&quot;</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span>  <span class="tok-s">&quot;Clojure is a fun language!&quot;</span><span class="tok-p">)</span>
+   <span class="tok-p">[</span><span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;Clojure&quot;</span> <span class="tok-s">&quot;fun&quot;</span> <span class="tok-s">&quot;is&quot;</span> <span class="tok-s">&quot;language&quot;</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span>  <span class="tok-s">&quot;Fools fall for foolish follies.&quot;</span><span class="tok-p">)</span>
+   <span class="tok-p">[</span><span class="tok-s">&quot;fall&quot;</span> <span class="tok-s">&quot;follies&quot;</span> <span class="tok-s">&quot;foolish&quot;</span> <span class="tok-s">&quot;Fools&quot;</span> <span class="tok-s">&quot;for&quot;</span><span class="tok-p">])</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">word-sorting</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-p">[]</span>
+    <span class="tok-p">(</span><span class="tok-nb">sort-by </span><span class="tok-nv">clojure.string/lower-case</span>
+      <span class="tok-p">(</span><span class="tok-nf">clojure.string/split</span> <span class="tok-p">(</span><span class="tok-nb">apply </span><span class="tok-nv">str</span>
+                                   <span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">s</span><span class="tok-p">))</span> <span class="tok-nv">s</span><span class="tok-p">))</span>
+                            <span class="tok-o">#</span><span class="tok-s">&quot;\s&quot;</span><span class="tok-p">))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_74_filter_perfect_squares">74. Filter Perfect Squares</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Given a string of comma separated integers, write a function which returns a new comma separated string that only contains the numbers which are perfect squares.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;4,5,6,7,8,9&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;4,9&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;15,16,25,36,37&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;16,25,36&quot;</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">filter-perfect-squares</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">perfect-square?</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-nb">== </span><span class="tok-p">(</span><span class="tok-nf">Math/sqrt</span> <span class="tok-nv">n</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">int </span><span class="tok-p">(</span><span class="tok-nf">Math/sqrt</span> <span class="tok-nv">n</span><span class="tok-p">))))]</span>
+    <span class="tok-p">(</span><span class="tok-nf">clojure.string/join</span> <span class="tok-s">&quot;,&quot;</span>
+    					<span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-nv">perfect-square?</span>
+                                <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-nv">read-string</span> <span class="tok-p">(</span><span class="tok-nf">clojure.string/split</span> <span class="tok-nv">s</span> <span class="tok-o">#</span><span class="tok-s">&quot;,&quot;</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_75_euler_s_totient_function">75. Euler&#8217;s Totient Function</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Two numbers are coprime if their greatest common divisor equals 1. Euler&#39;s totient function f(x) is defined as the number of positive integers less than x which are coprime to x. The special case f(1) equals 1. Write a function which calculates Euler&#39;s totient function.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">10</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">7</span> <span class="tok-mi">9</span><span class="tok-p">))</span> <span class="tok-mi">4</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">40</span><span class="tok-p">)</span> <span class="tok-mi">16</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">99</span><span class="tok-p">)</span> <span class="tok-mi">60</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">eulers-totient-function</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">gcd</span> <span class="tok-p">[</span><span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">b</span> <span class="tok-mi">0</span><span class="tok-p">)</span>
+              <span class="tok-nv">a</span>
+              <span class="tok-p">(</span><span class="tok-nf">recur</span> <span class="tok-nv">b</span> <span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">))))]</span>
+  <span class="tok-p">(</span><span class="tok-nf">count</span>
+    <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">1</span> <span class="tok-p">(</span><span class="tok-nf">gcd</span> <span class="tok-nv">n</span> <span class="tok-nv">%</span><span class="tok-p">))</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-nv">n</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_76_intro_to_trampoline">76. Intro to Trampoline</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; The trampoline function takes a function f and a variable number of parameters. Trampoline calls f with any parameters that were supplied. If f returns a function, trampoline calls that function with no arguments. This is repeated, until the return value is not a function, and then trampoline returns that non-function value. This is useful for implementing mutually recursive algorithms in a way that won&#39;t consume the stack.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span>
+   <span class="tok-p">(</span><span class="tok-nf">letfn</span>
+     <span class="tok-p">[(</span><span class="tok-nf">foo</span> <span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">]</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">bar</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">)</span> <span class="tok-nv">y</span><span class="tok-p">))</span>
+      <span class="tok-p">(</span><span class="tok-nf">bar</span> <span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-p">(</span><span class="tok-nb">last </span><span class="tok-nv">x</span><span class="tok-p">)</span> <span class="tok-mi">10</span><span class="tok-p">)</span>
+                   <span class="tok-nv">x</span>
+                   <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">foo</span> <span class="tok-nv">x</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-mi">2</span> <span class="tok-nv">y</span><span class="tok-p">))))]</span>
+     <span class="tok-p">(</span><span class="tok-nf">trampoline</span> <span class="tok-nv">foo</span> <span class="tok-p">[]</span> <span class="tok-mi">1</span><span class="tok-p">)))</span>
+
+<span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span> <span class="tok-mi">7</span> <span class="tok-mi">9</span> <span class="tok-mi">11</span><span class="tok-p">]</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_77_anagram_finder">77. Anagram Finder</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which finds all the anagrams in a vector of words. A word x is an anagram of word y if all the letters in x can be rearranged in a different order to form y. Your function should return a set of sets, where each sub-set is a group of words which are anagrams of each other. Each sub-set should have at least two words. Words without any anagrams should not be included in the result.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-s">&quot;meat&quot;</span> <span class="tok-s">&quot;mat&quot;</span> <span class="tok-s">&quot;team&quot;</span> <span class="tok-s">&quot;mate&quot;</span> <span class="tok-s">&quot;eat&quot;</span><span class="tok-p">])</span>
+   <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-s">&quot;meat&quot;</span> <span class="tok-s">&quot;team&quot;</span> <span class="tok-s">&quot;mate&quot;</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-s">&quot;veer&quot;</span> <span class="tok-s">&quot;lake&quot;</span> <span class="tok-s">&quot;item&quot;</span> <span class="tok-s">&quot;kale&quot;</span> <span class="tok-s">&quot;mite&quot;</span> <span class="tok-s">&quot;ever&quot;</span><span class="tok-p">])</span>
+  <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-s">&quot;veer&quot;</span> <span class="tok-s">&quot;ever&quot;</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-s">&quot;lake&quot;</span> <span class="tok-s">&quot;kale&quot;</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-s">&quot;mite&quot;</span> <span class="tok-s">&quot;item&quot;</span><span class="tok-p">}})</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">anagram-finder</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">-&gt;&gt;</span> <span class="tok-p">(</span><span class="tok-nf">group-by</span> <span class="tok-nb">sort </span><span class="tok-nv">s</span><span class="tok-p">)</span>
+       <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-p">(</span><span class="tok-nb">val </span><span class="tok-nv">%</span><span class="tok-p">))</span> <span class="tok-mi">1</span><span class="tok-p">))</span>
+       <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">set </span><span class="tok-p">(</span><span class="tok-nb">val </span><span class="tok-nv">%</span><span class="tok-p">)))</span>
+       <span class="tok-p">(</span><span class="tok-nf">set</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_78_reimplement_trampoline">78. Reimplement Trampoline</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Reimplement the function described in &quot;Intro to Trampoline&quot;.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">triple</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">sub-two</span> <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-mi">3</span> <span class="tok-nv">x</span><span class="tok-p">)))</span>
+          <span class="tok-p">(</span><span class="tok-nf">sub-two</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">stop?</span><span class="tok-p">(</span><span class="tok-nb">- </span><span class="tok-nv">x</span> <span class="tok-mi">2</span><span class="tok-p">)))</span>
+          <span class="tok-p">(</span><span class="tok-nf">stop?</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-nv">x</span> <span class="tok-mi">50</span><span class="tok-p">)</span> <span class="tok-nv">x</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">triple</span> <span class="tok-nv">x</span><span class="tok-p">)))]</span>
+    <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nv">triple</span> <span class="tok-mi">2</span><span class="tok-p">))</span>
+  <span class="tok-mi">82</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">my-even?</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">zero? </span><span class="tok-nv">x</span><span class="tok-p">)</span> <span class="tok-nv">true</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">my-odd?</span> <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">x</span><span class="tok-p">))))</span>
+          <span class="tok-p">(</span><span class="tok-nf">my-odd?</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">zero? </span><span class="tok-nv">x</span><span class="tok-p">)</span> <span class="tok-nv">false</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">my-even?</span> <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">x</span><span class="tok-p">))))]</span>
+    <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-p">(</span><span class="tok-nb">partial </span><span class="tok-nv">__</span> <span class="tok-nv">my-even?</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">6</span><span class="tok-p">)))</span>
+  <span class="tok-p">[</span><span class="tok-nv">true</span> <span class="tok-nv">false</span> <span class="tok-nv">true</span> <span class="tok-nv">false</span> <span class="tok-nv">true</span> <span class="tok-nv">false</span><span class="tok-p">])</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">reimplement-trampoline</span>
+  <span class="tok-p">([</span><span class="tok-nv">f</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">r</span> <span class="tok-p">(</span><span class="tok-nf">f</span><span class="tok-p">)]</span>
+     <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nf">fn?</span> <span class="tok-nv">r</span><span class="tok-p">)</span>
+       <span class="tok-p">(</span><span class="tok-nf">recur</span> <span class="tok-nv">r</span><span class="tok-p">)</span>
+       <span class="tok-nv">r</span><span class="tok-p">)))</span>
+  <span class="tok-p">([</span><span class="tok-nv">f</span> <span class="tok-o">&amp;</span> <span class="tok-nv">args</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-nf">reimplement-trampoline</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">apply </span><span class="tok-nv">f</span> <span class="tok-nv">args</span><span class="tok-p">))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_80_perfect_numbers">80. Perfect Numbers</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; A number is &quot;perfect&quot; if the sum of its divisors equal the number itself. 6 is a perfect number because 1+2+3=6. Write a function which returns true for perfect numbers and false otherwise.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">6</span><span class="tok-p">)</span> <span class="tok-nv">true</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">7</span><span class="tok-p">)</span> <span class="tok-nv">false</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">496</span><span class="tok-p">)</span> <span class="tok-nv">true</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">500</span><span class="tok-p">)</span> <span class="tok-nv">false</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">8128</span><span class="tok-p">)</span> <span class="tok-nv">true</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">perfect-numbers</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">n</span>
+     <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-nv">+</span>
+             <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">zero? </span><span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">n</span> <span class="tok-nv">%</span><span class="tok-p">))</span>
+                     <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">1</span> <span class="tok-p">(</span><span class="tok-nb">inc </span><span class="tok-p">(</span><span class="tok-nb">/ </span><span class="tok-nv">n</span> <span class="tok-mi">2</span><span class="tok-p">)))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_85_power_set">85. Power Set</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which generates the power set of a given set. The power set of a set x is the set of all subsets of x, including the empty set and x itself.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-ss">:a</span><span class="tok-p">})</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-ss">:a</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-ss">:a</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">{})</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">})</span>
+   <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-o">#</span><span class="tok-p">{}</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">10</span><span class="tok-p">))))</span> <span class="tok-mi">1024</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">power-set</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">result</span> <span class="tok-nv">next</span><span class="tok-p">]</span>
+             <span class="tok-p">(</span><span class="tok-nf">clojure.set/union</span> <span class="tok-nv">result</span>
+                                <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">%</span> <span class="tok-nv">next</span><span class="tok-p">)</span>
+                                     <span class="tok-nv">result</span><span class="tok-p">)))</span>
+           <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{}}</span>
+           <span class="tok-nv">s</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_86_happy_numbers">86. Happy numbers</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Happy numbers are positive integers that follow a particular formula: take each individual digit, square it, and then sum the squares to get a new number. Repeat with the new number and eventually, you might get to a number whose squared sum is 1. This is a happy number. An unhappy number (or sad number) is one that loops endlessly. Write a function that determines if a number is happy or not.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">7</span><span class="tok-p">)</span> <span class="tok-nv">true</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">986543210</span><span class="tok-p">)</span> <span class="tok-nv">true</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-nv">false</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-nv">false</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">happy-numbers</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span>
+  <span class="tok-p">{</span><span class="tok-ss">:pre</span> <span class="tok-p">[(</span><span class="tok-nb">pos? </span><span class="tok-nv">x</span><span class="tok-p">)]}</span>
+  <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">sum-of-square-digits</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-nf">-&gt;&gt;</span> <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-nv">n</span><span class="tok-p">)</span>
+                 <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">Character/digit</span> <span class="tok-nv">%</span> <span class="tok-mi">10</span><span class="tok-p">))</span>
+                 <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">%</span> <span class="tok-nv">%</span><span class="tok-p">))</span>
+                 <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-nv">+</span><span class="tok-p">)))]</span>
+  <span class="tok-p">(</span><span class="tok-k">loop </span><span class="tok-p">[</span><span class="tok-nv">r</span> <span class="tok-o">#</span><span class="tok-p">{}</span>
+         <span class="tok-nv">i</span> <span class="tok-nv">x</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">s</span> <span class="tok-p">(</span><span class="tok-nf">sum-of-square-digits</span> <span class="tok-nv">i</span><span class="tok-p">)]</span>
+      <span class="tok-p">(</span><span class="tok-nf">cond</span>
+        <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">s</span> <span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-nv">true</span>
+        <span class="tok-p">(</span><span class="tok-nb">contains? </span><span class="tok-nv">r</span> <span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-nv">false</span>
+        <span class="tok-ss">:else</span> <span class="tok-p">(</span><span class="tok-nf">recur</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">r</span> <span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-nv">s</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_93_partially_flatten_a_sequence">93. Partially Flatten a Sequence</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which flattens any nested combination of sequential things (lists, vectors, etc.), but maintains the lowest level sequential items. The result should be a sequence of sequences with only one level of nesting.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[[</span><span class="tok-s">&quot;Do&quot;</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-s">&quot;Nothing&quot;</span><span class="tok-p">]])</span>
+   <span class="tok-p">[[</span><span class="tok-s">&quot;Do&quot;</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-s">&quot;Nothing&quot;</span><span class="tok-p">]])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[[[[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">]]]</span> <span class="tok-p">[[</span><span class="tok-ss">:c</span> <span class="tok-ss">:d</span><span class="tok-p">]]</span> <span class="tok-p">[</span><span class="tok-ss">:e</span> <span class="tok-ss">:f</span><span class="tok-p">]])</span>
+   <span class="tok-p">[[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-ss">:c</span> <span class="tok-ss">:d</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-ss">:e</span> <span class="tok-ss">:f</span><span class="tok-p">]])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">&#39;</span><span class="tok-p">((</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">)((</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">)((((</span><span class="tok-mi">5</span> <span class="tok-mi">6</span><span class="tok-p">)))))))</span>
+   <span class="tok-o">&#39;</span><span class="tok-p">((</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">)(</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">)(</span><span class="tok-mi">5</span> <span class="tok-mi">6</span><span class="tok-p">)))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">partially-flatten-a-sequence</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">result</span> <span class="tok-nv">x</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-nb">concat </span><span class="tok-nv">result</span>
+                    <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">every? </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">not </span><span class="tok-p">(</span><span class="tok-nf">coll?</span> <span class="tok-nv">%</span><span class="tok-p">))</span> <span class="tok-nv">x</span><span class="tok-p">)</span>
+                      <span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-nv">x</span><span class="tok-p">)</span>
+                      <span class="tok-p">(</span><span class="tok-nf">partially-flatten-a-sequence</span> <span class="tok-nv">x</span><span class="tok-p">))))</span>
+          <span class="tok-p">[]</span> <span class="tok-nv">s</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_98_equivalence_classes">98. Equivalence Classes</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; A function f defined on a domain D induces an equivalence relation on D, as follows: a is equivalent to b with respect to f if and only if (f a) is equal to (f b). Write a function with arguments f and D that computes the equivalence classes of D with respect to f.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">%</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">-2</span> <span class="tok-mi">-1</span> <span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">})</span>
+   <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">-1</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span> <span class="tok-mi">-2</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">rem </span><span class="tok-nv">%</span> <span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-p">})</span>
+   <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">4</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span> <span class="tok-mi">5</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">identity </span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">})</span>
+   <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">4</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">constantly </span><span class="tok-nv">true</span><span class="tok-p">)</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">})</span>
+   <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">}})</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">equivalence-classes</span> <span class="tok-p">[</span><span class="tok-nv">f</span> <span class="tok-nv">d</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">set</span>
+    <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">set </span><span class="tok-p">(</span><span class="tok-nb">map first </span><span class="tok-nv">%</span><span class="tok-p">))</span>
+         <span class="tok-p">(</span><span class="tok-nf">vals</span>
+           <span class="tok-p">(</span><span class="tok-nf">group-by</span> <span class="tok-nv">second</span>
+                     <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">list </span><span class="tok-nv">%</span> <span class="tok-p">(</span><span class="tok-nf">f</span> <span class="tok-nv">%</span><span class="tok-p">))</span> <span class="tok-nv">d</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_102_intocamelcase">102. intoCamelCase</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; When working with java, you often need to create an object with fieldsLikeThis, but you&#39;d rather work with a hashmap that has :keys-like-this until it&#39;s time to convert. Write a function which takes lower-case hyphen-separated strings and converts them to camel-case strings.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;something&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;something&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;multi-word-key&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;multiWordKey&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;leaveMeAlone&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;leaveMeAlone&quot;</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">into-camel-case</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">if-not </span><span class="tok-p">(</span><span class="tok-nb">nil? </span><span class="tok-p">(</span><span class="tok-nb">re-find </span><span class="tok-o">#</span><span class="tok-s">&quot;-&quot;</span> <span class="tok-nv">s</span><span class="tok-p">))</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">split</span> <span class="tok-p">(</span><span class="tok-nf">clojure.string/split</span> <span class="tok-nv">s</span> <span class="tok-o">#</span><span class="tok-s">&quot;-&quot;</span><span class="tok-p">)]</span>
+      <span class="tok-p">(</span><span class="tok-nf">str</span>
+        <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">split</span><span class="tok-p">)</span>
+        <span class="tok-p">(</span><span class="tok-nf">clojure.string/join</span>
+          <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-nv">clojure.string/capitalize</span> <span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-nv">split</span><span class="tok-p">)))))</span>
+    <span class="tok-nv">s</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_103_generating_k_combinations">103. Generating k-combinations</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Given a sequence S consisting of n elements generate all k-combinations of S, i. e. generate all possible sets consisting of k distinct elements taken from S. The number of k-combinations for a sequence is equal to the binomial coefficient.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">1</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">6</span><span class="tok-p">})</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">4</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">5</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">6</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">10</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">6</span><span class="tok-p">})</span> <span class="tok-o">#</span><span class="tok-p">{})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">2</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">})</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">2</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">3</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">})</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">4</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">2</span> <span class="tok-mi">4</span><span class="tok-p">}</span>
+                         <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">4</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">4</span> <span class="tok-o">#</span><span class="tok-p">{[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-ss">:a</span> <span class="tok-s">&quot;abc&quot;</span> <span class="tok-s">&quot;efg&quot;</span><span class="tok-p">})</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-ss">:a</span> <span class="tok-s">&quot;abc&quot;</span> <span class="tok-s">&quot;efg&quot;</span><span class="tok-p">}})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">2</span> <span class="tok-o">#</span><span class="tok-p">{[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-ss">:a</span> <span class="tok-s">&quot;abc&quot;</span> <span class="tok-s">&quot;efg&quot;</span><span class="tok-p">})</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-ss">:a</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-s">&quot;abc&quot;</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-s">&quot;efg&quot;</span><span class="tok-p">}</span>
+                                    <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-s">&quot;abc&quot;</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-s">&quot;efg&quot;</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-s">&quot;abc&quot;</span> <span class="tok-s">&quot;efg&quot;</span><span class="tok-p">}})</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">generating-k-combinations</span> <span class="tok-p">[</span><span class="tok-nv">k</span> <span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">set</span>
+    <span class="tok-p">(</span><span class="tok-nf">cond</span>
+      <span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-nv">k</span> <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">s</span><span class="tok-p">))</span> <span class="tok-p">[]</span>
+      <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">k</span> <span class="tok-mi">1</span><span class="tok-p">)</span>         <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">concat </span><span class="tok-nv">%1</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-nv">%2</span><span class="tok-p">}})</span> <span class="tok-o">#</span><span class="tok-p">{}</span> <span class="tok-nv">s</span><span class="tok-p">)</span>
+      <span class="tok-ss">:else</span>           <span class="tok-p">(</span><span class="tok-nf">-&gt;&gt;</span> <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">concat </span><span class="tok-nv">%1</span>
+                                            <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">e</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">set </span><span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">e</span> <span class="tok-nv">%2</span><span class="tok-p">)))</span> <span class="tok-nv">%1</span><span class="tok-p">))</span>
+                                   <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-o">#</span><span class="tok-p">{}}</span>
+                                   <span class="tok-nv">s</span><span class="tok-p">)</span>
+                           <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">k</span> <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">%</span><span class="tok-p">)))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_105_identify_keys_and_values">105. Identify keys and values</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Given an input sequence of keywords and numbers, create a map such that each key in the map is a keyword, and the value is a sequence of all the numbers (if any) between it and the next keyword in the sequence.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">{}</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">]}</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-mi">1</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">]</span>, <span class="tok-ss">:b</span> <span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">]}</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-mi">1</span>, <span class="tok-ss">:b</span> <span class="tok-mi">2</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span>, <span class="tok-ss">:b</span> <span class="tok-p">[]</span>, <span class="tok-ss">:c</span> <span class="tok-p">[</span><span class="tok-mi">4</span><span class="tok-p">]}</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span> <span class="tok-mi">4</span><span class="tok-p">]))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">identify-keys-and-values</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-p">{}</span>
+        <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-p">[]</span> <span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-nv">%</span><span class="tok-p">)))</span>
+              <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-k">new </span><span class="tok-p">(</span><span class="tok-nf">atom</span> <span class="tok-nv">false</span><span class="tok-p">)]</span>
+                <span class="tok-p">(</span><span class="tok-nf">partition-by</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">keyword? </span><span class="tok-nv">%</span><span class="tok-p">)</span>
+                                 <span class="tok-p">(</span><span class="tok-nf">reset!</span> <span class="tok-k">new </span><span class="tok-p">(</span><span class="tok-nb">not </span><span class="tok-o">@</span><span class="tok-nv">new</span><span class="tok-p">))</span>
+                                 <span class="tok-o">@</span><span class="tok-nv">new</span><span class="tok-p">)</span>
+                              <span class="tok-nv">s</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_108_lazy_searching">108. Lazy Searching</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Given any number of sequences, each sorted from smallest to largest, find the smallest single number which appears in all of the sequences. The sequences may be infinite, so be careful to search lazily.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">3</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">4</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">6</span> <span class="tok-mi">7</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mf">0.5</span> <span class="tok-mi">3</span><span class="tok-nv">/2</span> <span class="tok-mi">4</span> <span class="tok-mi">19</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">7</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nf">range</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">0</span> <span class="tok-mi">100</span> <span class="tok-mi">7</span><span class="tok-nv">/6</span><span class="tok-p">)</span> <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span> <span class="tok-mi">7</span> <span class="tok-mi">11</span> <span class="tok-mi">13</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">64</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">%</span> <span class="tok-nv">%</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">range</span><span class="tok-p">))</span> <span class="tok-c1">;; perfect cubes</span>
+          <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">zero? </span><span class="tok-p">(</span><span class="tok-nb">bit-and </span><span class="tok-nv">%</span> <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">%</span><span class="tok-p">)))</span> <span class="tok-p">(</span><span class="tok-nf">range</span><span class="tok-p">))</span> <span class="tok-c1">;; powers of 2</span>
+          <span class="tok-p">(</span><span class="tok-nb">iterate inc </span><span class="tok-mi">20</span><span class="tok-p">)))</span> <span class="tok-c1">;; at least as large as 20</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">lazy-searching</span> <span class="tok-p">[</span><span class="tok-o">&amp;</span> <span class="tok-nv">sequences</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">apply = </span><span class="tok-p">(</span><span class="tok-nb">map first </span><span class="tok-nv">sequences</span><span class="tok-p">))</span>
+    <span class="tok-p">(</span><span class="tok-nb">ffirst </span><span class="tok-nv">sequences</span><span class="tok-p">)</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">sorted-sequences</span> <span class="tok-p">(</span><span class="tok-nb">sort-by first </span><span class="tok-nv">sequences</span><span class="tok-p">)]</span>
+      <span class="tok-p">(</span><span class="tok-nb">apply </span><span class="tok-nv">lazy-search</span>
+             <span class="tok-p">(</span><span class="tok-nb">cons </span><span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">sorted-sequences</span><span class="tok-p">))</span>
+                   <span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-nv">sorted-sequences</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_110_sequence_of_pronunciations">110. Sequence of pronunciations</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function that returns a lazy sequence of &quot;pronunciations&quot; of a sequence of numbers. A pronunciation of each element in the sequence consists of the number of repeating identical numbers and the number itself. For example, [1 1] is pronounced as [2 1] (&quot;two ones&quot;), which in turn is pronounced as [1 2 1 1] (&quot;one two, one one&quot;).</span>
+<span class="tok-c1">;; Your function should accept an initial sequence of numbers, and return an infinite lazy sequence of pronunciations, each element being a pronunciation of the previous element.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]]</span> <span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">3</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">])))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">4</span> <span class="tok-mi">4</span><span class="tok-p">])))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">nth </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">])</span> <span class="tok-mi">6</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">338</span> <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-p">(</span><span class="tok-nb">nth </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">2</span><span class="tok-p">])</span> <span class="tok-mi">15</span><span class="tok-p">)))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">sequence-of-pronounciations</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">n</span> <span class="tok-p">(</span><span class="tok-nf">flatten</span>
+            <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">%</span><span class="tok-p">))</span>
+                 <span class="tok-p">(</span><span class="tok-nf">partition-by</span> <span class="tok-nb">identity </span><span class="tok-nv">s</span><span class="tok-p">)))]</span>
+    <span class="tok-p">(</span><span class="tok-nf">lazy-seq</span>
+      <span class="tok-p">(</span><span class="tok-nb">cons </span><span class="tok-nv">n</span> <span class="tok-p">(</span><span class="tok-nf">sequence-of-pronounciations</span> <span class="tok-nv">n</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_114_global_take_while">114. Global take-while</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; take-while is great for filtering sequences, but it limited: you can only examine a single item of the sequence at a time. What if you need to keep track of some state as you go over the sequence?</span>
+<span class="tok-c1">;; Write a function which accepts an integer n, a predicate p, and a sequence. It should return a lazy sequence of items in the list up to, but not including, the nth item that satisfies the predicate.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span> <span class="tok-mi">7</span> <span class="tok-mi">11</span> <span class="tok-mi">13</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">4</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">2</span> <span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">%</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
+         <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span> <span class="tok-mi">7</span> <span class="tok-mi">11</span> <span class="tok-mi">13</span> <span class="tok-mi">17</span> <span class="tok-mi">19</span> <span class="tok-mi">23</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-s">&quot;this&quot;</span> <span class="tok-s">&quot;is&quot;</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;sentence&quot;</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">3</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">some </span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-sc">\i</span><span class="tok-p">}</span> <span class="tok-nv">%</span><span class="tok-p">)</span>
+         <span class="tok-p">[</span><span class="tok-s">&quot;this&quot;</span> <span class="tok-s">&quot;is&quot;</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;sentence&quot;</span> <span class="tok-s">&quot;i&quot;</span> <span class="tok-s">&quot;wrote&quot;</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-s">&quot;this&quot;</span> <span class="tok-s">&quot;is&quot;</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">1</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-s">&quot;a&quot;</span><span class="tok-p">}</span>
+         <span class="tok-p">[</span><span class="tok-s">&quot;this&quot;</span> <span class="tok-s">&quot;is&quot;</span> <span class="tok-s">&quot;a&quot;</span> <span class="tok-s">&quot;sentence&quot;</span> <span class="tok-s">&quot;i&quot;</span> <span class="tok-s">&quot;wrote&quot;</span><span class="tok-p">]))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">global-take-while</span> <span class="tok-p">[</span><span class="tok-nv">n</span> <span class="tok-nv">p</span> <span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-o">&amp;</span> <span class="tok-nv">xs</span><span class="tok-p">]]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">n-next</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nf">p</span> <span class="tok-nv">x</span><span class="tok-p">)</span>
+                 <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">n</span><span class="tok-p">)</span>
+                 <span class="tok-nv">n</span><span class="tok-p">)]</span>
+    <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">zero? </span><span class="tok-nv">n-next</span><span class="tok-p">)</span>
+      <span class="tok-o">&#39;</span><span class="tok-p">()</span>
+      <span class="tok-p">(</span><span class="tok-nf">lazy-seq</span> <span class="tok-p">(</span><span class="tok-nb">cons </span><span class="tok-nv">x</span> <span class="tok-p">(</span><span class="tok-nf">global-take-while</span> <span class="tok-nv">n-next</span> <span class="tok-nv">p</span> <span class="tok-nv">xs</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_115_the_balance_of_n">115. The Balance of N</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; A balanced number is one whose component digits have the same sum on the left and right halves of the number. Write a function which accepts an integer n, and returns true iff n is balanced.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">true</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">11</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">true</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">121</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">false</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">123</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">true</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">0</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">false</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">88099</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">true</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">89098</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">true</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">89089</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">20</span> <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nf">range</span><span class="tok-p">)))</span>
+   <span class="tok-p">[</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">6</span> <span class="tok-mi">7</span> <span class="tok-mi">8</span> <span class="tok-mi">9</span> <span class="tok-mi">11</span> <span class="tok-mi">22</span> <span class="tok-mi">33</span> <span class="tok-mi">44</span> <span class="tok-mi">55</span> <span class="tok-mi">66</span> <span class="tok-mi">77</span> <span class="tok-mi">88</span> <span class="tok-mi">99</span> <span class="tok-mi">101</span><span class="tok-p">])</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">the-balance-of-n</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">sum</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-nb">reduce + </span><span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">Character/getNumericValue</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-nv">s</span><span class="tok-p">)))]</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span>   <span class="tok-nv">s</span> <span class="tok-p">(</span><span class="tok-nf">.toString</span> <span class="tok-nv">n</span><span class="tok-p">)</span>
+          <span class="tok-nv">half</span> <span class="tok-p">(</span><span class="tok-nb">quot </span><span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">s</span><span class="tok-p">)</span> <span class="tok-mi">2</span><span class="tok-p">)]</span>
+      <span class="tok-p">(</span><span class="tok-nf">=</span>
+        <span class="tok-p">(</span><span class="tok-nf">sum</span> <span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-nv">half</span> <span class="tok-nv">s</span><span class="tok-p">))</span>
+        <span class="tok-p">(</span><span class="tok-nf">sum</span> <span class="tok-p">(</span><span class="tok-nf">take-last</span> <span class="tok-nv">half</span> <span class="tok-nv">s</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_116_prime_sandwich">116. Prime Sandwich</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; A balanced prime is a prime number which is also the mean of the primes directly before and after it in the sequence of valid primes. Create a function which takes an integer n, and returns true iff it is a balanced prime.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">false</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">4</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">true</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">563</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">1103</span> <span class="tok-p">(</span><span class="tok-nb">nth </span><span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nf">range</span><span class="tok-p">))</span> <span class="tok-mi">15</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">prime-sandwich?</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">prime?</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-nf">and</span>
+              <span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-nv">n</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+              <span class="tok-p">(</span><span class="tok-nb">not-any? </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">zero? </span><span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">n</span> <span class="tok-nv">%</span><span class="tok-p">))</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">2</span> <span class="tok-nv">n</span><span class="tok-p">))))]</span>
+    <span class="tok-p">(</span><span class="tok-nf">and</span>
+      <span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-nv">n</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+      <span class="tok-p">(</span><span class="tok-nf">prime?</span> <span class="tok-nv">n</span><span class="tok-p">)</span>
+      <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">primes</span> <span class="tok-p">(</span><span class="tok-nf">lazy-seq</span> <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-nv">prime?</span> <span class="tok-p">(</span><span class="tok-nf">range</span><span class="tok-p">)))</span>
+            <span class="tok-nv">primes-before</span> <span class="tok-p">(</span><span class="tok-nb">take-while </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">&lt;= </span><span class="tok-nv">%</span> <span class="tok-nv">n</span><span class="tok-p">)</span> <span class="tok-nv">primes</span><span class="tok-p">)</span>
+            <span class="tok-nv">prime-before</span> <span class="tok-p">(</span><span class="tok-nb">last </span><span class="tok-p">(</span><span class="tok-nb">butlast </span><span class="tok-nv">primes-before</span><span class="tok-p">))</span>
+            <span class="tok-nv">prime-after</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-p">(</span><span class="tok-nb">drop </span><span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">primes-before</span><span class="tok-p">)</span> <span class="tok-nv">primes</span><span class="tok-p">))]</span>
+         <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">n</span> <span class="tok-p">(</span><span class="tok-nb">/ </span><span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">prime-before</span> <span class="tok-nv">prime-after</span><span class="tok-p">)</span> <span class="tok-mi">2</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_121_universal_computation_engine">121. Universal Computation Engine</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Given a mathematical formula in prefix notation, return a function that calculates the value of the formula. The formula can contain nested calculations using the four basic mathematical operators, numeric constants, and symbols representing variables. The returned function has to accept a single parameter containing the map of variable names to their values.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">2</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-nb">/ </span><span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">))</span>
+      <span class="tok-o">&#39;</span><span class="tok-p">{</span><span class="tok-nv">b</span> <span class="tok-mi">8</span> <span class="tok-nv">a</span> <span class="tok-mi">16</span><span class="tok-p">}))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">8</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">a</span> <span class="tok-nv">b</span> <span class="tok-mi">2</span><span class="tok-p">))</span>
+      <span class="tok-o">&#39;</span><span class="tok-p">{</span><span class="tok-nv">a</span> <span class="tok-mi">2</span> <span class="tok-nv">b</span> <span class="tok-mi">4</span><span class="tok-p">}))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">6</span> <span class="tok-mi">0</span> <span class="tok-mi">-4</span><span class="tok-p">]</span>
+     <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-mi">2</span> <span class="tok-nv">a</span><span class="tok-p">)</span>
+                  <span class="tok-p">(</span><span class="tok-nb">- </span><span class="tok-mi">10</span> <span class="tok-nv">b</span><span class="tok-p">)))</span>
+            <span class="tok-o">&#39;</span><span class="tok-p">[{</span><span class="tok-nv">a</span> <span class="tok-mi">1</span> <span class="tok-nv">b</span> <span class="tok-mi">8</span><span class="tok-p">}</span>
+              <span class="tok-p">{</span><span class="tok-nv">b</span> <span class="tok-mi">5</span> <span class="tok-nv">a</span> <span class="tok-mi">-2</span><span class="tok-p">}</span>
+              <span class="tok-p">{</span><span class="tok-nv">a</span> <span class="tok-mi">2</span> <span class="tok-nv">b</span> <span class="tok-mi">11</span><span class="tok-p">}]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">1</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-nb">/ </span><span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">x</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+              <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-mi">3</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">y</span> <span class="tok-mi">1</span><span class="tok-p">))))</span>
+      <span class="tok-o">&#39;</span><span class="tok-p">{</span><span class="tok-nv">x</span> <span class="tok-mi">4</span> <span class="tok-nv">y</span> <span class="tok-mi">1</span><span class="tok-p">}))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">universal-computation-engine</span> <span class="tok-p">[</span><span class="tok-nv">formula</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">parameters</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">evaluate</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span>
+              <span class="tok-p">(</span><span class="tok-nf">cond</span>
+                <span class="tok-p">(</span><span class="tok-nb">seq? </span><span class="tok-nv">x</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">apply </span><span class="tok-p">({</span><span class="tok-ss">&#39;/</span> <span class="tok-nb">/ </span><span class="tok-ss">&#39;+</span> <span class="tok-nb">+ </span><span class="tok-ss">&#39;-</span> <span class="tok-nb">- </span><span class="tok-ss">&#39;*</span> <span class="tok-nv">*</span><span class="tok-p">}</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">x</span><span class="tok-p">))</span> <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-nv">evaluate</span> <span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-nv">x</span><span class="tok-p">)))</span>
+                <span class="tok-p">(</span><span class="tok-nf">number?</span> <span class="tok-nv">x</span><span class="tok-p">)</span> <span class="tok-nv">x</span><span class="tok-p">))]</span>
+      <span class="tok-p">(</span><span class="tok-nf">evaluate</span> <span class="tok-p">(</span><span class="tok-nf">clojure.walk/prewalk-replace</span> <span class="tok-nv">parameters</span> <span class="tok-nv">formula</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_132_insert_between_two_items">132. Insert between two items</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function that takes a two-argument predicate, a value, and a collection; and returns a new collection where the value is inserted between every two items that satisfy the predicate.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-ss">:less</span> <span class="tok-mi">6</span> <span class="tok-ss">:less</span> <span class="tok-mi">7</span> <span class="tok-mi">4</span> <span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">&lt; </span><span class="tok-ss">:less</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">6</span> <span class="tok-mi">7</span> <span class="tok-mi">4</span> <span class="tok-mi">3</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">&gt; </span><span class="tok-ss">:more</span> <span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">]))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-ss">:x</span> <span class="tok-mi">2</span> <span class="tok-ss">:x</span> <span class="tok-mi">3</span> <span class="tok-ss">:x</span> <span class="tok-mi">4</span><span class="tok-p">]</span>  <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">and </span><span class="tok-p">(</span><span class="tok-nb">pos? </span><span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">&lt; </span><span class="tok-nv">%</span> <span class="tok-nv">%2</span><span class="tok-p">))</span> <span class="tok-ss">:x</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">5</span><span class="tok-p">)))</span>
+<span class="tok-p">(</span><span class="tok-nf">empty?</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nb">&gt; </span><span class="tok-ss">:more</span> <span class="tok-p">()))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-ss">:same</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-ss">:same</span> <span class="tok-mi">5</span> <span class="tok-mi">8</span> <span class="tok-mi">13</span> <span class="tok-ss">:same</span> <span class="tok-mi">21</span><span class="tok-p">]</span>
+   <span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">12</span> <span class="tok-p">(</span><span class="tok-nf">-&gt;&gt;</span> <span class="tok-p">[</span><span class="tok-mi">0</span> <span class="tok-mi">1</span><span class="tok-p">]</span>
+                 <span class="tok-p">(</span><span class="tok-nb">iterate </span><span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[[</span><span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">]]</span> <span class="tok-p">[</span><span class="tok-nv">b</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">)]))</span>
+                 <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-nv">first</span><span class="tok-p">)</span> <span class="tok-c1">; fibonacci numbers</span>
+                 <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">]</span> <span class="tok-c1">; both even or both odd</span>
+                       <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">a</span> <span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">b</span> <span class="tok-mi">2</span><span class="tok-p">)))</span>
+                     <span class="tok-ss">:same</span><span class="tok-p">))))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">insert-between-two-items</span> <span class="tok-p">[</span><span class="tok-nv">p</span> <span class="tok-nv">v</span> <span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nf">empty?</span> <span class="tok-nv">s</span><span class="tok-p">)</span>
+    <span class="tok-p">[]</span>
+    <span class="tok-p">(</span><span class="tok-nf">flatten</span>
+      <span class="tok-p">(</span><span class="tok-nb">concat </span><span class="tok-p">[(</span><span class="tok-nb">first </span><span class="tok-nv">s</span><span class="tok-p">)]</span>
+              <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">apply </span><span class="tok-nv">p</span> <span class="tok-nv">%</span><span class="tok-p">)</span>
+                     <span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-nv">v</span> <span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-nv">%</span><span class="tok-p">))</span>
+                     <span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-nv">%</span><span class="tok-p">))</span>
+                   <span class="tok-p">(</span><span class="tok-nf">partition</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-nv">s</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_137_digits_and_bases">137. Digits and bases</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which returns a sequence of digits of a non-negative number (first argument) in numerical system with an arbitrary base (second argument). Digits should be represented with their integer values, e.g. 15 would be [1 5] in base 10, [1 1 1 1] in base 2 and [15] in base 16.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">0</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">1234501</span> <span class="tok-mi">10</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">0</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">0</span> <span class="tok-mi">11</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">0</span> <span class="tok-mi">0</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">9</span> <span class="tok-mi">2</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">0</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">n</span> <span class="tok-p">(</span><span class="tok-nb">rand-int </span><span class="tok-mi">100000</span><span class="tok-p">)](</span><span class="tok-nf">__</span> <span class="tok-nv">n</span> <span class="tok-nv">n</span><span class="tok-p">)))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">16</span> <span class="tok-mi">18</span> <span class="tok-mi">5</span> <span class="tok-mi">24</span> <span class="tok-mi">15</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-nv">Integer/MAX_VALUE</span> <span class="tok-mi">42</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">digits-and-bases</span> <span class="tok-p">[</span><span class="tok-nv">n</span> <span class="tok-nv">base</span><span class="tok-p">]</span>
+  <span class="tok-p">{</span><span class="tok-ss">:pre</span> <span class="tok-p">[(</span><span class="tok-nb">&gt;= </span><span class="tok-nv">n</span> <span class="tok-mi">0</span><span class="tok-p">)]}</span>
+  <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">step</span> <span class="tok-p">[</span><span class="tok-nv">r</span> <span class="tok-nv">n</span> <span class="tok-nv">base</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">zero? </span><span class="tok-nv">n</span><span class="tok-p">)</span>
+              <span class="tok-nv">r</span>
+              <span class="tok-p">(</span><span class="tok-nf">step</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">r</span> <span class="tok-p">(</span><span class="tok-nf">mod</span> <span class="tok-nv">n</span> <span class="tok-nv">base</span><span class="tok-p">))</span>
+                    <span class="tok-p">(</span><span class="tok-nb">quot </span><span class="tok-nv">n</span> <span class="tok-nv">base</span><span class="tok-p">)</span>
+                    <span class="tok-nv">base</span><span class="tok-p">)))]</span>
+    <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">zero? </span><span class="tok-nv">n</span><span class="tok-p">)</span>
+      <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">)</span>
+      <span class="tok-p">(</span><span class="tok-nf">step</span> <span class="tok-o">&#39;</span><span class="tok-p">()</span> <span class="tok-nv">n</span> <span class="tok-nv">base</span><span class="tok-p">))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_144_oscilrate">144. Oscilrate</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write an oscillating iterate: a function that takes an initial value and a variable number of functions. It should return a lazy sequence of the functions applied to the value in order, restarting from the first function after it hits the end.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">3</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mf">3.14</span> <span class="tok-nb">int </span><span class="tok-nv">double</span><span class="tok-p">))</span> <span class="tok-p">[</span><span class="tok-mf">3.14</span> <span class="tok-mi">3</span> <span class="tok-mf">3.0</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">5</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">3</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">- </span><span class="tok-nv">%</span> <span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-mi">5</span> <span class="tok-nv">%</span><span class="tok-p">)))</span> <span class="tok-p">[</span><span class="tok-mi">3</span> <span class="tok-mi">0</span> <span class="tok-mi">5</span> <span class="tok-mi">2</span> <span class="tok-mi">7</span><span class="tok-p">])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">12</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">0</span> <span class="tok-nb">inc dec inc dec </span><span class="tok-nv">inc</span><span class="tok-p">))</span> <span class="tok-p">[</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">])</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">oscilrate</span> <span class="tok-p">[</span><span class="tok-nv">v</span> <span class="tok-o">&amp;</span> <span class="tok-nv">fs</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">reductions</span> <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">v</span> <span class="tok-nv">f</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nf">f</span> <span class="tok-nv">v</span><span class="tok-p">))</span> <span class="tok-nv">v</span> <span class="tok-p">(</span><span class="tok-nb">cycle </span><span class="tok-nv">fs</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_148_the_big_divide">148. The Big Divide</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which calculates the sum of all natural numbers under n (first argument) which are evenly divisible by at least one of a and b (second and third argument). Numbers a and b are guaranteed to be coprimes.</span>
+<span class="tok-c1">;; Note: Some test cases have a very large n, so the most obvious solution will exceed the time limit.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">0</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">3</span> <span class="tok-mi">17</span> <span class="tok-mi">11</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">23</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">10</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">233168</span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">1000</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-s">&quot;2333333316666668&quot;</span> <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">100000000</span> <span class="tok-mi">3</span> <span class="tok-mi">5</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-s">&quot;110389610389889610389610&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-mi">10000</span> <span class="tok-mi">10000</span> <span class="tok-mi">10000</span><span class="tok-p">)</span> <span class="tok-mi">7</span> <span class="tok-mi">11</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-s">&quot;1277732511922987429116&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-mi">10000</span> <span class="tok-mi">10000</span> <span class="tok-mi">10000</span><span class="tok-p">)</span> <span class="tok-mi">757</span> <span class="tok-mi">809</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-s">&quot;4530161696788274281&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-mi">10000</span> <span class="tok-mi">10000</span> <span class="tok-mi">1000</span><span class="tok-p">)</span> <span class="tok-mi">1597</span> <span class="tok-mi">3571</span><span class="tok-p">)))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">the-big-divide</span> <span class="tok-p">[</span><span class="tok-nv">n</span> <span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">cnt</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-nb">quot </span><span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">n</span><span class="tok-p">)</span> <span class="tok-nv">x</span><span class="tok-p">))</span>
+          <span class="tok-p">(</span><span class="tok-nf">sum</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-nb">/ </span><span class="tok-p">(</span><span class="tok-nf">*</span><span class="tok-o">&#39;</span> <span class="tok-p">(</span><span class="tok-nf">cnt</span> <span class="tok-nv">x</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">x</span> <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">x</span> <span class="tok-p">(</span><span class="tok-nf">cnt</span> <span class="tok-nv">x</span><span class="tok-p">))))</span> <span class="tok-mi">2</span><span class="tok-p">))]</span>
+    <span class="tok-p">(</span><span class="tok-nf">-</span>
+      <span class="tok-p">(</span><span class="tok-nf">+</span>
+        <span class="tok-p">(</span><span class="tok-nf">sum</span> <span class="tok-nv">a</span><span class="tok-p">)</span>
+        <span class="tok-p">(</span><span class="tok-nf">sum</span> <span class="tok-nv">b</span><span class="tok-p">))</span>
+      <span class="tok-p">(</span><span class="tok-nf">sum</span> <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_158_decurry">158. Decurry</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function that accepts a curried function of unknown arity n. Return an equivalent function of n arguments.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">10</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">a</span><span class="tok-p">]</span>
+             <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">b</span><span class="tok-p">]</span>
+               <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">c</span><span class="tok-p">]</span>
+                 <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">d</span><span class="tok-p">]</span>
+                   <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">a</span> <span class="tok-nv">b</span> <span class="tok-nv">c</span> <span class="tok-nv">d</span><span class="tok-p">))))))</span>
+       <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">24</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">a</span><span class="tok-p">]</span>
+            <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">b</span><span class="tok-p">]</span>
+              <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">c</span><span class="tok-p">]</span>
+                <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">d</span><span class="tok-p">]</span>
+                  <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">a</span> <span class="tok-nv">b</span> <span class="tok-nv">c</span> <span class="tok-nv">d</span><span class="tok-p">))))))</span>
+      <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">))</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">25</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">a</span><span class="tok-p">]</span>
+             <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">b</span><span class="tok-p">]</span>
+               <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">a</span> <span class="tok-nv">b</span><span class="tok-p">))))</span>
+       <span class="tok-mi">5</span> <span class="tok-mi">5</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">decurry</span> <span class="tok-p">[</span><span class="tok-nv">f</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-o">&amp;</span> <span class="tok-nv">args</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">%1</span> <span class="tok-nv">%2</span><span class="tok-p">)</span> <span class="tok-nv">f</span> <span class="tok-nv">args</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_171_intervals">171. Intervals</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function that takes a sequence of integers and returns a sequence of &quot;intervals&quot;. Each interval is a a vector of two integers, start and end, such that all integers between start and end (inclusive) are contained in the input sequence.</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">])</span> <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">]])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">10</span> <span class="tok-mi">9</span> <span class="tok-mi">8</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">])</span> <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">8</span> <span class="tok-mi">10</span><span class="tok-p">]])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">])</span> <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[])</span> <span class="tok-p">[])</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-mi">19</span> <span class="tok-mi">4</span> <span class="tok-mi">17</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">10</span> <span class="tok-mi">2</span> <span class="tok-mi">13</span> <span class="tok-mi">13</span> <span class="tok-mi">2</span> <span class="tok-mi">16</span> <span class="tok-mi">4</span> <span class="tok-mi">2</span> <span class="tok-mi">15</span> <span class="tok-mi">13</span> <span class="tok-mi">9</span> <span class="tok-mi">6</span> <span class="tok-mi">14</span> <span class="tok-mi">2</span> <span class="tok-mi">11</span><span class="tok-p">])</span>
+       <span class="tok-p">[[</span><span class="tok-mi">1</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">6</span> <span class="tok-mi">6</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">9</span> <span class="tok-mi">11</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">13</span> <span class="tok-mi">17</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">19</span> <span class="tok-mi">19</span><span class="tok-p">]])</span>
+
+<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-nv">intervals</span> <span class="tok-p">[</span><span class="tok-nv">s</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">vec</span>
+    <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nf">vec</span> <span class="tok-p">[(</span><span class="tok-nb">first </span><span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">last </span><span class="tok-nv">%</span><span class="tok-p">)])</span>
+         <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">map last </span><span class="tok-nv">%</span><span class="tok-p">)</span>
+              <span class="tok-p">(</span><span class="tok-nf">partition-by</span> <span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">apply - </span><span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">map-indexed</span> <span class="tok-nb">vector </span><span class="tok-p">(</span><span class="tok-nb">sort </span><span class="tok-p">(</span><span class="tok-nb">distinct </span><span class="tok-nv">s</span><span class="tok-p">))))))))</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+    <div class="post-footer">
+      <div class="paragraph">
+        
+        <a href="http://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/">← Previous Post</a>
+        
+        
+        <a class="pull-right" href="/">Blog →</a>
+        
+      </div>
+
+    
+    
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+
+    <h1>See also</h1>
+      <div class="paragraph">
+        <ul>
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/">Getting started with compojure-api</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4clojure Easy Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4clojure Elementary Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+      </ul>
+    </div>
+    </div>
+  
+  
+
+</div>
+
+
+
+
+</div>
+<footer>
+  <div class="paragraph">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank">GitHub</i></a> |
+      
+      
+      <a href="https://at.linkedin.com/in/anthonygalea" target="_blank">LinkedIn</a> |
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank">Contact</a> |
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank">RSS Feed</a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.5.3/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+</body>
+</html>
+
