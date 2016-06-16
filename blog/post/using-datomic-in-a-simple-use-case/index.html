@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Using Datomic in a simple use case</title>
+
+  
+  <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
+  
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
+  
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-38752250-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container">
+  <div class="title">
+    <h1><a href="/">Anthony Galea</a></h1>
+  </div>
+  <div class="links">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="fa fa-github-square fa-1x"></i></a>
+      
+      
+      <a href="https://at.linkedin.com/in/anthonygalea" target="_blank"><i class="fa fa-linkedin-square fa-1x"></i></a>
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="fa fa-envelope-square fa-1x"></i></a>
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="fa fa-rss-square fa-1x"></i></a>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+
+
+<div class="content">
+  <div class="post">
+    <div class="post-header">
+      <h1 class="post-title">Using Datomic in a simple use case</h1>
+      <span class="post-date">
+      Jun 16, 2016 &middot; 8 minute read
+      
+      <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
+      
+
+      
+      </span>
+    </div>
+    <div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In a <a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api">previous post</a> we started building an account service in Clojure using <a href="https://github.com/metosin/compojure-api">compojure-api</a>. In this post we will add persistence using <a href="http://www.datomic.com/">datomic</a>. The sources are available on <a href="http://github.com/anthonygalea/account-service">github</a>. For an introduction to Datomic as well as the value-proposition behind it you should take a look at the <a href="http://www.datomic.com/training.html">training resources on the Datomic website</a>. If the videos are too much of an investment at this stage, you might want to take a look at Daniel Higginbotham&#8217;s article <a href="http://www.flyingmachinestudios.com/programming/datomic-for-five-year-olds/">Datomic for Five Year Olds</a>. Just as a quick reminder, the service should support creating accounts and transferring money from one account to another. Here are the Swagger docs for the API:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2016-06-16-swagger.png" alt="2016 06 16 swagger">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_schema">The Schema</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We will start by defining the schema for datomic. Under the <code>resources</code> folder create a file named <code>schema.dtm</code>. This will hold the datomic schema definition. An account only has one field: <code>balance</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
+ <span class="tok-ss">:db/ident</span>              <span class="tok-ss">:account/balance</span>
+ <span class="tok-ss">:db/valueType</span>          <span class="tok-ss">:db.type/bigdec</span>
+ <span class="tok-ss">:db/cardinality</span>        <span class="tok-ss">:db.cardinality/one</span>
+ <span class="tok-ss">:db/doc</span>                <span class="tok-s">&quot;An account&#39;s balance&quot;</span>
+ <span class="tok-ss">:db.install/_attribute</span> <span class="tok-ss">:db.part/db</span><span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For transfers we need: <code>from-account</code>, <code>to-account</code>, <code>amount</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
+ <span class="tok-ss">:db/ident</span>              <span class="tok-ss">:transfer/amount</span>
+ <span class="tok-ss">:db/valueType</span>          <span class="tok-ss">:db.type/bigdec</span>
+ <span class="tok-ss">:db/cardinality</span>        <span class="tok-ss">:db.cardinality/one</span>
+ <span class="tok-ss">:db/doc</span>                <span class="tok-s">&quot;A transaction&#39;s amount&quot;</span>
+ <span class="tok-ss">:db.install/_attribute</span> <span class="tok-ss">:db.part/db</span><span class="tok-p">}</span>
+
+<span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
+ <span class="tok-ss">:db/ident</span>              <span class="tok-ss">:transfer/from-account</span>
+ <span class="tok-ss">:db/valueType</span>          <span class="tok-ss">:db.type/ref</span>
+ <span class="tok-ss">:db/cardinality</span>        <span class="tok-ss">:db.cardinality/one</span>
+ <span class="tok-ss">:db/doc</span>                <span class="tok-s">&quot;An account from which to transfer money&quot;</span>
+ <span class="tok-ss">:db.install/_attribute</span> <span class="tok-ss">:db.part/db</span><span class="tok-p">}</span>
+
+<span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
+ <span class="tok-ss">:db/ident</span>              <span class="tok-ss">:transfer/to-account</span>
+ <span class="tok-ss">:db/valueType</span>          <span class="tok-ss">:db.type/ref</span>
+ <span class="tok-ss">:db/cardinality</span>        <span class="tok-ss">:db.cardinality/one</span>
+ <span class="tok-ss">:db/doc</span>                <span class="tok-s">&quot;An account to which to transfer money&quot;</span>
+ <span class="tok-ss">:db.install/_attribute</span> <span class="tok-ss">:db.part/db</span><span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We will also use an additional field called <code>status</code> to keep track of what happened to a transfer request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
+ <span class="tok-ss">:db/ident</span>              <span class="tok-ss">:transfer/status</span>
+ <span class="tok-ss">:db/valueType</span>          <span class="tok-ss">:db.type/ref</span>
+ <span class="tok-ss">:db/cardinality</span>        <span class="tok-ss">:db.cardinality/one</span>
+ <span class="tok-ss">:db/doc</span>                <span class="tok-s">&quot;The status of a transfer&quot;</span>
+ <span class="tok-ss">:db.install/_attribute</span> <span class="tok-ss">:db.part/db</span><span class="tok-p">}</span>
+
+<span class="tok-p">[</span><span class="tok-ss">:db/add</span> <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/user</span><span class="tok-p">]</span> <span class="tok-ss">:db/ident</span> <span class="tok-ss">:transfer.status/pending</span><span class="tok-p">]</span>
+<span class="tok-p">[</span><span class="tok-ss">:db/add</span> <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/user</span><span class="tok-p">]</span> <span class="tok-ss">:db/ident</span> <span class="tok-ss">:transfer.status/success</span><span class="tok-p">]</span>
+<span class="tok-p">[</span><span class="tok-ss">:db/add</span> <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/user</span><span class="tok-p">]</span> <span class="tok-ss">:db/ident</span> <span class="tok-ss">:transfer.status/insufficient-funds</span><span class="tok-p">]</span>
+<span class="tok-p">[</span><span class="tok-ss">:db/add</span> <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/user</span><span class="tok-p">]</span> <span class="tok-ss">:db/ident</span> <span class="tok-ss">:transfer.status/no-such-from-account</span><span class="tok-p">]</span>
+<span class="tok-p">[</span><span class="tok-ss">:db/add</span> <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/user</span><span class="tok-p">]</span> <span class="tok-ss">:db/ident</span> <span class="tok-ss">:transfer.status/no-such-to-account</span><span class="tok-p">]</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The intention is for requests to start in status <code>pending</code> and transition them accordingly based on the outcome of the transaction:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2016-06-16-status.png" alt="2016 06 16 status">
+</div>
+</div>
+<div class="paragraph">
+<p>Next create a file under <code>src/account_service</code> called <code>db.clj</code>. In it we <code>:require datomic.api</code> and define the connection to datomic:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.db</span>
+  <span class="tok-p">(</span><span class="tok-ss">:require</span> <span class="tok-p">[</span><span class="tok-nv">datomic.api</span> <span class="tok-ss">:as</span> <span class="tok-nv">d</span><span class="tok-p">]))</span>
+
+<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">uri</span> <span class="tok-s">&quot;datomic:free://localhost:4334/account-service-db&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">d/connect</span> <span class="tok-nv">uri</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_testing_with_midje">Testing with Midje</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before we implement any of the functionality to deal with datomic let&#8217;s write some tests. Create a file named <code>db_test.clj</code> under <code>test/account_service</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.db-test</span>
+  <span class="tok-p">(</span><span class="tok-ss">:require</span> <span class="tok-p">[</span><span class="tok-nv">account-service.db</span> <span class="tok-ss">:refer</span> <span class="tok-ss">:all</span><span class="tok-p">]</span>
+            <span class="tok-p">[</span><span class="tok-nv">midje.sweet</span> <span class="tok-ss">:refer</span> <span class="tok-ss">:all</span><span class="tok-p">]</span>
+            <span class="tok-p">[</span><span class="tok-nv">datomic.api</span> <span class="tok-ss">:as</span> <span class="tok-nv">d</span><span class="tok-p">]))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice we use the <a href="https://github.com/marick/Midje">midje</a> and datomic libraries for our tests so add these dependencies in <code>project.clj</code>, as well as the <code>lein-datomic</code> and <code>lein-midje</code> plugins:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defproject </span><span class="tok-nv">account-service</span> <span class="tok-s">&quot;0.1.0-SNAPSHOT&quot;</span>
+  <span class="tok-ss">:dependencies</span> <span class="tok-p">[[</span><span class="tok-nv">org.clojure/clojure</span> <span class="tok-s">&quot;1.8.0&quot;</span><span class="tok-p">]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">com.datomic/datomic-free</span> <span class="tok-s">&quot;0.9.5350&quot;</span><span class="tok-p">]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">clj-time</span> <span class="tok-s">&quot;0.11.0&quot;</span><span class="tok-p">]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">expectations</span> <span class="tok-s">&quot;2.1.8&quot;</span><span class="tok-p">]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">metosin/compojure-api</span> <span class="tok-s">&quot;1.0.2&quot;</span><span class="tok-p">]]</span>
+  <span class="tok-ss">:plugins</span> <span class="tok-p">[[</span><span class="tok-nv">lein-datomic</span> <span class="tok-s">&quot;0.2.0&quot;</span><span class="tok-p">]]</span>
+  <span class="tok-ss">:ring</span> <span class="tok-p">{</span><span class="tok-ss">:handler</span> <span class="tok-nv">account-service.core/app</span><span class="tok-p">}</span>
+  <span class="tok-ss">:datomic</span> <span class="tok-p">{</span><span class="tok-ss">:schemas</span> <span class="tok-p">[</span><span class="tok-s">&quot;resources&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;schema.dtm&quot;</span><span class="tok-p">]]}</span>
+  <span class="tok-ss">:profiles</span> <span class="tok-p">{</span><span class="tok-ss">:dev</span>
+             <span class="tok-p">{</span><span class="tok-ss">:plugins</span>      <span class="tok-p">[[</span><span class="tok-nv">lein-ring</span> <span class="tok-s">&quot;0.9.7&quot;</span><span class="tok-p">]</span>
+                             <span class="tok-p">[</span><span class="tok-nv">lein-midje</span> <span class="tok-s">&quot;3.2&quot;</span><span class="tok-p">]]</span>
+              <span class="tok-ss">:dependencies</span> <span class="tok-p">[[</span><span class="tok-nv">javax.servlet/servlet-api</span> <span class="tok-s">&quot;2.5&quot;</span><span class="tok-p">]</span>
+                             <span class="tok-p">[</span><span class="tok-nv">cheshire</span> <span class="tok-s">&quot;5.6.1&quot;</span><span class="tok-p">]</span>
+                             <span class="tok-p">[</span><span class="tok-nv">ring/ring-mock</span> <span class="tok-s">&quot;0.3.0&quot;</span><span class="tok-p">]</span>
+                             <span class="tok-p">[</span><span class="tok-nv">midje</span> <span class="tok-s">&quot;1.8.3&quot;</span><span class="tok-p">]]</span>
+              <span class="tok-ss">:datomic</span>      <span class="tok-p">{</span><span class="tok-ss">:config</span> <span class="tok-s">&quot;resources/free-transactor.properties&quot;</span>
+                             <span class="tok-ss">:db-uri</span> <span class="tok-s">&quot;datomic:free://localhost:4334/account-service-db&quot;</span><span class="tok-p">}}})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Having defined our dependencies, let&#8217;s create a function that will allow the tests to work with an <code>in-memory database</code> in <code>core_test.clj</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">create-empty-in-memory-db</span> <span class="tok-p">[]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">uri</span> <span class="tok-s">&quot;datomic:mem://account-service-test-db&quot;</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-nf">d/delete-database</span> <span class="tok-nv">uri</span><span class="tok-p">)</span>
+    <span class="tok-p">(</span><span class="tok-nf">d/create-database</span> <span class="tok-nv">uri</span><span class="tok-p">)</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">d/connect</span> <span class="tok-nv">uri</span><span class="tok-p">)</span>
+          <span class="tok-nv">schema</span> <span class="tok-p">(</span><span class="tok-nf">read-string</span> <span class="tok-p">(</span><span class="tok-nb">slurp </span><span class="tok-s">&quot;resources/schema.dtm&quot;</span><span class="tok-p">))]</span>
+      <span class="tok-p">(</span><span class="tok-nf">d/transact</span> <span class="tok-nv">conn</span> <span class="tok-nv">schema</span><span class="tok-p">)</span>
+      <span class="tok-nv">conn</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Every time we call this function we are dropping the database, recreating it and applying the schema. Next let&#8217;s write our first test for creating accounts:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Adding one account should allow us to find that account using the returned id&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">161.80</span><span class="tok-nv">M</span><span class="tok-p">})]</span>
+      <span class="tok-p">(</span><span class="tok-nf">get-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">account</span><span class="tok-p">))</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">{</span><span class="tok-ss">:id</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">account</span><span class="tok-p">)</span> <span class="tok-ss">:balance</span> <span class="tok-mf">161.80</span><span class="tok-nv">M</span><span class="tok-p">})))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This says we should be able to add an account to the system by providing an initial balance using the function <code>add-account</code>. Also we should be able to find said account using the function <code>get-account</code>, via the id returned by <code>add-account</code>. <code>with-redefs</code> temporarily redefines <code>conn</code> in <code>db.clj</code> so that the tests use the in-memory database. Before implementing these two methods let&#8217;s define one more test:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Adding multiple accounts should allow us to find all those accounts&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">account-1</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">12.34</span><span class="tok-nv">M</span><span class="tok-p">})</span>
+          <span class="tok-nv">account-2</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">56.78</span><span class="tok-nv">M</span><span class="tok-p">})</span>
+          <span class="tok-nv">account-3</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">12.34</span><span class="tok-nv">M</span><span class="tok-p">})]</span>
+      <span class="tok-p">(</span><span class="tok-nf">get-accounts</span><span class="tok-p">)</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">[{</span><span class="tok-ss">:id</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">account-1</span><span class="tok-p">)</span> <span class="tok-ss">:balance</span> <span class="tok-mf">12.34</span><span class="tok-nv">M</span><span class="tok-p">}</span>
+                         <span class="tok-p">{</span><span class="tok-ss">:id</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">account-2</span><span class="tok-p">)</span> <span class="tok-ss">:balance</span> <span class="tok-mf">56.78</span><span class="tok-nv">M</span><span class="tok-p">}</span>
+                         <span class="tok-p">{</span><span class="tok-ss">:id</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">account-3</span><span class="tok-p">)</span> <span class="tok-ss">:balance</span> <span class="tok-mf">12.34</span><span class="tok-nv">M</span><span class="tok-p">}])))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our second test says we should be able to add multiple accounts to the system, and subsequently be able to find all such accounts using the function <code>get-accounts</code>. We can run these tests by switching to the root folder in the shell and executing:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span>lein midje</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Of course the tests fail so let&#8217;s proceed to the implementation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_accounts">Accounts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Open <code>db.clj</code> and add the <code>add-account</code> function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">add-account</span>
+  <span class="tok-s">&quot;Adds an account&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">account</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">balance</span> <span class="tok-p">(</span><span class="tok-nf">bigdec</span> <span class="tok-p">(</span><span class="tok-ss">:balance</span> <span class="tok-nv">account</span><span class="tok-p">))</span>
+        <span class="tok-nv">res</span> <span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-p">(</span><span class="tok-ss">:tx-data</span>
+                     <span class="tok-o">@</span><span class="tok-p">(</span><span class="tok-nf">d/transact</span> <span class="tok-nv">conn</span>
+                                  <span class="tok-p">[{</span><span class="tok-ss">:db/id</span>           <span class="tok-p">(</span><span class="tok-nf">d/tempid</span> <span class="tok-ss">:db.part/user</span><span class="tok-p">)</span>
+                                    <span class="tok-ss">:account/balance</span> <span class="tok-nv">balance</span><span class="tok-p">}])))]</span>
+    <span class="tok-p">{</span><span class="tok-ss">:id</span>      <span class="tok-p">(</span><span class="tok-ss">:e</span> <span class="tok-nv">res</span><span class="tok-p">)</span>
+     <span class="tok-ss">:balance</span> <span class="tok-p">(</span><span class="tok-ss">:v</span> <span class="tok-nv">res</span><span class="tok-p">)}))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We use the datomic <code>transact</code> function to add an account with a balance. Next we write our <code>get-account</code> and <code>get-accounts</code> functions to retrieve accounts we create using <code>add-account</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">get-account</span>
+  <span class="tok-s">&quot;Retrieves an account given it&#39;s id&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">id</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">res</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-p">(</span><span class="tok-nf">d/q</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-ss">:find</span> <span class="tok-nv">?id</span> <span class="tok-nv">?balance</span>
+                          <span class="tok-ss">:in</span> <span class="tok-nv">$</span> <span class="tok-nv">?id</span>
+                          <span class="tok-ss">:where</span> <span class="tok-p">[</span><span class="tok-nv">?id</span> <span class="tok-ss">:account/balance</span> <span class="tok-nv">?balance</span><span class="tok-p">]]</span>
+                        <span class="tok-p">(</span><span class="tok-nf">d/db</span> <span class="tok-nv">conn</span><span class="tok-p">)</span>
+                        <span class="tok-nv">id</span><span class="tok-p">))]</span>
+    <span class="tok-p">{</span><span class="tok-ss">:id</span>      <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">res</span><span class="tok-p">)</span>
+     <span class="tok-ss">:balance</span> <span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-nv">res</span><span class="tok-p">)}))</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">get-accounts</span>
+  <span class="tok-s">&quot;Retrieves all accounts&quot;</span>
+  <span class="tok-p">[]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">res</span> <span class="tok-p">(</span><span class="tok-nf">d/q</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-ss">:find</span> <span class="tok-nv">?a</span> <span class="tok-nv">?balance</span>
+                   <span class="tok-ss">:where</span> <span class="tok-p">[</span><span class="tok-nv">?a</span> <span class="tok-ss">:account/balance</span> <span class="tok-nv">?balance</span><span class="tok-p">]]</span>
+                 <span class="tok-p">(</span><span class="tok-nf">d/db</span> <span class="tok-nv">conn</span><span class="tok-p">))]</span>
+    <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">hash-map </span><span class="tok-ss">:id</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-ss">:balance</span> <span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-nv">%</span><span class="tok-p">))</span> <span class="tok-nv">res</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We use the datomic <code>q</code> function to perform queries. The query language used is <a href="https://en.wikipedia.org/wiki/Datalog">datalog</a>. For an overview of <code>datalog</code> you can check out <a href="http://www.learndatalogtoday.org/">learndatalogtoday.org</a>. At this point you should be able to run <code>lein midje</code> in the shell and the tests should be green.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transfers">Transfers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Moving on to transfers let&#8217;s write some more tests in <code>db_test.clj</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Making a transfer between two valid accounts with sufficient funds should succeed&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">from-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">1618.00</span><span class="tok-nv">M</span><span class="tok-p">})</span>
+            <span class="tok-nv">to-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">200.00</span><span class="tok-nv">M</span><span class="tok-p">})]</span>
+      <span class="tok-p">(</span><span class="tok-nf">make-transfer</span> <span class="tok-p">{</span><span class="tok-ss">:from-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">from-account</span><span class="tok-p">)</span>
+                      <span class="tok-ss">:to-account</span>   <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">to-account</span><span class="tok-p">)</span>
+                      <span class="tok-ss">:amount</span>       <span class="tok-mf">12.34</span><span class="tok-nv">M</span><span class="tok-p">})</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">(</span><span class="tok-nf">contains</span> <span class="tok-p">{</span><span class="tok-ss">:from-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">from-account</span><span class="tok-p">)</span>
+                                                           <span class="tok-ss">:to-account</span>   <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">to-account</span><span class="tok-p">)</span>
+                                                           <span class="tok-ss">:amount</span>       <span class="tok-mf">12.34</span><span class="tok-nv">M</span>
+                                                           <span class="tok-ss">:status</span>       <span class="tok-ss">:transfer.status/success</span><span class="tok-p">})</span>
+                      <span class="tok-p">(</span><span class="tok-nf">get-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">from-account</span><span class="tok-p">))</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">{</span><span class="tok-ss">:id</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">from-account</span><span class="tok-p">)</span> <span class="tok-ss">:balance</span> <span class="tok-p">(</span><span class="tok-nb">- </span><span class="tok-mf">1618.00</span><span class="tok-nv">M</span> <span class="tok-mf">12.34</span><span class="tok-nv">M</span><span class="tok-p">)}</span>
+                      <span class="tok-p">(</span><span class="tok-nf">get-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">to-account</span><span class="tok-p">))</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">{</span><span class="tok-ss">:id</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">to-account</span><span class="tok-p">)</span> <span class="tok-ss">:balance</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-mf">200.00</span><span class="tok-nv">M</span> <span class="tok-mf">12.34</span><span class="tok-nv">M</span><span class="tok-p">)})))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This tests starts by creating two accounts in the system and then proceeds to make a transfer between these accounts. Since the accounts are valid we expect that the transfer succeeds i.e. status is set to <code>transfer.status/success</code>. Let&#8217;s now proceed to write some more tests for cases where the transfer fails:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Making a transfer from an account with insufficient funds should fail with status insufficient-funds&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">from-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">18.00</span><span class="tok-nv">M</span><span class="tok-p">})</span>
+            <span class="tok-nv">to-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">200.00</span><span class="tok-nv">M</span><span class="tok-p">})</span>
+              <span class="tok-nv">transfer</span> <span class="tok-p">(</span><span class="tok-nf">make-transfer</span> <span class="tok-p">{</span><span class="tok-ss">:from-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">from-account</span><span class="tok-p">)</span> <span class="tok-ss">:to-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">to-account</span><span class="tok-p">)</span> <span class="tok-ss">:amount</span> <span class="tok-mf">100.23</span><span class="tok-nv">M</span><span class="tok-p">})]</span>
+      <span class="tok-p">(</span><span class="tok-nf">get-transfer</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">transfer</span><span class="tok-p">))</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">{</span><span class="tok-ss">:id</span>           <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">transfer</span><span class="tok-p">)</span>
+                                        <span class="tok-ss">:from-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">from-account</span><span class="tok-p">)</span>
+                                        <span class="tok-ss">:to-account</span>   <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">to-account</span><span class="tok-p">)</span>
+                                        <span class="tok-ss">:amount</span>       <span class="tok-mf">100.23</span><span class="tok-nv">M</span>
+                                        <span class="tok-ss">:status</span>       <span class="tok-ss">:transfer.status/insufficient-funds</span><span class="tok-p">})))</span>
+
+<span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Making a transfer from an account which doesn&#39;t exist should fail with status no-such-from-account&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">to-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">180.00</span><span class="tok-nv">M</span><span class="tok-p">})</span>
+            <span class="tok-nv">transfer</span> <span class="tok-p">(</span><span class="tok-nf">make-transfer</span> <span class="tok-p">{</span><span class="tok-ss">:from-account</span> <span class="tok-mi">928374</span> <span class="tok-ss">:to-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">to-account</span><span class="tok-p">)</span> <span class="tok-ss">:amount</span> <span class="tok-mf">80.23</span><span class="tok-nv">M</span><span class="tok-p">})]</span>
+      <span class="tok-p">(</span><span class="tok-nf">get-transfer</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">transfer</span><span class="tok-p">))</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">{</span><span class="tok-ss">:id</span>           <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">transfer</span><span class="tok-p">)</span>
+                                        <span class="tok-ss">:from-account</span> <span class="tok-mi">928374</span>
+                                        <span class="tok-ss">:to-account</span>   <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">to-account</span><span class="tok-p">)</span>
+                                        <span class="tok-ss">:amount</span>       <span class="tok-mf">80.23</span><span class="tok-nv">M</span>
+                                        <span class="tok-ss">:status</span>       <span class="tok-ss">:transfer.status/no-such-from-account</span><span class="tok-p">})))</span>
+
+<span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Making a transfer to an account which doesn&#39;t exist should fail with status no-such-to-account&quot;</span>
+  <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
+    <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">from-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">138.00</span><span class="tok-nv">M</span><span class="tok-p">})</span>
+              <span class="tok-nv">transfer</span> <span class="tok-p">(</span><span class="tok-nf">make-transfer</span> <span class="tok-p">{</span><span class="tok-ss">:from-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">from-account</span><span class="tok-p">)</span> <span class="tok-ss">:to-account</span> <span class="tok-mi">98234619</span> <span class="tok-ss">:amount</span> <span class="tok-mf">100.23</span><span class="tok-nv">M</span><span class="tok-p">})]</span>
+      <span class="tok-p">(</span><span class="tok-nf">get-transfer</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">transfer</span><span class="tok-p">))</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">{</span><span class="tok-ss">:id</span>           <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">transfer</span><span class="tok-p">)</span>
+                                        <span class="tok-ss">:from-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">from-account</span><span class="tok-p">)</span>
+                                        <span class="tok-ss">:to-account</span>   <span class="tok-mi">98234619</span>
+                                        <span class="tok-ss">:amount</span>       <span class="tok-mf">100.23</span><span class="tok-nv">M</span>
+                                        <span class="tok-ss">:status</span>       <span class="tok-ss">:transfer.status/no-such-to-account</span><span class="tok-p">})))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When we make a transfer we want to simultaneously update the transfer status as well as the balances in the respective accounts (if the transfer is possible) in a transaction. We implement this transaction using a datomic <code>database function</code> which we define in our <code>schema.dtm</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">{</span><span class="tok-ss">:db/id</span>    <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/user</span><span class="tok-p">]</span>
+ <span class="tok-ss">:db/ident</span> <span class="tok-ss">:make-transfer</span>
+ <span class="tok-ss">:db/doc</span>   <span class="tok-s">&quot;Performs a transfer between two accounts&quot;</span>
+ <span class="tok-ss">:db/fn</span>    <span class="tok-o">#</span><span class="tok-nv">db/fn</span>
+             <span class="tok-p">{</span><span class="tok-ss">:lang</span>   <span class="tok-s">&quot;clojure&quot;</span>
+              <span class="tok-ss">:params</span> <span class="tok-p">[</span><span class="tok-nv">db</span> <span class="tok-nv">transfer-id</span> <span class="tok-nv">from-account</span> <span class="tok-nv">to-account</span> <span class="tok-nv">amount</span><span class="tok-p">]</span>
+              <span class="tok-ss">:code</span>   <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">f</span> <span class="tok-p">(</span><span class="tok-nf">datomic.api/entity</span> <span class="tok-nv">db</span> <span class="tok-nv">from-account</span><span class="tok-p">)</span>
+                            <span class="tok-nv">t</span> <span class="tok-p">(</span><span class="tok-nf">datomic.api/entity</span> <span class="tok-nv">db</span> <span class="tok-nv">to-account</span><span class="tok-p">)</span>
+                            <span class="tok-nv">f-balance</span> <span class="tok-p">(</span><span class="tok-ss">:account/balance</span> <span class="tok-nv">f</span><span class="tok-p">)</span>
+                            <span class="tok-nv">t-balance</span> <span class="tok-p">(</span><span class="tok-ss">:account/balance</span> <span class="tok-nv">t</span><span class="tok-p">)]</span>
+                        <span class="tok-p">(</span><span class="tok-nf">cond</span>
+                          <span class="tok-p">(</span><span class="tok-nb">nil? </span><span class="tok-nv">f-balance</span><span class="tok-p">)</span> <span class="tok-p">[[</span><span class="tok-ss">:db/add</span> <span class="tok-nv">transfer-id</span> <span class="tok-ss">:transfer/status</span> <span class="tok-ss">:transfer.status/no-such-from-account</span><span class="tok-p">]]</span>
+                          <span class="tok-p">(</span><span class="tok-nb">nil? </span><span class="tok-nv">t-balance</span><span class="tok-p">)</span> <span class="tok-p">[[</span><span class="tok-ss">:db/add</span> <span class="tok-nv">transfer-id</span> <span class="tok-ss">:transfer/status</span> <span class="tok-ss">:transfer.status/no-such-to-account</span><span class="tok-p">]]</span>
+                          <span class="tok-p">(</span><span class="tok-nb">&lt; </span><span class="tok-nv">f-balance</span> <span class="tok-nv">amount</span><span class="tok-p">)</span> <span class="tok-p">[[</span><span class="tok-ss">:db/add</span> <span class="tok-nv">transfer-id</span> <span class="tok-ss">:transfer/status</span> <span class="tok-ss">:transfer.status/insufficient-funds</span><span class="tok-p">]]</span>
+                          <span class="tok-ss">:else</span> <span class="tok-p">[[</span><span class="tok-ss">:db/add</span> <span class="tok-nv">transfer-id</span> <span class="tok-ss">:transfer/status</span> <span class="tok-ss">:transfer.status/success</span><span class="tok-p">]</span>
+                                <span class="tok-p">[</span><span class="tok-ss">:db/add</span> <span class="tok-nv">from-account</span> <span class="tok-ss">:account/balance</span> <span class="tok-p">(</span><span class="tok-nb">- </span><span class="tok-nv">f-balance</span> <span class="tok-nv">amount</span><span class="tok-p">)]</span>
+                                <span class="tok-p">[</span><span class="tok-ss">:db/add</span> <span class="tok-nv">to-account</span> <span class="tok-ss">:account/balance</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">t-balance</span> <span class="tok-nv">amount</span><span class="tok-p">)]]))}}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We then use this <code>database function</code> in <code>db.clj</code> by passing it to <code>d/transact</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">make-transfer</span>
+  <span class="tok-s">&quot;Performs a transfer&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">transfer</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">amount</span> <span class="tok-p">(</span><span class="tok-nf">bigdec</span> <span class="tok-p">(</span><span class="tok-ss">:amount</span> <span class="tok-nv">transfer</span><span class="tok-p">))</span>
+           <span class="tok-nv">res</span> <span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-p">(</span><span class="tok-ss">:tx-data</span>
+                        <span class="tok-o">@</span><span class="tok-p">(</span><span class="tok-nf">d/transact</span> <span class="tok-nv">conn</span>
+                                     <span class="tok-p">[{</span><span class="tok-ss">:db/id</span>                 <span class="tok-p">(</span><span class="tok-nf">d/tempid</span> <span class="tok-ss">:db.part/user</span><span class="tok-p">)</span>
+                                       <span class="tok-ss">:transfer/from-account</span> <span class="tok-p">(</span><span class="tok-ss">:from-account</span> <span class="tok-nv">transfer</span><span class="tok-p">)</span>
+                                       <span class="tok-ss">:transfer/to-account</span>   <span class="tok-p">(</span><span class="tok-ss">:to-account</span> <span class="tok-nv">transfer</span><span class="tok-p">)</span>
+                                       <span class="tok-ss">:transfer/amount</span>       <span class="tok-nv">amount</span>
+                                       <span class="tok-ss">:transfer/status</span>       <span class="tok-ss">:transfer.status/pending</span><span class="tok-p">}])))]</span>
+    <span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">x</span> <span class="tok-o">@</span><span class="tok-p">(</span><span class="tok-nf">d/transact</span> <span class="tok-nv">conn</span> <span class="tok-p">[[</span><span class="tok-ss">:make-transfer</span>
+                               <span class="tok-p">(</span><span class="tok-ss">:e</span> <span class="tok-nv">res</span><span class="tok-p">)</span>
+                               <span class="tok-p">(</span><span class="tok-ss">:from-account</span> <span class="tok-nv">transfer</span><span class="tok-p">)</span>
+                               <span class="tok-p">(</span><span class="tok-ss">:to-account</span> <span class="tok-nv">transfer</span><span class="tok-p">)</span>
+                               <span class="tok-p">(</span><span class="tok-ss">:amount</span> <span class="tok-nv">transfer</span><span class="tok-p">)]]))</span>
+    <span class="tok-p">(</span><span class="tok-nf">get-transfer</span> <span class="tok-p">(</span><span class="tok-ss">:e</span> <span class="tok-nv">res</span><span class="tok-p">))))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s wire the functions we created in <code>db.clj</code> to our API. Go to <code>core.clj</code> and modify the endpoint definitions as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">app</span>
+  <span class="tok-p">(</span><span class="tok-nf">api</span>
+    <span class="tok-p">{</span><span class="tok-ss">:swagger</span>
+     <span class="tok-p">{</span><span class="tok-ss">:ui</span>   <span class="tok-s">&quot;/&quot;</span>
+      <span class="tok-ss">:spec</span> <span class="tok-s">&quot;/swagger.json&quot;</span>
+      <span class="tok-ss">:data</span> <span class="tok-p">{</span><span class="tok-ss">:info</span> <span class="tok-p">{</span><span class="tok-ss">:title</span>       <span class="tok-s">&quot;Account Service&quot;</span>
+                    <span class="tok-ss">:description</span> <span class="tok-s">&quot;A simple service for handling accounts and transfers between the accounts.&quot;</span><span class="tok-p">}</span>
+             <span class="tok-ss">:tags</span> <span class="tok-p">[{</span><span class="tok-ss">:name</span> <span class="tok-s">&quot;api&quot;</span><span class="tok-p">}]}}}</span>
+
+    <span class="tok-p">(</span><span class="tok-nf">context</span> <span class="tok-s">&quot;/api&quot;</span> <span class="tok-p">[]</span>
+             <span class="tok-ss">:tags</span> <span class="tok-p">[</span><span class="tok-s">&quot;api&quot;</span><span class="tok-p">]</span>
+
+             <span class="tok-p">(</span><span class="tok-nf">POST</span> <span class="tok-s">&quot;/account&quot;</span> <span class="tok-p">[]</span>
+                   <span class="tok-ss">:return</span> <span class="tok-nv">Account</span>
+                   <span class="tok-ss">:body</span> <span class="tok-p">[</span><span class="tok-nv">account</span> <span class="tok-p">(</span><span class="tok-nf">describe</span> <span class="tok-nv">NewAccount</span> <span class="tok-s">&quot;new account&quot;</span><span class="tok-p">)]</span>
+                   <span class="tok-ss">:summary</span> <span class="tok-s">&quot;Creates an account in the system with an initial balance&quot;</span>
+                   <span class="tok-p">(</span><span class="tok-nf">ok</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-nv">account</span><span class="tok-p">)))</span>
+
+             <span class="tok-p">(</span><span class="tok-nf">GET</span> <span class="tok-s">&quot;/account/:id&quot;</span> <span class="tok-p">[]</span>
+                  <span class="tok-ss">:path-params</span> <span class="tok-p">[</span><span class="tok-nv">id</span> <span class="tok-ss">:-</span> <span class="tok-nv">Long</span><span class="tok-p">]</span>
+                  <span class="tok-ss">:return</span> <span class="tok-p">(</span><span class="tok-nf">s/maybe</span> <span class="tok-nv">Account</span><span class="tok-p">)</span>
+                  <span class="tok-ss">:summary</span> <span class="tok-s">&quot;Returns all details relevant to an account&quot;</span>
+                  <span class="tok-p">(</span><span class="tok-nf">ok</span> <span class="tok-p">(</span><span class="tok-nf">get-account</span> <span class="tok-nv">id</span><span class="tok-p">)))</span>
+
+             <span class="tok-p">(</span><span class="tok-nf">POST</span> <span class="tok-s">&quot;/transfer&quot;</span> <span class="tok-p">[]</span>
+                   <span class="tok-ss">:return</span> <span class="tok-nv">Transfer</span>
+                   <span class="tok-ss">:body</span> <span class="tok-p">[</span><span class="tok-nv">transfer</span> <span class="tok-p">(</span><span class="tok-nf">describe</span> <span class="tok-nv">NewTransfer</span> <span class="tok-s">&quot;new transfer&quot;</span><span class="tok-p">)]</span>
+                   <span class="tok-ss">:summary</span> <span class="tok-s">&quot;Requests a transfer between two accounts&quot;</span>
+                   <span class="tok-p">(</span><span class="tok-nf">ok</span> <span class="tok-p">(</span><span class="tok-nf">make-transfer</span> <span class="tok-nv">transfer</span><span class="tok-p">)))</span>
+
+             <span class="tok-p">(</span><span class="tok-nf">GET</span> <span class="tok-s">&quot;/accounts&quot;</span> <span class="tok-p">[]</span>
+                  <span class="tok-ss">:return</span> <span class="tok-p">[</span><span class="tok-nv">Account</span><span class="tok-p">]</span>
+                  <span class="tok-ss">:summary</span> <span class="tok-s">&quot;Gets all accounts&quot;</span>
+                  <span class="tok-p">(</span><span class="tok-nf">ok</span> <span class="tok-p">(</span><span class="tok-nf">get-accounts</span><span class="tok-p">))))))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At this point you should be able to go to <a href="http://localhost:3000/index.html" class="bare">http://localhost:3000/index.html</a> in your browser and interact with the service:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2016-06-16-swagger.png" alt="2016 06 16 swagger">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this post we have extended the API from an <a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api">earlier post</a> to use datomic for persistence. You can find all the source code on <a href="http://github.com/anthonygalea/account-service">github</a>.</p>
+</div>
+</div>
+</div>
+
+
+    <div class="post-footer">
+      <div class="paragraph">
+        
+        <a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">← Previous Post</a>
+        
+        
+        <a class="pull-right" href="/">Blog →</a>
+        
+      </div>
+
+    
+    
+    
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+
+    <h1>See also</h1>
+      <div class="paragraph">
+        <ul>
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4clojure Medium Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/">Getting started with compojure-api</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4clojure Easy Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4clojure Elementary Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+      </ul>
+    </div>
+    </div>
+  
+  
+
+</div>
+
+
+
+
+</div>
+<footer>
+  <div class="paragraph">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank">GitHub</i></a> |
+      
+      
+      <a href="https://at.linkedin.com/in/anthonygalea" target="_blank">LinkedIn</a> |
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank">Contact</a> |
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank">RSS Feed</a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.5.3/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+</body>
+</html>
+
