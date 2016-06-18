@@ -24,7 +24,7 @@
   
 
   <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="datomic,introduction,tutorial,example">
   
 
   
@@ -198,10 +198,10 @@
 <div class="content">
 <pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defproject </span><span class="tok-nv">account-service</span> <span class="tok-s">&quot;0.1.0-SNAPSHOT&quot;</span>
   <span class="tok-ss">:dependencies</span> <span class="tok-p">[[</span><span class="tok-nv">org.clojure/clojure</span> <span class="tok-s">&quot;1.8.0&quot;</span><span class="tok-p">]</span>
-                 <span class="tok-p">[</span><span class="tok-nv">com.datomic/datomic-free</span> <span class="tok-s">&quot;0.9.5350&quot;</span><span class="tok-p">]</span>
-                 <span class="tok-p">[</span><span class="tok-nv">clj-time</span> <span class="tok-s">&quot;0.11.0&quot;</span><span class="tok-p">]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">com.datomic/datomic-free</span> <span class="tok-s">&quot;0.9.5372&quot;</span><span class="tok-p">]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">clj-time</span> <span class="tok-s">&quot;0.12.0&quot;</span><span class="tok-p">]</span>
                  <span class="tok-p">[</span><span class="tok-nv">expectations</span> <span class="tok-s">&quot;2.1.8&quot;</span><span class="tok-p">]</span>
-                 <span class="tok-p">[</span><span class="tok-nv">metosin/compojure-api</span> <span class="tok-s">&quot;1.0.2&quot;</span><span class="tok-p">]]</span>
+                 <span class="tok-p">[</span><span class="tok-nv">metosin/compojure-api</span> <span class="tok-s">&quot;1.1.2&quot;</span><span class="tok-p">]]</span>
   <span class="tok-ss">:plugins</span> <span class="tok-p">[[</span><span class="tok-nv">lein-datomic</span> <span class="tok-s">&quot;0.2.0&quot;</span><span class="tok-p">]]</span>
   <span class="tok-ss">:ring</span> <span class="tok-p">{</span><span class="tok-ss">:handler</span> <span class="tok-nv">account-service.core/app</span><span class="tok-p">}</span>
   <span class="tok-ss">:datomic</span> <span class="tok-p">{</span><span class="tok-ss">:schemas</span> <span class="tok-p">[</span><span class="tok-s">&quot;resources&quot;</span> <span class="tok-p">[</span><span class="tok-s">&quot;schema.dtm&quot;</span><span class="tok-p">]]}</span>
