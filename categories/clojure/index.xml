@@ -6,8 +6,190 @@
     <description>Recent content in Clojure on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 16 Jun 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 Jul 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.anthony-galea.com/categories/clojure/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Simulating a parking lot with Clojure Refs</title>
+      <link>http://www.anthony-galea.com/blog/post/simulating-a-parking-lot-with-clojure-refs/</link>
+      <pubDate>Thu, 21 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.anthony-galea.com/blog/post/simulating-a-parking-lot-with-clojure-refs/</guid>
+      <description>&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;In this post we will use a simple problem to illustrate &lt;a href=&#34;http://clojure.org/reference/refs&#34;&gt;Clojure Refs&lt;/a&gt;. All sources are on &lt;a href=&#34;https://github.com/anthonygalea/garage-simulation&#34;&gt;github&lt;/a&gt;. The problem is to simulate operations on a garage used for parking vehicles.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;img src=&#34;http://www.anthony-galea.com/images/2017-07-21-parking.png&#34; alt=&#34;2017 07 21 parking&#34;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;The vehicles are uniquely identified using their &lt;code&gt;licence plate&lt;/code&gt;. We will represent locations in the parking lot with vectors like &lt;code&gt;[1 2]&lt;/code&gt;. This vector would represent parking space 2 on level 1. The operations required are:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;locate-vehicle&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Given a licence plate, returns the location of a vehicle as a vector with the&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;   level and parking space number, nil if not present.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;])&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;number-of-free-parking-spaces&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Returns the current number of free parking spaces in the garage.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[])&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;enter-garage&lt;/span&gt;
+   &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Simulates a vehicle entering the garage. Return the state of the garage if&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;   there is still free space, nil if no empty parking space exists.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;])&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;exit-garage&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Simulates a vehicle exiting the garage. Returns the state of the garage if&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;   such a vehicle exists in the garage, nil otherwise.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;We can describe the garage levels with a map. For example if our garage has two parking levels each holding 15 and 10 parking spaces respectively the map will be:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;def &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;garage-levels&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;15&lt;/span&gt;
+                    &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;This map will be used to initialize the state of the garage:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;initialize-garage&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Sets the initial state of the garage.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;levels&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Based on the signatures of the operations we have defined above we could write a few tests using &lt;a href=&#34;https://github.com/marick/Midje&#34;&gt;midje&lt;/a&gt; to indicate how the operations could be used:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;against-background&lt;/span&gt;
+ &lt;span class=&#34;tok-p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;before&lt;/span&gt; &lt;span class=&#34;tok-ss&#34;&gt;:facts&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;initialize-garage&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;}))]&lt;/span&gt;
+
+ &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;fact&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;After a vehicle enters the garage it should be possible to locate it.&amp;quot;&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ASDF001&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+           &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;enter-garage&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+           &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;locate-vehicle&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;])&lt;/span&gt;
+
+ &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;fact&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;If an attempt to locate an unknown vehicle is made nil should be&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;       returned.&amp;quot;&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;locate-vehicle&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;unknown licence plate&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+ &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;fact&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;After a vehicle enters the garage the number of free parking spaces&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;        should be one less than before.&amp;quot;&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;free-parking-spaces-before&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;number-of-free-parking-spaces&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)]&lt;/span&gt;
+         &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;enter-garage&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ASDF001&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+         &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;number-of-free-parking-spaces&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;dec &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;free-parking-spaces-before&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+
+ &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;fact&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;If too many vehicles try to enter the garage nil should be returned.&amp;quot;&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;enter-garage&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ASDF001&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;enter-garage&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ASDF002&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;enter-garage&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ASDF003&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;enter-garage&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ASDF004&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+
+ &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;fact&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Given a vehicle entered the garage it should be possible for that&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;       vehicle to exit the garage.&amp;quot;&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ASDF001&amp;quot;&lt;/span&gt;
+             &lt;span class=&#34;tok-nv&#34;&gt;free-parking-spaces-before&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;number-of-free-parking-spaces&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)]&lt;/span&gt;
+         &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;enter-garage&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+         &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;exit-garage&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{}&lt;/span&gt;
+         &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;number-of-free-parking-spaces&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;free-parking-spaces-before&lt;/span&gt;
+         &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;locate-vehicle&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+ &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;fact&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;If an unknown vehicle is requested to exit the garage nil should be&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;       returned.&amp;quot;&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;exit-garage&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;ASDF001&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Now let&amp;#8217;s move on to the implementation. We will use two &lt;code&gt;refs&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;def &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;vehicles&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;ref &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{}))&lt;/span&gt; &lt;span class=&#34;tok-c1&#34;&gt;;; {&amp;quot;JAFA017&amp;quot; [1 1] &amp;quot;HSLE328&amp;quot; [1 2]}&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;def &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;empty-parking-spaces&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;ref &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{}))&lt;/span&gt; &lt;span class=&#34;tok-c1&#34;&gt;;; #{[1 3] [1 4]}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;&lt;code&gt;vehicles&lt;/code&gt; that have entered the garage will be tracked in a map using the licence plate as the key and the location assigned as the value. &lt;code&gt;empty-parking-spaces&lt;/code&gt; is a set in which we will store all available parking spaces using vectors like &lt;code&gt;[1 3]&lt;/code&gt; which would indicate a free space on level 1, parking space 3. We can initialize the refs like so:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;initialize-garage&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Sets the initial state of the garage.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;levels&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;dosync&lt;/span&gt;
+   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;ref-set &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;vehicles&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;tok-c1&#34;&gt;;;initially we have no vehicles in the garage&lt;/span&gt;
+   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;ref-set &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;empty-parking-spaces&lt;/span&gt; &lt;span class=&#34;tok-c1&#34;&gt;;;initially a set with all possible parking spaces&lt;/span&gt;
+            &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;into &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;{}&lt;/span&gt;
+                  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;mapcat &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;level&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+                            &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;map &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;vector &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;key &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;level&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;range &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;val &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;level&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))&lt;/span&gt;
+                          &lt;span class=&#34;tok-nv&#34;&gt;levels&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Given this representation it is trivial to define the operations &lt;code&gt;locate-vehicle&lt;/code&gt; and &lt;code&gt;number-of-free-parking-spaces&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;locate-vehicle&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Given a licence plate, returns the location of a vehicle as a vector with the&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;   level and parking space number, nil if not present.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;vehicles&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;number-of-free-parking-spaces&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Returns the current number of free parking spaces in the garage.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[]&lt;/span&gt;
+   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;count &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;empty-parking-spaces&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;For &lt;code&gt;enter-garage&lt;/code&gt; we simply remove one of the entries from &lt;code&gt;empty-parking-spaces&lt;/code&gt; and keep a record of the vehicle entering the garage in &lt;code&gt;vehicles&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;enter-garage&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Simulates a vehicle entering the garage. Return the state of the garage if&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;   there is still free space, nil if no empty parking space exists.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;dosync&lt;/span&gt;
+   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;if-let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;parking-space&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;first &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;empty-parking-spaces&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)]&lt;/span&gt;
+     &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;do&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;alter &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;empty-parking-spaces&lt;/span&gt; &lt;span class=&#34;tok-nb&#34;&gt;disj &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;parking-space&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;alter &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;vehicles&lt;/span&gt; &lt;span class=&#34;tok-nb&#34;&gt;assoc &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;parking-space&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Similarly for &lt;code&gt;exit-garage&lt;/code&gt; we remove the entry from &lt;code&gt;vehicles&lt;/code&gt; and add the location previously occupied by the vehicle back to &lt;code&gt;empty-parking-spaces&lt;/code&gt; so we can use it again in the future:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;exit-garage&lt;/span&gt;
+  &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Simulates a vehicle exiting the garage. Returns the state of the garage if&lt;/span&gt;
+&lt;span class=&#34;tok-s&#34;&gt;   such a vehicle exists in the garage, nil otherwise.&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;dosync&lt;/span&gt;
+   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;if-let &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;vehicle-location&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;locate-vehicle&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)]&lt;/span&gt;
+     &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;do&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;alter &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;empty-parking-spaces&lt;/span&gt; &lt;span class=&#34;tok-nb&#34;&gt;conj &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;vehicle-location&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+       &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;alter &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;vehicles&lt;/span&gt; &lt;span class=&#34;tok-nb&#34;&gt;dissoc &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;licence-plate&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Operations happen within a transaction as indicated by &lt;code&gt;dosync&lt;/code&gt; so we don&amp;#8217;t need to worry about two cars potentially getting assigned the same parking space. If you want to take a look at the complete sources they&amp;#8217;re on &lt;a href=&#34;https://github.com/anthonygalea/garage-simulation&#34;&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Using Datomic in a simple use case</title>
@@ -704,8 +886,8 @@
   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;letfn&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;perfect-square?&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
             &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;== &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;Math/sqrt&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;int &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;Math/sqrt&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))]&lt;/span&gt;
     &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;clojure.string/join&lt;/span&gt; &lt;span class=&#34;tok-s&#34;&gt;&amp;quot;,&amp;quot;&lt;/span&gt;
-    					&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;filter &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;perfect-square?&lt;/span&gt;
-                                &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;map &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;read-string&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;clojure.string/split&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;,&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+                         &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;filter &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;perfect-square?&lt;/span&gt;
+                                 &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;map &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;read-string&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;clojure.string/split&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;,&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1228,10 +1410,10 @@
                    &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))))&lt;/span&gt;
        &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
 &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;24&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
-            &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
-              &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
-                &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
-                  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;* &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))))&lt;/span&gt;
+             &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+               &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+                 &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+                   &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;* &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))))&lt;/span&gt;
       &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt;
 &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;= &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;25&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;__&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
              &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;fn &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;

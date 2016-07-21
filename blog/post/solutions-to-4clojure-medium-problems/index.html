@@ -354,8 +354,8 @@
   <span class="tok-p">(</span><span class="tok-nf">letfn</span> <span class="tok-p">[(</span><span class="tok-nf">perfect-square?</span> <span class="tok-p">[</span><span class="tok-nv">n</span><span class="tok-p">]</span>
             <span class="tok-p">(</span><span class="tok-nb">== </span><span class="tok-p">(</span><span class="tok-nf">Math/sqrt</span> <span class="tok-nv">n</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">int </span><span class="tok-p">(</span><span class="tok-nf">Math/sqrt</span> <span class="tok-nv">n</span><span class="tok-p">))))]</span>
     <span class="tok-p">(</span><span class="tok-nf">clojure.string/join</span> <span class="tok-s">&quot;,&quot;</span>
-    					<span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-nv">perfect-square?</span>
-                                <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-nv">read-string</span> <span class="tok-p">(</span><span class="tok-nf">clojure.string/split</span> <span class="tok-nv">s</span> <span class="tok-o">#</span><span class="tok-s">&quot;,&quot;</span><span class="tok-p">))))))</span></code></pre>
+                         <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-nv">perfect-square?</span>
+                                 <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-nv">read-string</span> <span class="tok-p">(</span><span class="tok-nf">clojure.string/split</span> <span class="tok-nv">s</span> <span class="tok-o">#</span><span class="tok-s">&quot;,&quot;</span><span class="tok-p">))))))</span></code></pre>
 </div>
 </div>
 </div>
@@ -878,10 +878,10 @@
                    <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">a</span> <span class="tok-nv">b</span> <span class="tok-nv">c</span> <span class="tok-nv">d</span><span class="tok-p">))))))</span>
        <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">))</span>
 <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">24</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">a</span><span class="tok-p">]</span>
-            <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">b</span><span class="tok-p">]</span>
-              <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">c</span><span class="tok-p">]</span>
-                <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">d</span><span class="tok-p">]</span>
-                  <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">a</span> <span class="tok-nv">b</span> <span class="tok-nv">c</span> <span class="tok-nv">d</span><span class="tok-p">))))))</span>
+             <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">b</span><span class="tok-p">]</span>
+               <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">c</span><span class="tok-p">]</span>
+                 <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">d</span><span class="tok-p">]</span>
+                   <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">a</span> <span class="tok-nv">b</span> <span class="tok-nv">c</span> <span class="tok-nv">d</span><span class="tok-p">))))))</span>
       <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">))</span>
 <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">25</span> <span class="tok-p">((</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">a</span><span class="tok-p">]</span>
              <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">b</span><span class="tok-p">]</span>
@@ -941,6 +941,12 @@
       
       
       
+        
+      
+    
+      
+      
+      
     
       
       
@@ -984,6 +990,12 @@
     <h1>See also</h1>
       <div class="paragraph">
         <ul>
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/simulating-a-parking-lot-with-clojure-refs/">Simulating a parking lot with Clojure Refs</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
         
           
           
