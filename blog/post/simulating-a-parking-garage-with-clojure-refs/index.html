@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Simulating a parking garage with Clojure Refs</title>
+
+  
+  <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
+  
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
+  
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="clojure refs,introduction,tutorial,example">
+  
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-38752250-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container">
+  <div class="title">
+    <h1><a href="/">Anthony Galea</a></h1>
+  </div>
+  <div class="links">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="fa fa-github-square fa-1x"></i></a>
+      
+      
+      <a href="https://at.linkedin.com/in/anthonygalea" target="_blank"><i class="fa fa-linkedin-square fa-1x"></i></a>
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="fa fa-envelope-square fa-1x"></i></a>
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="fa fa-rss-square fa-1x"></i></a>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+
+
+<div class="content">
+  <div class="post">
+    <div class="post-header">
+      <h1 class="post-title">Simulating a parking garage with Clojure Refs</h1>
+      <span class="post-date">
+      Jul 21, 2016 &middot; 4 minute read
+      
+      <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
+      
+
+      
+      </span>
+    </div>
+    <div class="paragraph">
+<p>In this post we will use a simple problem to illustrate <a href="http://clojure.org/reference/refs">Clojure Refs</a>. All sources are on <a href="https://github.com/anthonygalea/garage-simulation">github</a>. The problem is to simulate operations on a garage used for parking vehicles.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2017-07-21-parking.png" alt="2017 07 21 parking">
+</div>
+</div>
+<div class="paragraph">
+<p>The vehicles are uniquely identified using their <code>licence plate</code>. We will represent locations in the garage with vectors like <code>[1 2]</code>. This vector would represent parking space 2 on level 1. The operations required are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">locate-vehicle</span>
+  <span class="tok-s">&quot;Given a licence plate, returns the location of a vehicle as a vector with the</span>
+<span class="tok-s">   level and parking space number, nil if not present.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">])</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">number-of-free-parking-spaces</span>
+  <span class="tok-s">&quot;Returns the current number of free parking spaces in the garage.&quot;</span>
+  <span class="tok-p">[])</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">enter-garage!</span>
+   <span class="tok-s">&quot;Simulates a vehicle entering the garage. Return the state of the garage if</span>
+<span class="tok-s">   there is still free space, nil if no empty parking space exists.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">])</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">exit-garage!</span>
+  <span class="tok-s">&quot;Simulates a vehicle exiting the garage. Returns the state of the garage if</span>
+<span class="tok-s">   such a vehicle exists in the garage, nil otherwise.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">])</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can describe the number of parking spaces on each garage level with a map. For example if our garage has two parking levels, each holding 15 and 10 parking spaces respectively, the map will be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">parking-spaces</span> <span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">15</span>
+                     <span class="tok-mi">1</span> <span class="tok-mi">10</span><span class="tok-p">})</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This map will be used to initialize the state of the garage:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">initialize-garage!</span>
+  <span class="tok-s">&quot;Sets the initial state of the garage.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">parking-spaces</span><span class="tok-p">])</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Based on the signatures of the operations we have defined above, we could write a few tests using <a href="https://github.com/marick/Midje">midje</a> to indicate how the operations could be used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">against-background</span>
+ <span class="tok-p">[(</span><span class="tok-nf">before</span> <span class="tok-ss">:facts</span> <span class="tok-p">(</span><span class="tok-nf">initialize-garage!</span> <span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">}))]</span>
+
+ <span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;After a vehicle enters the garage it should be possible to locate it.&quot;</span>
+       <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">licence-plate</span> <span class="tok-s">&quot;ASDF001&quot;</span><span class="tok-p">]</span>
+           <span class="tok-p">(</span><span class="tok-nf">enter-garage!</span> <span class="tok-nv">licence-plate</span><span class="tok-p">)</span>
+           <span class="tok-p">(</span><span class="tok-nf">locate-vehicle</span> <span class="tok-nv">licence-plate</span><span class="tok-p">))</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">[</span><span class="tok-mi">0</span> <span class="tok-mi">0</span><span class="tok-p">])</span>
+
+ <span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;If an attempt to locate an unknown vehicle is made nil should be</span>
+<span class="tok-s">       returned.&quot;</span>
+       <span class="tok-p">(</span><span class="tok-nf">locate-vehicle</span> <span class="tok-s">&quot;unknown licence plate&quot;</span><span class="tok-p">)</span> <span class="tok-nv">=&gt;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+
+ <span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;After a vehicle enters the garage the number of free parking spaces</span>
+<span class="tok-s">        should be one less than before.&quot;</span>
+       <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">free-parking-spaces-before</span> <span class="tok-p">(</span><span class="tok-nf">number-of-free-parking-spaces</span><span class="tok-p">)]</span>
+         <span class="tok-p">(</span><span class="tok-nf">enter-garage!</span> <span class="tok-s">&quot;ASDF001&quot;</span><span class="tok-p">)</span>
+         <span class="tok-p">(</span><span class="tok-nf">number-of-free-parking-spaces</span><span class="tok-p">)</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">free-parking-spaces-before</span><span class="tok-p">)))</span>
+
+ <span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;If too many vehicles try to enter the garage nil should be returned.&quot;</span>
+       <span class="tok-p">(</span><span class="tok-nf">enter-garage!</span> <span class="tok-s">&quot;ASDF001&quot;</span><span class="tok-p">)</span>
+       <span class="tok-p">(</span><span class="tok-nf">enter-garage!</span> <span class="tok-s">&quot;ASDF002&quot;</span><span class="tok-p">)</span>
+       <span class="tok-p">(</span><span class="tok-nf">enter-garage!</span> <span class="tok-s">&quot;ASDF003&quot;</span><span class="tok-p">)</span>
+       <span class="tok-p">(</span><span class="tok-nf">enter-garage!</span> <span class="tok-s">&quot;ASDF004&quot;</span><span class="tok-p">)</span> <span class="tok-nv">=&gt;</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
+
+ <span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Given a vehicle entered the garage it should be possible for that</span>
+<span class="tok-s">       vehicle to exit the garage.&quot;</span>
+       <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">licence-plate</span> <span class="tok-s">&quot;ASDF001&quot;</span>
+             <span class="tok-nv">free-parking-spaces-before</span> <span class="tok-p">(</span><span class="tok-nf">number-of-free-parking-spaces</span><span class="tok-p">)]</span>
+         <span class="tok-p">(</span><span class="tok-nf">enter-garage!</span> <span class="tok-nv">licence-plate</span><span class="tok-p">)</span>
+         <span class="tok-p">(</span><span class="tok-nf">exit-garage!</span> <span class="tok-nv">licence-plate</span><span class="tok-p">)</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">{}</span>
+         <span class="tok-p">(</span><span class="tok-nf">number-of-free-parking-spaces</span><span class="tok-p">)</span> <span class="tok-nv">=&gt;</span> <span class="tok-nv">free-parking-spaces-before</span>
+         <span class="tok-p">(</span><span class="tok-nf">locate-vehicle</span> <span class="tok-nv">licence-plate</span><span class="tok-p">)</span> <span class="tok-nv">=&gt;</span> <span class="tok-nv">nil</span><span class="tok-p">))</span>
+
+ <span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;If an unknown vehicle is requested to exit the garage nil should be</span>
+<span class="tok-s">       returned.&quot;</span>
+       <span class="tok-p">(</span><span class="tok-nf">exit-garage!</span> <span class="tok-s">&quot;ASDF001&quot;</span><span class="tok-p">)</span> <span class="tok-nv">=&gt;</span> <span class="tok-nv">nil</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s move on to the implementation. We will use two <code>refs</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">vehicles</span> <span class="tok-p">(</span><span class="tok-nb">ref </span><span class="tok-p">{}))</span> <span class="tok-c1">;; {&quot;JAFA017&quot; [1 1] &quot;HSLE328&quot; [1 2]}</span>
+<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">empty-parking-spaces</span> <span class="tok-p">(</span><span class="tok-nb">ref </span><span class="tok-o">#</span><span class="tok-p">{}))</span> <span class="tok-c1">;; #{[1 3] [1 4]}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>vehicles</code> that have entered the garage will be tracked in a map using the licence plate as the key and the location assigned as the value. <code>empty-parking-spaces</code> is a set in which we will store all available parking spaces using vectors like <code>[1 3]</code> which would indicate a free space on level 1, parking space 3. We can initialize the refs like so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">initialize-garage!</span>
+  <span class="tok-s">&quot;Sets the initial state of the garage.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">parking-spaces</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">dosync</span>
+   <span class="tok-p">(</span><span class="tok-nb">ref-set </span><span class="tok-nv">vehicles</span> <span class="tok-p">{})</span> <span class="tok-c1">;;initially we have no vehicles in the garage</span>
+   <span class="tok-p">(</span><span class="tok-nb">ref-set </span><span class="tok-nv">empty-parking-spaces</span> <span class="tok-c1">;;initially a set with all possible parking spaces</span>
+            <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-o">#</span><span class="tok-p">{}</span>
+                  <span class="tok-p">(</span><span class="tok-nb">mapcat </span><span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[[</span><span class="tok-nv">level-parking-spaces</span><span class="tok-p">]</span>
+                            <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-p">(</span><span class="tok-nb">key </span><span class="tok-nv">level-parking-spaces</span><span class="tok-p">)</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-p">(</span><span class="tok-nb">val </span><span class="tok-nv">level-parking-spaces</span><span class="tok-p">))))</span>
+                          <span class="tok-nv">parking-spaces</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Given this representation it is trivial to define the operations <code>locate-vehicle</code> and <code>number-of-free-parking-spaces</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">locate-vehicle</span>
+  <span class="tok-s">&quot;Given a licence plate, returns the location of a vehicle as a vector with the</span>
+<span class="tok-s">   level and parking space number, nil if not present.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-o">@</span><span class="tok-nv">vehicles</span> <span class="tok-nv">licence-plate</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">number-of-free-parking-spaces</span>
+  <span class="tok-s">&quot;Returns the current number of free parking spaces in the garage.&quot;</span>
+  <span class="tok-p">[]</span>
+   <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-o">@</span><span class="tok-nv">empty-parking-spaces</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For <code>enter-garage!</code> we simply remove one of the entries from <code>empty-parking-spaces</code> and keep a record of the vehicle entering the garage in <code>vehicles</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">enter-garage!</span>
+  <span class="tok-s">&quot;Simulates a vehicle entering the garage. Return the state of the garage if</span>
+<span class="tok-s">   there is still free space, nil if no empty parking space exists.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">dosync</span>
+   <span class="tok-p">(</span><span class="tok-nb">if-let </span><span class="tok-p">[</span><span class="tok-nv">parking-space</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-o">@</span><span class="tok-nv">empty-parking-spaces</span><span class="tok-p">)]</span>
+     <span class="tok-p">(</span><span class="tok-nf">do</span>
+       <span class="tok-p">(</span><span class="tok-nb">alter </span><span class="tok-nv">empty-parking-spaces</span> <span class="tok-nb">disj </span><span class="tok-nv">parking-space</span><span class="tok-p">)</span>
+       <span class="tok-p">(</span><span class="tok-nb">alter </span><span class="tok-nv">vehicles</span> <span class="tok-nb">assoc </span><span class="tok-nv">licence-plate</span> <span class="tok-nv">parking-space</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly for <code>exit-garage!</code> we remove the entry from <code>vehicles</code> and add the location previously occupied by the vehicle back to <code>empty-parking-spaces</code> so we can use it again in the future:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">exit-garage!</span>
+  <span class="tok-s">&quot;Simulates a vehicle exiting the garage. Returns the state of the garage if</span>
+<span class="tok-s">   such a vehicle exists in the garage, nil otherwise.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">dosync</span>
+   <span class="tok-p">(</span><span class="tok-nb">if-let </span><span class="tok-p">[</span><span class="tok-nv">vehicle-location</span> <span class="tok-p">(</span><span class="tok-nf">locate-vehicle</span> <span class="tok-nv">licence-plate</span><span class="tok-p">)]</span>
+     <span class="tok-p">(</span><span class="tok-nf">do</span>
+       <span class="tok-p">(</span><span class="tok-nb">alter </span><span class="tok-nv">empty-parking-spaces</span> <span class="tok-nb">conj </span><span class="tok-nv">vehicle-location</span><span class="tok-p">)</span>
+       <span class="tok-p">(</span><span class="tok-nb">alter </span><span class="tok-nv">vehicles</span> <span class="tok-nb">dissoc </span><span class="tok-nv">licence-plate</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Operations happen within a transaction as indicated by <code>dosync</code> so we don&#8217;t need to worry about two cars potentially getting assigned the same parking space. If you want to take a look at the complete sources they&#8217;re on <a href="https://github.com/anthonygalea/garage-simulation">github</a>.</p>
+</div>
+
+
+    <div class="post-footer">
+      <div class="paragraph">
+        
+        <a href="http://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/">← Previous Post</a>
+        
+        
+        <a class="pull-right" href="http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">Next Post →</a>
+        
+      </div>
+
+    
+    
+    
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+
+    <h1>See also</h1>
+      <div class="paragraph">
+        <ul>
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">Hello parking garage, meet clojure.spec</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/">Using Datomic in a simple use case</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4clojure Medium Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/">Getting started with compojure-api</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4clojure Easy Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4clojure Elementary Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+      </ul>
+    </div>
+    </div>
+  
+  
+
+</div>
+
+
+
+
+</div>
+<footer>
+  <div class="paragraph">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank">GitHub</i></a> |
+      
+      
+      <a href="https://at.linkedin.com/in/anthonygalea" target="_blank">LinkedIn</a> |
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank">Contact</a> |
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank">RSS Feed</a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.5.3/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+</body>
+</html>
+
