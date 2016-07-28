@@ -278,7 +278,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;This doesn&amp;#8217;t look good at all :) The reason it happens is that when &lt;code&gt;check&lt;/code&gt; is called it generates a large number of inputs which in our case exceeds the available space in the garage. This actually points out a problem in the invariant i.e. the vehicle doesn&amp;#8217;t make it into the garage if there is no space available. We can redefine the invariant to accomodate this:&lt;/p&gt;
+&lt;p&gt;This doesn&amp;#8217;t look good at all :) The reason it happens is that when &lt;code&gt;check&lt;/code&gt; is called it generates a large number of inputs which in our case exceeds the available space in the garage. This actually points out a problem in the invariant i.e. the vehicle doesn&amp;#8217;t make it into the garage if there is no space available. We can redefine the invariant to accommodate this:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -475,7 +475,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Operations happen within a transaction as indicated by &lt;code&gt;dosync&lt;/code&gt; so we don&amp;#8217;t need to worry about two cars potentially getting assigned the same parking space. If you want to take a look at the complete sources they&amp;#8217;re on &lt;a href=&#34;https://github.com/anthonygalea/garage-simulation&#34;&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Operations happen within a transaction as indicated by &lt;code&gt;dosync&lt;/code&gt; so we don&amp;#8217;t need to worry about two cars potentially getting assigned the same parking space. If you want to take a look at the complete sources they&amp;#8217;re on &lt;a href=&#34;https://github.com/anthonygalea/garage-simulation&#34;&gt;github&lt;/a&gt;. In the &lt;a href=&#34;http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/&#34;&gt;next post&lt;/a&gt; we will take a look at how we can apply clojure.spec.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
