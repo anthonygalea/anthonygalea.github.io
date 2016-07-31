@@ -172,11 +172,9 @@
    <span class="tok-p">(</span><span class="tok-nb">ref-set </span><span class="tok-nv">vehicles</span> <span class="tok-p">{})</span>
    <span class="tok-p">(</span><span class="tok-nb">ref-set </span><span class="tok-nv">empty-parking-spaces</span>
             <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-o">#</span><span class="tok-p">{}</span>
-                  <span class="tok-p">(</span><span class="tok-nb">apply </span><span class="tok-nv">concat</span>
-                   <span class="tok-p">(</span><span class="tok-nf">map-indexed</span> <span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">level</span> <span class="tok-nv">number-of-parking-spaces</span><span class="tok-p">]</span>
-                                  <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-nv">level</span> <span class="tok-nv">%</span><span class="tok-p">)</span>
-                                       <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-nv">number-of-parking-spaces</span><span class="tok-p">)))</span>
-                                <span class="tok-nv">parking-spaces</span><span class="tok-p">))))))</span></code></pre>
+                  <span class="tok-p">(</span><span class="tok-nb">for </span><span class="tok-p">[[</span><span class="tok-nv">level</span> <span class="tok-nv">spaces</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nf">map-indexed</span> <span class="tok-nb">vector </span><span class="tok-nv">parking-spaces</span><span class="tok-p">)</span>
+                        <span class="tok-nv">space-number</span>   <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-nv">spaces</span><span class="tok-p">)]</span>
+                    <span class="tok-p">[</span><span class="tok-nv">level</span> <span class="tok-nv">space-number</span><span class="tok-p">])))))</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
