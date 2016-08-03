@@ -72,7 +72,7 @@
     <div class="post-header">
       <h1 class="post-title">Simulating a parking garage with Clojure Refs</h1>
       <span class="post-date">
-      Jul 21, 2016 &middot; 4 minute read
+      Jul 21, 2016 &middot; 6 minute read
       
       <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
       
@@ -176,50 +176,50 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Now let&#8217;s move on to the implementation. We will use two <code>refs</code>:</p>
+<p>Before we move on to the implementation, what is a <code>ref</code>? In Clojure data is immutable, so we have constructs to model the <code>state</code> of something as it changes over time. The "something" we model has an <code>identity</code> and this identity can refer to various snapshots of it&#8217;s <code>state</code> over time. Let&#8217;s start with a simpler contruct, the <code>atom</code>. This is perhaps better explained with an example. Start a REPL and follow along:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">vehicles</span> <span class="tok-p">(</span><span class="tok-nb">ref </span><span class="tok-p">{}))</span> <span class="tok-c1">;; {&quot;JAFA017&quot; [1 1] &quot;HSLE328&quot; [1 2]}</span>
-<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">empty-parking-spaces</span> <span class="tok-p">(</span><span class="tok-nb">ref </span><span class="tok-o">#</span><span class="tok-p">{}))</span> <span class="tok-c1">;; #{[1 3] [1 4]}</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>vehicles</code> that have entered the garage will be tracked in a map using the licence plate as the key and the location assigned as the value. <code>empty-parking-spaces</code> is a set in which we will store all available parking spaces using vectors like <code>[1 3]</code> which would indicate a free space on level 1, parking space 3. We can initialize the refs like so:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">initialize-garage!</span>
-  <span class="tok-s">&quot;Sets the initial state of the garage.&quot;</span>
-  <span class="tok-p">[</span><span class="tok-nv">parking-spaces</span><span class="tok-p">]</span>
-  <span class="tok-p">(</span><span class="tok-nf">dosync</span>
-   <span class="tok-p">(</span><span class="tok-nb">ref-set </span><span class="tok-nv">vehicles</span> <span class="tok-p">{})</span> <span class="tok-c1">;;initially we have no vehicles in the garage</span>
-   <span class="tok-p">(</span><span class="tok-nb">ref-set </span><span class="tok-nv">empty-parking-spaces</span> <span class="tok-c1">;;initially a set with all possible parking spaces</span>
-            <span class="tok-p">(</span><span class="tok-nb">into </span><span class="tok-o">#</span><span class="tok-p">{}</span>
-                  <span class="tok-p">(</span><span class="tok-nb">mapcat </span><span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[[</span><span class="tok-nv">level-parking-spaces</span><span class="tok-p">]</span>
-                            <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-p">(</span><span class="tok-nb">key </span><span class="tok-nv">level-parking-spaces</span><span class="tok-p">)</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-p">(</span><span class="tok-nb">val </span><span class="tok-nv">level-parking-spaces</span><span class="tok-p">))))</span>
-                          <span class="tok-nv">parking-spaces</span><span class="tok-p">)))))</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Given this representation it is trivial to define the operations <code>locate-vehicle</code> and <code>number-of-free-parking-spaces</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">locate-vehicle</span>
-  <span class="tok-s">&quot;Given a licence plate, returns the location of a vehicle as a vector with the</span>
-<span class="tok-s">   level and parking space number, nil if not present.&quot;</span>
-  <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">]</span>
-  <span class="tok-p">(</span><span class="tok-o">@</span><span class="tok-nv">vehicles</span> <span class="tok-nv">licence-plate</span><span class="tok-p">))</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; declare an empty map called vehicles</span>
+<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">vehicles</span> <span class="tok-p">{})</span>
+<span class="tok-c1">;; next we apply conj to it to add a new vehicle and it&#39;s location in the garage</span>
+<span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">vehicles</span> <span class="tok-p">[</span><span class="tok-s">&quot;JAFA017&quot;</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]])</span>
+<span class="tok-c1">;; =&gt; {&quot;JAFA017&quot; [1 1]}</span>
+<span class="tok-c1">;; the returned map has one entry as expected but when we inspect vehicles we find it&#39;s still empty:</span>
+<span class="tok-nv">vehicles</span>
+<span class="tok-c1">;; =&gt; {}</span>
+<span class="tok-c1">;; oh right, vehicles is immutable</span>
 
-<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">number-of-free-parking-spaces</span>
-  <span class="tok-s">&quot;Returns the current number of free parking spaces in the garage.&quot;</span>
-  <span class="tok-p">[]</span>
-   <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-o">@</span><span class="tok-nv">empty-parking-spaces</span><span class="tok-p">))</span></code></pre>
+<span class="tok-c1">;; we need a way to update vehicles to the new state so we turn vehicles into an atom:</span>
+<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">vehicles</span> <span class="tok-p">(</span><span class="tok-nf">atom</span> <span class="tok-p">{}))</span>
+<span class="tok-nv">vehicles</span>
+<span class="tok-c1">;; =&gt; #&lt;Atom@dfdcf6c {}&gt;</span>
+<span class="tok-c1">;; ok so now vehicles is not a map, it&#39;s an atom</span>
+<span class="tok-c1">;; to get to the state of the atom we have to dereference it with @ like this:</span>
+<span class="tok-o">@</span><span class="tok-nv">vehicles</span>
+<span class="tok-c1">;; {}</span>
+<span class="tok-c1">;; to change it we use swap!:</span>
+<span class="tok-p">(</span><span class="tok-nf">swap!</span> <span class="tok-nv">vehicles</span> <span class="tok-nb">conj </span><span class="tok-p">[[</span><span class="tok-s">&quot;JAFA017&quot;</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]])</span>
+<span class="tok-c1">;; =&gt; {[&quot;JAFA017&quot;] [1 1]})</span>
+<span class="tok-c1">;; once again:</span>
+<span class="tok-p">(</span><span class="tok-nf">swap!</span> <span class="tok-nv">vehicles</span> <span class="tok-nb">conj </span><span class="tok-p">[</span><span class="tok-s">&quot;HSLE328&quot;</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]])</span>
+<span class="tok-c1">;; =&gt; {&quot;HSLE328&quot; [1 2], [&quot;JAFA017&quot;] [1 1]}</span>
+<span class="tok-c1">;; and if we check what vehicles stores:</span>
+<span class="tok-o">@</span><span class="tok-nv">vehicles</span>
+<span class="tok-c1">;; =&gt; {&quot;HSLE328&quot; [1 2], [&quot;JAFA017&quot;] [1 1]}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For <code>enter-garage!</code> we simply remove one of the entries from <code>empty-parking-spaces</code> and keep a record of the vehicle entering the garage in <code>vehicles</code>:</p>
+<p><code>swap!</code> takes an atom (in this case <code>vehicles</code>), a function (in this case <code>conj</code>) and additional parameters (in this case <code>[["JAFA017"] [1 1]]</code>), reads the current value the atom refers to, applies the function to the value, and tells the atom to point to the value returned. These steps happen atomically. But what if when we want to mutate two identities in a transaction? We can&#8217;t use two atoms as there is no way to <code>swap!</code> on both of them together. In this case we use <code>refs</code> and the <code>dosync</code> function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">vehicles</span> <span class="tok-p">(</span><span class="tok-nb">ref </span><span class="tok-p">{}))</span>
+<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">empty-parking-spaces</span> <span class="tok-p">(</span><span class="tok-nb">ref </span><span class="tok-o">#</span><span class="tok-p">{}))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So now we have two <code>refs</code>. <code>vehicles</code> that have entered the garage will be tracked in a map using the licence plate as the key and the location assigned as the value. <code>empty-parking-spaces</code> is a set in which we will store all available parking spaces using vectors like <code>[1 3]</code> which would indicate a free space on level 1, parking space 3. Every time a vehicle enters the garage, we add it to <code>vehicles</code> and remove the parking space that was allocated from <code>empty-parking-spaces</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -251,7 +251,24 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Operations happen within a transaction as indicated by <code>dosync</code> so we don&#8217;t need to worry about two cars potentially getting assigned the same parking space. If you want to take a look at the complete sources they&#8217;re on <a href="https://github.com/anthonygalea/garage-simulation">github</a>. In the <a href="http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">next post</a> we will take a look at how we can apply clojure.spec.</p>
+<p>Notice that with <code>dosync</code> the operations are happening within a transaction, so we don&#8217;t need to worry about two cars potentially getting assigned the same parking space. Finally it is trivial to define the operations <code>locate-vehicle</code> and <code>number-of-free-parking-spaces</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">locate-vehicle</span>
+  <span class="tok-s">&quot;Given a licence plate, returns the location of a vehicle as a vector with the</span>
+<span class="tok-s">   level and parking space number, nil if not present.&quot;</span>
+  <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-o">@</span><span class="tok-nv">vehicles</span> <span class="tok-nv">licence-plate</span><span class="tok-p">))</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">number-of-free-parking-spaces</span>
+  <span class="tok-s">&quot;Returns the current number of free parking spaces in the garage.&quot;</span>
+  <span class="tok-p">[]</span>
+   <span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-o">@</span><span class="tok-nv">empty-parking-spaces</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to take a look at the complete sources they&#8217;re on <a href="https://github.com/anthonygalea/garage-simulation">github</a>. In the <a href="http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">next post</a> we will take a look at how we can apply clojure.spec.</p>
 </div>
 
 
