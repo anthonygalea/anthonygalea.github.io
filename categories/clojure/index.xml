@@ -6,8 +6,38 @@
     <description>Recent content in Clojure on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Jul 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Aug 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.anthony-galea.com/categories/clojure/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>4Clojure solutions over time</title>
+      <link>http://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/</link>
+      <pubDate>Wed, 03 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/</guid>
+      <description>&lt;div class=&#34;paragraph&#34;&gt;
+&lt;iframe
+  width=&#34;100%&#34; height=&#34;400&#34;
+  src=&#34;//jsfiddle.net/anthonygalea/yukpa0os/embedded/result,js/&#34;
+  allowfullscreen=&#34;allowfullscreen&#34;
+  frameborder=&#34;0&#34;&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Somebody recently posted in the clojure subreddit that there had just been over 1 million problems solved on the &lt;a href=&#34;http://www.4clojure.com/&#34;&gt;4clojure&lt;/a&gt; website. When I saw this I wondered if we could get a graph of the number of solutions solved over time, so I sent an email to the 4clojure guys asking if they had the data to generate such a graph. The reply:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;quoteblock&#34;&gt;
+&lt;blockquote&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;I don&amp;#8217;t think we actually save that anywhere, no. Too bad; that&amp;#8217;d be a neat graph.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Checked waybackmachine and there were a bunch of snapshots since 2011. A few curl requests and some grep filtering later I had the counts and could plot a graph with &lt;a href=&#34;http://c3js.org/&#34;&gt;C3.js&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Hello parking garage, meet clojure.spec</title>
