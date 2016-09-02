@@ -267,8 +267,8 @@
       &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;firstName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;firstName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
     &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
 
-    &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Builder&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;lastName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;lastName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
-      &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;lastName&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;lastName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Builder&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;surname&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
       &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
     &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
 
@@ -277,7 +277,7 @@
       &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
     &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
 
-    &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;createPerson&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;createPerson&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
       &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;
     &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
   &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
@@ -289,12 +289,12 @@
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;jack&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;Builder&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Jack&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;lastName&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Johnson&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;jack&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;Builder&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Jack&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;surname&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-s&#34;&gt;&amp;quot;Johnson&amp;quot;&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt;
                                         &lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;createPerson&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;As you can see the client works with a fluent API, that is very easy to write. It is immediately clear that &lt;code&gt;name&lt;/code&gt; is a required parameter and &lt;code&gt;lastName&lt;/code&gt; and &lt;code&gt;address&lt;/code&gt; are optional.&lt;/p&gt;
+&lt;p&gt;As you can see the client works with a fluent API, that is very easy to write. It is immediately clear that &lt;code&gt;name&lt;/code&gt; is a required parameter and &lt;code&gt;surname&lt;/code&gt; and &lt;code&gt;address&lt;/code&gt; are optional.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

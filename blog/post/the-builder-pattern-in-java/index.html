@@ -201,8 +201,8 @@
       <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">firstName</span> <span class="tok-o">=</span> <span class="tok-n">firstName</span><span class="tok-o">;</span>
     <span class="tok-o">}</span>
 
-    <span class="tok-kd">public</span> <span class="tok-n">Builder</span> <span class="tok-nf">lastName</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">lastName</span><span class="tok-o">)</span> <span class="tok-o">{</span>
-      <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">lastName</span> <span class="tok-o">=</span> <span class="tok-n">lastName</span><span class="tok-o">;</span>
+    <span class="tok-kd">public</span> <span class="tok-n">Builder</span> <span class="tok-nf">surname</span><span class="tok-o">(</span><span class="tok-n">String</span> <span class="tok-n">surname</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+      <span class="tok-k">this</span><span class="tok-o">.</span><span class="tok-na">surname</span> <span class="tok-o">=</span> <span class="tok-n">surname</span><span class="tok-o">;</span>
       <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-o">;</span>
     <span class="tok-o">}</span>
 
@@ -211,7 +211,7 @@
       <span class="tok-k">return</span> <span class="tok-k">this</span><span class="tok-o">;</span>
     <span class="tok-o">}</span>
 
-    <span class="tok-kd">public</span> <span class="tok-nf">createPerson</span><span class="tok-o">()</span> <span class="tok-o">{</span>
+    <span class="tok-kd">public</span> <span class="tok-n">Person</span> <span class="tok-nf">createPerson</span><span class="tok-o">()</span> <span class="tok-o">{</span>
       <span class="tok-k">return</span> <span class="tok-k">new</span> <span class="tok-nf">Person</span><span class="tok-o">(</span><span class="tok-k">this</span><span class="tok-o">);</span>
     <span class="tok-o">}</span>
   <span class="tok-o">}</span>
@@ -223,12 +223,12 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">Person</span> <span class="tok-n">jack</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-n">Person</span><span class="tok-o">.</span><span class="tok-na">Builder</span><span class="tok-o">(</span><span class="tok-s">&quot;Jack&quot;</span><span class="tok-o">).</span><span class="tok-na">lastName</span><span class="tok-o">(</span><span class="tok-s">&quot;Johnson&quot;</span><span class="tok-o">)</span>
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">Person</span> <span class="tok-n">jack</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-n">Person</span><span class="tok-o">.</span><span class="tok-na">Builder</span><span class="tok-o">(</span><span class="tok-s">&quot;Jack&quot;</span><span class="tok-o">).</span><span class="tok-na">surname</span><span class="tok-o">(</span><span class="tok-s">&quot;Johnson&quot;</span><span class="tok-o">)</span>
                                         <span class="tok-o">.</span><span class="tok-na">createPerson</span><span class="tok-o">();</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>As you can see the client works with a fluent API, that is very easy to write. It is immediately clear that <code>name</code> is a required parameter and <code>lastName</code> and <code>address</code> are optional.</p>
+<p>As you can see the client works with a fluent API, that is very easy to write. It is immediately clear that <code>name</code> is a required parameter and <code>surname</code> and <code>address</code> are optional.</p>
 </div>
 </div>
 </div>
