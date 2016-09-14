@@ -245,6 +245,13 @@ blockquote {
 blockquote p:last-child {
   margin-bottom: 0;
 }
+
+@media (max-width: 38em) {
+  time {
+    visibility: hidden;
+  }
+}
+
 @media (min-width: 30em) {
   blockquote {
     padding-right: 0rem;
@@ -433,10 +440,20 @@ pre {
   padding-bottom: 0;
 }
 
-.listingblock > .content {
+.listingblock > .content, .stemblock {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   background-color: #272822;
+}
+
+.stemblock > div.content {
+  color: #ddd;
+  margin: auto;
+  max-width: 58rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .post .label {
