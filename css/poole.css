@@ -60,14 +60,6 @@ h1, h2, h3, .quoteblock, .post-date, .paragraph, .ulist, .olist, .pygments {
   padding-bottom: 1.5rem;
 }
 
-.post-footer {
-  background-color: #f9f9f9;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 0rem;
-}
-
 .post-footer ul {
   line-height: 1.5rem;
 }
