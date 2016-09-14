@@ -248,7 +248,7 @@ blockquote p:last-child {
 
 @media (max-width: 38em) {
   time {
-    visibility: hidden;
+    display: none;
   }
 }
 
