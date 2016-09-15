@@ -10,11 +10,11 @@
     <atom:link href="http://www.anthony-galea.com/categories/kotlin/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>The Template Method</title>
-      <link>http://www.anthony-galea.com/blog/post/the-template-method/</link>
+      <title>The Template Method Pattern</title>
+      <link>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</link>
       <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/the-template-method/</guid>
+      <guid>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;The &lt;code&gt;Template Method&lt;/code&gt; pattern is a &lt;code&gt;behavioral design pattern&lt;/code&gt; commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.&lt;/p&gt;
 &lt;/div&gt;
