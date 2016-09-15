@@ -6,8 +6,188 @@
     <description>Recent content in Design Patterns on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 09 Jan 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 15 Sep 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.anthony-galea.com/categories/design-patterns/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>The Template Method</title>
+      <link>http://www.anthony-galea.com/blog/post/the-template-method/</link>
+      <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.anthony-galea.com/blog/post/the-template-method/</guid>
+      <description>&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;The &lt;code&gt;Template Method&lt;/code&gt; pattern is a &lt;code&gt;behavioral design pattern&lt;/code&gt; commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;As an example consider arithmetic and geometric progressions in mathematics. \$3, 5, 7, 9, 11...\$ is an example of an arithmetic progression which has the generic form: \$a, a+f, a+2f, a+3f...\$ with \$a=3, f=2\$. An example of a geometric progression is \$2, 6, 12, 24, 48...\$ which has the generic form of: \$a, af, af^2, af^3...\$ with \$a=3, f=2\$. Now say we have the task of writing \$n\$ values from a progression to stdout. We could implement this as follows:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;ArithmeticProgression&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;++)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;tok-n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;GeometricProgression&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;++)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;tok-n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Math&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;pow&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;));&lt;/span&gt;
+    &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Notice that for both progressions we need the &lt;code&gt;for loop&lt;/code&gt; and the call to &lt;code&gt;println&lt;/code&gt;. The difference is in the calculation of the nth value. So we could extract the common part to an abstract class:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;Progression&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;++)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;tok-n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;nth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;));&lt;/span&gt;
+    &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;tok-kd&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;nth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;and then extend the abstract class for each progression type, overriding the abstract method with the specific version for the algorithm:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;ArithmeticProgression&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Progression&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-nd&#34;&gt;@Override&lt;/span&gt;
+  &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;nth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;tok-kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;tok-nc&#34;&gt;GeometricProgression&lt;/span&gt; &lt;span class=&#34;tok-kd&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Progression&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-nd&#34;&gt;@Override&lt;/span&gt;
+  &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;nth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Math&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;pow&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Notice that by doing this we have cleanly separated the two concerns of:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;ulist&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;iterating and printing values (in the parent)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;calculating the nth value (in the children)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;i.e. we get separation of concerns via subclassing. When the &lt;code&gt;output&lt;/code&gt; function is called it delegates the calculation to the correct &lt;code&gt;nth&lt;/code&gt; function in the child class:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Progression&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;arithmeticProgression&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;ArithmeticProgression&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;artithmeticProgression&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;//3, 5, 7, 9, 11&lt;/span&gt;
+
+&lt;span class=&#34;tok-n&#34;&gt;Progression&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;geometricProgression&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;GeometricProgression&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;tok-n&#34;&gt;geometricProgression&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;//3, 6, 12, 24, 48&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;In Scala the separation of concerns can be achieved using function composition. We start by defining the functions to calculate the nth values for both progression types:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;arithmeticNth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nl&#34;&gt;a:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-nl&#34;&gt;f:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-nl&#34;&gt;n:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt;
+  &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;
+
+&lt;span class=&#34;tok-n&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;geometricNth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nl&#34;&gt;a:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-nl&#34;&gt;f:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-nl&#34;&gt;n:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt;
+  &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;scala&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;math&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;pow&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;toInt&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;We then define a function that takes one of these two functions as a parameter:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;outputProgression&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nl&#34;&gt;a:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt;
+                      &lt;span class=&#34;tok-nl&#34;&gt;f:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt;
+                      &lt;span class=&#34;tok-nl&#34;&gt;c:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt;
+                      &lt;span class=&#34;tok-nl&#34;&gt;nth:&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;tok-k&#34;&gt;for&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;to&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;tok-n&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;nth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;))&lt;/span&gt;
+  &lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-o&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;tok-n&#34;&gt;outputProgression&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;arithmeticNth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;//3, 5, 7, 9, 11&lt;/span&gt;
+
+&lt;span class=&#34;tok-n&#34;&gt;outputProgression&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;geometricNth&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;//3, 6, 12, 24, 48&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Kotlin is pretty similar:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;kotlin&#34;&gt;&lt;span class=&#34;tok-k&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;tok-py&#34;&gt;arithmeticNth&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;fun&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;tok-m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;tok-k&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;pow&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Math&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;pow&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;toDouble&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;toDouble&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;()).&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;toInt&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;()&lt;/span&gt;
+
+&lt;span class=&#34;tok-k&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;tok-py&#34;&gt;geometricNth&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-k&#34;&gt;fun&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;tok-k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;pow&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;tok-m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;tok-k&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;tok-nf&#34;&gt;outputProgression&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;nth&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-m&#34;&gt;1.&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;forEach&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;nth&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;tok-p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;tok-n&#34;&gt;outputProgression&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-m&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-m&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-m&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;arithmeticNth&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;//3, 5, 7, 9, 11&lt;/span&gt;
+
+&lt;span class=&#34;tok-n&#34;&gt;outputProgression&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-m&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-m&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-m&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;geometricNth&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;//3, 6, 12, 24, 48&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Clojure is also pretty much the same:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;
+&lt;div class=&#34;content&#34;&gt;
+&lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;clojure&#34;&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;output-progression&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;nth&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;map &lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;println &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;nth &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;range &lt;/span&gt;&lt;span class=&#34;tok-mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;inc &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;))))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;arithmetic-nth&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;+ &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;* &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;dec &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-kd&#34;&gt;defn &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;geometric-nth&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;]&lt;/span&gt;
+  &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;int &lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;* &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;Math/pow&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nb&#34;&gt;dec &lt;/span&gt;&lt;span class=&#34;tok-nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)))))&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;output-progression&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;arithmetic-nth&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; 3, 5, 7, 9, 11&lt;/span&gt;
+
+&lt;span class=&#34;tok-p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nf&#34;&gt;output-progression&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;tok-mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;tok-nv&#34;&gt;geometric-nth&lt;/span&gt;&lt;span class=&#34;tok-p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;tok-c1&#34;&gt;;; 3, 6, 12, 24, 48&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>The Builder Pattern in Java</title>
@@ -15,13 +195,8 @@
       <pubDate>Sat, 09 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</guid>
-      <description>&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
+      <description>&lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;The Builder pattern is a &lt;code&gt;creational design pattern&lt;/code&gt; which can be used to address the telescoping constructor anti-pattern. It accomplishes this by separating the construction of an object from its representation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;sect1&#34;&gt;
 &lt;h2 id=&#34;_telescoping_constructor_anti_pattern&#34;&gt;Telescoping constructor anti-pattern&lt;/h2&gt;

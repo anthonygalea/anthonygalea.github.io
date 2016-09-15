@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>The Template Method</title>
+
+  
+  <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
+  
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
+  
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="template method,introduction,tutorial,design pattern,scala,java,kotlin,clojure">
+  
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-38752250-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container">
+  <div class="title">
+    <h1><a href="/">Anthony Galea</a></h1>
+  </div>
+  <div class="links">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="fa fa-github-square fa-1x"></i></a>
+      
+      
+      
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="fa fa-envelope-square fa-1x"></i></a>
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="fa fa-rss-square fa-1x"></i></a>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+
+
+<div class="content">
+  <div class="post">
+    <div class="post-header">
+      <h1 class="post-title">The Template Method</h1>
+      <span class="post-date">
+      Sep 15, 2016 &middot; 4 minute read
+      
+      <a class="label" href="http://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="http://www.anthony-galea.com/categories/java">java</a><a class="label" href="http://www.anthony-galea.com/categories/scala">scala</a><a class="label" href="http://www.anthony-galea.com/categories/kotlin">kotlin</a><a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
+      
+
+      
+      </span>
+    </div>
+    <div class="paragraph">
+<p>The <code>Template Method</code> pattern is a <code>behavioral design pattern</code> commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.</p>
+</div>
+<div class="paragraph">
+<p>As an example consider arithmetic and geometric progressions in mathematics. \$3, 5, 7, 9, 11...\$ is an example of an arithmetic progression which has the generic form: \$a, a+f, a+2f, a+3f...\$ with \$a=3, f=2\$. An example of a geometric progression is \$2, 6, 12, 24, 48...\$ which has the generic form of: \$a, af, af^2, af^3...\$ with \$a=3, f=2\$. Now say we have the task of writing \$n\$ values from a progression to stdout. We could implement this as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-kd">class</span> <span class="tok-nc">ArithmeticProgression</span> <span class="tok-o">{</span>
+  <span class="tok-kt">void</span> <span class="tok-nf">output</span><span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">a</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">c</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">for</span> <span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">n</span> <span class="tok-o">=</span> <span class="tok-mi">1</span><span class="tok-o">;</span> <span class="tok-n">n</span> <span class="tok-o">&lt;=</span> <span class="tok-n">c</span><span class="tok-o">;</span> <span class="tok-n">n</span><span class="tok-o">++)</span> <span class="tok-o">{</span>
+      <span class="tok-n">System</span><span class="tok-o">.</span><span class="tok-na">out</span><span class="tok-o">.</span><span class="tok-na">println</span><span class="tok-o">(</span><span class="tok-n">a</span> <span class="tok-o">+</span> <span class="tok-o">(</span><span class="tok-n">n</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-o">)</span> <span class="tok-o">*</span> <span class="tok-n">f</span><span class="tok-o">);</span>
+    <span class="tok-o">}</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">class</span> <span class="tok-nc">GeometricProgression</span> <span class="tok-o">{</span>
+  <span class="tok-kt">void</span> <span class="tok-nf">output</span><span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">a</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">c</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">for</span> <span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">n</span> <span class="tok-o">=</span> <span class="tok-mi">1</span><span class="tok-o">;</span> <span class="tok-n">n</span> <span class="tok-o">&lt;=</span> <span class="tok-n">c</span><span class="tok-o">;</span> <span class="tok-n">n</span><span class="tok-o">++)</span> <span class="tok-o">{</span>
+      <span class="tok-n">System</span><span class="tok-o">.</span><span class="tok-na">out</span><span class="tok-o">.</span><span class="tok-na">println</span><span class="tok-o">(</span><span class="tok-n">a</span> <span class="tok-o">*</span> <span class="tok-o">(</span><span class="tok-kt">int</span><span class="tok-o">)</span> <span class="tok-n">Math</span><span class="tok-o">.</span><span class="tok-na">pow</span><span class="tok-o">(</span><span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-n">n</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-o">));</span>
+    <span class="tok-o">}</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that for both progressions we need the <code>for loop</code> and the call to <code>println</code>. The difference is in the calculation of the nth value. So we could extract the common part to an abstract class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-kd">abstract</span> <span class="tok-kd">class</span> <span class="tok-nc">Progression</span> <span class="tok-o">{</span>
+  <span class="tok-kt">void</span> <span class="tok-nf">output</span><span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">a</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">c</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">for</span> <span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">n</span> <span class="tok-o">=</span> <span class="tok-mi">1</span><span class="tok-o">;</span> <span class="tok-n">n</span> <span class="tok-o">&lt;=</span> <span class="tok-n">c</span><span class="tok-o">;</span> <span class="tok-n">n</span><span class="tok-o">++)</span> <span class="tok-o">{</span>
+      <span class="tok-n">System</span><span class="tok-o">.</span><span class="tok-na">out</span><span class="tok-o">.</span><span class="tok-na">println</span><span class="tok-o">(</span><span class="tok-n">nth</span><span class="tok-o">(</span><span class="tok-n">a</span><span class="tok-o">,</span> <span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-n">n</span><span class="tok-o">));</span>
+    <span class="tok-o">}</span>
+  <span class="tok-o">}</span>
+
+  <span class="tok-kd">abstract</span> <span class="tok-kt">int</span> <span class="tok-nf">nth</span><span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">a</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">n</span><span class="tok-o">);</span>
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and then extend the abstract class for each progression type, overriding the abstract method with the specific version for the algorithm:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-kd">class</span> <span class="tok-nc">ArithmeticProgression</span> <span class="tok-kd">extends</span> <span class="tok-n">Progression</span> <span class="tok-o">{</span>
+  <span class="tok-nd">@Override</span>
+  <span class="tok-kt">int</span> <span class="tok-nf">nth</span><span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">a</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">n</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-o">+</span> <span class="tok-o">(</span><span class="tok-n">n</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-o">)</span> <span class="tok-o">*</span> <span class="tok-n">f</span><span class="tok-o">;</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-kd">class</span> <span class="tok-nc">GeometricProgression</span> <span class="tok-kd">extends</span> <span class="tok-n">Progression</span> <span class="tok-o">{</span>
+  <span class="tok-nd">@Override</span>
+  <span class="tok-kt">int</span> <span class="tok-nf">nth</span><span class="tok-o">(</span><span class="tok-kt">int</span> <span class="tok-n">a</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-kt">int</span> <span class="tok-n">n</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-o">*</span> <span class="tok-o">(</span><span class="tok-kt">int</span><span class="tok-o">)</span> <span class="tok-n">Math</span><span class="tok-o">.</span><span class="tok-na">pow</span><span class="tok-o">(</span><span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-n">n</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-o">);</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that by doing this we have cleanly separated the two concerns of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>iterating and printing values (in the parent)</p>
+</li>
+<li>
+<p>calculating the nth value (in the children)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>i.e. we get separation of concerns via subclassing. When the <code>output</code> function is called it delegates the calculation to the correct <code>nth</code> function in the child class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">Progression</span> <span class="tok-n">arithmeticProgression</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-nf">ArithmeticProgression</span><span class="tok-o">();</span>
+<span class="tok-n">artithmeticProgression</span><span class="tok-o">.</span><span class="tok-na">output</span><span class="tok-o">(</span><span class="tok-mi">3</span><span class="tok-o">,</span> <span class="tok-mi">2</span><span class="tok-o">,</span> <span class="tok-mi">5</span><span class="tok-o">);</span>
+<span class="tok-c1">//3, 5, 7, 9, 11</span>
+
+<span class="tok-n">Progression</span> <span class="tok-n">geometricProgression</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-nf">GeometricProgression</span><span class="tok-o">();</span>
+<span class="tok-n">geometricProgression</span><span class="tok-o">.</span><span class="tok-na">output</span><span class="tok-o">(</span><span class="tok-mi">3</span><span class="tok-o">,</span> <span class="tok-mi">2</span><span class="tok-o">,</span> <span class="tok-mi">5</span><span class="tok-o">);</span>
+<span class="tok-c1">//3, 6, 12, 24, 48</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In Scala the separation of concerns can be achieved using function composition. We start by defining the functions to calculate the nth values for both progression types:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">def</span> <span class="tok-nf">arithmeticNth</span><span class="tok-o">(</span><span class="tok-nl">a:</span> <span class="tok-n">Int</span><span class="tok-o">,</span> <span class="tok-nl">f:</span> <span class="tok-n">Int</span><span class="tok-o">,</span> <span class="tok-nl">n:</span> <span class="tok-n">Int</span><span class="tok-o">):</span> <span class="tok-n">Int</span> <span class="tok-o">=</span>
+  <span class="tok-n">a</span> <span class="tok-o">+</span> <span class="tok-o">(</span><span class="tok-n">n</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-o">)</span> <span class="tok-o">*</span> <span class="tok-n">f</span>
+
+<span class="tok-n">def</span> <span class="tok-nf">geometricNth</span><span class="tok-o">(</span><span class="tok-nl">a:</span> <span class="tok-n">Int</span><span class="tok-o">,</span> <span class="tok-nl">f:</span> <span class="tok-n">Int</span><span class="tok-o">,</span> <span class="tok-nl">n:</span> <span class="tok-n">Int</span><span class="tok-o">):</span> <span class="tok-n">Int</span> <span class="tok-o">=</span>
+  <span class="tok-n">a</span> <span class="tok-o">*</span> <span class="tok-n">scala</span><span class="tok-o">.</span><span class="tok-na">math</span><span class="tok-o">.</span><span class="tok-na">pow</span><span class="tok-o">(</span><span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-n">n</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-o">).</span><span class="tok-na">toInt</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We then define a function that takes one of these two functions as a parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">def</span> <span class="tok-nf">outputProgression</span><span class="tok-o">(</span><span class="tok-nl">a:</span> <span class="tok-n">Int</span><span class="tok-o">,</span>
+                      <span class="tok-nl">f:</span> <span class="tok-n">Int</span><span class="tok-o">,</span>
+                      <span class="tok-nl">c:</span> <span class="tok-n">Int</span><span class="tok-o">,</span>
+                      <span class="tok-nl">nth:</span> <span class="tok-o">(</span><span class="tok-n">Int</span><span class="tok-o">,</span> <span class="tok-n">Int</span><span class="tok-o">,</span> <span class="tok-n">Int</span><span class="tok-o">)</span> <span class="tok-o">=&gt;</span> <span class="tok-n">Int</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+  <span class="tok-k">for</span><span class="tok-o">(</span><span class="tok-n">n</span> <span class="tok-o">&lt;-</span> <span class="tok-mi">1</span> <span class="tok-n">to</span> <span class="tok-n">c</span><span class="tok-o">)</span> <span class="tok-o">{</span>
+    <span class="tok-n">println</span><span class="tok-o">(</span><span class="tok-n">nth</span><span class="tok-o">(</span><span class="tok-n">a</span><span class="tok-o">,</span> <span class="tok-n">f</span><span class="tok-o">,</span> <span class="tok-n">n</span><span class="tok-o">))</span>
+  <span class="tok-o">}</span>
+<span class="tok-o">}</span>
+
+<span class="tok-n">outputProgression</span><span class="tok-o">(</span><span class="tok-mi">3</span><span class="tok-o">,</span> <span class="tok-mi">2</span><span class="tok-o">,</span> <span class="tok-mi">5</span><span class="tok-o">,</span> <span class="tok-n">arithmeticNth</span><span class="tok-o">)</span>
+<span class="tok-c1">//3, 5, 7, 9, 11</span>
+
+<span class="tok-n">outputProgression</span><span class="tok-o">(</span><span class="tok-mi">3</span><span class="tok-o">,</span> <span class="tok-mi">2</span><span class="tok-o">,</span> <span class="tok-mi">5</span><span class="tok-o">,</span> <span class="tok-n">geometricNth</span><span class="tok-o">)</span>
+<span class="tok-c1">//3, 6, 12, 24, 48</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Kotlin is pretty similar:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="kotlin"><span class="tok-k">val</span> <span class="tok-py">arithmeticNth</span> <span class="tok-p">=</span> <span class="tok-k">fun</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">):</span> <span class="tok-n">Int</span> <span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-p">+</span> <span class="tok-p">(</span><span class="tok-n">n</span> <span class="tok-p">-</span> <span class="tok-m">1</span><span class="tok-p">)</span> <span class="tok-p">*</span> <span class="tok-n">f</span>
+<span class="tok-p">}</span>
+
+<span class="tok-k">fun</span> <span class="tok-nf">Int</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">):</span> <span class="tok-n">Int</span> <span class="tok-p">=</span> <span class="tok-n">Math</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-n">toDouble</span><span class="tok-p">(),</span> <span class="tok-n">n</span><span class="tok-p">.</span><span class="tok-n">toDouble</span><span class="tok-p">()).</span><span class="tok-n">toInt</span><span class="tok-p">()</span>
+
+<span class="tok-k">val</span> <span class="tok-py">geometricNth</span> <span class="tok-p">=</span> <span class="tok-k">fun</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">):</span> <span class="tok-n">Int</span> <span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-p">*</span> <span class="tok-n">a</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-n">n</span> <span class="tok-p">-</span> <span class="tok-m">1</span><span class="tok-p">)</span>
+<span class="tok-p">}</span>
+
+<span class="tok-k">fun</span> <span class="tok-nf">outputProgression</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">nth</span><span class="tok-p">:</span> <span class="tok-p">(</span><span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">Int</span><span class="tok-p">)</span> <span class="tok-p">-&gt;</span> <span class="tok-n">Int</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+	<span class="tok-p">(</span><span class="tok-m">1.</span><span class="tok-p">.</span><span class="tok-n">c</span><span class="tok-p">).</span><span class="tok-n">forEach</span> <span class="tok-p">{</span> <span class="tok-n">n</span> <span class="tok-p">-&gt;</span> <span class="tok-n">println</span><span class="tok-p">(</span><span class="tok-n">nth</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">))</span> <span class="tok-p">}</span>
+<span class="tok-p">}</span>
+
+<span class="tok-n">outputProgression</span><span class="tok-p">(</span><span class="tok-m">3</span><span class="tok-p">,</span> <span class="tok-m">2</span><span class="tok-p">,</span> <span class="tok-m">5</span><span class="tok-p">,</span> <span class="tok-n">arithmeticNth</span><span class="tok-p">)</span>
+<span class="tok-c1">//3, 5, 7, 9, 11</span>
+
+<span class="tok-n">outputProgression</span><span class="tok-p">(</span><span class="tok-m">3</span><span class="tok-p">,</span> <span class="tok-m">2</span><span class="tok-p">,</span> <span class="tok-m">5</span><span class="tok-p">,</span> <span class="tok-n">geometricNth</span><span class="tok-p">)</span>
+<span class="tok-c1">//3, 6, 12, 24, 48</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Clojure is also pretty much the same:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">output-progression</span>
+  <span class="tok-p">[</span><span class="tok-nv">a</span> <span class="tok-nv">f</span> <span class="tok-nv">n</span> <span class="tok-nv">nth</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">println </span><span class="tok-p">(</span><span class="tok-nb">nth </span><span class="tok-nv">a</span> <span class="tok-nv">f</span> <span class="tok-nv">%</span><span class="tok-p">))</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">1</span> <span class="tok-p">(</span><span class="tok-nb">inc </span><span class="tok-nv">n</span><span class="tok-p">))))</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">arithmetic-nth</span>
+  <span class="tok-p">[</span><span class="tok-nv">a</span> <span class="tok-nv">f</span> <span class="tok-nv">n</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">a</span> <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">n</span><span class="tok-p">)</span> <span class="tok-nv">f</span><span class="tok-p">)))</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">geometric-nth</span>
+  <span class="tok-p">[</span><span class="tok-nv">a</span> <span class="tok-nv">f</span> <span class="tok-nv">n</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nb">int </span><span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-nv">a</span> <span class="tok-p">(</span><span class="tok-nf">Math/pow</span> <span class="tok-nv">f</span> <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">n</span><span class="tok-p">)))))</span>
+
+<span class="tok-p">(</span><span class="tok-nf">output-progression</span> <span class="tok-mi">3</span> <span class="tok-mi">2</span> <span class="tok-mi">5</span> <span class="tok-nv">arithmetic-nth</span><span class="tok-p">)</span>
+<span class="tok-c1">;; 3, 5, 7, 9, 11</span>
+
+<span class="tok-p">(</span><span class="tok-nf">output-progression</span> <span class="tok-mi">3</span> <span class="tok-mi">2</span> <span class="tok-mi">5</span> <span class="tok-nv">geometric-nth</span><span class="tok-p">)</span>
+<span class="tok-c1">;; 3, 6, 12, 24, 48</span></code></pre>
+</div>
+</div>
+
+
+    <div class="post-footer">
+      
+
+    
+    
+    
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+
+    <h1>See also</h1>
+      <div class="paragraph">
+        <ul>
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/">4Clojure solutions over time</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">Hello parking garage, meet clojure.spec</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/">Simulating a parking garage with Clojure Refs</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/">Using Datomic in a simple use case</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4clojure Medium Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/">Getting started with compojure-api</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4clojure Easy Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4clojure Elementary Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/">Better APIs with Java Optional</a> <a class="label" href="http://www.anthony-galea.com/categories/java">java</a><a class="label" href="http://www.anthony-galea.com/categories/groovy">groovy</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/">The Builder Pattern in Java</a> <a class="label" href="http://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="http://www.anthony-galea.com/categories/java">java</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/">An Introduction to Load Testing with Gatling</a> <a class="label" href="http://www.anthony-galea.com/categories/testing">testing</a><a class="label" href="http://www.anthony-galea.com/categories/http">http</a><a class="label" href="http://www.anthony-galea.com/categories/scala">scala</a></li>
+          
+        
+      </ul>
+    </div>
+    </div>
+  
+  
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+</body>
+</html>
+
