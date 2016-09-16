@@ -50,8 +50,8 @@ h1, h2, h3, .quoteblock, .post-date, .paragraph, .ulist, .olist, .pygments {
 }
 
 .paragraph {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .post-header, .post-footer {
@@ -247,7 +247,7 @@ blockquote p:last-child {
 }
 
 @media (max-width: 38em) {
-  time {
+  time, a.label {
     display: none;
   }
 }

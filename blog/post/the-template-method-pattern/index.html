@@ -40,7 +40,7 @@
   
 </head>
 <body>
-
+  
 <div class="navbar">
   <div class="container">
   <div class="title">
@@ -142,17 +142,17 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Notice that by doing this we have cleanly separated the two concerns of:</p>
+<p>By doing this we have cleanly separated the two concerns of:</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>iterating and printing values (in the parent)</p>
 </li>
 <li>
 <p>calculating the nth value (in the children)</p>
 </li>
-</ul>
+</ol>
 </div>
 <div class="paragraph">
 <p>i.e. we get separation of concerns via subclassing. When the <code>output</code> function is called it delegates the calculation to the correct <code>nth</code> function in the child class:</p>
@@ -207,17 +207,21 @@
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="kotlin"><span class="tok-k">val</span> <span class="tok-py">arithmeticNth</span> <span class="tok-p">=</span> <span class="tok-k">fun</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">):</span> <span class="tok-n">Int</span> <span class="tok-p">{</span>
-	<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-p">+</span> <span class="tok-p">(</span><span class="tok-n">n</span> <span class="tok-p">-</span> <span class="tok-m">1</span><span class="tok-p">)</span> <span class="tok-p">*</span> <span class="tok-n">f</span>
+  <span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-p">+</span> <span class="tok-p">(</span><span class="tok-n">n</span> <span class="tok-p">-</span> <span class="tok-m">1</span><span class="tok-p">)</span> <span class="tok-p">*</span> <span class="tok-n">f</span>
 <span class="tok-p">}</span>
 
-<span class="tok-k">fun</span> <span class="tok-nf">Int</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">):</span> <span class="tok-n">Int</span> <span class="tok-p">=</span> <span class="tok-n">Math</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-n">toDouble</span><span class="tok-p">(),</span> <span class="tok-n">n</span><span class="tok-p">.</span><span class="tok-n">toDouble</span><span class="tok-p">()).</span><span class="tok-n">toInt</span><span class="tok-p">()</span>
+<span class="tok-k">fun</span> <span class="tok-nf">Int</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">):</span> <span class="tok-n">Int</span> <span class="tok-p">=</span>
+  <span class="tok-n">Math</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-k">this</span><span class="tok-p">.</span><span class="tok-n">toDouble</span><span class="tok-p">(),</span> <span class="tok-n">n</span><span class="tok-p">.</span><span class="tok-n">toDouble</span><span class="tok-p">()).</span><span class="tok-n">toInt</span><span class="tok-p">()</span>
 
 <span class="tok-k">val</span> <span class="tok-py">geometricNth</span> <span class="tok-p">=</span> <span class="tok-k">fun</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">):</span> <span class="tok-n">Int</span> <span class="tok-p">{</span>
-	<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-p">*</span> <span class="tok-n">a</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-n">n</span> <span class="tok-p">-</span> <span class="tok-m">1</span><span class="tok-p">)</span>
+  <span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-p">*</span> <span class="tok-n">a</span><span class="tok-p">.</span><span class="tok-n">pow</span><span class="tok-p">(</span><span class="tok-n">n</span> <span class="tok-p">-</span> <span class="tok-m">1</span><span class="tok-p">)</span>
 <span class="tok-p">}</span>
 
-<span class="tok-k">fun</span> <span class="tok-nf">outputProgression</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">nth</span><span class="tok-p">:</span> <span class="tok-p">(</span><span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">Int</span><span class="tok-p">)</span> <span class="tok-p">-&gt;</span> <span class="tok-n">Int</span><span class="tok-p">)</span> <span class="tok-p">{</span>
-	<span class="tok-p">(</span><span class="tok-m">1.</span><span class="tok-p">.</span><span class="tok-n">c</span><span class="tok-p">).</span><span class="tok-n">forEach</span> <span class="tok-p">{</span> <span class="tok-n">n</span> <span class="tok-p">-&gt;</span> <span class="tok-n">println</span><span class="tok-p">(</span><span class="tok-n">nth</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">))</span> <span class="tok-p">}</span>
+<span class="tok-k">fun</span> <span class="tok-nf">outputProgression</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span>
+                      <span class="tok-n">f</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span>
+                      <span class="tok-n">c</span><span class="tok-p">:</span> <span class="tok-n">Int</span><span class="tok-p">,</span>
+                      <span class="tok-n">nth</span><span class="tok-p">:</span> <span class="tok-p">(</span><span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">Int</span><span class="tok-p">,</span> <span class="tok-n">Int</span><span class="tok-p">)</span> <span class="tok-p">-&gt;</span> <span class="tok-n">Int</span><span class="tok-p">)</span> <span class="tok-p">{</span>
+  <span class="tok-p">(</span><span class="tok-m">1.</span><span class="tok-p">.</span><span class="tok-n">c</span><span class="tok-p">).</span><span class="tok-n">forEach</span> <span class="tok-p">{</span> <span class="tok-n">n</span> <span class="tok-p">-&gt;</span> <span class="tok-n">println</span><span class="tok-p">(</span><span class="tok-n">nth</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">f</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">))</span> <span class="tok-p">}</span>
 <span class="tok-p">}</span>
 
 <span class="tok-n">outputProgression</span><span class="tok-p">(</span><span class="tok-m">3</span><span class="tok-p">,</span> <span class="tok-m">2</span><span class="tok-p">,</span> <span class="tok-m">5</span><span class="tok-p">,</span> <span class="tok-n">arithmeticNth</span><span class="tok-p">)</span>
