@@ -210,17 +210,7 @@
 &lt;h2 id=&#34;_conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;I have found Gatling to be a very effective tool for load testing. The DSL is succinct and the reports generated provide all the information typically needed out of the box. Other alternatives which I have not yet experimented with are:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;ulist&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/newsapps/beeswithmachineguns&#34;&gt;Bees with Machine Guns&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;http://locust.io/&#34;&gt;Locust&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;I have found Gatling to be a very effective tool for load testing. The DSL is succinct and the reports generated provide all the information typically needed out of the box.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

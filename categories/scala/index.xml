@@ -16,7 +16,7 @@
       
       <guid>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;The &lt;code&gt;Template Method&lt;/code&gt; pattern is a &lt;code&gt;behavioral design pattern&lt;/code&gt; commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;Template Method&lt;/code&gt; pattern is a &lt;code&gt;behavioral design pattern&lt;/code&gt; commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article, we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;As an example consider arithmetic and geometric progressions in mathematics. \$3, 5, 7, 9, 11...\$ is an example of an arithmetic progression which has the generic form: \$a, a+f, a+2f, a+3f...\$ with \$a=3, f=2\$. An example of a geometric progression is \$3, 6, 12, 24, 48...\$ which has the generic form of: \$a, af, af^2, af^3...\$ with \$a=3, f=2\$. Now say we have the task of writing \$n\$ values from a progression to stdout. We could implement this as follows:&lt;/p&gt;
@@ -104,7 +104,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In Scala the separation of concerns can be achieved using function composition. We start by defining the functions to calculate the nth values for both progression types:&lt;/p&gt;
+&lt;p&gt;In Scala, the separation of concerns can be achieved using function composition. We start by defining the functions to calculate the nth values for both progression types:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -394,17 +394,7 @@
 &lt;h2 id=&#34;_conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;I have found Gatling to be a very effective tool for load testing. The DSL is succinct and the reports generated provide all the information typically needed out of the box. Other alternatives which I have not yet experimented with are:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;ulist&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/newsapps/beeswithmachineguns&#34;&gt;Bees with Machine Guns&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;http://locust.io/&#34;&gt;Locust&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;I have found Gatling to be a very effective tool for load testing. The DSL is succinct and the reports generated provide all the information typically needed out of the box.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

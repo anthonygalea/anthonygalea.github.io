@@ -81,7 +81,7 @@
       </span>
     </div>
     <div class="paragraph">
-<p>In a <a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api">previous post</a> we started building an account service in Clojure using <a href="https://github.com/metosin/compojure-api">compojure-api</a>. In this post we will add persistence using <a href="http://www.datomic.com/">datomic</a>. The sources are available on <a href="http://github.com/anthonygalea/account-service">github</a>. For an introduction to Datomic as well as the value-proposition behind it you should take a look at the <a href="http://www.datomic.com/training.html">training resources on the Datomic website</a>. If the videos are too much of an investment at this stage, you might want to take a look at Daniel Higginbotham&#8217;s article <a href="http://www.flyingmachinestudios.com/programming/datomic-for-five-year-olds/">Datomic for Five Year Olds</a>. Just as a quick reminder, the service should support creating accounts and transferring money from one account to another. Here are the Swagger docs for the API:</p>
+<p>In a <a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api">previous post</a>, we started building an account service in Clojure using <a href="https://github.com/metosin/compojure-api">compojure-api</a>. In this post, we will add persistence using <a href="http://www.datomic.com/">Datomic</a>. The sources are available on <a href="http://github.com/anthonygalea/account-service">GitHub</a>. For an introduction to Datomic as well as the value-proposition behind it, you should take a look at the <a href="http://www.datomic.com/training.html">training resources on the Datomic website</a>. If the videos are too much of an investment at this stage, you might want to take a look at Daniel Higginbotham&#8217;s article <a href="http://www.flyingmachinestudios.com/programming/datomic-for-five-year-olds/">Datomic for Five Year Olds</a>. Just as a quick reminder, the service should support creating accounts and transferring money from one account to another. Here are the Swagger docs for the API:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -92,7 +92,7 @@
 <h2 id="_the_schema">The Schema</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We will start by defining the schema for datomic. Under the <code>resources</code> folder create a file named <code>schema.dtm</code>. This will hold the datomic schema definition. An account only has one field: <code>balance</code>:</p>
+<p>We will start by defining the schema for Datomic. Under the <code>resources</code> folder, create a file named <code>schema.dtm</code>. This will hold the Datomic schema definition. An account only has one field: <code>balance</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -159,7 +159,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Next create a file under <code>src/account_service</code> called <code>db.clj</code>. In it we <code>:require datomic.api</code> and define the connection to datomic:</p>
+<p>Next create a file under <code>src/account_service</code> called <code>db.clj</code>. In it we <code>:require datomic.api</code> and define the connection to Datomic:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -187,7 +187,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Notice we use the <a href="https://github.com/marick/Midje">midje</a> and datomic libraries for our tests so add these dependencies in <code>project.clj</code>, as well as the <code>lein-datomic</code> and <code>lein-midje</code> plugins:</p>
+<p>Notice we use the <a href="https://github.com/marick/Midje">midje</a> and Datomic libraries for our tests so add these dependencies in <code>project.clj</code>, as well as the <code>lein-datomic</code> and <code>lein-midje</code> plugins:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -227,7 +227,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Every time we call this function we are dropping the database, recreating it and applying the schema. Next let&#8217;s write our first test for creating accounts:</p>
+<p>Every time we call this function we are dropping the database, recreating it and applying the schema. Next, let&#8217;s write our first test for creating accounts:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -238,7 +238,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>This says we should be able to add an account to the system by providing an initial balance using the function <code>add-account</code>. Also we should be able to find said account using the function <code>get-account</code>, via the id returned by <code>add-account</code>. <code>with-redefs</code> temporarily redefines <code>conn</code> in <code>db.clj</code> so that the tests use the in-memory database. Before implementing these two methods let&#8217;s define one more test:</p>
+<p>This says we should be able to add an account to the system by providing an initial balance using the function <code>add-account</code>. Also, we should be able to find said account using the function <code>get-account</code>, via the id returned by <code>add-account</code>. <code>with-redefs</code> temporarily redefines <code>conn</code> in <code>db.clj</code> so that the tests use the in-memory database. Before implementing these two methods let&#8217;s define one more test:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -261,7 +261,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Of course the tests fail so let&#8217;s proceed to the implementation.</p>
+<p>Of course, the tests fail so let&#8217;s proceed to the implementation.</p>
 </div>
 </div>
 </div>
@@ -311,7 +311,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>We use the datomic <code>q</code> function to perform queries. The query language used is <a href="https://en.wikipedia.org/wiki/Datalog">datalog</a>. For an overview of <code>datalog</code> you can check out <a href="http://www.learndatalogtoday.org/">learndatalogtoday.org</a>. At this point you should be able to run <code>lein midje</code> in the shell and the tests should be green.</p>
+<p>We use the Datomic <code>q</code> function to perform queries. The query language used is <a href="https://en.wikipedia.org/wiki/Datalog">datalog</a>. For an overview of <code>datalog</code> you can check out <a href="http://www.learndatalogtoday.org/">learndatalogtoday.org</a>. At this point, you should be able to run <code>lein midje</code> in the shell and the tests should be green.</p>
 </div>
 </div>
 </div>
@@ -477,7 +477,7 @@
 <h2 id="_conclusion">Conclusion</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this post we have extended the API from an <a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api">earlier post</a> to use datomic for persistence. You can find all the source code on <a href="http://github.com/anthonygalea/account-service">github</a>.</p>
+<p>In this post, we have extended the API from an <a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api">earlier post</a> to use Datomic for persistence. You can find all the source code on <a href="http://github.com/anthonygalea/account-service">GitHub</a>.</p>
 </div>
 </div>
 </div>
@@ -598,7 +598,7 @@
           
           
           
-            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4clojure Medium Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4Clojure Medium Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
           
         
           
@@ -614,7 +614,7 @@
           
           
           
-            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4clojure Easy Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4Clojure Easy Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
           
         
           
@@ -624,7 +624,7 @@
           
           
           
-            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4clojure Elementary Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4Clojure Elementary Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
           
         
           

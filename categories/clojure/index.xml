@@ -16,7 +16,7 @@
       
       <guid>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;The &lt;code&gt;Template Method&lt;/code&gt; pattern is a &lt;code&gt;behavioral design pattern&lt;/code&gt; commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;Template Method&lt;/code&gt; pattern is a &lt;code&gt;behavioral design pattern&lt;/code&gt; commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article, we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;As an example consider arithmetic and geometric progressions in mathematics. \$3, 5, 7, 9, 11...\$ is an example of an arithmetic progression which has the generic form: \$a, a+f, a+2f, a+3f...\$ with \$a=3, f=2\$. An example of a geometric progression is \$3, 6, 12, 24, 48...\$ which has the generic form of: \$a, af, af^2, af^3...\$ with \$a=3, f=2\$. Now say we have the task of writing \$n\$ values from a progression to stdout. We could implement this as follows:&lt;/p&gt;
@@ -104,7 +104,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In Scala the separation of concerns can be achieved using function composition. We start by defining the functions to calculate the nth values for both progression types:&lt;/p&gt;
+&lt;p&gt;In Scala, the separation of concerns can be achieved using function composition. We start by defining the functions to calculate the nth values for both progression types:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -208,7 +208,7 @@
 &lt;/iframe&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Somebody recently posted in the clojure subreddit that there had just been over 1 million problems solved on the &lt;a href=&#34;http://www.4clojure.com/&#34;&gt;4clojure&lt;/a&gt; website. When I saw this I wondered if we could get a graph of the number of solutions solved over time, so I sent an email to the 4clojure guys asking if they had the data to generate such a graph. The reply:&lt;/p&gt;
+&lt;p&gt;Somebody recently posted in the Clojure subreddit that there had just been over 1 million problems solved on the &lt;a href=&#34;http://www.4clojure.com/&#34;&gt;4Clojure&lt;/a&gt; website. When I saw this I wondered if we could get a graph of the number of solutions solved over time, so I sent an email to the 4Clojure guys asking if they had the data to generate such a graph. The reply:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;quoteblock&#34;&gt;
 &lt;blockquote&gt;
@@ -218,7 +218,7 @@
 &lt;/blockquote&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Checked &lt;a href=&#34;http://web.archive.org/web/*/4clojure.com&#34;&gt;waybackmachine&lt;/a&gt; and there were a bunch of snapshots since 2011. A few curl requests and some grep filtering later I had the counts and could plot a graph with &lt;a href=&#34;http://c3js.org/&#34;&gt;C3.js&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Checked &lt;a href=&#34;http://web.archive.org/web/*/4clojure.com&#34;&gt;Wayback machine&lt;/a&gt; and there were a bunch of snapshots since 2011. A few curl requests and some grep filtering later I had the counts and could plot a graph with &lt;a href=&#34;http://c3js.org/&#34;&gt;C3.js&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -230,7 +230,7 @@
       
       <guid>http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In this post we will take the &lt;a href=&#34;http://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/&#34;&gt;parking garage problem from the previous post&lt;/a&gt; and see how &lt;code&gt;clojure.spec&lt;/code&gt; might be applied. If you are new to clojure.spec you can check out the &lt;a href=&#34;http://clojure.org/about/spec&#34;&gt;rationale&lt;/a&gt; and the  &lt;a href=&#34;http://clojure.org/guides/spec&#34;&gt;guide&lt;/a&gt; on clojure.org. Let&amp;#8217;s start by specing the data. Recall that we used a map to state how many parking spaces are available on each garage level:&lt;/p&gt;
+&lt;p&gt;In this post, we will take the &lt;a href=&#34;http://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/&#34;&gt;parking garage problem from the previous post&lt;/a&gt; and see how &lt;code&gt;clojure.spec&lt;/code&gt; might be applied. If you are new to clojure.spec you can check out the &lt;a href=&#34;http://clojure.org/about/spec&#34;&gt;rationale&lt;/a&gt; and the  &lt;a href=&#34;http://clojure.org/guides/spec&#34;&gt;guide&lt;/a&gt; on clojure.org. Let&amp;#8217;s start by specing the data. Recall that we used a map to state how many parking spaces are available on each garage level:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -517,7 +517,7 @@
       
       <guid>http://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In this post we will use a simple problem to illustrate &lt;a href=&#34;http://clojure.org/reference/refs&#34;&gt;Clojure Refs&lt;/a&gt;. All sources are on &lt;a href=&#34;https://github.com/anthonygalea/garage-simulation&#34;&gt;github&lt;/a&gt;. The problem is to simulate operations on a garage used for parking vehicles.&lt;/p&gt;
+&lt;p&gt;In this post, we will use a simple problem to illustrate &lt;a href=&#34;http://clojure.org/reference/refs&#34;&gt;Clojure Refs&lt;/a&gt;. All sources are on &lt;a href=&#34;https://github.com/anthonygalea/garage-simulation&#34;&gt;GitHub&lt;/a&gt;. The problem is to simulate operations on a garage used for parking vehicles.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;imageblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -612,7 +612,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Before we move on to the implementation, what is a &lt;code&gt;ref&lt;/code&gt;? In Clojure data is immutable, so we have constructs to model the &lt;code&gt;state&lt;/code&gt; of something as it changes over time. The &#34;something&#34; we model has an &lt;code&gt;identity&lt;/code&gt; and this identity can refer to various snapshots of it&amp;#8217;s &lt;code&gt;state&lt;/code&gt; over time. Let&amp;#8217;s start with a simpler contruct, the &lt;code&gt;atom&lt;/code&gt;. This is perhaps better explained with an example. Start a REPL and follow along:&lt;/p&gt;
+&lt;p&gt;Before we move on to the implementation, what is a &lt;code&gt;ref&lt;/code&gt;? In Clojure data is immutable, so we have constructs to model the &lt;code&gt;state&lt;/code&gt; of something as it changes over time. The &#34;something&#34; we model has an &lt;code&gt;identity&lt;/code&gt; and this identity can refer to various snapshots of its &lt;code&gt;state&lt;/code&gt; over time. Let&amp;#8217;s start with a simpler construct, the &lt;code&gt;atom&lt;/code&gt;. This is perhaps better explained with an example. Start a REPL and follow along:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -687,7 +687,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Notice that with &lt;code&gt;dosync&lt;/code&gt; the operations are happening within a transaction, so we don&amp;#8217;t need to worry about two cars potentially getting assigned the same parking space. Finally it is trivial to define the operations &lt;code&gt;locate-vehicle&lt;/code&gt; and &lt;code&gt;number-of-free-parking-spaces&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Notice that with &lt;code&gt;dosync&lt;/code&gt; the operations are happening within a transaction, so we don&amp;#8217;t need to worry about two cars potentially getting assigned the same parking space. Finally, it is trivial to define the operations &lt;code&gt;locate-vehicle&lt;/code&gt; and &lt;code&gt;number-of-free-parking-spaces&lt;/code&gt;:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -704,7 +704,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;If you want to take a look at the complete sources they&amp;#8217;re on &lt;a href=&#34;https://github.com/anthonygalea/garage-simulation&#34;&gt;github&lt;/a&gt;. In the &lt;a href=&#34;http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/&#34;&gt;next post&lt;/a&gt; we will take a look at how we can apply clojure.spec.&lt;/p&gt;
+&lt;p&gt;If you want to take a look at the complete sources they&amp;#8217;re on &lt;a href=&#34;https://github.com/anthonygalea/garage-simulation&#34;&gt;GitHub&lt;/a&gt;. In the &lt;a href=&#34;http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/&#34;&gt;next post&lt;/a&gt; we will take a look at how we can apply clojure.spec.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -716,7 +716,7 @@
       
       <guid>http://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In a &lt;a href=&#34;http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api&#34;&gt;previous post&lt;/a&gt; we started building an account service in Clojure using &lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;compojure-api&lt;/a&gt;. In this post we will add persistence using &lt;a href=&#34;http://www.datomic.com/&#34;&gt;datomic&lt;/a&gt;. The sources are available on &lt;a href=&#34;http://github.com/anthonygalea/account-service&#34;&gt;github&lt;/a&gt;. For an introduction to Datomic as well as the value-proposition behind it you should take a look at the &lt;a href=&#34;http://www.datomic.com/training.html&#34;&gt;training resources on the Datomic website&lt;/a&gt;. If the videos are too much of an investment at this stage, you might want to take a look at Daniel Higginbotham&amp;#8217;s article &lt;a href=&#34;http://www.flyingmachinestudios.com/programming/datomic-for-five-year-olds/&#34;&gt;Datomic for Five Year Olds&lt;/a&gt;. Just as a quick reminder, the service should support creating accounts and transferring money from one account to another. Here are the Swagger docs for the API:&lt;/p&gt;
+&lt;p&gt;In a &lt;a href=&#34;http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api&#34;&gt;previous post&lt;/a&gt;, we started building an account service in Clojure using &lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;compojure-api&lt;/a&gt;. In this post, we will add persistence using &lt;a href=&#34;http://www.datomic.com/&#34;&gt;Datomic&lt;/a&gt;. The sources are available on &lt;a href=&#34;http://github.com/anthonygalea/account-service&#34;&gt;GitHub&lt;/a&gt;. For an introduction to Datomic as well as the value-proposition behind it, you should take a look at the &lt;a href=&#34;http://www.datomic.com/training.html&#34;&gt;training resources on the Datomic website&lt;/a&gt;. If the videos are too much of an investment at this stage, you might want to take a look at Daniel Higginbotham&amp;#8217;s article &lt;a href=&#34;http://www.flyingmachinestudios.com/programming/datomic-for-five-year-olds/&#34;&gt;Datomic for Five Year Olds&lt;/a&gt;. Just as a quick reminder, the service should support creating accounts and transferring money from one account to another. Here are the Swagger docs for the API:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;imageblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -727,7 +727,7 @@
 &lt;h2 id=&#34;_the_schema&#34;&gt;The Schema&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;We will start by defining the schema for datomic. Under the &lt;code&gt;resources&lt;/code&gt; folder create a file named &lt;code&gt;schema.dtm&lt;/code&gt;. This will hold the datomic schema definition. An account only has one field: &lt;code&gt;balance&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;We will start by defining the schema for Datomic. Under the &lt;code&gt;resources&lt;/code&gt; folder, create a file named &lt;code&gt;schema.dtm&lt;/code&gt;. This will hold the Datomic schema definition. An account only has one field: &lt;code&gt;balance&lt;/code&gt;:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -794,7 +794,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Next create a file under &lt;code&gt;src/account_service&lt;/code&gt; called &lt;code&gt;db.clj&lt;/code&gt;. In it we &lt;code&gt;:require datomic.api&lt;/code&gt; and define the connection to datomic:&lt;/p&gt;
+&lt;p&gt;Next create a file under &lt;code&gt;src/account_service&lt;/code&gt; called &lt;code&gt;db.clj&lt;/code&gt;. In it we &lt;code&gt;:require datomic.api&lt;/code&gt; and define the connection to Datomic:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -822,7 +822,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Notice we use the &lt;a href=&#34;https://github.com/marick/Midje&#34;&gt;midje&lt;/a&gt; and datomic libraries for our tests so add these dependencies in &lt;code&gt;project.clj&lt;/code&gt;, as well as the &lt;code&gt;lein-datomic&lt;/code&gt; and &lt;code&gt;lein-midje&lt;/code&gt; plugins:&lt;/p&gt;
+&lt;p&gt;Notice we use the &lt;a href=&#34;https://github.com/marick/Midje&#34;&gt;midje&lt;/a&gt; and Datomic libraries for our tests so add these dependencies in &lt;code&gt;project.clj&lt;/code&gt;, as well as the &lt;code&gt;lein-datomic&lt;/code&gt; and &lt;code&gt;lein-midje&lt;/code&gt; plugins:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -862,7 +862,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Every time we call this function we are dropping the database, recreating it and applying the schema. Next let&amp;#8217;s write our first test for creating accounts:&lt;/p&gt;
+&lt;p&gt;Every time we call this function we are dropping the database, recreating it and applying the schema. Next, let&amp;#8217;s write our first test for creating accounts:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -873,7 +873,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;This says we should be able to add an account to the system by providing an initial balance using the function &lt;code&gt;add-account&lt;/code&gt;. Also we should be able to find said account using the function &lt;code&gt;get-account&lt;/code&gt;, via the id returned by &lt;code&gt;add-account&lt;/code&gt;. &lt;code&gt;with-redefs&lt;/code&gt; temporarily redefines &lt;code&gt;conn&lt;/code&gt; in &lt;code&gt;db.clj&lt;/code&gt; so that the tests use the in-memory database. Before implementing these two methods let&amp;#8217;s define one more test:&lt;/p&gt;
+&lt;p&gt;This says we should be able to add an account to the system by providing an initial balance using the function &lt;code&gt;add-account&lt;/code&gt;. Also, we should be able to find said account using the function &lt;code&gt;get-account&lt;/code&gt;, via the id returned by &lt;code&gt;add-account&lt;/code&gt;. &lt;code&gt;with-redefs&lt;/code&gt; temporarily redefines &lt;code&gt;conn&lt;/code&gt; in &lt;code&gt;db.clj&lt;/code&gt; so that the tests use the in-memory database. Before implementing these two methods let&amp;#8217;s define one more test:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -896,7 +896,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Of course the tests fail so let&amp;#8217;s proceed to the implementation.&lt;/p&gt;
+&lt;p&gt;Of course, the tests fail so let&amp;#8217;s proceed to the implementation.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -946,7 +946,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;We use the datomic &lt;code&gt;q&lt;/code&gt; function to perform queries. The query language used is &lt;a href=&#34;https://en.wikipedia.org/wiki/Datalog&#34;&gt;datalog&lt;/a&gt;. For an overview of &lt;code&gt;datalog&lt;/code&gt; you can check out &lt;a href=&#34;http://www.learndatalogtoday.org/&#34;&gt;learndatalogtoday.org&lt;/a&gt;. At this point you should be able to run &lt;code&gt;lein midje&lt;/code&gt; in the shell and the tests should be green.&lt;/p&gt;
+&lt;p&gt;We use the Datomic &lt;code&gt;q&lt;/code&gt; function to perform queries. The query language used is &lt;a href=&#34;https://en.wikipedia.org/wiki/Datalog&#34;&gt;datalog&lt;/a&gt;. For an overview of &lt;code&gt;datalog&lt;/code&gt; you can check out &lt;a href=&#34;http://www.learndatalogtoday.org/&#34;&gt;learndatalogtoday.org&lt;/a&gt;. At this point, you should be able to run &lt;code&gt;lein midje&lt;/code&gt; in the shell and the tests should be green.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1112,7 +1112,7 @@
 &lt;h2 id=&#34;_conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In this post we have extended the API from an &lt;a href=&#34;http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api&#34;&gt;earlier post&lt;/a&gt; to use datomic for persistence. You can find all the source code on &lt;a href=&#34;http://github.com/anthonygalea/account-service&#34;&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this post, we have extended the API from an &lt;a href=&#34;http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api&#34;&gt;earlier post&lt;/a&gt; to use Datomic for persistence. You can find all the source code on &lt;a href=&#34;http://github.com/anthonygalea/account-service&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1120,13 +1120,13 @@
     </item>
     
     <item>
-      <title>Solutions to 4clojure Medium Problems</title>
+      <title>Solutions to 4Clojure Medium Problems</title>
       <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</link>
       <pubDate>Thu, 09 Jun 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;This is the third post on solutions to &lt;a href=&#34;http://www.4clojure.com&#34;&gt;4clojure&lt;/a&gt; problems. Once again all solutions are on &lt;a href=&#34;https://github.com/anthonygalea/solutions-4clojure&#34;&gt;github&lt;/a&gt;, and if you have any suggestions for alternative solutions I would love to hear from you.&lt;/p&gt;
+&lt;p&gt;This is the third post on solutions to &lt;a href=&#34;http://www.4clojure.com&#34;&gt;4Clojure&lt;/a&gt; problems. Once again all solutions are on &lt;a href=&#34;https://github.com/anthonygalea/solutions-4clojure&#34;&gt;GitHub&lt;/a&gt;, and if you have any suggestions for alternative solutions I would love to hear from you.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;sect2&#34;&gt;
 &lt;h3 id=&#34;_43_reverse_interleave&#34;&gt;43. Reverse Interleave&lt;/h3&gt;
@@ -1961,7 +1961,7 @@
       
       <guid>http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In this post I will give a walkthrough of building a simple service using &lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;compojure-api&lt;/a&gt;. As a use case we will build a simple account service that offers two functions:&lt;/p&gt;
+&lt;p&gt;In this post, I will give a walkthrough of building a simple service using &lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;compojure-api&lt;/a&gt;. As a use case we will build a simple account service that offers two functions:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;ulist&#34;&gt;
 &lt;ul&gt;
@@ -1974,7 +1974,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;By the end of this tutorial you should have a swagger UI that allows to test these two calls:&lt;/p&gt;
+&lt;p&gt;By the end of this tutorial you should have a swagger UI that allows testing these two calls:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;imageblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -2108,7 +2108,7 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;_using_compojure_api&#34;&gt;Using compojure-api&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;compojure-api&lt;/a&gt; library makes it very easy to build web APIs. It is built on top of &lt;a href=&#34;https://github.com/weavejester/compojure&#34;&gt;compojure&lt;/a&gt; and &lt;a href=&#34;https://github.com/ring-clojure/ring&#34;&gt;ring&lt;/a&gt;. It also uses the &lt;a href=&#34;https://github.com/plumatic/schema&#34;&gt;schema&lt;/a&gt; library for describing and validating requests, and &lt;a href=&#34;https://github.com/metosin/ring-swagger&#34;&gt;ring-swagger&lt;/a&gt; to expose API documentation. First let&amp;#8217;s add some requires in &lt;code&gt;core.clj&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;compojure-api&lt;/a&gt; library makes it very easy to build web APIs. It is built on top of &lt;a href=&#34;https://github.com/weavejester/compojure&#34;&gt;compojure&lt;/a&gt; and &lt;a href=&#34;https://github.com/ring-clojure/ring&#34;&gt;ring&lt;/a&gt;. It also uses the &lt;a href=&#34;https://github.com/plumatic/schema&#34;&gt;schema&lt;/a&gt; library for describing and validating requests, and &lt;a href=&#34;https://github.com/metosin/ring-swagger&#34;&gt;ring-swagger&lt;/a&gt; to expose API documentation. First, let&amp;#8217;s add some requires in &lt;code&gt;core.clj&lt;/code&gt;:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -2120,7 +2120,7 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Next we define schemas for the payloads:&lt;/p&gt;
+&lt;p&gt;Next, we define schemas for the payloads:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
@@ -2215,7 +2215,7 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;_conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 &lt;div class=&#34;sectionbody&#34;&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In this post we have exposed a simple API using &lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;compojure-api&lt;/a&gt;. You can find all the source code on &lt;a href=&#34;http://github.com/anthonygalea/account-service&#34;&gt;github&lt;/a&gt;. In the next post we will show how to use this in conjunction with &lt;a href=&#34;http://www.datomic.com&#34;&gt;datomic&lt;/a&gt; for persistence.&lt;/p&gt;
+&lt;p&gt;In this post, we have exposed a simple API using &lt;a href=&#34;https://github.com/metosin/compojure-api&#34;&gt;compojure-api&lt;/a&gt;. You can find all the source code on &lt;a href=&#34;http://github.com/anthonygalea/account-service&#34;&gt;GitHub&lt;/a&gt;. In the next post, we will show how to use this in conjunction with &lt;a href=&#34;http://www.datomic.com&#34;&gt;Datomic&lt;/a&gt; for persistence.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2223,13 +2223,13 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>Solutions to 4clojure Easy Problems</title>
+      <title>Solutions to 4Clojure Easy Problems</title>
       <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</link>
       <pubDate>Tue, 29 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Following the first post on solutions to &lt;a href=&#34;http://www.4clojure.com&#34;&gt;4clojure&lt;/a&gt; problems, in this post I will continue with the next set of problems. Once again all solutions are on &lt;a href=&#34;https://github.com/anthonygalea/solutions-4clojure&#34;&gt;github&lt;/a&gt;, and if you have any suggestions/alternative solutions I would love to hear from you.&lt;/p&gt;
+&lt;p&gt;Following the first post on solutions to &lt;a href=&#34;http://www.4clojure.com&#34;&gt;4Clojure&lt;/a&gt; problems, in this post I will continue with the next set of problems. Once again all solutions are on &lt;a href=&#34;https://github.com/anthonygalea/solutions-4clojure&#34;&gt;GitHub&lt;/a&gt;, and if you have any suggestions/alternative solutions I would love to hear from you.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;sect2&#34;&gt;
 &lt;h3 id=&#34;_19_last_element&#34;&gt;19. Last Element&lt;/h3&gt;
@@ -3184,13 +3184,13 @@ Hello from ring&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>Solutions to 4clojure Elementary Problems</title>
+      <title>Solutions to 4Clojure Elementary Problems</title>
       <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</link>
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</guid>
       <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In this post I will share solutions to the elementary problems I solved on &lt;a href=&#34;http://www.4clojure.com&#34;&gt;4clojure&lt;/a&gt;. You can find all the solutions on &lt;a href=&#34;https://github.com/anthonygalea/solutions-4clojure&#34;&gt;github&lt;/a&gt;. If you have any suggestions/alternative solutions I would love to hear from you.&lt;/p&gt;
+&lt;p&gt;In this post, I will share solutions to the elementary problems I solved on &lt;a href=&#34;http://www.4clojure.com&#34;&gt;4Clojure&lt;/a&gt;. You can find all the solutions on &lt;a href=&#34;https://github.com/anthonygalea/solutions-4clojure&#34;&gt;GitHub&lt;/a&gt;. If you have any suggestions/alternative solutions I would love to hear from you.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;sect2&#34;&gt;
 &lt;h3 id=&#34;_1_nothing_but_the_truth&#34;&gt;1. Nothing but the Truth&lt;/h3&gt;
