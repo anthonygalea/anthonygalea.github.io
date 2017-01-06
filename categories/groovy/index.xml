@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Groovy on Anthony Galea</title>
-    <link>http://www.anthony-galea.com/categories/groovy/</link>
+    <link>http://www.anthony-galea.com/categories/groovy/index.xml</link>
     <description>Recent content in Groovy on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Jan 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.anthony-galea.com/categories/groovy/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -101,7 +100,7 @@
 &lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
 &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;ifPresent&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(()&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;());&lt;/span&gt;
 &lt;span class=&#34;tok-c1&#34;&gt;//or&lt;/span&gt;
-&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;ifPresent&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nl&#34;&gt;Plane:&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;ifPresent&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
@@ -119,7 +118,7 @@
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;pygments highlight&#34;&gt;&lt;code data-lang=&#34;java&#34;&gt;&lt;span class=&#34;tok-n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;Plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt; &lt;span class=&#34;tok-o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;tok-n&#34;&gt;planeProvider&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;getPlane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;
-&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;orElseThrow&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-nl&#34;&gt;IllegalStateException:&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;tok-n&#34;&gt;plane&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;orElseThrow&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;tok-n&#34;&gt;IllegalStateException&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;tok-k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;tok-na&#34;&gt;fly&lt;/span&gt;&lt;span class=&#34;tok-o&#34;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

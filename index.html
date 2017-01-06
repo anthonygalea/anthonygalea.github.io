@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.16" />
+	<meta name="generator" content="Hugo 0.18.1" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -18,6 +18,8 @@
   
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
   
+
+  <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
 
   
   
@@ -39,9 +41,47 @@
     ga('send', 'pageview');
   </script>
   
+  <style>
+   .cm-s-default.CodeMirror {
+       background-color: #272822 !important;
+       color: #CFD2D1 !important;
+       border: none;
+   }
+   .cm-s-default .CodeMirror-gutters {
+       color: #404b53;
+       background-color: #0E1112;
+       border: none;
+   }
+   .cm-s-default .CodeMirror-cursor { border-left: solid thin #f8f8f0; }
+   .cm-s-default .CodeMirror-linenumber { color: #6D8A88; }
+   .cm-s-default .CodeMirror-focused div.CodeMirror-selected { background: rgba(255, 255, 255, 0.10); }
+   .cm-s-default .CodeMirror-line::selection, .cm-s-default .CodeMirror-line > span::selection, .cm-s-default .CodeMirror-line > span > span::selection { background: rgba(255, 255, 255, 0.10); }
+   .cm-s-default .CodeMirror-line::-moz-selection, .cm-s-default .CodeMirror-line > span::-moz-selection, .cm-s-default .CodeMirror-line > span > span::-moz-selection { background: rgba(255, 255, 255, 0.10); }
+   .cm-s-default span.cm-comment { color: #c8c8c0; }
+   .cm-s-default span.cm-string, .cm-s-default span.cm-string-2 { color: #55b5db; }
+   .cm-s-default span.cm-number { color: #cd3f45; }
+   .cm-s-default span.cm-variable { color: #55b5db; }
+   .cm-s-default span.cm-variable-2 { color: #a074c4; }
+   .cm-s-default span.cm-def { color: #55b5db; }
+   .cm-s-default span.cm-keyword { color: #ff79c6; }
+   .cm-s-default span.cm-operator { color: #9fca56; }
+   .cm-s-default span.cm-keyword { color: #9fca56; }
+   .cm-s-default span.cm-atom { color: #cd3f45; }
+   .cm-s-default span.cm-meta { color: #e6cd69; }
+   .cm-s-default span.cm-tag { color: #55b5db; }
+   .cm-s-default span.cm-attribute { color: #9fca56; }
+   .cm-s-default span.cm-qualifier { color: #9fca56; }
+   .cm-s-default span.cm-property { color: #a074c4; }
+   .cm-s-default span.cm-variable-3 { color: #9fca56; }
+   .cm-s-default span.cm-builtin { color: #9fca56; }
+   .cm-s-default .CodeMirror-activeline-background { background: #101213; }
+   .cm-s-default .CodeMirror-matchingbracket { text-decoration: underline; color: white !important; }
+
+   .klipse-container {height: 0}
+  </style>
 </head>
 <body>
-  
+
 <div class="navbar">
   <div class="container">
   <div class="title">
@@ -69,7 +109,6 @@
 
 
 <div class="content">
-
 
 <div class="paragraph">
   <ul class="posts">
@@ -247,11 +286,25 @@
     
   </ul>
 </div>
+
 </div>
 
 
 
 
+<script>
+ window.klipse_settings = {
+     selector: '.language-klipse',
+     codemirror_options_in: {
+         indentUnit: 2,
+         lineWrapping: true,
+         lineNumbers: true,
+         autoCloseBrackets: true
+     }
+ };
+ 
+</script>
+<script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>

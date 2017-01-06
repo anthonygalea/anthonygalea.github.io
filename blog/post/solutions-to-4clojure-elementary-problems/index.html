@@ -18,6 +18,8 @@
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
   
 
+  <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
+
   
   
   
@@ -38,9 +40,47 @@
     ga('send', 'pageview');
   </script>
   
+  <style>
+   .cm-s-default.CodeMirror {
+       background-color: #272822 !important;
+       color: #CFD2D1 !important;
+       border: none;
+   }
+   .cm-s-default .CodeMirror-gutters {
+       color: #404b53;
+       background-color: #0E1112;
+       border: none;
+   }
+   .cm-s-default .CodeMirror-cursor { border-left: solid thin #f8f8f0; }
+   .cm-s-default .CodeMirror-linenumber { color: #6D8A88; }
+   .cm-s-default .CodeMirror-focused div.CodeMirror-selected { background: rgba(255, 255, 255, 0.10); }
+   .cm-s-default .CodeMirror-line::selection, .cm-s-default .CodeMirror-line > span::selection, .cm-s-default .CodeMirror-line > span > span::selection { background: rgba(255, 255, 255, 0.10); }
+   .cm-s-default .CodeMirror-line::-moz-selection, .cm-s-default .CodeMirror-line > span::-moz-selection, .cm-s-default .CodeMirror-line > span > span::-moz-selection { background: rgba(255, 255, 255, 0.10); }
+   .cm-s-default span.cm-comment { color: #c8c8c0; }
+   .cm-s-default span.cm-string, .cm-s-default span.cm-string-2 { color: #55b5db; }
+   .cm-s-default span.cm-number { color: #cd3f45; }
+   .cm-s-default span.cm-variable { color: #55b5db; }
+   .cm-s-default span.cm-variable-2 { color: #a074c4; }
+   .cm-s-default span.cm-def { color: #55b5db; }
+   .cm-s-default span.cm-keyword { color: #ff79c6; }
+   .cm-s-default span.cm-operator { color: #9fca56; }
+   .cm-s-default span.cm-keyword { color: #9fca56; }
+   .cm-s-default span.cm-atom { color: #cd3f45; }
+   .cm-s-default span.cm-meta { color: #e6cd69; }
+   .cm-s-default span.cm-tag { color: #55b5db; }
+   .cm-s-default span.cm-attribute { color: #9fca56; }
+   .cm-s-default span.cm-qualifier { color: #9fca56; }
+   .cm-s-default span.cm-property { color: #a074c4; }
+   .cm-s-default span.cm-variable-3 { color: #9fca56; }
+   .cm-s-default span.cm-builtin { color: #9fca56; }
+   .cm-s-default .CodeMirror-activeline-background { background: #101213; }
+   .cm-s-default .CodeMirror-matchingbracket { text-decoration: underline; color: white !important; }
+
+   .klipse-container {height: 0}
+  </style>
 </head>
 <body>
-  
+
 <div class="navbar">
   <div class="container">
   <div class="title">
@@ -83,422 +123,539 @@
     <div class="paragraph">
 <p>In this post, I will share solutions to the elementary problems I solved on <a href="http://www.4clojure.com">4Clojure</a>. You can find all the solutions on <a href="https://github.com/anthonygalea/solutions-4clojure">GitHub</a>. If you have any suggestions/alternative solutions I would love to hear from you.</p>
 </div>
-<div class="sect2">
-<h3 id="_1_nothing_but_the_truth">1. Nothing but the Truth</h3>
+<div class="sect1">
+<h2 id="_1_nothing_but_the_truth">1. Nothing but the Truth</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a clojure form. Enter a value which will make the form evaluate to <code>true</code>.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; This is a clojure form.</span>
-<span class="tok-c1">;; Enter a value which will make the form evaluate to true.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-nv">true</span><span class="tok-p">)</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def nothing-but-the-truth true)
 
-<span class="tok-nv">true</span></code></pre>
+(= nothing-but-the-truth true)</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_2_simple_math">2. Simple Math</h3>
+</div>
+<div class="sect1">
+<h2 id="_2_simple_math">2. Simple Math</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you are not familiar with polish notation, simple arithmetic might seem confusing.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; If you are not familiar with polish notation, simple arithmetic might seem confusing.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">- </span><span class="tok-mi">10</span> <span class="tok-p">(</span><span class="tok-nb">* </span><span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">))</span> <span class="tok-nv">__</span><span class="tok-p">)</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def simple-math 4)
 
-<span class="tok-mi">4</span></code></pre>
+(= (- 10 (* 2 3)) simple-math)</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_3_intro_to_strings">3. Intro to Strings</h3>
+</div>
+<div class="sect1">
+<h2 id="_3_intro_to_strings">3. Intro to Strings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Clojure strings are Java strings. This means that you can use any of the Java string methods on Clojure strings.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Clojure strings are Java strings.</span>
-<span class="tok-c1">;; This means that you can use any of the Java string methods on Clojure strings.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nf">.toUpperCase</span> <span class="tok-s">&quot;hello world&quot;</span><span class="tok-p">))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-strings "HELLO WORLD")
 
-<span class="tok-s">&quot;HELLO WORLD&quot;</span></code></pre>
+(= intro-to-strings (.toUpperCase "hello world"))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_4_intro_to_lists">4. Intro to Lists</h3>
+</div>
+<div class="sect1">
+<h2 id="_4_intro_to_lists">4. Intro to Lists</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Lists can be constructed with either a function or a quoted form.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Lists can be constructed with either a function or a quoted form.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">list </span><span class="tok-nv">__</span><span class="tok-p">)</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">))</span>
-
-<span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span></code></pre>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(= (list :a :b :c) '(:a :b :c))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_5_lists_conj">5. Lists: conj</h3>
+</div>
+<div class="sect1">
+<h2 id="_5_lists_conj">5. Lists: conj</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When operating on a list, the <code>conj</code> function will return a new list with one or more items "added" to the front.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; When operating on a list, the conj function will return a new list with one or more items &quot;added&quot; to the front.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">)</span> <span class="tok-mi">1</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">)</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span><span class="tok-p">))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def lists-conj '(1 2 3 4))
 
-<span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">)</span></code></pre>
+(= lists-conj (conj '(2 3 4) 1))
+(= lists-conj (conj '(3 4) 2 1))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_6_intro_to_vectors">6. Intro to Vectors</h3>
+</div>
+<div class="sect1">
+<h2 id="_6_intro_to_vectors">6. Intro to Vectors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Vectors can be constructed several ways. You can compare them with lists.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Vectors can be constructed several ways. You can compare them with lists.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-nv">__</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">list </span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">vec</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">))</span> <span class="tok-p">(</span><span class="tok-nb">vector </span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-vectors [:a :b :c])
 
-<span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span></code></pre>
+(= intro-to-vectors (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_7_vectors_conj">7. Vectors: conj</h3>
+</div>
+<div class="sect1">
+<h2 id="_7_vectors_conj">7. Vectors: conj</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When operating on a Vector, the <code>conj</code> function will return a new vector with one or more items "added" to the end.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; When operating on a Vector, the conj function will return a new vector with one or more items &quot;added&quot; to the end.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-mi">4</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def vectors-conj [1 2 3 4])
 
-<span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]</span></code></pre>
+(= vectors-conj (conj [1 2 3] 4))
+(= vectors-conj (conj [1 2] 3 4))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_8_intro_to_sets">8. Intro to Sets</h3>
+</div>
+<div class="sect1">
+<h2 id="_8_intro_to_sets">8. Intro to Sets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sets are collections of unique values.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Sets are collections of unique values.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">set </span><span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-ss">:a</span> <span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span> <span class="tok-ss">:c</span> <span class="tok-ss">:c</span> <span class="tok-ss">:c</span> <span class="tok-ss">:d</span> <span class="tok-ss">:d</span><span class="tok-p">)))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nf">clojure.set/union</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">}</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-ss">:b</span> <span class="tok-ss">:c</span> <span class="tok-ss">:d</span><span class="tok-p">}))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-sets #{:a :b :c :d})
 
-<span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span> <span class="tok-ss">:d</span><span class="tok-p">}</span></code></pre>
+(= intro-to-sets (set '(:a :a :b :c :c :c :c :d :d)))
+(= intro-to-sets (clojure.set/union #{:a :b :c} #{:b :c :d}))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_9_sets_conj">9. Sets: conj</h3>
+</div>
+<div class="sect1">
+<h2 id="_9_sets_conj">9. Sets: conj</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When operating on a set, the <code>conj</code> function returns a new set with one or more keys "added".</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; When operating on a set, the conj function returns a new set with one or more keys &quot;added&quot;.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">}</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">4</span> <span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-nv">__</span><span class="tok-p">))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def sets-conj)
 
-<span class="tok-mi">2</span></code></pre>
+(= sets-conj (conj #{1 4 3} 2))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_10_intro_to_maps">10. Intro to Maps</h3>
+</div>
+<div class="sect1">
+<h2 id="_10_intro_to_maps">10. Intro to Maps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Maps store key-value pairs. Both maps and keywords can be used as lookup functions. Commas can be used to make maps more readable, but they are not required.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Maps store key-value pairs.</span>
-<span class="tok-c1">;; Both maps and keywords can be used as lookup functions.</span>
-<span class="tok-c1">;; Commas can be used to make maps more readable, but they are not required.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">((</span><span class="tok-nb">hash-map </span><span class="tok-ss">:a</span> <span class="tok-mi">10</span>, <span class="tok-ss">:b</span> <span class="tok-mi">20</span>, <span class="tok-ss">:c</span> <span class="tok-mi">30</span><span class="tok-p">)</span> <span class="tok-ss">:b</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-ss">:b</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">10</span>, <span class="tok-ss">:b</span> <span class="tok-mi">20</span>, <span class="tok-ss">:c</span> <span class="tok-mi">30</span><span class="tok-p">}))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-maps 20)
 
-<span class="tok-mi">20</span></code></pre>
+(= intro-to-maps ((hash-map :a 10, :b 20, :c 30) :b))
+(= intro-to-maps (:b {:a 10, :b 20, :c 30}))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_11_maps_conj">11. Maps: conj</h3>
+</div>
+<div class="sect1">
+<h2 id="_11_maps_conj">11. Maps: conj</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When operating on a map, the <code>conj</code> function returns a new map with one or more key-value pairs "added".</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; When operating on a map, the conj function returns a new map with one or more key-value pairs &quot;added&quot;.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">1</span>, <span class="tok-ss">:b</span> <span class="tok-mi">2</span>, <span class="tok-ss">:c</span> <span class="tok-mi">3</span><span class="tok-p">}</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">1</span><span class="tok-p">}</span> <span class="tok-nv">__</span> <span class="tok-p">[</span><span class="tok-ss">:c</span> <span class="tok-mi">3</span><span class="tok-p">]))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def maps-conj {:a 1, :b 2, :c 3})
 
-<span class="tok-p">{</span><span class="tok-ss">:b</span> <span class="tok-mi">2</span><span class="tok-p">}</span></code></pre>
+(= maps-conj (conj {:a 1} {:b 2} [:c 3]))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_12_intro_to_sequences">12. Intro to Sequences</h3>
+</div>
+<div class="sect1">
+<h2 id="_12_intro_to_sequences">12. Intro to Sequences</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All Clojure collections support sequencing.
+You can operate on sequences with functions like <code>first</code>, <code>second</code>, and <code>last</code>.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; All Clojure collections support sequencing.</span>
-<span class="tok-c1">;; You can operate on sequences with functions like first, second, and last.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">3</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span><span class="tok-p">)))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">second </span><span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">last </span><span class="tok-p">(</span><span class="tok-nb">list </span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">)))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-sequences 3)
 
-<span class="tok-mi">3</span></code></pre>
+(= intro-to-sequences (first '(3 2 1)))
+(= intro-to-sequences (second [2 3 4]))
+(= intro-to-sequences (last (list 1 2 3)))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_13_sequences_rest">13. Sequences: rest</h3>
+</div>
+<div class="sect1">
+<h2 id="_13_sequences_rest">13. Sequences: rest</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The rest function will return all the items of a sequence except the first.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; The rest function will return all the items of a sequence except the first.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-p">[</span><span class="tok-mi">10</span> <span class="tok-mi">20</span> <span class="tok-mi">30</span> <span class="tok-mi">40</span><span class="tok-p">]))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def sequences-rest [20 30 40])
 
-<span class="tok-p">[</span><span class="tok-mi">20</span> <span class="tok-mi">30</span> <span class="tok-mi">40</span><span class="tok-p">]</span></code></pre>
+(= sequences-rest (rest [10 20 30 40]))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_14_intro_to_functions">14. Intro to Functions</h3>
+</div>
+<div class="sect1">
+<h2 id="_14_intro_to_functions">14. Intro to Functions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Clojure has many different ways to create functions.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Clojure has many different ways to create functions.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">((</span><span class="tok-k">fn </span><span class="tok-nv">add-five</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">x</span> <span class="tok-mi">5</span><span class="tok-p">))</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">((</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">x</span> <span class="tok-mi">5</span><span class="tok-p">))</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">%</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">((</span><span class="tok-nb">partial + </span><span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-mi">3</span><span class="tok-p">))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-functions 8)
 
-<span class="tok-mi">8</span></code></pre>
+(= intro-to-functions ((fn add-five [x] (+ x 5)) 3))
+(= intro-to-functions ((fn [x] (+ x 5)) 3))
+(= intro-to-functions (#(+ % 5) 3))
+(= intro-to-functions ((partial + 5) 3))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_15_double_down">15. Double Down</h3>
+</div>
+<div class="sect1">
+<h2 id="_15_double_down">15. Double Down</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Write a function which doubles a number.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which doubles a number.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-mi">4</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-mi">6</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">11</span><span class="tok-p">)</span> <span class="tok-mi">22</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">7</span><span class="tok-p">)</span> <span class="tok-mi">14</span><span class="tok-p">)</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn double-down [n]
+  (* 2 n))
 
-<span class="tok-nb">* </span><span class="tok-mi">2</span></code></pre>
+(= (double-down 2) 4)
+(= (double-down 3) 6)
+(= (double-down 11) 22)
+(= (double-down 7) 14)</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_16_hello_world">16. Hello World</h3>
+</div>
+<div class="sect1">
+<h2 id="_16_hello_world">16. Hello World</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Write a function which returns a personalized greeting.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which returns a personalized greeting.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;Dave&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;Hello, Dave!&quot;</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;Jenn&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;Hello, Jenn!&quot;</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;Rhea&quot;</span><span class="tok-p">)</span> <span class="tok-s">&quot;Hello, Rhea!&quot;</span><span class="tok-p">)</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn hello-world [name]
+  (str "Hello, " name "!"))
 
-<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">name</span><span class="tok-p">]</span>
-  <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-s">&quot;Hello, &quot;</span> <span class="tok-nb">name </span><span class="tok-s">&quot;!&quot;</span><span class="tok-p">))</span></code></pre>
+(= (hello-world "Dave") "Hello, Dave!")
+(= (hello-world "Jenn") "Hello, Jenn!")
+(= (hello-world "Rhea") "Hello, Rhea!")</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_17_sequences_map">17. Sequences: map</h3>
+</div>
+<div class="sect1">
+<h2 id="_17_sequences_map">17. Sequences: map</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The map function takes two arguments: a function (f) and a sequence (s). Map returns a new sequence consisting of the result of applying f to each item of s. Do not confuse the map function with the map data structure.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; The map function takes two arguments: a function (f) and a sequence (s). Map returns a new sequence consisting of the result of applying f to each item of s. Do not confuse the map function with the map data structure.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">%</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">)))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def sequences-map '(6 7 8))
 
-<span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">6</span> <span class="tok-mi">7</span> <span class="tok-mi">8</span><span class="tok-p">)</span></code></pre>
+(= sequences-map (map #(+ % 5) '(1 2 3)))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_18_sequences_filter">18. Sequences: filter</h3>
+</div>
+<div class="sect1">
+<h2 id="_18_sequences_filter">18. Sequences: filter</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The filter function takes two arguments: a predicate function (f) and a sequence (s). Filter returns a new sequence consisting of all the items of <code>s</code> for which <code>(f item)</code> returns <code>true</code>.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; The filter function takes two arguments: a predicate function (f) and a sequence (s). Filter returns a new sequence consisting of all the items of s for which (f item) returns true.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">filter </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-nv">%</span> <span class="tok-mi">5</span><span class="tok-p">)</span> <span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span> <span class="tok-mi">6</span> <span class="tok-mi">7</span><span class="tok-p">)))</span>
-
-<span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">6</span> <span class="tok-mi">7</span><span class="tok-p">)</span></code></pre>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(= '(6 7) (filter #(&gt; % 5) '(3 4 5 6 7)))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_35_local_bindings">35. Local bindings</h3>
+</div>
+<div class="sect1">
+<h2 id="_35_local_bindings">35. Local bindings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Clojure lets you give local names to values using the special let-form.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Clojure lets you give local names to values using the special let-form.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-mi">5</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-mi">2</span> <span class="tok-nv">x</span><span class="tok-p">)))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-mi">3</span>, <span class="tok-nv">y</span> <span class="tok-mi">10</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">- </span><span class="tok-nv">y</span> <span class="tok-nv">x</span><span class="tok-p">)))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-mi">21</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">y</span> <span class="tok-mi">3</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">/ </span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">))))</span>
-
-<span class="tok-mi">7</span></code></pre>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(= 7 (let [x 5] (+ 2 x)))
+(= 7 (let [x 3, y 10] (- y x)))
+(= 7 (let [x 21] (let [y 3] (/ x y))))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_36_let_it_be">36. Let it Be</h3>
+</div>
+<div class="sect1">
+<h2 id="_36_let_it_be">36. Let it Be</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Can you bind <code>x</code>, <code>y</code>, and <code>z</code> so that these are all true?</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Can you bind x, y, and z so that these are all true?</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">10</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">)))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">4</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">y</span> <span class="tok-nv">z</span><span class="tok-p">)))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">1</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-nv">__</span> <span class="tok-nv">z</span><span class="tok-p">))</span>
-
-<span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-mi">7</span>, <span class="tok-nv">y</span> <span class="tok-mi">3</span>, <span class="tok-nv">z</span> <span class="tok-mi">1</span><span class="tok-p">]</span></code></pre>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(= 10 (let [x 7, y 3, z 1] (+ x y)))
+(= 4 (let [x 7, y 3, z 1] (+ y z)))
+(= 1 (let [x 7, y 3, z 1] z))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_37_regular_expressions">37. Regular Expressions</h3>
+</div>
+<div class="sect1">
+<h2 id="_37_regular_expressions">37. Regular Expressions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Regex patterns are supported with a special reader macro.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Regex patterns are supported with a special reader macro.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">apply str </span><span class="tok-p">(</span><span class="tok-nb">re-seq </span><span class="tok-o">#</span><span class="tok-s">&quot;[A-Z]+&quot;</span> <span class="tok-s">&quot;bA1B3Ce &quot;</span><span class="tok-p">)))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def regular-expressions "ABC")
 
-<span class="tok-s">&quot;ABC&quot;</span></code></pre>
+(= regular-expressions (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_52_intro_to_destructuring">52. Intro to Destructuring</h3>
+</div>
+<div class="sect1">
+<h2 id="_52_intro_to_destructuring">52. Intro to Destructuring</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let bindings and function parameter lists support destructuring.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Let bindings and function parameter lists support destructuring.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">4</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[[</span><span class="tok-nv">a</span> <span class="tok-nv">b</span> <span class="tok-nv">c</span> <span class="tok-nv">d</span> <span class="tok-nv">e</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span><span class="tok-p">]]</span> <span class="tok-nv">__</span><span class="tok-p">))</span>
-
-<span class="tok-p">[</span><span class="tok-nv">c</span> <span class="tok-nv">e</span><span class="tok-p">]</span></code></pre>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(= [2 4] (let [[a b c d e] [0 1 2 3 4]] [c e]))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_57_simple_recursion">57. Simple Recursion</h3>
+</div>
+<div class="sect1">
+<h2 id="_57_simple_recursion">57. Simple Recursion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A recursive function is a function which calls itself. This is one of the fundamental techniques used in functional programming.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; A recursive function is a function which calls itself. This is one of the fundamental techniques used in functional programming.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">((</span><span class="tok-k">fn </span><span class="tok-nv">foo</span> <span class="tok-p">[</span><span class="tok-nv">x</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">when </span><span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-nv">x</span> <span class="tok-mi">0</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-p">(</span><span class="tok-nf">foo</span> <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">x</span><span class="tok-p">))</span> <span class="tok-nv">x</span><span class="tok-p">)))</span> <span class="tok-mi">5</span><span class="tok-p">))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def simple-recursion '(5 4 3 2 1))
 
-<span class="tok-o">&#39;</span><span class="tok-p">(</span><span class="tok-mi">5</span> <span class="tok-mi">4</span> <span class="tok-mi">3</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span><span class="tok-p">)</span></code></pre>
+(= simple-recursion ((fn foo [x]
+                       (when (&gt; x 0)
+                         (conj (foo (dec x)) x))) 5))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_64_intro_to_reduce">64. Intro to Reduce</h3>
+</div>
+<div class="sect1">
+<h2 id="_64_intro_to_reduce">64. Intro to Reduce</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Reduce takes a 2 argument function and an optional starting value. It then applies the function to the first 2 items in the sequence (or the starting value and the first element of the sequence). In the next iteration the function will be called on the previous return value and the next item from the sequence, thus reducing the entire collection to one value. Don&#8217;t worry, it&#8217;s not as complicated as it sounds.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Reduce takes a 2 argument function and an optional starting value. It then applies the function to the first 2 items in the sequence (or the starting value and the first element of the sequence). In the next iteration the function will be called on the previous return value and the next item from the sequence, thus reducing the entire collection to one value. Don&#39;t worry, it&#39;s not as complicated as it sounds.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">15</span> <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-nv">__</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span> <span class="tok-mi">4</span> <span class="tok-mi">5</span><span class="tok-p">]))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span> <span class="tok-mi">0</span> <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-nv">__</span> <span class="tok-p">[]))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span> <span class="tok-mi">6</span> <span class="tok-p">(</span><span class="tok-nb">reduce </span><span class="tok-nv">__</span> <span class="tok-mi">1</span> <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">]))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-reduce +)
 
-<span class="tok-nv">+</span></code></pre>
+(= 15 (reduce intro-to-reduce [1 2 3 4 5]))
+(=  0 (reduce intro-to-reduce []))
+(=  6 (reduce intro-to-reduce 1 [2 3]))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_68_recurring_theme">68. Recurring Theme</h3>
+</div>
+<div class="sect1">
+<h2 id="_68_recurring_theme">68. Recurring Theme</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Clojure only has one non-stack-consuming looping construct: <code>recur</code>. Either a function or a loop can be used as the recursion point. Either way, recur rebinds the bindings of the recursion point to the values it is passed. Recur must be called from the tail-position, and calling it elsewhere will result in an error.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Clojure only has one non-stack-consuming looping construct: recur. Either a function or a loop can be used as the recursion point. Either way, recur rebinds the bindings of the recursion point to the values it is passed. Recur must be called from the tail-position, and calling it elsewhere will result in an error.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span>
-  <span class="tok-p">(</span><span class="tok-k">loop </span><span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-mi">5</span>
-         <span class="tok-nv">result</span> <span class="tok-p">[]]</span>
-    <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">&gt; </span><span class="tok-nv">x</span> <span class="tok-mi">0</span><span class="tok-p">)</span>
-      <span class="tok-p">(</span><span class="tok-nf">recur</span> <span class="tok-p">(</span><span class="tok-nb">dec </span><span class="tok-nv">x</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">result</span> <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-mi">2</span> <span class="tok-nv">x</span><span class="tok-p">)))</span>
-      <span class="tok-nv">result</span><span class="tok-p">)))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def recurring-theme [7 6 5 4 3])
 
-<span class="tok-p">[</span><span class="tok-mi">7</span> <span class="tok-mi">6</span> <span class="tok-mi">5</span> <span class="tok-mi">4</span> <span class="tok-mi">3</span><span class="tok-p">]</span></code></pre>
+(= recurring-theme
+  (loop [x 5
+         result []]
+    (if (&gt; x 0)
+      (recur (dec x) (conj result (+ 2 x)))
+      result)))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_71_rearranging_code">71. Rearranging Code: - &gt;</h3>
+</div>
+<div class="sect1">
+<h2 id="_71_rearranging_code">71. Rearranging Code: - &gt;</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The - &gt; macro threads an expression x through a variable number of forms. First, x is inserted as the second item in the first form, making a list of it if it is not a list already. Then the first form is inserted as the second item in the second form, making a list of that form if necessary. This process continues for all the forms. Using - &gt; can sometimes make your code more readable.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; The -&gt; macro threads an expression x through a variable number of forms. First, x is inserted as the second item in the first form, making a list of it if it is not a list already. Then the first form is inserted as the second item in the second form, making a list of that form if necessary. This process continues for all the forms. Using -&gt; can sometimes make your code more readable.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">sort </span><span class="tok-p">(</span><span class="tok-nb">rest </span><span class="tok-p">(</span><span class="tok-nb">reverse </span><span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">5</span> <span class="tok-mi">4</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">6</span><span class="tok-p">]))))</span>
-   <span class="tok-p">(</span><span class="tok-nb">-&gt; </span><span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">5</span> <span class="tok-mi">4</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">6</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nf">reverse</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">rest</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">sort</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">__</span><span class="tok-p">))</span>
-   <span class="tok-mi">5</span><span class="tok-p">)</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def rearranging-code last)
 
-<span class="tok-nv">last</span></code></pre>
+(= (rearranging-code (sort (rest (reverse [2 5 4 1 3 6]))))
+   (-&gt; [2 5 4 1 3 6] (reverse) (rest) (sort) (rearranging-code))
+   5)</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_72_rearranging_code">72. Rearranging Code: - &gt; &gt;</h3>
+</div>
+<div class="sect1">
+<h2 id="_72_rearranging_code">72. Rearranging Code: - &gt;&gt;</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The - &gt;&gt; macro threads an expression x through a variable number of forms. First, x is inserted as the last item in the first form, making a list of it if it is not a list already. Then the first form is inserted as the last item in the second form, making a list of that form if necessary. This process continues for all the forms. Using - &gt;&gt; can sometimes make your code more readable.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; The -&gt;&gt; macro threads an expression x through a variable number of forms. First, x is inserted as the last item in the first form, making a list of it if it is not a list already. Then the first form is inserted as the last item in the second form, making a list of that form if necessary. This process continues for all the forms. Using -&gt;&gt; can sometimes make your code more readable.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">(</span><span class="tok-nb">map inc </span><span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">3</span> <span class="tok-p">(</span><span class="tok-nb">drop </span><span class="tok-mi">2</span> <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">5</span> <span class="tok-mi">4</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">6</span><span class="tok-p">]))))</span>
-   <span class="tok-p">(</span><span class="tok-nf">-&gt;&gt;</span> <span class="tok-p">[</span><span class="tok-mi">2</span> <span class="tok-mi">5</span> <span class="tok-mi">4</span> <span class="tok-mi">1</span> <span class="tok-mi">3</span> <span class="tok-mi">6</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nb">drop </span><span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">take </span><span class="tok-mi">3</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nb">map </span><span class="tok-nv">inc</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-nf">__</span><span class="tok-p">))</span>
-   <span class="tok-mi">11</span><span class="tok-p">)</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn rearranging-code [s]
+  (reduce + s))
 
-<span class="tok-nb">reduce </span><span class="tok-nv">+</span></code></pre>
+(= (rearranging-code (map inc (take 3 (drop 2 [2 5 4 1 3 6]))))
+   (-&gt;&gt; [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (rearranging-code))
+   11)</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_134_a_nil_key">134. A nil key</h3>
+</div>
+<div class="sect1">
+<h2 id="_134_a_nil_key">134. A nil key</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Write a function which, given a key and map, returns true iff the map contains an entry with that key and its value is nil.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Write a function which, given a key and map, returns true iff the map contains an entry with that key and its value is nil.</span>
-<span class="tok-p">(</span><span class="tok-nb">true? </span> <span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-ss">:a</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-nv">nil</span> <span class="tok-ss">:b</span> <span class="tok-mi">2</span><span class="tok-p">}))</span>
-<span class="tok-p">(</span><span class="tok-nb">false? </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-ss">:b</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-nv">nil</span> <span class="tok-ss">:b</span> <span class="tok-mi">2</span><span class="tok-p">}))</span>
-<span class="tok-p">(</span><span class="tok-nb">false? </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-ss">:c</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-nv">nil</span> <span class="tok-ss">:b</span> <span class="tok-mi">2</span><span class="tok-p">}))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn a-nil-key [key map]
+  (if (contains? map key)
+    (= (key map) nil)
+  	false))
 
-<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nb">key </span><span class="tok-nv">map</span><span class="tok-p">]</span>
-  <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">(</span><span class="tok-nb">contains? map </span><span class="tok-nv">key</span><span class="tok-p">)</span>
-    <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nb">key </span><span class="tok-nv">map</span><span class="tok-p">)</span> <span class="tok-nv">nil</span><span class="tok-p">)</span>
-  	<span class="tok-nv">false</span><span class="tok-p">))</span></code></pre>
+(true?  (a-nil-key :a {:a nil :b 2}))
+(false? (a-nil-key :b {:a nil :b 2}))
+(false? (a-nil-key :c {:a nil :b 2}))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_145_for_the_win">145. For the win</h3>
+</div>
+<div class="sect1">
+<h2 id="_145_for_the_win">145. For the win</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Clojure&#8217;s for macro is a tremendously versatile mechanism for producing a sequence based on some other sequence(s). It can take some time to understand how to use it properly, but that investment will be paid back with clear, concise sequence-wrangling later. With that in mind, read over these for expressions and try to see how each of them produces the same result.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Clojure&#39;s for macro is a tremendously versatile mechanism for producing a sequence based on some other sequence(s). It can take some time to understand how to use it properly, but that investment will be paid back with clear, concise sequence-wrangling later. With that in mind, read over these for expressions and try to see how each of them produces the same result.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">for </span><span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">40</span><span class="tok-p">)</span>
-            <span class="tok-ss">:when</span> <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">1</span> <span class="tok-p">(</span><span class="tok-nb">rem </span><span class="tok-nv">x</span> <span class="tok-mi">4</span><span class="tok-p">))]</span>
-        <span class="tok-nv">x</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">for </span><span class="tok-p">[</span><span class="tok-nv">x</span> <span class="tok-p">(</span><span class="tok-nb">iterate </span><span class="tok-o">#</span><span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-mi">4</span> <span class="tok-nv">%</span><span class="tok-p">)</span> <span class="tok-mi">0</span><span class="tok-p">)</span>
-            <span class="tok-ss">:let</span> <span class="tok-p">[</span><span class="tok-nv">z</span> <span class="tok-p">(</span><span class="tok-nb">inc </span><span class="tok-nv">x</span><span class="tok-p">)]</span>
-            <span class="tok-ss">:while</span> <span class="tok-p">(</span><span class="tok-nb">&lt; </span><span class="tok-nv">z</span> <span class="tok-mi">40</span><span class="tok-p">)]</span>
-        <span class="tok-nv">z</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">for </span><span class="tok-p">[[</span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">]</span> <span class="tok-p">(</span><span class="tok-nf">partition</span> <span class="tok-mi">2</span> <span class="tok-p">(</span><span class="tok-nb">range </span><span class="tok-mi">20</span><span class="tok-p">))]</span>
-        <span class="tok-p">(</span><span class="tok-nb">+ </span><span class="tok-nv">x</span> <span class="tok-nv">y</span><span class="tok-p">)))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def for-the-win [1 5 9 13 17 21 25 29 33 37])
 
-<span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">5</span> <span class="tok-mi">9</span> <span class="tok-mi">13</span> <span class="tok-mi">17</span> <span class="tok-mi">21</span> <span class="tok-mi">25</span> <span class="tok-mi">29</span> <span class="tok-mi">33</span> <span class="tok-mi">37</span><span class="tok-p">]</span></code></pre>
+(= for-the-win (for [x (range 40)
+            :when (= 1 (rem x 4))]
+        x))
+(= for-the-win (for [x (iterate #(+ 4 %) 0)
+            :let [z (inc x)]
+            :while (&lt; z 40)]
+        z))
+(= for-the-win (for [[x y] (partition 2 (range 20))]
+        (+ x y)))</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_156_map_defaults">156. Map Defaults</h3>
+</div>
+<div class="sect1">
+<h2 id="_156_map_defaults">156. Map Defaults</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When retrieving values from a map, you can specify default values in case the key is not found:
+<code>(= 2 (:foo {:bar 0, :baz 1} 2))</code>
+However, what if you want the map itself to contain the default values? Write a function which takes a default value and a sequence of keys and constructs a map.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; When retrieving values from a map, you can specify default values in case the key is not found:</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-mi">2</span> <span class="tok-p">(</span><span class="tok-ss">:foo</span> <span class="tok-p">{</span><span class="tok-ss">:bar</span> <span class="tok-mi">0</span>, <span class="tok-ss">:baz</span> <span class="tok-mi">1</span><span class="tok-p">}</span> <span class="tok-mi">2</span><span class="tok-p">))</span>
-<span class="tok-c1">;; However, what if you want the map itself to contain the default values?</span>
-<span class="tok-c1">;; Write a function which takes a default value and a sequence of keys and constructs a map.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-mi">0</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span> <span class="tok-ss">:c</span><span class="tok-p">])</span> <span class="tok-p">{</span><span class="tok-ss">:a</span> <span class="tok-mi">0</span> <span class="tok-ss">:b</span> <span class="tok-mi">0</span> <span class="tok-ss">:c</span> <span class="tok-mi">0</span><span class="tok-p">})</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-s">&quot;x&quot;</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span> <span class="tok-mi">3</span><span class="tok-p">])</span> <span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-s">&quot;x&quot;</span> <span class="tok-mi">2</span> <span class="tok-s">&quot;x&quot;</span> <span class="tok-mi">3</span> <span class="tok-s">&quot;x&quot;</span><span class="tok-p">})</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">__</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-ss">:foo</span> <span class="tok-ss">:bar</span><span class="tok-p">])</span> <span class="tok-p">{</span><span class="tok-ss">:foo</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">]</span> <span class="tok-ss">:bar</span> <span class="tok-p">[</span><span class="tok-ss">:a</span> <span class="tok-ss">:b</span><span class="tok-p">]})</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn map-defaults [default keys]
+  (zipmap keys (repeat default)))
 
-<span class="tok-p">(</span><span class="tok-k">fn </span><span class="tok-p">[</span><span class="tok-nv">default</span> <span class="tok-nv">keys</span><span class="tok-p">]</span>
-  <span class="tok-p">(</span><span class="tok-nb">zipmap keys </span><span class="tok-p">(</span><span class="tok-nb">repeat </span><span class="tok-nv">default</span><span class="tok-p">)))</span></code></pre>
+(= (map-defaults 0 [:a :b :c]) {:a 0 :b 0 :c 0})
+(= (map-defaults "x" [1 2 3]) {1 "x" 2 "x" 3 "x"})
+(= (map-defaults [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]})</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_161_subset_and_superset">161. Subset and Superset</h3>
+</div>
+<div class="sect1">
+<h2 id="_161_subset_and_superset">161. Subset and Superset</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Set A is a subset of set B, or equivalently B is a superset of A, if A is "contained" inside B. A and B may coincide.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; Set A is a subset of set B, or equivalently B is a superset of A, if A is &quot;contained&quot; inside B. A and B may coincide.</span>
-<span class="tok-p">(</span><span class="tok-nf">clojure.set/superset?</span> <span class="tok-nv">__</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">2</span><span class="tok-p">})</span>
-<span class="tok-p">(</span><span class="tok-nf">clojure.set/subset?</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span><span class="tok-p">}</span> <span class="tok-nv">__</span><span class="tok-p">)</span>
-<span class="tok-p">(</span><span class="tok-nf">clojure.set/superset?</span> <span class="tok-nv">__</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">})</span>
-<span class="tok-p">(</span><span class="tok-nf">clojure.set/subset?</span> <span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">}</span> <span class="tok-nv">__</span><span class="tok-p">)</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def subset-and-superset #{1 2})
 
-<span class="tok-o">#</span><span class="tok-p">{</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">}</span></code></pre>
+(clojure.set/superset? subset-and-superset #{2})
+(clojure.set/subset? #{1} subset-and-superset)
+(clojure.set/superset? subset-and-superset #{1 2})
+(clojure.set/subset? #{1 2} subset-and-superset)</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_162_logical_falsity_and_truth">162. Logical falsity and truth</h3>
+</div>
+<div class="sect1">
+<h2 id="_162_logical_falsity_and_truth">162. Logical falsity and truth</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In Clojure, only nil and false represent the values of logical falsity in conditional tests - anything else is logical truth.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; In Clojure, only nil and false represent the values of logical falsity in conditional tests - anything else is logical truth.</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">if-not </span><span class="tok-nv">false</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-nb">if-not </span><span class="tok-nv">nil</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-nv">true</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">[]</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-p">[</span><span class="tok-mi">0</span><span class="tok-p">]</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-mi">0</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span><span class="tok-p">))</span>
-<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">__</span> <span class="tok-p">(</span><span class="tok-k">if </span><span class="tok-mi">1</span> <span class="tok-mi">1</span> <span class="tok-mi">0</span><span class="tok-p">))</span>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def logical-falsity-and-truth 1)
 
-<span class="tok-mi">1</span></code></pre>
+(= logical-falsity-and-truth (if-not false 1 0))
+(= logical-falsity-and-truth (if-not nil 1 0))
+(= logical-falsity-and-truth (if true 1 0))
+(= logical-falsity-and-truth (if [] 1 0))
+(= logical-falsity-and-truth (if [0] 1 0))
+(= logical-falsity-and-truth (if 0 1 0))
+(= logical-falsity-and-truth (if 1 1 0))</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>These set of problems are pretty simple to solve which is excellent if you&#8217;re just getting started with a language. In future posts I will continue with harder problems. If you want to dive deeper into <a href="https://clojure.org/">Clojure</a> check out Daniel Higginbotham&#8217;s book: <a href="http://www.braveclojure.com/">Clojure for the Brave and True</a>.</p>
+</div>
 </div>
 </div>
 
@@ -560,6 +717,54 @@
       
       
         
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
       
     
       
@@ -659,7 +864,170 @@
           
           
         
-      </ul>
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/">How to Fail at Almost Everything and Still Win Big - Scott Adams</a> <a class="label" href="http://www.anthony-galea.com/categories/book-notes">book-notes</a></li>
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/">An Astronaut&#39;s Guide to Life on Earth - Christian Hadfield</a> <a class="label" href="http://www.anthony-galea.com/categories/book-notes">book-notes</a></li>
+            
+        
+            
+            
+            
+        
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/">Better APIs with Java Optional</a> <a class="label" href="http://www.anthony-galea.com/categories/java">java</a><a class="label" href="http://www.anthony-galea.com/categories/groovy">groovy</a></li>
+            
+        
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/">The Builder Pattern in Java</a> <a class="label" href="http://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="http://www.anthony-galea.com/categories/java">java</a></li>
+            
+        
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/">An Introduction to Load Testing with Gatling</a> <a class="label" href="http://www.anthony-galea.com/categories/testing">testing</a><a class="label" href="http://www.anthony-galea.com/categories/http">http</a><a class="label" href="http://www.anthony-galea.com/categories/scala">scala</a></li>
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+            
+        
+        </ul>
     </div>
     </div>
   
@@ -673,6 +1041,19 @@
 </div>
 
 
+<script>
+ window.klipse_settings = {
+     selector: '.language-klipse',
+     codemirror_options_in: {
+         indentUnit: 2,
+         lineWrapping: true,
+         lineNumbers: true,
+         autoCloseBrackets: true
+     }
+ };
+ 
+</script>
+<script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
