@@ -10,6 +10,7 @@
   <title>Solutions to 4Clojure Easy Problems</title>
 
   
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.css">
   <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
   
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -17,8 +18,6 @@
   
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
   
-
-  <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
 
   
   
@@ -40,44 +39,6 @@
     ga('send', 'pageview');
   </script>
   
-  <style>
-   .cm-s-default.CodeMirror {
-       background-color: #272822 !important;
-       color: #CFD2D1 !important;
-       border: none;
-   }
-   .cm-s-default .CodeMirror-gutters {
-       color: #404b53;
-       background-color: #0E1112;
-       border: none;
-   }
-   .cm-s-default .CodeMirror-cursor { border-left: solid thin #f8f8f0; }
-   .cm-s-default .CodeMirror-linenumber { color: #6D8A88; }
-   .cm-s-default .CodeMirror-focused div.CodeMirror-selected { background: rgba(255, 255, 255, 0.10); }
-   .cm-s-default .CodeMirror-line::selection, .cm-s-default .CodeMirror-line > span::selection, .cm-s-default .CodeMirror-line > span > span::selection { background: rgba(255, 255, 255, 0.10); }
-   .cm-s-default .CodeMirror-line::-moz-selection, .cm-s-default .CodeMirror-line > span::-moz-selection, .cm-s-default .CodeMirror-line > span > span::-moz-selection { background: rgba(255, 255, 255, 0.10); }
-   .cm-s-default span.cm-comment { color: #c8c8c0; }
-   .cm-s-default span.cm-string, .cm-s-default span.cm-string-2 { color: #55b5db; }
-   .cm-s-default span.cm-number { color: #cd3f45; }
-   .cm-s-default span.cm-variable { color: #55b5db; }
-   .cm-s-default span.cm-variable-2 { color: #a074c4; }
-   .cm-s-default span.cm-def { color: #55b5db; }
-   .cm-s-default span.cm-keyword { color: #ff79c6; }
-   .cm-s-default span.cm-operator { color: #9fca56; }
-   .cm-s-default span.cm-keyword { color: #9fca56; }
-   .cm-s-default span.cm-atom { color: #cd3f45; }
-   .cm-s-default span.cm-meta { color: #e6cd69; }
-   .cm-s-default span.cm-tag { color: #55b5db; }
-   .cm-s-default span.cm-attribute { color: #9fca56; }
-   .cm-s-default span.cm-qualifier { color: #9fca56; }
-   .cm-s-default span.cm-property { color: #a074c4; }
-   .cm-s-default span.cm-variable-3 { color: #9fca56; }
-   .cm-s-default span.cm-builtin { color: #9fca56; }
-   .cm-s-default .CodeMirror-activeline-background { background: #101213; }
-   .cm-s-default .CodeMirror-matchingbracket { text-decoration: underline; color: white !important; }
-
-   .klipse-container {height: 0}
-  </style>
 </head>
 <body>
 
@@ -134,9 +95,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn last-element [s]
   (nth s (dec (count s))))
 
-(= (last-element [1 2 3 4 5]) 5)
-(= (last-element '(5 4 3)) 3)
-(= (last-element ["b" "c" "d"]) "d")</code></pre>
+[(= (last-element [1 2 3 4 5]) 5)
+ (= (last-element '(5 4 3)) 3)
+ (= (last-element ["b" "c" "d"]) "d")]</code></pre>
 </div>
 </div>
 </div>
@@ -152,9 +113,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn penultimate-element [s]
   (nth s (- (count s) 2)))
 
-(= (penultimate-element (list 1 2 3 4 5)) 4)
-(= (penultimate-element ["a" "b" "c"]) "b")
-(= (penultimate-element [[1 2] [3 4]]) [1 2])</code></pre>
+[(= (penultimate-element (list 1 2 3 4 5)) 4)
+ (= (penultimate-element ["a" "b" "c"]) "b")
+ (= (penultimate-element [[1 2] [3 4]]) [1 2])]</code></pre>
 </div>
 </div>
 </div>
@@ -170,10 +131,10 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn nth-element [s n]
   (last (take (inc n) s)))
 
-(= (nth-element '(4 5 6 7) 2) 6)
-(= (nth-element [:a :b :c] 0) :a)
-(= (nth-element [1 2 3 4] 1) 2)
-(= (nth-element '([1 2] [3 4] [5 6]) 2) [5 6])</code></pre>
+[(= (nth-element '(4 5 6 7) 2) 6)
+ (= (nth-element [:a :b :c] 0) :a)
+ (= (nth-element [1 2 3 4] 1) 2)
+ (= (nth-element '([1 2] [3 4] [5 6]) 2) [5 6])]</code></pre>
 </div>
 </div>
 </div>
@@ -189,11 +150,11 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn count-a-sequence [s]
   (reduce (fn [c _] (inc c)) 0 s))
 
-(= (count-a-sequence '(1 2 3 3 1)) 5)
-(= (count-a-sequence "Hello World") 11)
-(= (count-a-sequence [[1 2] [3 4] [5 6]]) 3)
-(= (count-a-sequence '(13)) 1)
-(= (count-a-sequence '(:a :b :c)) 3)</code></pre>
+[(= (count-a-sequence '(1 2 3 3 1)) 5)
+ (= (count-a-sequence "Hello World") 11)
+ (= (count-a-sequence [[1 2] [3 4] [5 6]]) 3)
+ (= (count-a-sequence '(13)) 1)
+ (= (count-a-sequence '(:a :b :c)) 3)]</code></pre>
 </div>
 </div>
 </div>
@@ -209,9 +170,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn reverse-a-sequence [s]
   (reduce #(cons %2 %1) '() s))
 
-(= (reverse-a-sequence [1 2 3 4 5]) [5 4 3 2 1])
-(= (reverse-a-sequence (sorted-set 5 7 2 7)) '(7 5 2))
-(= (reverse-a-sequence [[1 2][3 4][5 6]]) [[5 6][3 4][1 2]])</code></pre>
+[(= (reverse-a-sequence [1 2 3 4 5]) [5 4 3 2 1])
+ (= (reverse-a-sequence (sorted-set 5 7 2 7)) '(7 5 2))
+ (= (reverse-a-sequence [[1 2][3 4][5 6]]) [[5 6][3 4][1 2]])]</code></pre>
 </div>
 </div>
 </div>
@@ -227,11 +188,11 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn sum-it-all-up [s]
   (reduce + s))
 
-(= (sum-it-all-up [1 2 3]) 6)
-(= (sum-it-all-up (list 0 -2 5 5)) 8)
-(= (sum-it-all-up #{4 2 1}) 7)
-(= (sum-it-all-up '(0 0 -1)) -1)
-(= (sum-it-all-up '(1 10 3)) 14)</code></pre>
+[(= (sum-it-all-up [1 2 3]) 6)
+ (= (sum-it-all-up (list 0 -2 5 5)) 8)
+ (= (sum-it-all-up #{4 2 1}) 7)
+ (= (sum-it-all-up '(0 0 -1)) -1)
+ (= (sum-it-all-up '(1 10 3)) 14)]</code></pre>
 </div>
 </div>
 </div>
@@ -247,10 +208,10 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn find-the-odd-numbers [s]
   (filter odd? s))
 
-(= (find-the-odd-numbers #{1 2 3 4 5}) '(1 3 5))
-(= (find-the-odd-numbers [4 2 1 6]) '(1))
-(= (find-the-odd-numbers [2 2 4 6]) '())
-(= (find-the-odd-numbers [1 1 1 3]) '(1 1 1 3))</code></pre>
+[(= (find-the-odd-numbers #{1 2 3 4 5}) '(1 3 5))
+ (= (find-the-odd-numbers [4 2 1 6]) '(1))
+ (= (find-the-odd-numbers [2 2 4 6]) '())
+ (= (find-the-odd-numbers [1 1 1 3]) '(1 1 1 3))]</code></pre>
 </div>
 </div>
 </div>
@@ -267,9 +228,9 @@
   (letfn [(fib [a b] (lazy-seq (cons b (fib b (+ a b)))))]
   (take n (fib 0 1))))
 
-(= (fibonacci-sequence 3) '(1 1 2))
-(= (fibonacci-sequence 6) '(1 1 2 3 5 8))
-(= (fibonacci-sequence 8) '(1 1 2 3 5 8 13 21))</code></pre>
+[(= (fibonacci-sequence 3) '(1 1 2))
+ (= (fibonacci-sequence 6) '(1 1 2 3 5 8))
+ (= (fibonacci-sequence 8) '(1 1 2 3 5 8 13 21))]</code></pre>
 </div>
 </div>
 </div>
@@ -285,11 +246,11 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn palindrome-detector [s]
   (= (seq s) (reverse s)))
 
-(false? (palindrome-detector '(1 2 3 4 5)))
-(true? (palindrome-detector "racecar"))
-(true? (palindrome-detector [:foo :bar :foo]))
-(true? (palindrome-detector '(1 1 3 3 1 1)))
-(false? (palindrome-detector '(:a :b :c)))</code></pre>
+[(false? (palindrome-detector '(1 2 3 4 5)))
+ (true? (palindrome-detector "racecar"))
+ (true? (palindrome-detector [:foo :bar :foo]))
+ (true? (palindrome-detector '(1 1 3 3 1 1)))
+ (false? (palindrome-detector '(:a :b :c)))]</code></pre>
 </div>
 </div>
 </div>
@@ -308,9 +269,9 @@
               (reduce myflatten collection element)
               (conj collection element))) [] s))
 
-(= (flatten-a-sequence '((1 2) 3 [4 [5 6]])) '(1 2 3 4 5 6))
-(= (flatten-a-sequence ["a" ["b"] "c"]) '("a" "b" "c"))
-(= (flatten-a-sequence '((((:a))))) '(:a))</code></pre>
+[(= (flatten-a-sequence '((1 2) 3 [4 [5 6]])) '(1 2 3 4 5 6))
+ (= (flatten-a-sequence ["a" ["b"] "c"]) '("a" "b" "c"))
+ (= (flatten-a-sequence '((((:a))))) '(:a))]</code></pre>
 </div>
 </div>
 </div>
@@ -326,9 +287,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn get-the-caps [s]
   (apply str (re-seq #"[A-Z]+" s)))
 
-(= (get-the-caps "HeLlO, WoRlD!") "HLOWRD")
-(empty? (get-the-caps "nothing"))
-(= (get-the-caps "$#A(*&amp;987Zf") "AZ")</code></pre>
+[(= (get-the-caps "HeLlO, WoRlD!") "HLOWRD")
+ (empty? (get-the-caps "nothing"))
+ (= (get-the-caps "$#A(*&amp;987Zf") "AZ")]</code></pre>
 </div>
 </div>
 </div>
@@ -344,9 +305,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn compress-a-sequence [s]
   (map #(first %) (partition-by identity s)))
 
-(= (apply str (compress-a-sequence "Leeeeeerrroyyy")) "Leroy")
-(= (compress-a-sequence [1 1 2 3 3 2 2 3]) '(1 2 3 2 3))
-(= (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2]))</code></pre>
+[(= (apply str (compress-a-sequence "Leeeeeerrroyyy")) "Leroy")
+ (= (compress-a-sequence [1 1 2 3 3 2 2 3]) '(1 2 3 2 3))
+ (= (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2]))]</code></pre>
 </div>
 </div>
 </div>
@@ -362,9 +323,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn pack-a-sequence [s]
   (partition-by identity s))
 
-(= (pack-a-sequence [1 1 2 1 1 1 3 3]) '((1 1) (2) (1 1 1) (3 3)))
-(= (pack-a-sequence [:a :a :b :b :c]) '((:a :a) (:b :b) (:c)))
-(= (pack-a-sequence [[1 2] [1 2] [3 4]]) '(([1 2] [1 2]) ([3 4])))</code></pre>
+[(= (pack-a-sequence [1 1 2 1 1 1 3 3]) '((1 1) (2) (1 1 1) (3 3)))
+ (= (pack-a-sequence [:a :a :b :b :c]) '((:a :a) (:b :b) (:c)))
+ (= (pack-a-sequence [[1 2] [1 2] [3 4]]) '(([1 2] [1 2]) ([3 4])))]</code></pre>
 </div>
 </div>
 </div>
@@ -380,10 +341,10 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn duplicate-a-sequence [s]
   (reduce #(conj (conj %1 %2) %2) [] s))
 
-(= (duplicate-a-sequence [1 2 3]) '(1 1 2 2 3 3))
-(= (duplicate-a-sequence [:a :a :b :b]) '(:a :a :a :a :b :b :b :b))
-(= (duplicate-a-sequence [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4]))
-(= (duplicate-a-sequence [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4]))</code></pre>
+[(= (duplicate-a-sequence [1 2 3]) '(1 1 2 2 3 3))
+ (= (duplicate-a-sequence [:a :a :b :b]) '(:a :a :a :a :b :b :b :b))
+ (= (duplicate-a-sequence [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4]))
+ (= (duplicate-a-sequence [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4]))]</code></pre>
 </div>
 </div>
 </div>
@@ -399,11 +360,11 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn replicate-a-sequence [s n]
   (apply concat (map #(repeat n %) s)))
 
-(= (replicate-a-sequence [1 2 3] 2) '(1 1 2 2 3 3))
-(= (replicate-a-sequence [:a :b] 4) '(:a :a :a :a :b :b :b :b))
-(= (replicate-a-sequence [4 5 6] 1) '(4 5 6))
-(= (replicate-a-sequence [[1 2] [3 4]] 2) '([1 2] [1 2] [3 4] [3 4]))
-(= (replicate-a-sequence [44 33] 2) [44 44 33 33])</code></pre>
+[(= (replicate-a-sequence [1 2 3] 2) '(1 1 2 2 3 3))
+ (= (replicate-a-sequence [:a :b] 4) '(:a :a :a :a :b :b :b :b))
+ (= (replicate-a-sequence [4 5 6] 1) '(4 5 6))
+ (= (replicate-a-sequence [[1 2] [3 4]] 2) '([1 2] [1 2] [3 4] [3 4]))
+ (= (replicate-a-sequence [44 33] 2) [44 44 33 33])]</code></pre>
 </div>
 </div>
 </div>
@@ -419,9 +380,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn implement-range [start end]
   (take (- end start) (iterate inc start)))
 
-(= (implement-range 1 4) '(1 2 3))
-(= (implement-range -2 2) '(-2 -1 0 1))
-(= (implement-range 5 8) '(5 6 7))</code></pre>
+[(= (implement-range 1 4) '(1 2 3))
+ (= (implement-range -2 2) '(-2 -1 0 1))
+ (= (implement-range 5 8) '(5 6 7))]</code></pre>
 </div>
 </div>
 </div>
@@ -440,9 +401,9 @@
       (if (&lt; x y) y x))
     params))
 
-(= (maximum-value 1 8 3 4) 8)
-(= (maximum-value 30 20) 30)
-(= (maximum-value 45 67 11) 67)</code></pre>
+[(= (maximum-value 1 8 3 4) 8)
+ (= (maximum-value 30 20) 30)
+ (= (maximum-value 45 67 11) 67)]</code></pre>
 </div>
 </div>
 </div>
@@ -460,10 +421,10 @@
   (flatten (map-indexed (fn [index item] [item (nth b index)]) a))
   (flatten (map-indexed (fn [index item] [item (nth b index)]) (take (count b) a)))))
 
-(= (interleave-two-seqs [1 2 3] [:a :b :c]) '(1 :a 2 :b 3 :c))
-(= (interleave-two-seqs [1 2] [3 4 5 6]) '(1 3 2 4))
-(= (interleave-two-seqs [1 2 3 4] [5]) [1 5])
-(= (interleave-two-seqs [30 20] [25 15]) [30 25 20 15])</code></pre>
+[(= (interleave-two-seqs [1 2 3] [:a :b :c]) '(1 :a 2 :b 3 :c))
+ (= (interleave-two-seqs [1 2] [3 4 5 6]) '(1 3 2 4))
+ (= (interleave-two-seqs [1 2 3 4] [5]) [1 5])
+ (= (interleave-two-seqs [30 20] [25 15]) [30 25 20 15])]</code></pre>
 </div>
 </div>
 </div>
@@ -479,9 +440,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn interpose-a-seq [v s]
   (rest (mapcat #(list v %) s)))
 
-(= (interpose-a-seq 0 [1 2 3]) [1 0 2 0 3])
-(= (apply str (interpose-a-seq ", " ["one" "two" "three"])) "one, two, three")
-(= (interpose-a-seq :z [:a :b :c :d]) [:a :z :b :z :c :z :d])</code></pre>
+[(= (interpose-a-seq 0 [1 2 3]) [1 0 2 0 3])
+ (= (apply str (interpose-a-seq ", " ["one" "two" "three"])) "one, two, three")
+ (= (interpose-a-seq :z [:a :b :c :d]) [:a :z :b :z :c :z :d])]</code></pre>
 </div>
 </div>
 </div>
@@ -497,9 +458,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn drop-every-nth-item [s n]
   (keep-indexed #(if (not= (mod %1 n) (dec n)) %2) s))
 
-(= (drop-every-nth-item [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
-(= (drop-every-nth-item [:a :b :c :d :e :f] 2) [:a :c :e])
-(= (drop-every-nth-item [1 2 3 4 5 6] 4) [1 2 3 5 6])</code></pre>
+[(= (drop-every-nth-item [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
+ (= (drop-every-nth-item [:a :b :c :d :e :f] 2) [:a :c :e])
+ (= (drop-every-nth-item [1 2 3 4 5 6] 4) [1 2 3 5 6])]</code></pre>
 </div>
 </div>
 </div>
@@ -515,10 +476,10 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn factorial-fun [n]
   (reduce * (range 1 (+ n 1))))
 
-(= (factorial-fun 1) 1)
-(= (factorial-fun 3) 6)
-(= (factorial-fun 5) 120)
-(= (factorial-fun 8) 40320)</code></pre>
+[(= (factorial-fun 1) 1)
+ (= (factorial-fun 3) 6)
+ (= (factorial-fun 5) 120)
+ (= (factorial-fun 8) 40320)]</code></pre>
 </div>
 </div>
 </div>
@@ -533,7 +494,7 @@
 <div class="content">
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-iterate [1 4 7 10 13])
 
-(= intro-to-iterate (take 5 (iterate #(+ 3 %) 1)))</code></pre>
+[(= intro-to-iterate (take 5 (iterate #(+ 3 %) 1)))]</code></pre>
 </div>
 </div>
 </div>
@@ -548,10 +509,10 @@
 <div class="content">
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(def contain-yourself 4)
 
-(contains? #{4 5 6} contain-yourself)
-(contains? [1 1 1 1 1] contain-yourself)
-(contains? {4 :a 2 :b} contain-yourself)
-(not (contains? [1 2 4] contain-yourself))</code></pre>
+[(contains? #{4 5 6} contain-yourself)
+ (contains? [1 1 1 1 1] contain-yourself)
+ (contains? {4 :a 2 :b} contain-yourself)
+ (not (contains? [1 2 4] contain-yourself))]</code></pre>
 </div>
 </div>
 </div>
@@ -566,8 +527,8 @@
 <div class="content">
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-some 6)
 
-(= intro-to-some (some #{2 7 6} [5 6 7 8]))
-(= intro-to-some (some #(when (even? %) %) [5 6 7 8]))</code></pre>
+[(= intro-to-some (some #{2 7 6} [5 6 7 8]))
+ (= intro-to-some (some #(when (even? %) %) [5 6 7 8]))]</code></pre>
 </div>
 </div>
 </div>
@@ -583,9 +544,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn split-a-sequence [n s]
   (list (take n s) (drop n s)))
 
-(= (split-a-sequence 3 [1 2 3 4 5 6]) [[1 2 3] [4 5 6]])
-(= (split-a-sequence 1 [:a :b :c :d]) [[:a] [:b :c :d]])
-(= (split-a-sequence 2 [[1 2] [3 4] [5 6]]) [[[1 2] [3 4]] [[5 6]]])</code></pre>
+[(= (split-a-sequence 3 [1 2 3 4 5 6]) [[1 2 3] [4 5 6]])
+ (= (split-a-sequence 1 [:a :b :c :d]) [[:a] [:b :c :d]])
+ (= (split-a-sequence 2 [[1 2] [3 4] [5 6]]) [[[1 2] [3 4]] [[5 6]]])]</code></pre>
 </div>
 </div>
 </div>
@@ -600,7 +561,7 @@
 <div class="content">
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(def advanced-destructuring [1 2 3 4 5])
 
-(= [1 2 [3 4 5] [1 2 3 4 5]] (let [[a b &amp; c :as d] advanced-destructuring] [a b c d]))</code></pre>
+[(= [1 2 [3 4 5] [1 2 3 4 5]] (let [[a b &amp; c :as d] advanced-destructuring] [a b c d]))]</code></pre>
 </div>
 </div>
 </div>
@@ -616,9 +577,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn map-construction [keys values]
   (apply assoc {} (interleave keys values)))
 
-(= (map-construction [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3})
-(= (map-construction [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"})
-(= (map-construction [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"})</code></pre>
+[(= (map-construction [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3})
+ (= (map-construction [1 2 3 4] ["one" "two" "three"]) {1 "one", 2 "two", 3 "three"})
+ (= (map-construction [:foo :bar] ["foo" "bar" "baz"]) {:foo "foo", :bar "bar"})]</code></pre>
 </div>
 </div>
 </div>
@@ -634,9 +595,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn reimplement-iterate [f x]
   (cons x (lazy-seq (reimplement-iterate f (f x)))))
 
-(= (take 5 (reimplement-iterate #(* 2 %) 1)) [1 2 4 8 16])
-(= (take 100 (reimplement-iterate inc 0)) (take 100 (range)))
-(= (take 9 (reimplement-iterate #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3])))</code></pre>
+[(= (take 5 (reimplement-iterate #(* 2 %) 1)) [1 2 4 8 16])
+ (= (take 100 (reimplement-iterate inc 0)) (take 100 (range)))
+ (= (take 9 (reimplement-iterate #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3])))]</code></pre>
 </div>
 </div>
 </div>
@@ -654,11 +615,11 @@
         (map #(vector (f (first %)) (vec %))
              (partition-by f (sort vals)))))
 
-(= (group-a-sequence #(&gt; % 5) [1 3 6 8]) {false [1 3], true [6 8]})
-(= (group-a-sequence #(apply / %) [[1 2] [2 4] [4 6] [3 6]])
-   {1/2 [[1 2] [2 4] [3 6]], 2/3 [[4 6]]})
-(= (group-a-sequence count [[1] [1 2] [3] [1 2 3] [2 3]])
-   {1 [[1] [3]], 2 [[1 2] [2 3]], 3 [[1 2 3]]})</code></pre>
+[(= (group-a-sequence #(&gt; % 5) [1 3 6 8]) {false [1 3], true [6 8]})
+ (= (group-a-sequence #(apply / %) [[1 2] [2 4] [4 6] [3 6]])
+    {1/2 [[1 2] [2 4] [3 6]], 2/3 [[4 6]]})
+ (= (group-a-sequence count [[1] [1 2] [3] [1 2 3] [2 3]])
+    {1 [[1] [3]], 2 [[1 2] [2 3]], 3 [[1 2 3]]})]</code></pre>
 </div>
 </div>
 </div>
@@ -676,10 +637,10 @@
     a
     (recur b (mod a b))))
 
-(= (greatest-common-divisor 2 4) 2)
-(= (greatest-common-divisor 10 5) 5)
-(= (greatest-common-divisor 5 7) 1)
-(= (greatest-common-divisor 1023 858) 33)</code></pre>
+[(= (greatest-common-divisor 2 4) 2)
+ (= (greatest-common-divisor 10 5) 5)
+ (= (greatest-common-divisor 5 7) 1)
+ (= (greatest-common-divisor 1023 858) 33)]</code></pre>
 </div>
 </div>
 </div>
@@ -695,9 +656,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn set-intersection [a b]
   (set (filter a b)))
 
-(= (set-intersection #{0 1 2 3} #{2 3 4 5}) #{2 3})
-(= (set-intersection #{0 1 2} #{3 4 5}) #{})
-(= (set-intersection #{:a :b :c :d} #{:c :e :a :f :d}) #{:a :c :d})</code></pre>
+[(= (set-intersection #{0 1 2 3} #{2 3 4 5}) #{2 3})
+ (= (set-intersection #{0 1 2} #{3 4 5}) #{})
+ (= (set-intersection #{:a :b :c :d} #{:c :e :a :f :d}) #{:a :c :d})]</code></pre>
 </div>
 </div>
 </div>
@@ -713,12 +674,12 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn a-half-truth [&amp; booleans]
   (= (set booleans) #{true false}))
 
-(= false (a-half-truth false false))
-(= true (a-half-truth true false))
-(= false (a-half-truth true))
-(= true (a-half-truth false true false))
-(= false (a-half-truth true true true))
-(= true (a-half-truth true true true false))</code></pre>
+[(= false (a-half-truth false false))
+ (= true (a-half-truth true false))
+ (= false (a-half-truth true))
+ (= true (a-half-truth false true false))
+ (= false (a-half-truth true true true))
+ (= true (a-half-truth true true true false))]</code></pre>
 </div>
 </div>
 </div>
@@ -737,10 +698,10 @@
     (clojure.set/union a b)
     (clojure.set/intersection a b)))
 
-(= (symmetric-difference #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7})
-(= (symmetric-difference #{:a :b :c} #{}) #{:a :b :c})
-(= (symmetric-difference #{} #{4 5 6}) #{4 5 6})
-(= (symmetric-difference #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]})</code></pre>
+[(= (symmetric-difference #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7})
+ (= (symmetric-difference #{:a :b :c} #{}) #{:a :b :c})
+ (= (symmetric-difference #{} #{4 5 6}) #{4 5 6})
+ (= (symmetric-difference #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]})]</code></pre>
 </div>
 </div>
 </div>
@@ -757,14 +718,14 @@
   (into #{}
         (for [x a y b] (vector x y))))
 
-(= (cartesian-product #{"ace" "king" "queen"} #{"♠" "♥" "♦" "♣"})
-   #{["ace"   "♠"] ["ace"   "♥"] ["ace"   "♦"] ["ace"   "♣"]
-     ["king"  "♠"] ["king"  "♥"] ["king"  "♦"] ["king"  "♣"]
-     ["queen" "♠"] ["queen" "♥"] ["queen" "♦"] ["queen" "♣"]})
-(= (cartesian-product #{1 2 3} #{4 5})
-  #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]})
-(= 300 (count (cartesian-product (into #{} (range 10))
-                                 (into #{} (range 30)))))</code></pre>
+[(= (cartesian-product #{"ace" "king" "queen"} #{"♠" "♥" "♦" "♣"})
+    #{["ace"   "♠"] ["ace"   "♥"] ["ace"   "♦"] ["ace"   "♣"]
+      ["king"  "♠"] ["king"  "♥"] ["king"  "♦"] ["king"  "♣"]
+      ["queen" "♠"] ["queen" "♥"] ["queen" "♦"] ["queen" "♣"]})
+ (= (cartesian-product #{1 2 3} #{4 5})
+   #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]})
+ (= 300 (count (cartesian-product (into #{} (range 10))
+                                  (into #{} (range 30)))))]</code></pre>
 </div>
 </div>
 </div>
@@ -791,20 +752,20 @@
           (nil? right)
           (binary? right))))))
 
-(= (binary? '(:a (:b nil nil) nil))
-   true)
-(= (binary? '(:a (:b nil nil)))
-  false)
-(= (binary? [1 nil [2 [3 nil nil] [4 nil nil]]])
-   true)
-(= (binary? [1 [2 nil nil] [3 nil nil] [4 nil nil]])
-  false)
-(= (binary? [1 [2 [3 [4 nil nil] nil] nil] nil])
-   true)
-(= (binary? [1 [2 [3 [4 false nil] nil] nil] nil])
-  false)
-(= (binary? '(:a nil ()))
-   false)</code></pre>
+[(= (binary? '(:a (:b nil nil) nil))
+    true)
+ (= (binary? '(:a (:b nil nil)))
+   false)
+ (= (binary? [1 nil [2 [3 nil nil] [4 nil nil]]])
+    true)
+ (= (binary? [1 [2 nil nil] [3 nil nil] [4 nil nil]])
+   false)
+ (= (binary? [1 [2 [3 [4 nil nil] nil] nil] nil])
+    true)
+ (= (binary? [1 [2 [3 [4 false nil] nil] nil] nil])
+   false)
+ (= (binary? '(:a nil ()))
+    false)]</code></pre>
 </div>
 </div>
 </div>
@@ -837,18 +798,18 @@
         (mirror right)
         right))))
 
-(= (beauty-is-symmetry '(:a (:b nil nil) (:b nil nil))) true)
-(= (beauty-is-symmetry '(:a (:b nil nil) nil)) false)
-(= (beauty-is-symmetry '(:a (:b nil nil) (:c nil nil))) false)
-(= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-                       [2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])
-   true)
-(= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-                          [2 [3 nil [4 [5 nil nil] [6 nil nil]]] nil]])
-  false)
-(= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-                          [2 [3 nil [4 [6 nil nil] nil]] nil]])
-   false)</code></pre>
+[(= (beauty-is-symmetry '(:a (:b nil nil) (:b nil nil))) true)
+ (= (beauty-is-symmetry '(:a (:b nil nil) nil)) false)
+ (= (beauty-is-symmetry '(:a (:b nil nil) (:c nil nil))) false)
+ (= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                        [2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])
+    true)
+ (= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                           [2 [3 nil [4 [5 nil nil] [6 nil nil]]] nil]])
+   false)
+ (= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                           [2 [3 nil [4 [6 nil nil] nil]] nil]])
+    false)]</code></pre>
 </div>
 </div>
 </div>
@@ -875,15 +836,15 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
                                   (conj (into [0] previous-row) 0)))))
         [1]))))
 
-(= (pascals-triangle 1) [1])
-(= (map pascals-triangle (range 1 6))
-   [     [1]
-        [1 1]
-       [1 2 1]
-      [1 3 3 1]
-     [1 4 6 4 1]])
-(= (pascals-triangle 11)
-  [1 10 45 120 210 252 210 120 45 10 1])</code></pre>
+[(= (pascals-triangle 1) [1])
+ (= (map pascals-triangle (range 1 6))
+    [     [1]
+         [1 1]
+        [1 2 1]
+       [1 3 3 1]
+      [1 4 6 4 1]])
+ (= (pascals-triangle 11)
+   [1 10 45 120 210 252 210 120 45 10 1])]</code></pre>
 </div>
 </div>
 </div>
@@ -900,9 +861,9 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
   (map js/parseInt
        (str (* a b))))
 
-(= (product-digits 1 1) [1])
-(= (product-digits 99 9) [8 9 1])
-(= (product-digits 999 99) [9 8 9 0 1])</code></pre>
+[(= (product-digits 1 1) [1])
+ (= (product-digits 99 9) [8 9 1])
+ (= (product-digits 999 99) [9 8 9 0 1])]</code></pre>
 </div>
 </div>
 </div>
@@ -924,8 +885,8 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
             (/ (* a b) (gcd a b)))]
     (reduce lcm n)))
 
-(== (least-common-multiple 2 3) 6)
-(== (least-common-multiple 5 3 7) 105)</code></pre>
+[(== (least-common-multiple 2 3) 6)
+ (== (least-common-multiple 5 3 7) 105)]</code></pre>
 </div>
 </div>
 </div>
@@ -942,10 +903,10 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
    (fn exp [x]
      (long (Math/pow x n))))
 
-(= 256 ((simple-closures 2) 16),
-       ((simple-closures 8) 2))
-(= [1 8 27 64] (map (simple-closures 3) [1 2 3 4]))
-(= [1 2 4 8 16] (map #((simple-closures %) 2) [0 1 2 3 4]))</code></pre>
+[(= 256 ((simple-closures 2) 16),
+        ((simple-closures 8) 2))
+ (= [1 8 27 64] (map (simple-closures 3) [1 2 3 4]))
+ (= [1 2 4 8 16] (map #((simple-closures %) 2) [0 1 2 3 4]))]</code></pre>
 </div>
 </div>
 </div>
@@ -964,14 +925,14 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
       (cons (f (first c))
             (reimplement-map f (rest c))))))
 
-(= [3 4 5 6 7]
-   (reimplement-map inc [2 3 4 5 6]))
-(= (repeat 10 nil)
-   (reimplement-map (fn [_] nil) (range 10)))
-(= [1000000 1000001]
-   (-&gt;&gt; (reimplement-map inc (range))
-        (drop (dec 1000000))
-        (take 2)))</code></pre>
+[(= [3 4 5 6 7]
+    (reimplement-map inc [2 3 4 5 6]))
+ (= (repeat 10 nil)
+    (reimplement-map (fn [_] nil) (range 10)))
+ (= [1000000 1000001]
+    (-&gt;&gt; (reimplement-map inc (range))
+         (drop (dec 1000000))
+         (take 2)))]</code></pre>
 </div>
 </div>
 </div>
@@ -994,10 +955,10 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
                         (vector e (map js/parseInt (str e))))
                       c)))))
 
-(= 8 (sum-of-square-of-digits (range 10)))
-(= 19 (sum-of-square-of-digits (range 30)))
-(= 50 (sum-of-square-of-digits (range 100)))
-(= 50 (sum-of-square-of-digits (range 1000)))</code></pre>
+[(= 8 (sum-of-square-of-digits (range 10)))
+ (= 19 (sum-of-square-of-digits (range 30)))
+ (= 50 (sum-of-square-of-digits (range 100)))
+ (= 50 (sum-of-square-of-digits (range 1000)))]</code></pre>
 </div>
 </div>
 </div>
@@ -1017,13 +978,13 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
                   (map js/parseInt
                        (reverse s))))))
 
-(= 0     (read-a-binary-number "0"))
-(= 7     (read-a-binary-number "111"))
-(= 8     (read-a-binary-number "1000"))
-(= 9     (read-a-binary-number "1001"))
-(= 255   (read-a-binary-number "11111111"))
-(= 1365  (read-a-binary-number "10101010101"))
-(= 65535 (read-a-binary-number "1111111111111111"))</code></pre>
+[(= 0     (read-a-binary-number "0"))
+ (= 7     (read-a-binary-number "111"))
+ (= 8     (read-a-binary-number "1000"))
+ (= 9     (read-a-binary-number "1001"))
+ (= 255   (read-a-binary-number "11111111"))
+ (= 1365  (read-a-binary-number "10101010101"))
+ (= 65535 (read-a-binary-number "1111111111111111"))]</code></pre>
 </div>
 </div>
 </div>
@@ -1042,12 +1003,12 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
    :rank ({\2 0 \3 1 \4 2 \5 3 \6 4 \7 5 \8 6 \9 7 \T 8 \J 9 \Q 10 \K 11  \A 12}
           (second s))})
 
-(= {:suit :diamond :rank 10} (recognize-playing-cards "DQ"))
-(= {:suit :heart :rank 3} (recognize-playing-cards "H5"))
-(= {:suit :club :rank 12} (recognize-playing-cards "CA"))
-(= (range 13) (map (comp :rank recognize-playing-cards str)
-                   '[S2 S3 S4 S5 S6 S7
-                     S8 S9 ST SJ SQ SK SA]))</code></pre>
+[(= {:suit :diamond :rank 10} (recognize-playing-cards "DQ"))
+ (= {:suit :heart :rank 3} (recognize-playing-cards "H5"))
+ (= {:suit :club :rank 12} (recognize-playing-cards "CA"))
+ (= (range 13) (map (comp :rank recognize-playing-cards str)
+                    '[S2 S3 S4 S5 S6 S7
+                      S8 S9 ST SJ SQ SK SA]))]</code></pre>
 </div>
 </div>
 </div>
@@ -1066,10 +1027,10 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
       (infix a op b)
   	  (recur (infix a op b) (first more) (second more) (drop 2 more)))))
 
-(= 7  (infix-calculator 2 + 5))
-(= 42 (infix-calculator 38 + 48 - 2 / 2))
-(= 8  (infix-calculator 10 / 2 - 1 * 2))
-(= 72 (infix-calculator 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9))</code></pre>
+[(= 7  (infix-calculator 2 + 5))
+ (= 42 (infix-calculator 38 + 48 - 2 / 2))
+ (= 8  (infix-calculator 10 / 2 - 1 * 2))
+ (= 72 (infix-calculator 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9))]</code></pre>
 </div>
 </div>
 </div>
@@ -1085,10 +1046,10 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn dot-product [a b]
   (reduce + (map * a b)))
 
-(= 0 (dot-product [0 1 0] [1 0 0]))
-(= 3 (dot-product [1 1 1] [1 1 1]))
-(= 32 (dot-product [1 2 3] [4 5 6]))
-(= 256 (dot-product [2 5 6] [100 10 1]))</code></pre>
+[(= 0 (dot-product [0 1 0] [1 0 0]))
+ (= 3 (dot-product [1 1 1] [1 1 1]))
+ (= 32 (dot-product [1 2 3] [4 5 6]))
+ (= 256 (dot-product [2 5 6] [100 10 1]))]</code></pre>
 </div>
 </div>
 </div>
@@ -1107,17 +1068,17 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
                (for [[k v] m]
                  (map #(vector [k (first %)] (second %)) v)))))
 
-(= (trees-into-tables '{a {p 1, q 2}
-                        b {m 3, n 4}})
-   '{[a p] 1, [a q] 2
-     [b m] 3, [b n] 4})
-(= (trees-into-tables '{[1] {a b c d}
-                        [2] {q r s t u v w x}})
-  '{[[1] a] b, [[1] c] d,
-    [[2] q] r, [[2] s] t,
-    [[2] u] v, [[2] w] x})
-(= (trees-into-tables '{m {1 [a b c] 3 nil}})
-                      '{[m 1] [a b c], [m 3] nil})</code></pre>
+[(= (trees-into-tables '{a {p 1, q 2}
+                         b {m 3, n 4}})
+    '{[a p] 1, [a q] 2
+      [b m] 3, [b n] 4})
+ (= (trees-into-tables '{[1] {a b c d}
+                         [2] {q r s t u v w x}})
+   '{[[1] a] b, [[1] c] d,
+     [[2] q] r, [[2] s] t,
+     [[2] u] v, [[2] w] x})
+ (= (trees-into-tables '{m {1 [a b c] 3 nil}})
+                       '{[m 1] [a b c], [m 3] nil})]</code></pre>
 </div>
 </div>
 </div>
@@ -1139,10 +1100,10 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
                             (conj (into [0] previous-row) 0)))))
     row))
 
-(= (second (pascals-trapezoid [2 3 2])) [2 5 5 2])
-(= (take 5 (pascals-trapezoid [1])) [[1] [1 1] [1 2 1] [1 3 3 1] [1 4 6 4 1]])
-(= (take 2 (pascals-trapezoid [3 1 2])) [[3 1 2] [3 4 3 2]])
-(= (take 100 (pascals-trapezoid [2 4 2])) (rest (take 101 (pascals-trapezoid [2 2]))))</code></pre>
+[(= (second (pascals-trapezoid [2 3 2])) [2 5 5 2])
+ (= (take 5 (pascals-trapezoid [1])) [[1] [1 1] [1 2 1] [1 3 3 1] [1 4 6 4 1]])
+ (= (take 2 (pascals-trapezoid [3 1 2])) [[3 1 2] [3 4 3 2]])
+ (= (take 100 (pascals-trapezoid [2 4 2])) (rest (take 101 (pascals-trapezoid [2 2]))))]</code></pre>
 </div>
 </div>
 </div>
@@ -1162,43 +1123,43 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
     (count
       (apply clojure.set/union s))))
 
-(= (pairwise-disjoint-sets #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
-   true)
-(= (pairwise-disjoint-sets #{#{:a :b :c :d :e}
-                           #{:a :b :c :d}
-                           #{:a :b :c}
-                           #{:a :b}
-                           #{:a}})
-  false)
-(= (pairwise-disjoint-sets #{#{[1 2 3] [4 5]}
-                             #{[1 2] [3 4 5]}
-                             #{[1] [2] 3 4 5}
-                             #{1 2 [3 4] [5]}})
-   true)
-(= (pairwise-disjoint-sets #{#{'a 'b}
-                             #{'c 'd 'e}
-                             #{'f 'g 'h 'i}
-                             #{''a ''c ''f}})
-  true)
-(= (pairwise-disjoint-sets #{#{'(:x :y :z) '(:x :y) '(:z) '()}
-                             #{#{:x :y :z} #{:x :y} #{:z} #{}}
-                             #{'[:x :y :z] [:x :y] [:z] [] {}}})
-   false)
-(= (pairwise-disjoint-sets #{#{(= "true") false}
-                             #{:yes :no}
-                             #{(symbol "true") 'false}
-                             #{(keyword "yes") ::no}})
-  false)
-(= (pairwise-disjoint-sets #{#{distinct?}
-                             #{#(-&gt; %) #(-&gt; %)}
-                             #{#(-&gt; %) #(-&gt; %) #(-&gt; %)}
-                             #{#(-&gt; %) #(-&gt; %) #(-&gt; %)}})
-   true)
-(= (pairwise-disjoint-sets #{#{(#(-&gt; *)) + (quote mapcat) #_ nil}
+[(= (pairwise-disjoint-sets #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
+    true)
+ (= (pairwise-disjoint-sets #{#{:a :b :c :d :e}
+                            #{:a :b :c :d}
+                            #{:a :b :c}
+                            #{:a :b}
+                            #{:a}})
+    false)
+ (= (pairwise-disjoint-sets #{#{[1 2 3] [4 5]}
+                              #{[1 2] [3 4 5]}
+                              #{[1] [2] 3 4 5}
+                              #{1 2 [3 4] [5]}})
+    true)
+ (= (pairwise-disjoint-sets #{#{'a 'b}
+                              #{'c 'd 'e}
+                              #{'f 'g 'h 'i}
+                              #{''a ''c ''f}})
+    true)
+ (= (pairwise-disjoint-sets #{#{'(:x :y :z) '(:x :y) '(:z) '()}
+                              #{#{:x :y :z} #{:x :y} #{:z} #{}}
+                              #{'[:x :y :z] [:x :y] [:z] [] {}}})
+    false)
+ (= (pairwise-disjoint-sets #{#{(= "true") false}
+                              #{:yes :no}
+                              #{(symbol "true") 'false}
+                              #{(keyword "yes") ::no}})
+    false)
+ (= (pairwise-disjoint-sets #{#{distinct?}
+                              #{#(-&gt; %) #(-&gt; %)}
+                              #{#(-&gt; %) #(-&gt; %) #(-&gt; %)}
+                              #{#(-&gt; %) #(-&gt; %) #(-&gt; %)}})
+    true)
+ (= (pairwise-disjoint-sets #{#{(#(-&gt; *)) + (quote mapcat) #_ nil}
                              #{'+ '* mapcat (comment mapcat)}
                              #{(do) set contains? nil?}
                              #{, , , #_, , empty?}})
-  false)</code></pre>
+    false)]</code></pre>
 </div>
 </div>
 </div>
@@ -1211,12 +1172,12 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn indexing-sequences []
-  (map-indexed (fn [index element] [element index]))
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn indexing-sequences [s]
+  (map-indexed (fn [index element] [element index]) s))
 
-(= (indexing-sequences [:a :b :c]) [[:a 0] [:b 1] [:c 2]])
-(= (indexing-sequences [0 1 3]) '((0 0) (1 1) (3 2)))
-(= (indexing-sequences [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]])</code></pre>
+[(= (indexing-sequences [:a :b :c]) [[:a 0] [:b 1] [:c 2]])
+ (= (indexing-sequences [0 1 3]) '((0 0) (1 1) (3 2)))
+ (= (indexing-sequences [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]])]</code></pre>
 </div>
 </div>
 </div>
@@ -1248,10 +1209,10 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
     (f l r) :lt
     :else :gt))
 
-(= :gt (comparisons &lt; 5 1))
-(= :eq (comparisons (fn [x y] (&lt; (count x) (count y))) "pear" "plum"))
-(= :lt (comparisons (fn [x y] (&lt; (mod x 5) (mod y 5))) 21 3))
-(= :gt (comparisons &gt; 0 2))</code></pre>
+[(= :gt (comparisons &lt; 5 1))
+ (= :eq (comparisons (fn [x y] (&lt; (count x) (count y))) "pear" "plum"))
+ (= :lt (comparisons (fn [x y] (&lt; (mod x 5) (mod y 5))) 21 3))
+ (= :gt (comparisons &gt; 0 2))]</code></pre>
 </div>
 </div>
 </div>
@@ -1264,10 +1225,10 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-klipse" data-lang="klipse">(= 3
-  (let [[f x] [+ (range 3)]] (apply f x))
-  (let [[[f x] b] [[+ 1] 2]] (f x b))
-  (let [[f x] [inc 2]] (f x)))</code></pre>
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">[(= 3
+   (let [[f x] [+ (range 3)]] (apply f x))
+   (let [[[f x] b] [[+ 1] 2]] (f x b))
+   (let [[f x] [inc 2]] (f x)))]</code></pre>
 </div>
 </div>
 </div>
@@ -1280,6 +1241,12 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
     
     
     
+    
+      
+      
+      
+        
+      
     
       
       
@@ -1409,6 +1376,12 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
           
           
           
+            <li><a href="http://www.anthony-galea.com/blog/post/iterated-function-systems/">Iterated Function Systems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
             <li><a href="http://www.anthony-galea.com/blog/post/the-template-method-pattern/">The Template Method Pattern</a> <a class="label" href="http://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="http://www.anthony-galea.com/categories/java">java</a><a class="label" href="http://www.anthony-galea.com/categories/scala">scala</a><a class="label" href="http://www.anthony-galea.com/categories/kotlin">kotlin</a><a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
           
         
@@ -1526,6 +1499,10 @@ Write a function which returns the nth row of Pascal&#8217;s Triangle.</p>
           
           
         
+        
+            
+            
+            
         
             
             

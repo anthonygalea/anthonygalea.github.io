@@ -9,6 +9,235 @@
     <atom:link href="http://www.anthony-galea.com/categories/clojure/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Iterated Function Systems</title>
+      <link>http://www.anthony-galea.com/blog/post/iterated-function-systems/</link>
+      <pubDate>Tue, 31 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.anthony-galea.com/blog/post/iterated-function-systems/</guid>
+      <description>&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;If everything goes according to plan your browser should paint a picture of a tree within the next few seconds. Assuming that works, you can experiment with &lt;code&gt;iterations&lt;/code&gt; and &lt;code&gt;transformations&lt;/code&gt; below and the tree will repaint. Go ahead, give it a try.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34; style=&#34;display: none;&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
+&lt;code class=&#34;language-klipse&#34;&gt;
+
+(defn transform [transformation point]
+  (let [[a b c d e f] transformation
+        [x y] point]
+    [(+ e
+        (+ (* a x)
+           (* b y)))
+     (+ f
+        (+ (* c x)
+           (* d y)))]))
+
+(defn ifs [{:keys [iterations
+                   transformations]}]
+  (loop [i 0
+         r (transient [[1 1]])]
+    (if (&lt; i iterations)
+      (recur (inc i)
+             (conj! r (transform (rand-nth transformations)
+                                 (nth r (- (count r) 1)))))
+      (drop 100 (persistent! r)))))
+
+(defn log [x y]
+  (/ (.log js/Math y)
+     (.log js/Math x)))
+
+(def colour-1 [122 92 29])
+(def colour-2 [154 89 40])
+
+(defn draw [points canvas]
+  (let [canvas (js/document.getElementById canvas)
+        ctx (.getContext canvas &#34;2d&#34;)
+        width (.-width canvas)
+        height (.-height canvas)
+        image (.createImageData ctx width height)
+        max-x (apply max (map first points))
+        max-y (apply max (map second points))
+        mapped (frequencies (map (fn [[x y]]
+                                     [(int (* width (/ x max-x)))
+                                      (int (* height (/ y max-y)))]) points))
+        max-v (apply max (map second mapped))
+        total-pixels (* width height)
+        pixel-data (map (fn [[[x y] v]]
+                          (let [r1 (log v max-v)
+                                r2 (- 1 r1)]
+                            (into [(* 4 (+ x (- total-pixels (* width y))))]
+                                  (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))) mapped)]
+      (doseq [[i r g b] pixel-data]
+       (aset image.data i r)
+       (aset image.data (+ i 1) g)
+       (aset image.data (+ i 2) b)
+       (aset image.data (+ i 3) 255))
+      (.putImageData ctx image 0 0)))
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-tree&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+
+&lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
+&lt;code class=&#34;language-klipse&#34;&gt;
+
+(def tree {:iterations 60000
+           :transformations [[0.195 -0.488 0.344 0.443 0.4431 0.2453]
+                             [0.462 0.414 -0.252 0.361 0.2511 0.5692]
+                             [-0.058 -0.07 0.453 -0.111 0.5976 0.0969]
+                             [-0.035 0.07 -0.469 -0.022 0.4884 0.5069]
+                             [-0.637 0 0 0.501 0.8562 0.2513]]})
+
+(draw (ifs tree) &#34;canvas-tree&#34;)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Let&amp;#8217;s try again, this time with a snowflake:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-snowflake&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+
+&lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
+&lt;code class=&#34;language-klipse&#34;&gt;
+
+(def colour-1 [125 92 69])
+(def colour-2 [254 89 40])
+
+(def snowflake {:iterations 60000
+                :transformations [[0.75 0 0 0.75 0.125 0.125]
+                                  [0.5 0.5 -0.5 0.5 0 0.5]
+                                  [0.25 0 0 0.25 0 0.75]
+                                  [0.25 0 0 0.25 0.75 0.75]
+                                  [0.25 0 0 0.25 0 0]
+                                  [0.25 0 0 0.25 0.75 0]]})
+
+(draw (ifs snowflake) &#34;canvas-snowflake&#34;)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;Perhaps not the best choice of colours, but I&amp;#8217;m sure you can fix that. And here&amp;#8217;s a couple more examples to play around with:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-weed&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+
+&lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
+&lt;code class=&#34;language-klipse&#34;&gt;
+
+(def colour-1 [122 92 29])
+(def colour-2 [154 89 40])
+
+(def weed {:iterations 60000
+           :transformations [[0.5 0 0 0.75 0.25 0]
+                             [0.25 0.1 -0.2 0.3 0.25 0.5]
+                             [0.25 -0.1 0.2 0.3 0.5 0.4]
+                             [0.2 0 0 0.3 0.4 0.55]]})
+
+(draw (ifs weed) &#34;canvas-weed&#34;)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-crystal&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+
+&lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
+&lt;code class=&#34;language-klipse&#34;&gt;
+
+(def colour-1 [51 60 139])
+(def colour-2 [54 34 63])
+
+(def crystal {:iterations 60000
+              :transformations [[0.0 -0.5  0.5 0.0 0.5  0.0]
+                                [0.0  0.5 -0.5 0.0 0.5  0.5]
+                                [0.5  0.0  0.0 0.5 0.25 0.5]]})
+
+(draw (ifs crystal) &#34;canvas-crystal&#34;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-fractals-island&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+
+&lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
+&lt;code class=&#34;language-klipse&#34; data-external-libs=&#34;https://raw.githubusercontent.com/mikera/core.matrix/develop/src/main/clojure&#34;&gt;
+
+(def colour-1 [165 92 69])
+(def colour-2 [122 89 20])
+
+(def fractals-island {:iterations 60000
+                      :transformations [[0 0.577 -0.577 0 0.0951 0.5893]
+                                        [0 0.577 -0.577 0 0.4413 0.7893]
+                                        [0 0.577 -0.577 0 0.0952 0.9893]]})
+
+(draw (ifs fractals-island) &#34;canvas-fractals-island&#34;)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-pine-tree&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+
+&lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
+&lt;code class=&#34;language-klipse&#34;&gt;
+
+(def colour-1 [122 92 29])
+(def colour-2 [154 89 40])
+
+(def pine-tree {:iterations 60000
+                :transformations [[0.25 0 0 0.9 0.375 0]
+                                  [0.65 0 0 0.75 0.175 0.25]
+                                  [0 -0.5 0.25 0 0.5 0.2]
+                                  [0 0.5 -0.25 0 0.5 0.45]]})
+
+(draw (ifs pine-tree) &#34;canvas-pine-tree&#34;)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&#34;paragraph&#34;&gt;
+&lt;p&gt;But how does it work? Well, it is using a technique for drawing fractals known as &lt;a href=&#34;https://en.wikipedia.org/wiki/Iterated_function_system&#34;&gt;Iterated Functions Systems&lt;/a&gt;. You can find all the code required for this page to work below:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
+&lt;code class=&#34;language-klipse&#34;&gt;
+
+(defn transform [transformation point]
+  (let [[a b c d e f] transformation
+        [x y] point]
+    [(+ e
+        (+ (* a x)
+           (* b y)))
+     (+ f
+        (+ (* c x)
+           (* d y)))]))
+
+(defn ifs [{:keys [iterations
+                   transformations]}]
+  (loop [i 0
+         r (transient [[1 1]])]
+    (if (&lt; i iterations)
+      (recur (inc i)
+             (conj! r (transform (rand-nth transformations)
+                                 (nth r (- (count r) 1)))))
+      (drop 100 (persistent! r)))))
+
+(defn log [x y]
+  (/ (.log js/Math y)
+     (.log js/Math x)))
+
+(defn draw [points canvas]
+  (let [canvas (js/document.getElementById canvas)
+        ctx (.getContext canvas &#34;2d&#34;)
+        width (.-width canvas)
+        height (.-height canvas)
+        image (.createImageData ctx width height)
+        max-x (apply max (map first points))
+        max-y (apply max (map second points))
+        mapped (frequencies (map (fn [[x y]]
+                                     [(int (* width (/ x max-x)))
+                                      (int (* height (/ y max-y)))]) points))
+        max-v (apply max (map second mapped))
+        total-pixels (* width height)
+        pixel-data (map (fn [[[x y] v]]
+                          (let [r1 (log v max-v)
+                                r2 (- 1 r1)]
+                            (into [(* 4 (+ x (- total-pixels (* width y))))]
+                                  (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))) mapped)]
+      (doseq [[i r g b] pixel-data]
+       (aset image.data i r)
+       (aset image.data (+ i 1) g)
+       (aset image.data (+ i 2) b)
+       (aset image.data (+ i 3) 255))
+      (.putImageData ctx image 0 0)))
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>The Template Method Pattern</title>
       <link>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</link>
       <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
@@ -1142,9 +1371,9 @@
        (cons (take-nth n s) (reverse-interleave (rest s) n (dec i)))))
    s n n))
 
-(= (reverse-interleave [1 2 3 4 5 6] 2) &#39;((1 3 5) (2 4 6)))
-(= (reverse-interleave (range 9) 3) &#39;((0 3 6) (1 4 7) (2 5 8)))
-(= (reverse-interleave (range 10) 5) &#39;((0 5) (1 6) (2 7) (3 8) (4 9)))&lt;/code&gt;&lt;/pre&gt;
+[(= (reverse-interleave [1 2 3 4 5 6] 2) &#39;((1 3 5) (2 4 6)))
+ (= (reverse-interleave (range 9) 3) &#39;((0 3 6) (1 4 7) (2 5 8)))
+ (= (reverse-interleave (range 10) 5) &#39;((0 5) (1 6) (2 7) (3 8) (4 9)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1161,11 +1390,11 @@
   (let [c (mod n (count s))]
     (concat (drop c s) (take c s))))
 
-(= (rotate-sequence 2 [1 2 3 4 5]) &#39;(3 4 5 1 2))
-(= (rotate-sequence -2 [1 2 3 4 5]) &#39;(4 5 1 2 3))
-(= (rotate-sequence 6 [1 2 3 4 5]) &#39;(2 3 4 5 1))
-(= (rotate-sequence 1 &#39;(:a :b :c)) &#39;(:b :c :a))
-(= (rotate-sequence -4 &#39;(:a :b :c)) &#39;(:c :a :b))&lt;/code&gt;&lt;/pre&gt;
+[(= (rotate-sequence 2 [1 2 3 4 5]) &#39;(3 4 5 1 2))
+ (= (rotate-sequence -2 [1 2 3 4 5]) &#39;(4 5 1 2 3))
+ (= (rotate-sequence 6 [1 2 3 4 5]) &#39;(2 3 4 5 1))
+ (= (rotate-sequence 1 &#39;(:a :b :c)) &#39;(:b :c :a))
+ (= (rotate-sequence -4 &#39;(:a :b :c)) &#39;(:c :a :b))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1182,10 +1411,10 @@
   (fn [a b]
     (f b a)))
 
-(= 3 ((flipping-out nth) 2 [1 2 3 4 5]))
-(= true ((flipping-out &amp;gt;) 7 8))
-(= 4 ((flipping-out quot) 2 8))
-(= [1 2 3] ((flipping-out take) [1 2 3 4 5] 3))&lt;/code&gt;&lt;/pre&gt;
+[(= 3 ((flipping-out nth) 2 [1 2 3 4 5]))
+ (= true ((flipping-out &amp;gt;) 7 8))
+ (= 4 ((flipping-out quot) 2 8))
+ (= [1 2 3] ((flipping-out take) [1 2 3 4 5] 3))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1201,9 +1430,9 @@
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn split-by-type [v]
   (vals (group-by #(type %) v)))
 
-(= (set (split-by-type [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]})
-(= (set (split-by-type [:a &#34;foo&#34;  &#34;bar&#34; :b])) #{[:a :b] [&#34;foo&#34; &#34;bar&#34;]})
-(= (set (split-by-type [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]})&lt;/code&gt;&lt;/pre&gt;
+[(= (set (split-by-type [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]})
+ (= (set (split-by-type [:a &#34;foo&#34;  &#34;bar&#34; :b])) #{[:a :b] [&#34;foo&#34; &#34;bar&#34;]})
+ (= (set (split-by-type [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1222,9 +1451,9 @@
               (* (quot (count s) n) n)
               n)))
 
-(= (partition-a-sequence 3 (range 9)) &#39;((0 1 2) (3 4 5) (6 7 8)))
-(= (partition-a-sequence 2 (range 8)) &#39;((0 1) (2 3) (4 5) (6 7)))
-(= (partition-a-sequence 3 (range 8)) &#39;((0 1 2) (3 4 5)))&lt;/code&gt;&lt;/pre&gt;
+[(= (partition-a-sequence 3 (range 9)) &#39;((0 1 2) (3 4 5) (6 7 8)))
+ (= (partition-a-sequence 2 (range 8)) &#39;((0 1) (2 3) (4 5) (6 7)))
+ (= (partition-a-sequence 3 (range 8)) &#39;((0 1 2) (3 4 5)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1240,9 +1469,9 @@
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn count-occurrences [s]
   (into {} (map #(vector (first %) (count (second %))) (group-by identity s))))
 
-(= (count-occurrences [1 1 2 3 2 1 1]) {1 4, 2 2, 3 1})
-(= (count-occurrences [:b :a :b :a :b]) {:a 2, :b 3})
-(= (count-occurrences &#39;([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2})&lt;/code&gt;&lt;/pre&gt;
+[(= (count-occurrences [1 1 2 3 2 1 1]) {1 4, 2 2, 3 1})
+ (= (count-occurrences [:b :a :b :a :b]) {:a 2, :b 3})
+ (= (count-occurrences &#39;([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1259,10 +1488,10 @@
   (sort-by #(.indexOf s %)
            (keys (group-by identity s))))
 
-(= (find-distinct-items [1 2 1 3 1 2 4]) [1 2 3 4])
-(= (find-distinct-items [:a :a :b :b :c :c]) [:a :b :c])
-(= (find-distinct-items &#39;([2 4] [1 2] [1 3] [1 3])) &#39;([2 4] [1 2] [1 3]))
-(= (find-distinct-items (range 50)) (range 50))&lt;/code&gt;&lt;/pre&gt;
+[(= (find-distinct-items [1 2 1 3 1 2 4]) [1 2 3 4])
+ (= (find-distinct-items [:a :a :b :b :c :c]) [:a :b :c])
+ (= (find-distinct-items &#39;([2 4] [1 2] [1 3] [1 3])) &#39;([2 4] [1 2] [1 3]))
+ (= (find-distinct-items (range 50)) (range 50))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1283,10 +1512,10 @@
               args
               (reverse functions)))))
 
-(= [3 2 1] ((function-composition rest reverse) [1 2 3 4]))
-(= 5 ((function-composition (partial + 3) second) [1 2 3 4]))
-(= true ((function-composition zero? #(mod % 8) +) 3 5 7 9))
-(= &#34;HELLO&#34; ((function-composition #(.toUpperCase %) #(apply str %) take) 5 &#34;hello world&#34;))&lt;/code&gt;&lt;/pre&gt;
+[(= [3 2 1] ((function-composition rest reverse) [1 2 3 4]))
+ (= 5 ((function-composition (partial + 3) second) [1 2 3 4]))
+ (= true ((function-composition zero? #(mod % 8) +) 3 5 7 9))
+ (= &#34;HELLO&#34; ((function-composition #(.toUpperCase %) #(apply str %) take) 5 &#34;hello world&#34;))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1303,9 +1532,9 @@
   (fn [&amp;amp; parameters]
     (map #(apply % parameters) functions)))
 
-(= [21 6 1] ((juxtaposition + max min) 2 3 5 1 6 4))
-(= [&#34;HELLO&#34; 5] ((juxtaposition #(.toUpperCase %) count) &#34;hello&#34;))
-(= [2 6 4] ((juxtaposition :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10}))&lt;/code&gt;&lt;/pre&gt;
+[(= [21 6 1] ((juxtaposition + max min) 2 3 5 1 6 4))
+ (= [&#34;HELLO&#34; 5] ((juxtaposition #(.toUpperCase %) count) &#34;hello&#34;))
+ (= [2 6 4] ((juxtaposition :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10}))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1329,9 +1558,9 @@
                                   (f i (first s))
                                   (rest s)))))))
 
-(= (take 5 (sequence-reductions + (range))) [0 1 3 6 10])
-(= (sequence-reductions conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]])
-(= (last (sequence-reductions * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120)&lt;/code&gt;&lt;/pre&gt;
+[(= (take 5 (sequence-reductions + (range))) [0 1 3 6 10])
+ (= (sequence-reductions conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]])
+ (= (last (sequence-reductions * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1352,11 +1581,11 @@
       (= [1 2] (first result)) :vector
       :else :list)))
 
-(= :map (black-box-testing {:a 1, :b 2}))
-(= :list (black-box-testing (range (rand-int 20))))
-(= :vector (black-box-testing [1 2 3 4 5 6]))
-(= :set (black-box-testing #{10 (rand-int 5)}))
-(= [:map :set :vector :list] (map black-box-testing [{} #{} [] ()]))&lt;/code&gt;&lt;/pre&gt;
+[(= :map (black-box-testing {:a 1, :b 2}))
+ (= :list (black-box-testing (range (rand-int 20))))
+ (= :vector (black-box-testing [1 2 3 4 5 6]))
+ (= :set (black-box-testing #{10 (rand-int 5)}))
+ (= [:map :set :vector :list] (map black-box-testing [{} #{} [] ()]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1377,12 +1606,12 @@
                [(key e) (second (first (val e)))]))
       (group-by first (apply concat m)))))
 
-(= (merge-with-a-function * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5})
-   {:a 4, :b 6, :c 20})
-(= (merge-with-a-function - {1 10, 2 20} {1 3, 2 10, 3 15})
-   {1 7, 2 10, 3 15})
-(= (merge-with-a-function concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
-   {:a [3 4 5], :b [6 7], :c [8 9]})&lt;/code&gt;&lt;/pre&gt;
+[(= (merge-with-a-function * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5})
+    {:a 4, :b 6, :c 20})
+ (= (merge-with-a-function - {1 10, 2 20} {1 3, 2 10, 3 15})
+    {1 7, 2 10, 3 15})
+ (= (merge-with-a-function concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
+    {:a [3 4 5], :b [6 7], :c [8 9]})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1402,12 +1631,12 @@
                                    (take (dec (count s)) s))
                             #&#34;\s&#34;))))
 
-(= (word-sorting  &#34;Have a nice day.&#34;)
-   [&#34;a&#34; &#34;day&#34; &#34;Have&#34; &#34;nice&#34;])
-(= (word-sorting &#34;Clojure is a fun language!&#34;)
-   [&#34;a&#34; &#34;Clojure&#34; &#34;fun&#34; &#34;is&#34; &#34;language&#34;])
-(= (word-sorting &#34;Fools fall for foolish follies.&#34;)
-   [&#34;fall&#34; &#34;follies&#34; &#34;foolish&#34; &#34;Fools&#34; &#34;for&#34;])&lt;/code&gt;&lt;/pre&gt;
+[(= (word-sorting  &#34;Have a nice day.&#34;)
+    [&#34;a&#34; &#34;day&#34; &#34;Have&#34; &#34;nice&#34;])
+ (= (word-sorting &#34;Clojure is a fun language!&#34;)
+    [&#34;a&#34; &#34;Clojure&#34; &#34;fun&#34; &#34;is&#34; &#34;language&#34;])
+ (= (word-sorting &#34;Fools fall for foolish follies.&#34;)
+    [&#34;fall&#34; &#34;follies&#34; &#34;foolish&#34; &#34;Fools&#34; &#34;for&#34;])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1427,8 +1656,8 @@
                          (filter perfect-square?
                                  (clojure.string/split s #&#34;,&#34;)))))
 
-(= (filter-perfect-squares &#34;4,5,6,7,8,9&#34;) &#34;4,9&#34;)
-(= (filter-perfect-squares &#34;15,16,25,36,37&#34;) &#34;16,25,36&#34;)&lt;/code&gt;&lt;/pre&gt;
+[(= (filter-perfect-squares &#34;4,5,6,7,8,9&#34;) &#34;4,9&#34;)
+ (= (filter-perfect-squares &#34;15,16,25,36,37&#34;) &#34;16,25,36&#34;)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1449,10 +1678,10 @@
   (count
     (filter #(= 1 (gcd n %)) (range n)))))
 
-(= (eulers-totient-function 1) 1)
-(= (eulers-totient-function 10) (count &#39;(1 3 7 9)) 4)
-(= (eulers-totient-function 40) 16)
-(= (eulers-totient-function 99) 60)&lt;/code&gt;&lt;/pre&gt;
+[(= (eulers-totient-function 1) 1)
+ (= (eulers-totient-function 10) (count &#39;(1 3 7 9)) 4)
+ (= (eulers-totient-function 40) 16)
+ (= (eulers-totient-function 99) 60)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1467,13 +1696,13 @@
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-trampoline [1 3 5 7 9 11])
 
-(= intro-to-trampoline
-   (letfn
-     [(foo [x y] #(bar (conj x y) y))
-      (bar [x y] (if (&amp;gt; (last x) 10)
-                   x
-                   #(foo x (+ 2 y))))]
-     (trampoline foo [] 1)))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-trampoline
+    (letfn
+      [(foo [x y] #(bar (conj x y) y))
+       (bar [x y] (if (&amp;gt; (last x) 10)
+                    x
+                    #(foo x (+ 2 y))))]
+      (trampoline foo [] 1)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1492,10 +1721,10 @@
        (map #(set (val %)))
        (set)))
 
-(= (anagram-finder [&#34;meat&#34; &#34;mat&#34; &#34;team&#34; &#34;mate&#34; &#34;eat&#34;])
-   #{#{&#34;meat&#34; &#34;team&#34; &#34;mate&#34;}})
-(= (anagram-finder [&#34;veer&#34; &#34;lake&#34; &#34;item&#34; &#34;kale&#34; &#34;mite&#34; &#34;ever&#34;])
-  #{#{&#34;veer&#34; &#34;ever&#34;} #{&#34;lake&#34; &#34;kale&#34;} #{&#34;mite&#34; &#34;item&#34;}})&lt;/code&gt;&lt;/pre&gt;
+[(= (anagram-finder [&#34;meat&#34; &#34;mat&#34; &#34;team&#34; &#34;mate&#34; &#34;eat&#34;])
+    #{#{&#34;meat&#34; &#34;team&#34; &#34;mate&#34;}})
+ (= (anagram-finder [&#34;veer&#34; &#34;lake&#34; &#34;item&#34; &#34;kale&#34; &#34;mite&#34; &#34;ever&#34;])
+   #{#{&#34;veer&#34; &#34;ever&#34;} #{&#34;lake&#34; &#34;kale&#34;} #{&#34;mite&#34; &#34;item&#34;}})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1517,15 +1746,15 @@
   ([f &amp;amp; args]
    (reimplement-trampoline #(apply f args))))
 
-(= (letfn [(triple [x] #(sub-two (* 3 x)))
-          (sub-two [x] #(stop?(- x 2)))
-          (stop? [x] (if (&amp;gt; x 50) x #(triple x)))]
-    (reimplement-trampoline triple 2))
-  82)
-(= (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))
-          (my-odd? [x] (if (zero? x) false #(my-even? (dec x))))]
-    (map (partial reimplement-trampoline my-even?) (range 6)))
-  [true false true false true false])&lt;/code&gt;&lt;/pre&gt;
+[(= (letfn [(triple [x] #(sub-two (* 3 x)))
+           (sub-two [x] #(stop?(- x 2)))
+           (stop? [x] (if (&amp;gt; x 50) x #(triple x)))]
+     (reimplement-trampoline triple 2))
+   82)
+ (= (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))
+           (my-odd? [x] (if (zero? x) false #(my-even? (dec x))))]
+     (map (partial reimplement-trampoline my-even?) (range 6)))
+    [true false true false true false])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1544,11 +1773,11 @@
              (filter #(zero? (mod n %))
                      (range 1 (inc (/ n 2)))))))
 
-(= (perfect-numbers 6) true)
-(= (perfect-numbers 7) false)
-(= (perfect-numbers 496) true)
-(= (perfect-numbers 500) false)
-(= (perfect-numbers 8128) true)&lt;/code&gt;&lt;/pre&gt;
+[(= (perfect-numbers 6) true)
+ (= (perfect-numbers 7) false)
+ (= (perfect-numbers 496) true)
+ (= (perfect-numbers 500) false)
+ (= (perfect-numbers 8128) true)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1570,11 +1799,11 @@
            #{#{}}
            s))
 
-(= (power-set #{1 :a}) #{#{1 :a} #{:a} #{} #{1}})
-(= (power-set #{}) #{#{}})
-(= (power-set #{1 2 3})
-   #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}})
-(= (count (power-set (into #{} (range 10)))) 1024)&lt;/code&gt;&lt;/pre&gt;
+[(= (power-set #{1 :a}) #{#{1 :a} #{:a} #{} #{1}})
+ (= (power-set #{}) #{#{}})
+ (= (power-set #{1 2 3})
+    #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}})
+ (= (count (power-set (into #{} (range 10)))) 1024)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1602,10 +1831,10 @@
         (contains? r s) false
         :else (recur (conj r s) s))))))
 
-(= (happy-numbers 7) true)
-(= (happy-numbers 986543210) true)
-(= (happy-numbers 2) false)
-(= (happy-numbers 3) false)&lt;/code&gt;&lt;/pre&gt;
+[(= (happy-numbers 7) true)
+ (= (happy-numbers 986543210) true)
+ (= (happy-numbers 2) false)
+ (= (happy-numbers 3) false)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1626,12 +1855,12 @@
                       (partially-flatten-a-sequence x))))
           [] s))
 
-(= (partially-flatten-a-sequence [[&#34;Do&#34;] [&#34;Nothing&#34;]])
-   [[&#34;Do&#34;] [&#34;Nothing&#34;]])
-(= (partially-flatten-a-sequence [[[[:a :b]]] [[:c :d]] [:e :f]])
-   [[:a :b] [:c :d] [:e :f]])
-(= (partially-flatten-a-sequence &#39;((1 2)((3 4)((((5 6)))))))
-   &#39;((1 2)(3 4)(5 6)))&lt;/code&gt;&lt;/pre&gt;
+[(= (partially-flatten-a-sequence [[&#34;Do&#34;] [&#34;Nothing&#34;]])
+    [[&#34;Do&#34;] [&#34;Nothing&#34;]])
+ (= (partially-flatten-a-sequence [[[[:a :b]]] [[:c :d]] [:e :f]])
+    [[:a :b] [:c :d] [:e :f]])
+ (= (partially-flatten-a-sequence &#39;((1 2)((3 4)((((5 6)))))))
+    &#39;((1 2)(3 4)(5 6)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1651,14 +1880,14 @@
            (group-by second
                      (map #(list % (f %)) d))))))
 
-(= (equivalence-classes #(* % %) #{-2 -1 0 1 2})
-   #{#{0} #{1 -1} #{2 -2}})
-(= (equivalence-classes #(rem % 3) #{0 1 2 3 4 5 })
-   #{#{0 3} #{1 4} #{2 5}})
-(= (equivalence-classes identity #{0 1 2 3 4})
-   #{#{0} #{1} #{2} #{3} #{4}})
-(= (equivalence-classes (constantly true) #{0 1 2 3 4})
-   #{#{0 1 2 3 4}})&lt;/code&gt;&lt;/pre&gt;
+[(= (equivalence-classes #(* % %) #{-2 -1 0 1 2})
+    #{#{0} #{1 -1} #{2 -2}})
+ (= (equivalence-classes #(rem % 3) #{0 1 2 3 4 5 })
+    #{#{0 3} #{1 4} #{2 5}})
+ (= (equivalence-classes identity #{0 1 2 3 4})
+    #{#{0} #{1} #{2} #{3} #{4}})
+ (= (equivalence-classes (constantly true) #{0 1 2 3 4})
+    #{#{0 1 2 3 4}})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1680,9 +1909,9 @@
           (map clojure.string/capitalize (rest split)))))
     s))
 
-(= (into-camel-case &#34;something&#34;) &#34;something&#34;)
-(= (into-camel-case &#34;multi-word-key&#34;) &#34;multiWordKey&#34;)
-(= (into-camel-case &#34;leaveMeAlone&#34;) &#34;leaveMeAlone&#34;)&lt;/code&gt;&lt;/pre&gt;
+[(= (into-camel-case &#34;something&#34;) &#34;something&#34;)
+ (= (into-camel-case &#34;multi-word-key&#34;) &#34;multiWordKey&#34;)
+ (= (into-camel-case &#34;leaveMeAlone&#34;) &#34;leaveMeAlone&#34;)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1706,14 +1935,14 @@
                                    s)
                            (filter #(= k (count %)))))))
 
-(= (generating-k-combinations 1 #{4 5 6}) #{#{4} #{5} #{6}})
-(= (generating-k-combinations 10 #{4 5 6}) #{})
-(= (generating-k-combinations 2 #{0 1 2}) #{#{0 1} #{0 2} #{1 2}})
-(= (generating-k-combinations 3 #{0 1 2 3 4}) #{#{0 1 2} #{0 1 3} #{0 1 4} #{0 2 3} #{0 2 4}
-                                                #{0 3 4} #{1 2 3} #{1 2 4} #{1 3 4} #{2 3 4}})
-(= (generating-k-combinations 4 #{[1 2 3] :a &#34;abc&#34; &#34;efg&#34;}) #{#{[1 2 3] :a &#34;abc&#34; &#34;efg&#34;}})
-(= (generating-k-combinations 2 #{[1 2 3] :a &#34;abc&#34; &#34;efg&#34;}) #{#{[1 2 3] :a} #{[1 2 3] &#34;abc&#34;} #{[1 2 3] &#34;efg&#34;}
-                                                           #{:a &#34;abc&#34;} #{:a &#34;efg&#34;} #{&#34;abc&#34; &#34;efg&#34;}})&lt;/code&gt;&lt;/pre&gt;
+[(= (generating-k-combinations 1 #{4 5 6}) #{#{4} #{5} #{6}})
+ (= (generating-k-combinations 10 #{4 5 6}) #{})
+ (= (generating-k-combinations 2 #{0 1 2}) #{#{0 1} #{0 2} #{1 2}})
+ (= (generating-k-combinations 3 #{0 1 2 3 4}) #{#{0 1 2} #{0 1 3} #{0 1 4} #{0 2 3} #{0 2 4}
+                                                 #{0 3 4} #{1 2 3} #{1 2 4} #{1 3 4} #{2 3 4}})
+ (= (generating-k-combinations 4 #{[1 2 3] :a &#34;abc&#34; &#34;efg&#34;}) #{#{[1 2 3] :a &#34;abc&#34; &#34;efg&#34;}})
+ (= (generating-k-combinations 2 #{[1 2 3] :a &#34;abc&#34; &#34;efg&#34;}) #{#{[1 2 3] :a} #{[1 2 3] &#34;abc&#34;} #{[1 2 3] &#34;efg&#34;}
+                                                            #{:a &#34;abc&#34;} #{:a &#34;efg&#34;} #{&#34;abc&#34; &#34;efg&#34;}})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1735,10 +1964,10 @@
                                  @new)
                               s)))))
 
-(= {} (identify-keys-and-values []))
-(= {:a [1]} (identify-keys-and-values [:a 1]))
-(= {:a [1], :b [2]} (identify-keys-and-values [:a 1, :b 2]))
-(= {:a [1 2 3], :b [], :c [4]} (identify-keys-and-values [:a 1 2 3 :b :c 4]))&lt;/code&gt;&lt;/pre&gt;
+[(= {} (identify-keys-and-values []))
+ (= {:a [1]} (identify-keys-and-values [:a 1]))
+ (= {:a [1], :b [2]} (identify-keys-and-values [:a 1, :b 2]))
+ (= {:a [1 2 3], :b [], :c [4]} (identify-keys-and-values [:a 1 2 3 :b :c 4]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1758,10 +1987,10 @@
     (lazy-seq
       (cons n (sequence-of-pronounciations n)))))
 
-(= [[1 1] [2 1] [1 2 1 1]] (take 3 (sequence-of-pronounciations [1])))
-(= [3 1 2 4] (first (sequence-of-pronounciations [1 1 1 4 4])))
-(= [1 1 1 3 2 1 3 2 1 1] (nth (sequence-of-pronounciations [1]) 6))
-(= 338 (count (nth (sequence-of-pronounciations [3 2]) 15)))&lt;/code&gt;&lt;/pre&gt;
+[(= [[1 1] [2 1] [1 2 1 1]] (take 3 (sequence-of-pronounciations [1])))
+ (= [3 1 2 4] (first (sequence-of-pronounciations [1 1 1 4 4])))
+ (= [1 1 1 3 2 1 3 2 1 1] (nth (sequence-of-pronounciations [1]) 6))
+ (= 338 (count (nth (sequence-of-pronounciations [3 2]) 15)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1782,15 +2011,15 @@
       &#39;()
       (lazy-seq (cons x (global-take-while n-next p xs))))))
 
-(= [2 3 5 7 11 13]
-   (global-take-while 4 #(= 2 (mod % 3))
-         [2 3 5 7 11 13 17 19 23]))
-(= [&#34;this&#34; &#34;is&#34; &#34;a&#34; &#34;sentence&#34;]
-   (global-take-while 3 #(some #{\i} %)
-         [&#34;this&#34; &#34;is&#34; &#34;a&#34; &#34;sentence&#34; &#34;i&#34; &#34;wrote&#34;]))
-(= [&#34;this&#34; &#34;is&#34;]
-   (global-take-while 1 #{&#34;a&#34;}
-         [&#34;this&#34; &#34;is&#34; &#34;a&#34; &#34;sentence&#34; &#34;i&#34; &#34;wrote&#34;]))&lt;/code&gt;&lt;/pre&gt;
+[(= [2 3 5 7 11 13]
+    (global-take-while 4 #(= 2 (mod % 3))
+          [2 3 5 7 11 13 17 19 23]))
+ (= [&#34;this&#34; &#34;is&#34; &#34;a&#34; &#34;sentence&#34;]
+    (global-take-while 3 #(some #{\i} %)
+          [&#34;this&#34; &#34;is&#34; &#34;a&#34; &#34;sentence&#34; &#34;i&#34; &#34;wrote&#34;]))
+ (= [&#34;this&#34; &#34;is&#34;]
+    (global-take-while 1 #{&#34;a&#34;}
+          [&#34;this&#34; &#34;is&#34; &#34;a&#34; &#34;sentence&#34; &#34;i&#34; &#34;wrote&#34;]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1812,15 +2041,15 @@
         (sum (take half s))
         (sum (take-last half s))))))
 
-(= true (the-balance-of-n 11))
-(= true (the-balance-of-n 121))
-(= false (the-balance-of-n 123))
-(= true (the-balance-of-n 0))
-(= false (the-balance-of-n 88099))
-(= true (the-balance-of-n 89098))
-(= true (the-balance-of-n 89089))
-(= (take 20 (filter the-balance-of-n (range)))
-   [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101])&lt;/code&gt;&lt;/pre&gt;
+[(= true (the-balance-of-n 11))
+ (= true (the-balance-of-n 121))
+ (= false (the-balance-of-n 123))
+ (= true (the-balance-of-n 0))
+ (= false (the-balance-of-n 88099))
+ (= true (the-balance-of-n 89098))
+ (= true (the-balance-of-n 89089))
+ (= (take 20 (filter the-balance-of-n (range)))
+    [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1847,9 +2076,9 @@
             prime-after (first (drop (count primes-before) primes))]
          (= n (/ (+ prime-before prime-after) 2))))))
 
-(= false (prime-sandwich? 4))
-(= true (prime-sandwich? 563))
-(= 1103 (nth (filter prime-sandwich? (range)) 15))&lt;/code&gt;&lt;/pre&gt;
+[(= false (prime-sandwich? 4))
+ (= true (prime-sandwich? 563))
+ (= 1103 (nth (filter prime-sandwich? (range)) 15))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1870,19 +2099,19 @@
                 (number? x) x))]
       (evaluate (clojure.walk/prewalk-replace parameters formula)))))
 
-(= 2 ((universal-computation-engine &#39;(/ a b))
-                                    &#39;{b 8 a 16}))
-(= 8 ((universal-computation-engine &#39;(+ a b 2))
-                                    &#39;{a 2 b 4}))
-(= [6 0 -4]
-     (map (universal-computation-engine &#39;(* (+ 2 a)
-                  (- 10 b)))
-            &#39;[{a 1 b 8}
-              {b 5 a -2}
-              {a 2 b 11}]))
-(= 1 ((universal-computation-engine &#39;(/ (+ x 2)
-              (* 3 (+ y 1))))
-      &#39;{x 4 y 1}))&lt;/code&gt;&lt;/pre&gt;
+[(= 2 ((universal-computation-engine &#39;(/ a b))
+                                     &#39;{b 8 a 16}))
+ (= 8 ((universal-computation-engine &#39;(+ a b 2))
+                                     &#39;{a 2 b 4}))
+ (= [6 0 -4]
+      (map (universal-computation-engine &#39;(* (+ 2 a)
+                   (- 10 b)))
+             &#39;[{a 1 b 8}
+               {b 5 a -2}
+               {a 2 b 11}]))
+ (= 1 ((universal-computation-engine &#39;(/ (+ x 2)
+               (* 3 (+ y 1))))
+       &#39;{x 4 y 1}))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1905,17 +2134,17 @@
                      (second %))
                    (partition 2 1 s))))))
 
-(= &#39;(1 :less 6 :less 7 4 3) (insert-between-two-items &amp;lt; :less [1 6 7 4 3]))
-(= &#39;(2) (insert-between-two-items &amp;gt; :more [2]))
-(= [0 1 :x 2 :x 3 :x 4]  (insert-between-two-items #(and (pos? %) (&amp;lt; % %2)) :x (range 5)))
-(empty? (insert-between-two-items &amp;gt; :more ()))
-(= [0 1 :same 1 2 3 :same 5 8 13 :same 21]
-   (take 12 (-&amp;gt;&amp;gt; [0 1]
-                 (iterate (fn [[a b]] [b (+ a b)]))
-                 (map first) ; fibonacci numbers
-                 (insert-between-two-items (fn [a b] ; both even or both odd
-                                             (= (mod a 2) (mod b 2)))
-                                             :same))))&lt;/code&gt;&lt;/pre&gt;
+[(= &#39;(1 :less 6 :less 7 4 3) (insert-between-two-items &amp;lt; :less [1 6 7 4 3]))
+ (= &#39;(2) (insert-between-two-items &amp;gt; :more [2]))
+ (= [0 1 :x 2 :x 3 :x 4]  (insert-between-two-items #(and (pos? %) (&amp;lt; % %2)) :x (range 5)))
+ (empty? (insert-between-two-items &amp;gt; :more ()))
+ (= [0 1 :same 1 2 3 :same 5 8 13 :same 21]
+    (take 12 (-&amp;gt;&amp;gt; [0 1]
+                  (iterate (fn [[a b]] [b (+ a b)]))
+                  (map first) ; fibonacci numbers
+                  (insert-between-two-items (fn [a b] ; both even or both odd
+                                              (= (mod a 2) (mod b 2)))
+                                              :same))))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1940,11 +2169,11 @@
       &#39;(0)
       (step &#39;() n base))))
 
-(= [1 2 3 4 5 0 1] (digits-and-bases 1234501 10))
-(= [0] (digits-and-bases 0 11))
-(= [1 0 0 1] (digits-and-bases 9 2))
-(= [1 0] (let [n (rand-int 100000)](digits-and-bases n n)))
-(= [16 18 5 24 15 1] (digits-and-bases 2147483647 42))&lt;/code&gt;&lt;/pre&gt;
+[(= [1 2 3 4 5 0 1] (digits-and-bases 1234501 10))
+ (= [0] (digits-and-bases 0 11))
+ (= [1 0 0 1] (digits-and-bases 9 2))
+ (= [1 0] (let [n (rand-int 100000)](digits-and-bases n n)))
+ (= [16 18 5 24 15 1] (digits-and-bases 2147483647 42))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1960,9 +2189,9 @@
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn oscilrate [v &amp;amp; fs]
   (reductions (fn [v f] (f v)) v (cycle fs)))
 
-(= (take 3 (oscilrate 3.14 int double)) [3.14 3 3.0])
-(= (take 5 (oscilrate 3 #(- % 3) #(+ 5 %))) [3 0 5 2 7])
-(= (take 12 (oscilrate 0 inc dec inc dec inc)) [0 1 0 1 0 1 2 1 2 1 2 3])&lt;/code&gt;&lt;/pre&gt;
+[(= (take 3 (oscilrate 3.14 int double)) [3.14 3 3.0])
+ (= (take 5 (oscilrate 3 #(- % 3) #(+ 5 %))) [3 0 5 2 7])
+ (= (take 12 (oscilrate 0 inc dec inc dec inc)) [0 1 0 1 0 1 2 1 2 1 2 3])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1986,16 +2215,16 @@
         (sum b))
       (sum (* a b)))))
 
-(= 0 (the-big-divide 3 17 11))
-(= 23 (the-big-divide 10 3 5))
-(= 233168 (the-big-divide 1000 3 5))
-(= &#34;2333333316666668&#34; (str (the-big-divide 100000000 3 5)))
-(= &#34;110389610389889610389610&#34;
-  (str (the-big-divide (* 10000 10000 10000) 7 11)))
-(= &#34;1277732511922987429116&#34;
-  (str (the-big-divide (* 10000 10000 10000) 757 809)))
-(= &#34;4530161696788274281&#34;
-  (str (the-big-divide (* 10000 10000 1000) 1597 3571))))&lt;/code&gt;&lt;/pre&gt;
+[(= 0 (the-big-divide 3 17 11))
+ (= 23 (the-big-divide 10 3 5))
+ (= 233168 (the-big-divide 1000 3 5))
+ (= &#34;2333333316666668&#34; (str (the-big-divide 100000000 3 5)))
+ (= &#34;110389610389889610389610&#34;
+    (str (the-big-divide (* 10000 10000 10000) 7 11)))
+ (= &#34;1277732511922987429116&#34;
+    (str (the-big-divide (* 10000 10000 10000) 757 809)))
+ (= &#34;4530161696788274281&#34;
+    (str (the-big-divide (* 10000 10000 1000) 1597 3571))))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2012,22 +2241,22 @@
   (fn [&amp;amp; args]
     (reduce #(%1 %2) f args)))
 
-(= 10 ((decurry (fn [a]
-                  (fn [b]
-                    (fn [c]
-                      (fn [d]
-                        (+ a b c d))))))
+[(= 10 ((decurry (fn [a]
+                   (fn [b]
+                     (fn [c]
+                       (fn [d]
+                         (+ a b c d))))))
+          1 2 3 4))
+ (= 24 ((decurry (fn [a]
+                   (fn [b]
+                     (fn [c]
+                       (fn [d]
+                         (* a b c d))))))
          1 2 3 4))
-(= 24 ((decurry (fn [a]
-                  (fn [b]
-                    (fn [c]
-                      (fn [d]
-                        (* a b c d))))))
-        1 2 3 4))
-(= 25 ((decurry (fn [a]
-                  (fn [b]
-                    (* a b))))
-         5 5))&lt;/code&gt;&lt;/pre&gt;
+ (= 25 ((decurry (fn [a]
+                   (fn [b]
+                     (* a b))))
+          5 5))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2046,12 +2275,12 @@
          (map #(map last %)
               (partition-by #(apply - %) (map-indexed vector (sort (distinct s))))))))
 
-(= (intervals [1 2 3]) [[1 3]])
-(= (intervals [10 9 8 1 2 3]) [[1 3] [8 10]])
-(= (intervals [1 1 1 1 1 1 1]) [[1 1]])
-(= (intervals []) [])
-(= (intervals [19 4 17 1 3 10 2 13 13 2 16 4 2 15 13 9 6 14 2 11])
-              [[1 4] [6 6] [9 11] [13 17] [19 19]])&lt;/code&gt;&lt;/pre&gt;
+[(= (intervals [1 2 3]) [[1 3]])
+ (= (intervals [10 9 8 1 2 3]) [[1 3] [8 10]])
+ (= (intervals [1 1 1 1 1 1 1]) [[1 1]])
+ (= (intervals []) [])
+ (= (intervals [19 4 17 1 3 10 2 13 13 2 16 4 2 15 13 9 6 14 2 11])
+               [[1 4] [6 6] [9 11] [13 17] [19 19]])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2347,9 +2576,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn last-element [s]
   (nth s (dec (count s))))
 
-(= (last-element [1 2 3 4 5]) 5)
-(= (last-element &#39;(5 4 3)) 3)
-(= (last-element [&#34;b&#34; &#34;c&#34; &#34;d&#34;]) &#34;d&#34;)&lt;/code&gt;&lt;/pre&gt;
+[(= (last-element [1 2 3 4 5]) 5)
+ (= (last-element &#39;(5 4 3)) 3)
+ (= (last-element [&#34;b&#34; &#34;c&#34; &#34;d&#34;]) &#34;d&#34;)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2365,9 +2594,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn penultimate-element [s]
   (nth s (- (count s) 2)))
 
-(= (penultimate-element (list 1 2 3 4 5)) 4)
-(= (penultimate-element [&#34;a&#34; &#34;b&#34; &#34;c&#34;]) &#34;b&#34;)
-(= (penultimate-element [[1 2] [3 4]]) [1 2])&lt;/code&gt;&lt;/pre&gt;
+[(= (penultimate-element (list 1 2 3 4 5)) 4)
+ (= (penultimate-element [&#34;a&#34; &#34;b&#34; &#34;c&#34;]) &#34;b&#34;)
+ (= (penultimate-element [[1 2] [3 4]]) [1 2])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2383,10 +2612,10 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn nth-element [s n]
   (last (take (inc n) s)))
 
-(= (nth-element &#39;(4 5 6 7) 2) 6)
-(= (nth-element [:a :b :c] 0) :a)
-(= (nth-element [1 2 3 4] 1) 2)
-(= (nth-element &#39;([1 2] [3 4] [5 6]) 2) [5 6])&lt;/code&gt;&lt;/pre&gt;
+[(= (nth-element &#39;(4 5 6 7) 2) 6)
+ (= (nth-element [:a :b :c] 0) :a)
+ (= (nth-element [1 2 3 4] 1) 2)
+ (= (nth-element &#39;([1 2] [3 4] [5 6]) 2) [5 6])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2402,11 +2631,11 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn count-a-sequence [s]
   (reduce (fn [c _] (inc c)) 0 s))
 
-(= (count-a-sequence &#39;(1 2 3 3 1)) 5)
-(= (count-a-sequence &#34;Hello World&#34;) 11)
-(= (count-a-sequence [[1 2] [3 4] [5 6]]) 3)
-(= (count-a-sequence &#39;(13)) 1)
-(= (count-a-sequence &#39;(:a :b :c)) 3)&lt;/code&gt;&lt;/pre&gt;
+[(= (count-a-sequence &#39;(1 2 3 3 1)) 5)
+ (= (count-a-sequence &#34;Hello World&#34;) 11)
+ (= (count-a-sequence [[1 2] [3 4] [5 6]]) 3)
+ (= (count-a-sequence &#39;(13)) 1)
+ (= (count-a-sequence &#39;(:a :b :c)) 3)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2422,9 +2651,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn reverse-a-sequence [s]
   (reduce #(cons %2 %1) &#39;() s))
 
-(= (reverse-a-sequence [1 2 3 4 5]) [5 4 3 2 1])
-(= (reverse-a-sequence (sorted-set 5 7 2 7)) &#39;(7 5 2))
-(= (reverse-a-sequence [[1 2][3 4][5 6]]) [[5 6][3 4][1 2]])&lt;/code&gt;&lt;/pre&gt;
+[(= (reverse-a-sequence [1 2 3 4 5]) [5 4 3 2 1])
+ (= (reverse-a-sequence (sorted-set 5 7 2 7)) &#39;(7 5 2))
+ (= (reverse-a-sequence [[1 2][3 4][5 6]]) [[5 6][3 4][1 2]])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2440,11 +2669,11 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn sum-it-all-up [s]
   (reduce + s))
 
-(= (sum-it-all-up [1 2 3]) 6)
-(= (sum-it-all-up (list 0 -2 5 5)) 8)
-(= (sum-it-all-up #{4 2 1}) 7)
-(= (sum-it-all-up &#39;(0 0 -1)) -1)
-(= (sum-it-all-up &#39;(1 10 3)) 14)&lt;/code&gt;&lt;/pre&gt;
+[(= (sum-it-all-up [1 2 3]) 6)
+ (= (sum-it-all-up (list 0 -2 5 5)) 8)
+ (= (sum-it-all-up #{4 2 1}) 7)
+ (= (sum-it-all-up &#39;(0 0 -1)) -1)
+ (= (sum-it-all-up &#39;(1 10 3)) 14)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2460,10 +2689,10 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn find-the-odd-numbers [s]
   (filter odd? s))
 
-(= (find-the-odd-numbers #{1 2 3 4 5}) &#39;(1 3 5))
-(= (find-the-odd-numbers [4 2 1 6]) &#39;(1))
-(= (find-the-odd-numbers [2 2 4 6]) &#39;())
-(= (find-the-odd-numbers [1 1 1 3]) &#39;(1 1 1 3))&lt;/code&gt;&lt;/pre&gt;
+[(= (find-the-odd-numbers #{1 2 3 4 5}) &#39;(1 3 5))
+ (= (find-the-odd-numbers [4 2 1 6]) &#39;(1))
+ (= (find-the-odd-numbers [2 2 4 6]) &#39;())
+ (= (find-the-odd-numbers [1 1 1 3]) &#39;(1 1 1 3))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2480,9 +2709,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
   (letfn [(fib [a b] (lazy-seq (cons b (fib b (+ a b)))))]
   (take n (fib 0 1))))
 
-(= (fibonacci-sequence 3) &#39;(1 1 2))
-(= (fibonacci-sequence 6) &#39;(1 1 2 3 5 8))
-(= (fibonacci-sequence 8) &#39;(1 1 2 3 5 8 13 21))&lt;/code&gt;&lt;/pre&gt;
+[(= (fibonacci-sequence 3) &#39;(1 1 2))
+ (= (fibonacci-sequence 6) &#39;(1 1 2 3 5 8))
+ (= (fibonacci-sequence 8) &#39;(1 1 2 3 5 8 13 21))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2498,11 +2727,11 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn palindrome-detector [s]
   (= (seq s) (reverse s)))
 
-(false? (palindrome-detector &#39;(1 2 3 4 5)))
-(true? (palindrome-detector &#34;racecar&#34;))
-(true? (palindrome-detector [:foo :bar :foo]))
-(true? (palindrome-detector &#39;(1 1 3 3 1 1)))
-(false? (palindrome-detector &#39;(:a :b :c)))&lt;/code&gt;&lt;/pre&gt;
+[(false? (palindrome-detector &#39;(1 2 3 4 5)))
+ (true? (palindrome-detector &#34;racecar&#34;))
+ (true? (palindrome-detector [:foo :bar :foo]))
+ (true? (palindrome-detector &#39;(1 1 3 3 1 1)))
+ (false? (palindrome-detector &#39;(:a :b :c)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2521,9 +2750,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
               (reduce myflatten collection element)
               (conj collection element))) [] s))
 
-(= (flatten-a-sequence &#39;((1 2) 3 [4 [5 6]])) &#39;(1 2 3 4 5 6))
-(= (flatten-a-sequence [&#34;a&#34; [&#34;b&#34;] &#34;c&#34;]) &#39;(&#34;a&#34; &#34;b&#34; &#34;c&#34;))
-(= (flatten-a-sequence &#39;((((:a))))) &#39;(:a))&lt;/code&gt;&lt;/pre&gt;
+[(= (flatten-a-sequence &#39;((1 2) 3 [4 [5 6]])) &#39;(1 2 3 4 5 6))
+ (= (flatten-a-sequence [&#34;a&#34; [&#34;b&#34;] &#34;c&#34;]) &#39;(&#34;a&#34; &#34;b&#34; &#34;c&#34;))
+ (= (flatten-a-sequence &#39;((((:a))))) &#39;(:a))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2539,9 +2768,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn get-the-caps [s]
   (apply str (re-seq #&#34;[A-Z]+&#34; s)))
 
-(= (get-the-caps &#34;HeLlO, WoRlD!&#34;) &#34;HLOWRD&#34;)
-(empty? (get-the-caps &#34;nothing&#34;))
-(= (get-the-caps &#34;$#A(*&amp;amp;987Zf&#34;) &#34;AZ&#34;)&lt;/code&gt;&lt;/pre&gt;
+[(= (get-the-caps &#34;HeLlO, WoRlD!&#34;) &#34;HLOWRD&#34;)
+ (empty? (get-the-caps &#34;nothing&#34;))
+ (= (get-the-caps &#34;$#A(*&amp;amp;987Zf&#34;) &#34;AZ&#34;)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2557,9 +2786,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn compress-a-sequence [s]
   (map #(first %) (partition-by identity s)))
 
-(= (apply str (compress-a-sequence &#34;Leeeeeerrroyyy&#34;)) &#34;Leroy&#34;)
-(= (compress-a-sequence [1 1 2 3 3 2 2 3]) &#39;(1 2 3 2 3))
-(= (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) &#39;([1 2] [3 4] [1 2]))&lt;/code&gt;&lt;/pre&gt;
+[(= (apply str (compress-a-sequence &#34;Leeeeeerrroyyy&#34;)) &#34;Leroy&#34;)
+ (= (compress-a-sequence [1 1 2 3 3 2 2 3]) &#39;(1 2 3 2 3))
+ (= (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) &#39;([1 2] [3 4] [1 2]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2575,9 +2804,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn pack-a-sequence [s]
   (partition-by identity s))
 
-(= (pack-a-sequence [1 1 2 1 1 1 3 3]) &#39;((1 1) (2) (1 1 1) (3 3)))
-(= (pack-a-sequence [:a :a :b :b :c]) &#39;((:a :a) (:b :b) (:c)))
-(= (pack-a-sequence [[1 2] [1 2] [3 4]]) &#39;(([1 2] [1 2]) ([3 4])))&lt;/code&gt;&lt;/pre&gt;
+[(= (pack-a-sequence [1 1 2 1 1 1 3 3]) &#39;((1 1) (2) (1 1 1) (3 3)))
+ (= (pack-a-sequence [:a :a :b :b :c]) &#39;((:a :a) (:b :b) (:c)))
+ (= (pack-a-sequence [[1 2] [1 2] [3 4]]) &#39;(([1 2] [1 2]) ([3 4])))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2593,10 +2822,10 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn duplicate-a-sequence [s]
   (reduce #(conj (conj %1 %2) %2) [] s))
 
-(= (duplicate-a-sequence [1 2 3]) &#39;(1 1 2 2 3 3))
-(= (duplicate-a-sequence [:a :a :b :b]) &#39;(:a :a :a :a :b :b :b :b))
-(= (duplicate-a-sequence [[1 2] [3 4]]) &#39;([1 2] [1 2] [3 4] [3 4]))
-(= (duplicate-a-sequence [[1 2] [3 4]]) &#39;([1 2] [1 2] [3 4] [3 4]))&lt;/code&gt;&lt;/pre&gt;
+[(= (duplicate-a-sequence [1 2 3]) &#39;(1 1 2 2 3 3))
+ (= (duplicate-a-sequence [:a :a :b :b]) &#39;(:a :a :a :a :b :b :b :b))
+ (= (duplicate-a-sequence [[1 2] [3 4]]) &#39;([1 2] [1 2] [3 4] [3 4]))
+ (= (duplicate-a-sequence [[1 2] [3 4]]) &#39;([1 2] [1 2] [3 4] [3 4]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2612,11 +2841,11 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn replicate-a-sequence [s n]
   (apply concat (map #(repeat n %) s)))
 
-(= (replicate-a-sequence [1 2 3] 2) &#39;(1 1 2 2 3 3))
-(= (replicate-a-sequence [:a :b] 4) &#39;(:a :a :a :a :b :b :b :b))
-(= (replicate-a-sequence [4 5 6] 1) &#39;(4 5 6))
-(= (replicate-a-sequence [[1 2] [3 4]] 2) &#39;([1 2] [1 2] [3 4] [3 4]))
-(= (replicate-a-sequence [44 33] 2) [44 44 33 33])&lt;/code&gt;&lt;/pre&gt;
+[(= (replicate-a-sequence [1 2 3] 2) &#39;(1 1 2 2 3 3))
+ (= (replicate-a-sequence [:a :b] 4) &#39;(:a :a :a :a :b :b :b :b))
+ (= (replicate-a-sequence [4 5 6] 1) &#39;(4 5 6))
+ (= (replicate-a-sequence [[1 2] [3 4]] 2) &#39;([1 2] [1 2] [3 4] [3 4]))
+ (= (replicate-a-sequence [44 33] 2) [44 44 33 33])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2632,9 +2861,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn implement-range [start end]
   (take (- end start) (iterate inc start)))
 
-(= (implement-range 1 4) &#39;(1 2 3))
-(= (implement-range -2 2) &#39;(-2 -1 0 1))
-(= (implement-range 5 8) &#39;(5 6 7))&lt;/code&gt;&lt;/pre&gt;
+[(= (implement-range 1 4) &#39;(1 2 3))
+ (= (implement-range -2 2) &#39;(-2 -1 0 1))
+ (= (implement-range 5 8) &#39;(5 6 7))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2653,9 +2882,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
       (if (&amp;lt; x y) y x))
     params))
 
-(= (maximum-value 1 8 3 4) 8)
-(= (maximum-value 30 20) 30)
-(= (maximum-value 45 67 11) 67)&lt;/code&gt;&lt;/pre&gt;
+[(= (maximum-value 1 8 3 4) 8)
+ (= (maximum-value 30 20) 30)
+ (= (maximum-value 45 67 11) 67)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2673,10 +2902,10 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
   (flatten (map-indexed (fn [index item] [item (nth b index)]) a))
   (flatten (map-indexed (fn [index item] [item (nth b index)]) (take (count b) a)))))
 
-(= (interleave-two-seqs [1 2 3] [:a :b :c]) &#39;(1 :a 2 :b 3 :c))
-(= (interleave-two-seqs [1 2] [3 4 5 6]) &#39;(1 3 2 4))
-(= (interleave-two-seqs [1 2 3 4] [5]) [1 5])
-(= (interleave-two-seqs [30 20] [25 15]) [30 25 20 15])&lt;/code&gt;&lt;/pre&gt;
+[(= (interleave-two-seqs [1 2 3] [:a :b :c]) &#39;(1 :a 2 :b 3 :c))
+ (= (interleave-two-seqs [1 2] [3 4 5 6]) &#39;(1 3 2 4))
+ (= (interleave-two-seqs [1 2 3 4] [5]) [1 5])
+ (= (interleave-two-seqs [30 20] [25 15]) [30 25 20 15])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2692,9 +2921,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn interpose-a-seq [v s]
   (rest (mapcat #(list v %) s)))
 
-(= (interpose-a-seq 0 [1 2 3]) [1 0 2 0 3])
-(= (apply str (interpose-a-seq &#34;, &#34; [&#34;one&#34; &#34;two&#34; &#34;three&#34;])) &#34;one, two, three&#34;)
-(= (interpose-a-seq :z [:a :b :c :d]) [:a :z :b :z :c :z :d])&lt;/code&gt;&lt;/pre&gt;
+[(= (interpose-a-seq 0 [1 2 3]) [1 0 2 0 3])
+ (= (apply str (interpose-a-seq &#34;, &#34; [&#34;one&#34; &#34;two&#34; &#34;three&#34;])) &#34;one, two, three&#34;)
+ (= (interpose-a-seq :z [:a :b :c :d]) [:a :z :b :z :c :z :d])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2710,9 +2939,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn drop-every-nth-item [s n]
   (keep-indexed #(if (not= (mod %1 n) (dec n)) %2) s))
 
-(= (drop-every-nth-item [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
-(= (drop-every-nth-item [:a :b :c :d :e :f] 2) [:a :c :e])
-(= (drop-every-nth-item [1 2 3 4 5 6] 4) [1 2 3 5 6])&lt;/code&gt;&lt;/pre&gt;
+[(= (drop-every-nth-item [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
+ (= (drop-every-nth-item [:a :b :c :d :e :f] 2) [:a :c :e])
+ (= (drop-every-nth-item [1 2 3 4 5 6] 4) [1 2 3 5 6])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2728,10 +2957,10 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn factorial-fun [n]
   (reduce * (range 1 (+ n 1))))
 
-(= (factorial-fun 1) 1)
-(= (factorial-fun 3) 6)
-(= (factorial-fun 5) 120)
-(= (factorial-fun 8) 40320)&lt;/code&gt;&lt;/pre&gt;
+[(= (factorial-fun 1) 1)
+ (= (factorial-fun 3) 6)
+ (= (factorial-fun 5) 120)
+ (= (factorial-fun 8) 40320)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2746,7 +2975,7 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-iterate [1 4 7 10 13])
 
-(= intro-to-iterate (take 5 (iterate #(+ 3 %) 1)))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-iterate (take 5 (iterate #(+ 3 %) 1)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2761,10 +2990,10 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def contain-yourself 4)
 
-(contains? #{4 5 6} contain-yourself)
-(contains? [1 1 1 1 1] contain-yourself)
-(contains? {4 :a 2 :b} contain-yourself)
-(not (contains? [1 2 4] contain-yourself))&lt;/code&gt;&lt;/pre&gt;
+[(contains? #{4 5 6} contain-yourself)
+ (contains? [1 1 1 1 1] contain-yourself)
+ (contains? {4 :a 2 :b} contain-yourself)
+ (not (contains? [1 2 4] contain-yourself))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2779,8 +3008,8 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-some 6)
 
-(= intro-to-some (some #{2 7 6} [5 6 7 8]))
-(= intro-to-some (some #(when (even? %) %) [5 6 7 8]))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-some (some #{2 7 6} [5 6 7 8]))
+ (= intro-to-some (some #(when (even? %) %) [5 6 7 8]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2796,9 +3025,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn split-a-sequence [n s]
   (list (take n s) (drop n s)))
 
-(= (split-a-sequence 3 [1 2 3 4 5 6]) [[1 2 3] [4 5 6]])
-(= (split-a-sequence 1 [:a :b :c :d]) [[:a] [:b :c :d]])
-(= (split-a-sequence 2 [[1 2] [3 4] [5 6]]) [[[1 2] [3 4]] [[5 6]]])&lt;/code&gt;&lt;/pre&gt;
+[(= (split-a-sequence 3 [1 2 3 4 5 6]) [[1 2 3] [4 5 6]])
+ (= (split-a-sequence 1 [:a :b :c :d]) [[:a] [:b :c :d]])
+ (= (split-a-sequence 2 [[1 2] [3 4] [5 6]]) [[[1 2] [3 4]] [[5 6]]])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2813,7 +3042,7 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def advanced-destructuring [1 2 3 4 5])
 
-(= [1 2 [3 4 5] [1 2 3 4 5]] (let [[a b &amp;amp; c :as d] advanced-destructuring] [a b c d]))&lt;/code&gt;&lt;/pre&gt;
+[(= [1 2 [3 4 5] [1 2 3 4 5]] (let [[a b &amp;amp; c :as d] advanced-destructuring] [a b c d]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2829,9 +3058,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn map-construction [keys values]
   (apply assoc {} (interleave keys values)))
 
-(= (map-construction [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3})
-(= (map-construction [1 2 3 4] [&#34;one&#34; &#34;two&#34; &#34;three&#34;]) {1 &#34;one&#34;, 2 &#34;two&#34;, 3 &#34;three&#34;})
-(= (map-construction [:foo :bar] [&#34;foo&#34; &#34;bar&#34; &#34;baz&#34;]) {:foo &#34;foo&#34;, :bar &#34;bar&#34;})&lt;/code&gt;&lt;/pre&gt;
+[(= (map-construction [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3})
+ (= (map-construction [1 2 3 4] [&#34;one&#34; &#34;two&#34; &#34;three&#34;]) {1 &#34;one&#34;, 2 &#34;two&#34;, 3 &#34;three&#34;})
+ (= (map-construction [:foo :bar] [&#34;foo&#34; &#34;bar&#34; &#34;baz&#34;]) {:foo &#34;foo&#34;, :bar &#34;bar&#34;})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2847,9 +3076,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn reimplement-iterate [f x]
   (cons x (lazy-seq (reimplement-iterate f (f x)))))
 
-(= (take 5 (reimplement-iterate #(* 2 %) 1)) [1 2 4 8 16])
-(= (take 100 (reimplement-iterate inc 0)) (take 100 (range)))
-(= (take 9 (reimplement-iterate #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3])))&lt;/code&gt;&lt;/pre&gt;
+[(= (take 5 (reimplement-iterate #(* 2 %) 1)) [1 2 4 8 16])
+ (= (take 100 (reimplement-iterate inc 0)) (take 100 (range)))
+ (= (take 9 (reimplement-iterate #(inc (mod % 3)) 1)) (take 9 (cycle [1 2 3])))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2867,11 +3096,11 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
         (map #(vector (f (first %)) (vec %))
              (partition-by f (sort vals)))))
 
-(= (group-a-sequence #(&amp;gt; % 5) [1 3 6 8]) {false [1 3], true [6 8]})
-(= (group-a-sequence #(apply / %) [[1 2] [2 4] [4 6] [3 6]])
-   {1/2 [[1 2] [2 4] [3 6]], 2/3 [[4 6]]})
-(= (group-a-sequence count [[1] [1 2] [3] [1 2 3] [2 3]])
-   {1 [[1] [3]], 2 [[1 2] [2 3]], 3 [[1 2 3]]})&lt;/code&gt;&lt;/pre&gt;
+[(= (group-a-sequence #(&amp;gt; % 5) [1 3 6 8]) {false [1 3], true [6 8]})
+ (= (group-a-sequence #(apply / %) [[1 2] [2 4] [4 6] [3 6]])
+    {1/2 [[1 2] [2 4] [3 6]], 2/3 [[4 6]]})
+ (= (group-a-sequence count [[1] [1 2] [3] [1 2 3] [2 3]])
+    {1 [[1] [3]], 2 [[1 2] [2 3]], 3 [[1 2 3]]})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2889,10 +3118,10 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
     a
     (recur b (mod a b))))
 
-(= (greatest-common-divisor 2 4) 2)
-(= (greatest-common-divisor 10 5) 5)
-(= (greatest-common-divisor 5 7) 1)
-(= (greatest-common-divisor 1023 858) 33)&lt;/code&gt;&lt;/pre&gt;
+[(= (greatest-common-divisor 2 4) 2)
+ (= (greatest-common-divisor 10 5) 5)
+ (= (greatest-common-divisor 5 7) 1)
+ (= (greatest-common-divisor 1023 858) 33)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2908,9 +3137,9 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn set-intersection [a b]
   (set (filter a b)))
 
-(= (set-intersection #{0 1 2 3} #{2 3 4 5}) #{2 3})
-(= (set-intersection #{0 1 2} #{3 4 5}) #{})
-(= (set-intersection #{:a :b :c :d} #{:c :e :a :f :d}) #{:a :c :d})&lt;/code&gt;&lt;/pre&gt;
+[(= (set-intersection #{0 1 2 3} #{2 3 4 5}) #{2 3})
+ (= (set-intersection #{0 1 2} #{3 4 5}) #{})
+ (= (set-intersection #{:a :b :c :d} #{:c :e :a :f :d}) #{:a :c :d})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2926,12 +3155,12 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn a-half-truth [&amp;amp; booleans]
   (= (set booleans) #{true false}))
 
-(= false (a-half-truth false false))
-(= true (a-half-truth true false))
-(= false (a-half-truth true))
-(= true (a-half-truth false true false))
-(= false (a-half-truth true true true))
-(= true (a-half-truth true true true false))&lt;/code&gt;&lt;/pre&gt;
+[(= false (a-half-truth false false))
+ (= true (a-half-truth true false))
+ (= false (a-half-truth true))
+ (= true (a-half-truth false true false))
+ (= false (a-half-truth true true true))
+ (= true (a-half-truth true true true false))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2950,10 +3179,10 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
     (clojure.set/union a b)
     (clojure.set/intersection a b)))
 
-(= (symmetric-difference #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7})
-(= (symmetric-difference #{:a :b :c} #{}) #{:a :b :c})
-(= (symmetric-difference #{} #{4 5 6}) #{4 5 6})
-(= (symmetric-difference #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]})&lt;/code&gt;&lt;/pre&gt;
+[(= (symmetric-difference #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7})
+ (= (symmetric-difference #{:a :b :c} #{}) #{:a :b :c})
+ (= (symmetric-difference #{} #{4 5 6}) #{4 5 6})
+ (= (symmetric-difference #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2970,14 +3199,14 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
   (into #{}
         (for [x a y b] (vector x y))))
 
-(= (cartesian-product #{&#34;ace&#34; &#34;king&#34; &#34;queen&#34;} #{&#34;♠&#34; &#34;♥&#34; &#34;♦&#34; &#34;♣&#34;})
-   #{[&#34;ace&#34;   &#34;♠&#34;] [&#34;ace&#34;   &#34;♥&#34;] [&#34;ace&#34;   &#34;♦&#34;] [&#34;ace&#34;   &#34;♣&#34;]
-     [&#34;king&#34;  &#34;♠&#34;] [&#34;king&#34;  &#34;♥&#34;] [&#34;king&#34;  &#34;♦&#34;] [&#34;king&#34;  &#34;♣&#34;]
-     [&#34;queen&#34; &#34;♠&#34;] [&#34;queen&#34; &#34;♥&#34;] [&#34;queen&#34; &#34;♦&#34;] [&#34;queen&#34; &#34;♣&#34;]})
-(= (cartesian-product #{1 2 3} #{4 5})
-  #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]})
-(= 300 (count (cartesian-product (into #{} (range 10))
-                                 (into #{} (range 30)))))&lt;/code&gt;&lt;/pre&gt;
+[(= (cartesian-product #{&#34;ace&#34; &#34;king&#34; &#34;queen&#34;} #{&#34;♠&#34; &#34;♥&#34; &#34;♦&#34; &#34;♣&#34;})
+    #{[&#34;ace&#34;   &#34;♠&#34;] [&#34;ace&#34;   &#34;♥&#34;] [&#34;ace&#34;   &#34;♦&#34;] [&#34;ace&#34;   &#34;♣&#34;]
+      [&#34;king&#34;  &#34;♠&#34;] [&#34;king&#34;  &#34;♥&#34;] [&#34;king&#34;  &#34;♦&#34;] [&#34;king&#34;  &#34;♣&#34;]
+      [&#34;queen&#34; &#34;♠&#34;] [&#34;queen&#34; &#34;♥&#34;] [&#34;queen&#34; &#34;♦&#34;] [&#34;queen&#34; &#34;♣&#34;]})
+ (= (cartesian-product #{1 2 3} #{4 5})
+   #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]})
+ (= 300 (count (cartesian-product (into #{} (range 10))
+                                  (into #{} (range 30)))))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3004,20 +3233,20 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
           (nil? right)
           (binary? right))))))
 
-(= (binary? &#39;(:a (:b nil nil) nil))
-   true)
-(= (binary? &#39;(:a (:b nil nil)))
-  false)
-(= (binary? [1 nil [2 [3 nil nil] [4 nil nil]]])
-   true)
-(= (binary? [1 [2 nil nil] [3 nil nil] [4 nil nil]])
-  false)
-(= (binary? [1 [2 [3 [4 nil nil] nil] nil] nil])
-   true)
-(= (binary? [1 [2 [3 [4 false nil] nil] nil] nil])
-  false)
-(= (binary? &#39;(:a nil ()))
-   false)&lt;/code&gt;&lt;/pre&gt;
+[(= (binary? &#39;(:a (:b nil nil) nil))
+    true)
+ (= (binary? &#39;(:a (:b nil nil)))
+   false)
+ (= (binary? [1 nil [2 [3 nil nil] [4 nil nil]]])
+    true)
+ (= (binary? [1 [2 nil nil] [3 nil nil] [4 nil nil]])
+   false)
+ (= (binary? [1 [2 [3 [4 nil nil] nil] nil] nil])
+    true)
+ (= (binary? [1 [2 [3 [4 false nil] nil] nil] nil])
+   false)
+ (= (binary? &#39;(:a nil ()))
+    false)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3050,18 +3279,18 @@ $ java -jar target/account-service-0.1.0-SNAPSHOT-standalone.jar&lt;/code&gt;&lt
         (mirror right)
         right))))
 
-(= (beauty-is-symmetry &#39;(:a (:b nil nil) (:b nil nil))) true)
-(= (beauty-is-symmetry &#39;(:a (:b nil nil) nil)) false)
-(= (beauty-is-symmetry &#39;(:a (:b nil nil) (:c nil nil))) false)
-(= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-                       [2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])
-   true)
-(= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-                          [2 [3 nil [4 [5 nil nil] [6 nil nil]]] nil]])
-  false)
-(= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
-                          [2 [3 nil [4 [6 nil nil] nil]] nil]])
-   false)&lt;/code&gt;&lt;/pre&gt;
+[(= (beauty-is-symmetry &#39;(:a (:b nil nil) (:b nil nil))) true)
+ (= (beauty-is-symmetry &#39;(:a (:b nil nil) nil)) false)
+ (= (beauty-is-symmetry &#39;(:a (:b nil nil) (:c nil nil))) false)
+ (= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                        [2 [3 nil [4 [6 nil nil] [5 nil nil]]] nil]])
+    true)
+ (= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                           [2 [3 nil [4 [5 nil nil] [6 nil nil]]] nil]])
+   false)
+ (= (beauty-is-symmetry [1 [2 nil [3 [4 [5 nil nil] [6 nil nil]] nil]]
+                           [2 [3 nil [4 [6 nil nil] nil]] nil]])
+    false)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3088,15 +3317,15 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
                                   (conj (into [0] previous-row) 0)))))
         [1]))))
 
-(= (pascals-triangle 1) [1])
-(= (map pascals-triangle (range 1 6))
-   [     [1]
-        [1 1]
-       [1 2 1]
-      [1 3 3 1]
-     [1 4 6 4 1]])
-(= (pascals-triangle 11)
-  [1 10 45 120 210 252 210 120 45 10 1])&lt;/code&gt;&lt;/pre&gt;
+[(= (pascals-triangle 1) [1])
+ (= (map pascals-triangle (range 1 6))
+    [     [1]
+         [1 1]
+        [1 2 1]
+       [1 3 3 1]
+      [1 4 6 4 1]])
+ (= (pascals-triangle 11)
+   [1 10 45 120 210 252 210 120 45 10 1])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3113,9 +3342,9 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
   (map js/parseInt
        (str (* a b))))
 
-(= (product-digits 1 1) [1])
-(= (product-digits 99 9) [8 9 1])
-(= (product-digits 999 99) [9 8 9 0 1])&lt;/code&gt;&lt;/pre&gt;
+[(= (product-digits 1 1) [1])
+ (= (product-digits 99 9) [8 9 1])
+ (= (product-digits 999 99) [9 8 9 0 1])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3137,8 +3366,8 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
             (/ (* a b) (gcd a b)))]
     (reduce lcm n)))
 
-(== (least-common-multiple 2 3) 6)
-(== (least-common-multiple 5 3 7) 105)&lt;/code&gt;&lt;/pre&gt;
+[(== (least-common-multiple 2 3) 6)
+ (== (least-common-multiple 5 3 7) 105)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3155,10 +3384,10 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
    (fn exp [x]
      (long (Math/pow x n))))
 
-(= 256 ((simple-closures 2) 16),
-       ((simple-closures 8) 2))
-(= [1 8 27 64] (map (simple-closures 3) [1 2 3 4]))
-(= [1 2 4 8 16] (map #((simple-closures %) 2) [0 1 2 3 4]))&lt;/code&gt;&lt;/pre&gt;
+[(= 256 ((simple-closures 2) 16),
+        ((simple-closures 8) 2))
+ (= [1 8 27 64] (map (simple-closures 3) [1 2 3 4]))
+ (= [1 2 4 8 16] (map #((simple-closures %) 2) [0 1 2 3 4]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3177,14 +3406,14 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
       (cons (f (first c))
             (reimplement-map f (rest c))))))
 
-(= [3 4 5 6 7]
-   (reimplement-map inc [2 3 4 5 6]))
-(= (repeat 10 nil)
-   (reimplement-map (fn [_] nil) (range 10)))
-(= [1000000 1000001]
-   (-&amp;gt;&amp;gt; (reimplement-map inc (range))
-        (drop (dec 1000000))
-        (take 2)))&lt;/code&gt;&lt;/pre&gt;
+[(= [3 4 5 6 7]
+    (reimplement-map inc [2 3 4 5 6]))
+ (= (repeat 10 nil)
+    (reimplement-map (fn [_] nil) (range 10)))
+ (= [1000000 1000001]
+    (-&amp;gt;&amp;gt; (reimplement-map inc (range))
+         (drop (dec 1000000))
+         (take 2)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3207,10 +3436,10 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
                         (vector e (map js/parseInt (str e))))
                       c)))))
 
-(= 8 (sum-of-square-of-digits (range 10)))
-(= 19 (sum-of-square-of-digits (range 30)))
-(= 50 (sum-of-square-of-digits (range 100)))
-(= 50 (sum-of-square-of-digits (range 1000)))&lt;/code&gt;&lt;/pre&gt;
+[(= 8 (sum-of-square-of-digits (range 10)))
+ (= 19 (sum-of-square-of-digits (range 30)))
+ (= 50 (sum-of-square-of-digits (range 100)))
+ (= 50 (sum-of-square-of-digits (range 1000)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3230,13 +3459,13 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
                   (map js/parseInt
                        (reverse s))))))
 
-(= 0     (read-a-binary-number &#34;0&#34;))
-(= 7     (read-a-binary-number &#34;111&#34;))
-(= 8     (read-a-binary-number &#34;1000&#34;))
-(= 9     (read-a-binary-number &#34;1001&#34;))
-(= 255   (read-a-binary-number &#34;11111111&#34;))
-(= 1365  (read-a-binary-number &#34;10101010101&#34;))
-(= 65535 (read-a-binary-number &#34;1111111111111111&#34;))&lt;/code&gt;&lt;/pre&gt;
+[(= 0     (read-a-binary-number &#34;0&#34;))
+ (= 7     (read-a-binary-number &#34;111&#34;))
+ (= 8     (read-a-binary-number &#34;1000&#34;))
+ (= 9     (read-a-binary-number &#34;1001&#34;))
+ (= 255   (read-a-binary-number &#34;11111111&#34;))
+ (= 1365  (read-a-binary-number &#34;10101010101&#34;))
+ (= 65535 (read-a-binary-number &#34;1111111111111111&#34;))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3255,12 +3484,12 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
    :rank ({\2 0 \3 1 \4 2 \5 3 \6 4 \7 5 \8 6 \9 7 \T 8 \J 9 \Q 10 \K 11  \A 12}
           (second s))})
 
-(= {:suit :diamond :rank 10} (recognize-playing-cards &#34;DQ&#34;))
-(= {:suit :heart :rank 3} (recognize-playing-cards &#34;H5&#34;))
-(= {:suit :club :rank 12} (recognize-playing-cards &#34;CA&#34;))
-(= (range 13) (map (comp :rank recognize-playing-cards str)
-                   &#39;[S2 S3 S4 S5 S6 S7
-                     S8 S9 ST SJ SQ SK SA]))&lt;/code&gt;&lt;/pre&gt;
+[(= {:suit :diamond :rank 10} (recognize-playing-cards &#34;DQ&#34;))
+ (= {:suit :heart :rank 3} (recognize-playing-cards &#34;H5&#34;))
+ (= {:suit :club :rank 12} (recognize-playing-cards &#34;CA&#34;))
+ (= (range 13) (map (comp :rank recognize-playing-cards str)
+                    &#39;[S2 S3 S4 S5 S6 S7
+                      S8 S9 ST SJ SQ SK SA]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3279,10 +3508,10 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
       (infix a op b)
   	  (recur (infix a op b) (first more) (second more) (drop 2 more)))))
 
-(= 7  (infix-calculator 2 + 5))
-(= 42 (infix-calculator 38 + 48 - 2 / 2))
-(= 8  (infix-calculator 10 / 2 - 1 * 2))
-(= 72 (infix-calculator 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9))&lt;/code&gt;&lt;/pre&gt;
+[(= 7  (infix-calculator 2 + 5))
+ (= 42 (infix-calculator 38 + 48 - 2 / 2))
+ (= 8  (infix-calculator 10 / 2 - 1 * 2))
+ (= 72 (infix-calculator 20 / 2 + 2 + 4 + 8 - 6 - 10 * 9))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3298,10 +3527,10 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn dot-product [a b]
   (reduce + (map * a b)))
 
-(= 0 (dot-product [0 1 0] [1 0 0]))
-(= 3 (dot-product [1 1 1] [1 1 1]))
-(= 32 (dot-product [1 2 3] [4 5 6]))
-(= 256 (dot-product [2 5 6] [100 10 1]))&lt;/code&gt;&lt;/pre&gt;
+[(= 0 (dot-product [0 1 0] [1 0 0]))
+ (= 3 (dot-product [1 1 1] [1 1 1]))
+ (= 32 (dot-product [1 2 3] [4 5 6]))
+ (= 256 (dot-product [2 5 6] [100 10 1]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3320,17 +3549,17 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
                (for [[k v] m]
                  (map #(vector [k (first %)] (second %)) v)))))
 
-(= (trees-into-tables &#39;{a {p 1, q 2}
-                        b {m 3, n 4}})
-   &#39;{[a p] 1, [a q] 2
-     [b m] 3, [b n] 4})
-(= (trees-into-tables &#39;{[1] {a b c d}
-                        [2] {q r s t u v w x}})
-  &#39;{[[1] a] b, [[1] c] d,
-    [[2] q] r, [[2] s] t,
-    [[2] u] v, [[2] w] x})
-(= (trees-into-tables &#39;{m {1 [a b c] 3 nil}})
-                      &#39;{[m 1] [a b c], [m 3] nil})&lt;/code&gt;&lt;/pre&gt;
+[(= (trees-into-tables &#39;{a {p 1, q 2}
+                         b {m 3, n 4}})
+    &#39;{[a p] 1, [a q] 2
+      [b m] 3, [b n] 4})
+ (= (trees-into-tables &#39;{[1] {a b c d}
+                         [2] {q r s t u v w x}})
+   &#39;{[[1] a] b, [[1] c] d,
+     [[2] q] r, [[2] s] t,
+     [[2] u] v, [[2] w] x})
+ (= (trees-into-tables &#39;{m {1 [a b c] 3 nil}})
+                       &#39;{[m 1] [a b c], [m 3] nil})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3352,10 +3581,10 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
                             (conj (into [0] previous-row) 0)))))
     row))
 
-(= (second (pascals-trapezoid [2 3 2])) [2 5 5 2])
-(= (take 5 (pascals-trapezoid [1])) [[1] [1 1] [1 2 1] [1 3 3 1] [1 4 6 4 1]])
-(= (take 2 (pascals-trapezoid [3 1 2])) [[3 1 2] [3 4 3 2]])
-(= (take 100 (pascals-trapezoid [2 4 2])) (rest (take 101 (pascals-trapezoid [2 2]))))&lt;/code&gt;&lt;/pre&gt;
+[(= (second (pascals-trapezoid [2 3 2])) [2 5 5 2])
+ (= (take 5 (pascals-trapezoid [1])) [[1] [1 1] [1 2 1] [1 3 3 1] [1 4 6 4 1]])
+ (= (take 2 (pascals-trapezoid [3 1 2])) [[3 1 2] [3 4 3 2]])
+ (= (take 100 (pascals-trapezoid [2 4 2])) (rest (take 101 (pascals-trapezoid [2 2]))))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3375,43 +3604,43 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
     (count
       (apply clojure.set/union s))))
 
-(= (pairwise-disjoint-sets #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
-   true)
-(= (pairwise-disjoint-sets #{#{:a :b :c :d :e}
-                           #{:a :b :c :d}
-                           #{:a :b :c}
-                           #{:a :b}
-                           #{:a}})
-  false)
-(= (pairwise-disjoint-sets #{#{[1 2 3] [4 5]}
-                             #{[1 2] [3 4 5]}
-                             #{[1] [2] 3 4 5}
-                             #{1 2 [3 4] [5]}})
-   true)
-(= (pairwise-disjoint-sets #{#{&#39;a &#39;b}
-                             #{&#39;c &#39;d &#39;e}
-                             #{&#39;f &#39;g &#39;h &#39;i}
-                             #{&#39;&#39;a &#39;&#39;c &#39;&#39;f}})
-  true)
-(= (pairwise-disjoint-sets #{#{&#39;(:x :y :z) &#39;(:x :y) &#39;(:z) &#39;()}
-                             #{#{:x :y :z} #{:x :y} #{:z} #{}}
-                             #{&#39;[:x :y :z] [:x :y] [:z] [] {}}})
-   false)
-(= (pairwise-disjoint-sets #{#{(= &#34;true&#34;) false}
-                             #{:yes :no}
-                             #{(symbol &#34;true&#34;) &#39;false}
-                             #{(keyword &#34;yes&#34;) ::no}})
-  false)
-(= (pairwise-disjoint-sets #{#{distinct?}
-                             #{#(-&amp;gt; %) #(-&amp;gt; %)}
-                             #{#(-&amp;gt; %) #(-&amp;gt; %) #(-&amp;gt; %)}
-                             #{#(-&amp;gt; %) #(-&amp;gt; %) #(-&amp;gt; %)}})
-   true)
-(= (pairwise-disjoint-sets #{#{(#(-&amp;gt; *)) + (quote mapcat) #_ nil}
+[(= (pairwise-disjoint-sets #{#{\U} #{\s} #{\e \R \E} #{\P \L} #{\.}})
+    true)
+ (= (pairwise-disjoint-sets #{#{:a :b :c :d :e}
+                            #{:a :b :c :d}
+                            #{:a :b :c}
+                            #{:a :b}
+                            #{:a}})
+    false)
+ (= (pairwise-disjoint-sets #{#{[1 2 3] [4 5]}
+                              #{[1 2] [3 4 5]}
+                              #{[1] [2] 3 4 5}
+                              #{1 2 [3 4] [5]}})
+    true)
+ (= (pairwise-disjoint-sets #{#{&#39;a &#39;b}
+                              #{&#39;c &#39;d &#39;e}
+                              #{&#39;f &#39;g &#39;h &#39;i}
+                              #{&#39;&#39;a &#39;&#39;c &#39;&#39;f}})
+    true)
+ (= (pairwise-disjoint-sets #{#{&#39;(:x :y :z) &#39;(:x :y) &#39;(:z) &#39;()}
+                              #{#{:x :y :z} #{:x :y} #{:z} #{}}
+                              #{&#39;[:x :y :z] [:x :y] [:z] [] {}}})
+    false)
+ (= (pairwise-disjoint-sets #{#{(= &#34;true&#34;) false}
+                              #{:yes :no}
+                              #{(symbol &#34;true&#34;) &#39;false}
+                              #{(keyword &#34;yes&#34;) ::no}})
+    false)
+ (= (pairwise-disjoint-sets #{#{distinct?}
+                              #{#(-&amp;gt; %) #(-&amp;gt; %)}
+                              #{#(-&amp;gt; %) #(-&amp;gt; %) #(-&amp;gt; %)}
+                              #{#(-&amp;gt; %) #(-&amp;gt; %) #(-&amp;gt; %)}})
+    true)
+ (= (pairwise-disjoint-sets #{#{(#(-&amp;gt; *)) + (quote mapcat) #_ nil}
                              #{&#39;+ &#39;* mapcat (comment mapcat)}
                              #{(do) set contains? nil?}
                              #{, , , #_, , empty?}})
-  false)&lt;/code&gt;&lt;/pre&gt;
+    false)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3424,12 +3653,12 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn indexing-sequences []
-  (map-indexed (fn [index element] [element index]))
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn indexing-sequences [s]
+  (map-indexed (fn [index element] [element index]) s))
 
-(= (indexing-sequences [:a :b :c]) [[:a 0] [:b 1] [:c 2]])
-(= (indexing-sequences [0 1 3]) &#39;((0 0) (1 1) (3 2)))
-(= (indexing-sequences [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]])&lt;/code&gt;&lt;/pre&gt;
+[(= (indexing-sequences [:a :b :c]) [[:a 0] [:b 1] [:c 2]])
+ (= (indexing-sequences [0 1 3]) &#39;((0 0) (1 1) (3 2)))
+ (= (indexing-sequences [[:foo] {:bar :baz}]) [[[:foo] 0] [{:bar :baz} 1]])]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3461,10 +3690,10 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
     (f l r) :lt
     :else :gt))
 
-(= :gt (comparisons &amp;lt; 5 1))
-(= :eq (comparisons (fn [x y] (&amp;lt; (count x) (count y))) &#34;pear&#34; &#34;plum&#34;))
-(= :lt (comparisons (fn [x y] (&amp;lt; (mod x 5) (mod y 5))) 21 3))
-(= :gt (comparisons &amp;gt; 0 2))&lt;/code&gt;&lt;/pre&gt;
+[(= :gt (comparisons &amp;lt; 5 1))
+ (= :eq (comparisons (fn [x y] (&amp;lt; (count x) (count y))) &#34;pear&#34; &#34;plum&#34;))
+ (= :lt (comparisons (fn [x y] (&amp;lt; (mod x 5) (mod y 5))) 21 3))
+ (= :gt (comparisons &amp;gt; 0 2))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3477,10 +3706,10 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(= 3
-  (let [[f x] [+ (range 3)]] (apply f x))
-  (let [[[f x] b] [[+ 1] 2]] (f x b))
-  (let [[f x] [inc 2]] (f x)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;[(= 3
+   (let [[f x] [+ (range 3)]] (apply f x))
+   (let [[[f x] b] [[+ 1] 2]] (f x b))
+   (let [[f x] [inc 2]] (f x)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3507,7 +3736,7 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def nothing-but-the-truth true)
 
-(= nothing-but-the-truth true)&lt;/code&gt;&lt;/pre&gt;
+[(= nothing-but-the-truth true)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3522,7 +3751,7 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def simple-math 4)
 
-(= (- 10 (* 2 3)) simple-math)&lt;/code&gt;&lt;/pre&gt;
+[(= (- 10 (* 2 3)) simple-math)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3537,7 +3766,7 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-strings &#34;HELLO WORLD&#34;)
 
-(= intro-to-strings (.toUpperCase &#34;hello world&#34;))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-strings (.toUpperCase &#34;hello world&#34;))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3550,7 +3779,7 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(= (list :a :b :c) &#39;(:a :b :c))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;[(= (list :a :b :c) &#39;(:a :b :c))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3565,8 +3794,8 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def lists-conj &#39;(1 2 3 4))
 
-(= lists-conj (conj &#39;(2 3 4) 1))
-(= lists-conj (conj &#39;(3 4) 2 1))&lt;/code&gt;&lt;/pre&gt;
+[(= lists-conj (conj &#39;(2 3 4) 1))
+ (= lists-conj (conj &#39;(3 4) 2 1))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3581,7 +3810,7 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-vectors [:a :b :c])
 
-(= intro-to-vectors (list :a :b :c) (vec &#39;(:a :b :c)) (vector :a :b :c))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-vectors (list :a :b :c) (vec &#39;(:a :b :c)) (vector :a :b :c))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3596,8 +3825,8 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def vectors-conj [1 2 3 4])
 
-(= vectors-conj (conj [1 2 3] 4))
-(= vectors-conj (conj [1 2] 3 4))&lt;/code&gt;&lt;/pre&gt;
+[(= vectors-conj (conj [1 2 3] 4))
+ (= vectors-conj (conj [1 2] 3 4))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3612,8 +3841,8 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-sets #{:a :b :c :d})
 
-(= intro-to-sets (set &#39;(:a :a :b :c :c :c :c :d :d)))
-(= intro-to-sets (clojure.set/union #{:a :b :c} #{:b :c :d}))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-sets (set &#39;(:a :a :b :c :c :c :c :d :d)))
+ (= intro-to-sets (clojure.set/union #{:a :b :c} #{:b :c :d}))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3626,9 +3855,9 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def sets-conj)
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def sets-conj #{1 2 3 4})
 
-(= sets-conj (conj #{1 4 3} 2))&lt;/code&gt;&lt;/pre&gt;
+[(= sets-conj (conj #{1 4 3} 2))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3643,8 +3872,8 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-maps 20)
 
-(= intro-to-maps ((hash-map :a 10, :b 20, :c 30) :b))
-(= intro-to-maps (:b {:a 10, :b 20, :c 30}))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-maps ((hash-map :a 10, :b 20, :c 30) :b))
+ (= intro-to-maps (:b {:a 10, :b 20, :c 30}))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3659,7 +3888,7 @@ Write a function which returns the nth row of Pascal&amp;#8217;s Triangle.&lt;/p
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def maps-conj {:a 1, :b 2, :c 3})
 
-(= maps-conj (conj {:a 1} {:b 2} [:c 3]))&lt;/code&gt;&lt;/pre&gt;
+[(= maps-conj (conj {:a 1} {:b 2} [:c 3]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3675,9 +3904,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-sequences 3)
 
-(= intro-to-sequences (first &#39;(3 2 1)))
-(= intro-to-sequences (second [2 3 4]))
-(= intro-to-sequences (last (list 1 2 3)))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-sequences (first &#39;(3 2 1)))
+ (= intro-to-sequences (second [2 3 4]))
+ (= intro-to-sequences (last (list 1 2 3)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3692,7 +3921,7 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def sequences-rest [20 30 40])
 
-(= sequences-rest (rest [10 20 30 40]))&lt;/code&gt;&lt;/pre&gt;
+[(= sequences-rest (rest [10 20 30 40]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3707,10 +3936,10 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-functions 8)
 
-(= intro-to-functions ((fn add-five [x] (+ x 5)) 3))
-(= intro-to-functions ((fn [x] (+ x 5)) 3))
-(= intro-to-functions (#(+ % 5) 3))
-(= intro-to-functions ((partial + 5) 3))&lt;/code&gt;&lt;/pre&gt;
+[(= intro-to-functions ((fn add-five [x] (+ x 5)) 3))
+ (= intro-to-functions ((fn [x] (+ x 5)) 3))
+ (= intro-to-functions (#(+ % 5) 3))
+ (= intro-to-functions ((partial + 5) 3))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3726,10 +3955,10 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn double-down [n]
   (* 2 n))
 
-(= (double-down 2) 4)
-(= (double-down 3) 6)
-(= (double-down 11) 22)
-(= (double-down 7) 14)&lt;/code&gt;&lt;/pre&gt;
+[(= (double-down 2) 4)
+ (= (double-down 3) 6)
+ (= (double-down 11) 22)
+ (= (double-down 7) 14)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3745,9 +3974,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn hello-world [name]
   (str &#34;Hello, &#34; name &#34;!&#34;))
 
-(= (hello-world &#34;Dave&#34;) &#34;Hello, Dave!&#34;)
-(= (hello-world &#34;Jenn&#34;) &#34;Hello, Jenn!&#34;)
-(= (hello-world &#34;Rhea&#34;) &#34;Hello, Rhea!&#34;)&lt;/code&gt;&lt;/pre&gt;
+[(= (hello-world &#34;Dave&#34;) &#34;Hello, Dave!&#34;)
+ (= (hello-world &#34;Jenn&#34;) &#34;Hello, Jenn!&#34;)
+ (= (hello-world &#34;Rhea&#34;) &#34;Hello, Rhea!&#34;)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3762,7 +3991,7 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def sequences-map &#39;(6 7 8))
 
-(= sequences-map (map #(+ % 5) &#39;(1 2 3)))&lt;/code&gt;&lt;/pre&gt;
+[(= sequences-map (map #(+ % 5) &#39;(1 2 3)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3775,7 +4004,7 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(= &#39;(6 7) (filter #(&amp;gt; % 5) &#39;(3 4 5 6 7)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;[(= &#39;(6 7) (filter #(&amp;gt; % 5) &#39;(3 4 5 6 7)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3788,9 +4017,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(= 7 (let [x 5] (+ 2 x)))
-(= 7 (let [x 3, y 10] (- y x)))
-(= 7 (let [x 21] (let [y 3] (/ x y))))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;[(= 7 (let [x 5] (+ 2 x)))
+ (= 7 (let [x 3, y 10] (- y x)))
+ (= 7 (let [x 21] (let [y 3] (/ x y))))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3803,9 +4032,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(= 10 (let [x 7, y 3, z 1] (+ x y)))
-(= 4 (let [x 7, y 3, z 1] (+ y z)))
-(= 1 (let [x 7, y 3, z 1] z))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;[(= 10 (let [x 7, y 3, z 1] (+ x y)))
+ (= 4 (let [x 7, y 3, z 1] (+ y z)))
+ (= 1 (let [x 7, y 3, z 1] z))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3820,7 +4049,7 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def regular-expressions &#34;ABC&#34;)
 
-(= regular-expressions (apply str (re-seq #&#34;[A-Z]+&#34; &#34;bA1B3Ce &#34;)))&lt;/code&gt;&lt;/pre&gt;
+[(= regular-expressions (apply str (re-seq #&#34;[A-Z]+&#34; &#34;bA1B3Ce &#34;)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3833,7 +4062,7 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;
 &lt;div class=&#34;content&#34;&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(= [2 4] (let [[a b c d e] [0 1 2 3 4]] [c e]))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;[(= [2 4] (let [[a b c d e] [0 1 2 3 4]] [c e]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3848,9 +4077,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def simple-recursion &#39;(5 4 3 2 1))
 
-(= simple-recursion ((fn foo [x]
-                       (when (&amp;gt; x 0)
-                         (conj (foo (dec x)) x))) 5))&lt;/code&gt;&lt;/pre&gt;
+[(= simple-recursion ((fn foo [x]
+                        (when (&amp;gt; x 0)
+                          (conj (foo (dec x)) x))) 5))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3865,9 +4094,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def intro-to-reduce +)
 
-(= 15 (reduce intro-to-reduce [1 2 3 4 5]))
-(=  0 (reduce intro-to-reduce []))
-(=  6 (reduce intro-to-reduce 1 [2 3]))&lt;/code&gt;&lt;/pre&gt;
+[(= 15 (reduce intro-to-reduce [1 2 3 4 5]))
+ (=  0 (reduce intro-to-reduce []))
+ (=  6 (reduce intro-to-reduce 1 [2 3]))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3882,12 +4111,12 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def recurring-theme [7 6 5 4 3])
 
-(= recurring-theme
-  (loop [x 5
-         result []]
-    (if (&amp;gt; x 0)
-      (recur (dec x) (conj result (+ 2 x)))
-      result)))&lt;/code&gt;&lt;/pre&gt;
+[(= recurring-theme
+   (loop [x 5
+          result []]
+     (if (&amp;gt; x 0)
+       (recur (dec x) (conj result (+ 2 x)))
+       result)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3902,9 +4131,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def rearranging-code last)
 
-(= (rearranging-code (sort (rest (reverse [2 5 4 1 3 6]))))
-   (-&amp;gt; [2 5 4 1 3 6] (reverse) (rest) (sort) (rearranging-code))
-   5)&lt;/code&gt;&lt;/pre&gt;
+[(= (rearranging-code (sort (rest (reverse [2 5 4 1 3 6]))))
+    (-&amp;gt; [2 5 4 1 3 6] (reverse) (rest) (sort) (rearranging-code))
+    5)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3920,9 +4149,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn rearranging-code [s]
   (reduce + s))
 
-(= (rearranging-code (map inc (take 3 (drop 2 [2 5 4 1 3 6]))))
+[(= (rearranging-code (map inc (take 3 (drop 2 [2 5 4 1 3 6]))))
    (-&amp;gt;&amp;gt; [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (rearranging-code))
-   11)&lt;/code&gt;&lt;/pre&gt;
+   11)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3940,9 +4169,9 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
     (= (key map) nil)
   	false))
 
-(true?  (a-nil-key :a {:a nil :b 2}))
-(false? (a-nil-key :b {:a nil :b 2}))
-(false? (a-nil-key :c {:a nil :b 2}))&lt;/code&gt;&lt;/pre&gt;
+[(true?  (a-nil-key :a {:a nil :b 2}))
+ (false? (a-nil-key :b {:a nil :b 2}))
+ (false? (a-nil-key :c {:a nil :b 2}))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3957,15 +4186,15 @@ You can operate on sequences with functions like &lt;code&gt;first&lt;/code&gt;,
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def for-the-win [1 5 9 13 17 21 25 29 33 37])
 
-(= for-the-win (for [x (range 40)
-            :when (= 1 (rem x 4))]
-        x))
-(= for-the-win (for [x (iterate #(+ 4 %) 0)
-            :let [z (inc x)]
-            :while (&amp;lt; z 40)]
-        z))
-(= for-the-win (for [[x y] (partition 2 (range 20))]
-        (+ x y)))&lt;/code&gt;&lt;/pre&gt;
+[(= for-the-win (for [x (range 40)
+             :when (= 1 (rem x 4))]
+         x))
+ (= for-the-win (for [x (iterate #(+ 4 %) 0)
+             :let [z (inc x)]
+             :while (&amp;lt; z 40)]
+         z))
+ (= for-the-win (for [[x y] (partition 2 (range 20))]
+         (+ x y)))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -3983,9 +4212,9 @@ However, what if you want the map itself to contain the default values? Write a 
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(defn map-defaults [default keys]
   (zipmap keys (repeat default)))
 
-(= (map-defaults 0 [:a :b :c]) {:a 0 :b 0 :c 0})
-(= (map-defaults &#34;x&#34; [1 2 3]) {1 &#34;x&#34; 2 &#34;x&#34; 3 &#34;x&#34;})
-(= (map-defaults [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]})&lt;/code&gt;&lt;/pre&gt;
+[(= (map-defaults 0 [:a :b :c]) {:a 0 :b 0 :c 0})
+ (= (map-defaults &#34;x&#34; [1 2 3]) {1 &#34;x&#34; 2 &#34;x&#34; 3 &#34;x&#34;})
+ (= (map-defaults [:a :b] [:foo :bar]) {:foo [:a :b] :bar [:a :b]})]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -4000,10 +4229,10 @@ However, what if you want the map itself to contain the default values? Write a 
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def subset-and-superset #{1 2})
 
-(clojure.set/superset? subset-and-superset #{2})
-(clojure.set/subset? #{1} subset-and-superset)
-(clojure.set/superset? subset-and-superset #{1 2})
-(clojure.set/subset? #{1 2} subset-and-superset)&lt;/code&gt;&lt;/pre&gt;
+[(clojure.set/superset? subset-and-superset #{2})
+ (clojure.set/subset? #{1} subset-and-superset)
+ (clojure.set/superset? subset-and-superset #{1 2})
+ (clojure.set/subset? #{1 2} subset-and-superset)]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -4018,13 +4247,13 @@ However, what if you want the map itself to contain the default values? Write a 
 &lt;div class=&#34;content&#34;&gt;
 &lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;language-klipse&#34; data-lang=&#34;klipse&#34;&gt;(def logical-falsity-and-truth 1)
 
-(= logical-falsity-and-truth (if-not false 1 0))
-(= logical-falsity-and-truth (if-not nil 1 0))
-(= logical-falsity-and-truth (if true 1 0))
-(= logical-falsity-and-truth (if [] 1 0))
-(= logical-falsity-and-truth (if [0] 1 0))
-(= logical-falsity-and-truth (if 0 1 0))
-(= logical-falsity-and-truth (if 1 1 0))&lt;/code&gt;&lt;/pre&gt;
+[(= logical-falsity-and-truth (if-not false 1 0))
+ (= logical-falsity-and-truth (if-not nil 1 0))
+ (= logical-falsity-and-truth (if true 1 0))
+ (= logical-falsity-and-truth (if [] 1 0))
+ (= logical-falsity-and-truth (if [0] 1 0))
+ (= logical-falsity-and-truth (if 0 1 0))
+ (= logical-falsity-and-truth (if 1 1 0))]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;

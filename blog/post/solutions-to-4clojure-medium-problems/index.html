@@ -10,6 +10,7 @@
   <title>Solutions to 4Clojure Medium Problems</title>
 
   
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.css">
   <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
   
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -17,8 +18,6 @@
   
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
   
-
-  <link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css">
 
   
   
@@ -40,44 +39,6 @@
     ga('send', 'pageview');
   </script>
   
-  <style>
-   .cm-s-default.CodeMirror {
-       background-color: #272822 !important;
-       color: #CFD2D1 !important;
-       border: none;
-   }
-   .cm-s-default .CodeMirror-gutters {
-       color: #404b53;
-       background-color: #0E1112;
-       border: none;
-   }
-   .cm-s-default .CodeMirror-cursor { border-left: solid thin #f8f8f0; }
-   .cm-s-default .CodeMirror-linenumber { color: #6D8A88; }
-   .cm-s-default .CodeMirror-focused div.CodeMirror-selected { background: rgba(255, 255, 255, 0.10); }
-   .cm-s-default .CodeMirror-line::selection, .cm-s-default .CodeMirror-line > span::selection, .cm-s-default .CodeMirror-line > span > span::selection { background: rgba(255, 255, 255, 0.10); }
-   .cm-s-default .CodeMirror-line::-moz-selection, .cm-s-default .CodeMirror-line > span::-moz-selection, .cm-s-default .CodeMirror-line > span > span::-moz-selection { background: rgba(255, 255, 255, 0.10); }
-   .cm-s-default span.cm-comment { color: #c8c8c0; }
-   .cm-s-default span.cm-string, .cm-s-default span.cm-string-2 { color: #55b5db; }
-   .cm-s-default span.cm-number { color: #cd3f45; }
-   .cm-s-default span.cm-variable { color: #55b5db; }
-   .cm-s-default span.cm-variable-2 { color: #a074c4; }
-   .cm-s-default span.cm-def { color: #55b5db; }
-   .cm-s-default span.cm-keyword { color: #ff79c6; }
-   .cm-s-default span.cm-operator { color: #9fca56; }
-   .cm-s-default span.cm-keyword { color: #9fca56; }
-   .cm-s-default span.cm-atom { color: #cd3f45; }
-   .cm-s-default span.cm-meta { color: #e6cd69; }
-   .cm-s-default span.cm-tag { color: #55b5db; }
-   .cm-s-default span.cm-attribute { color: #9fca56; }
-   .cm-s-default span.cm-qualifier { color: #9fca56; }
-   .cm-s-default span.cm-property { color: #a074c4; }
-   .cm-s-default span.cm-variable-3 { color: #9fca56; }
-   .cm-s-default span.cm-builtin { color: #9fca56; }
-   .cm-s-default .CodeMirror-activeline-background { background: #101213; }
-   .cm-s-default .CodeMirror-matchingbracket { text-decoration: underline; color: white !important; }
-
-   .klipse-container {height: 0}
-  </style>
 </head>
 <body>
 
@@ -138,9 +99,9 @@
        (cons (take-nth n s) (reverse-interleave (rest s) n (dec i)))))
    s n n))
 
-(= (reverse-interleave [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6)))
-(= (reverse-interleave (range 9) 3) '((0 3 6) (1 4 7) (2 5 8)))
-(= (reverse-interleave (range 10) 5) '((0 5) (1 6) (2 7) (3 8) (4 9)))</code></pre>
+[(= (reverse-interleave [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6)))
+ (= (reverse-interleave (range 9) 3) '((0 3 6) (1 4 7) (2 5 8)))
+ (= (reverse-interleave (range 10) 5) '((0 5) (1 6) (2 7) (3 8) (4 9)))]</code></pre>
 </div>
 </div>
 </div>
@@ -157,11 +118,11 @@
   (let [c (mod n (count s))]
     (concat (drop c s) (take c s))))
 
-(= (rotate-sequence 2 [1 2 3 4 5]) '(3 4 5 1 2))
-(= (rotate-sequence -2 [1 2 3 4 5]) '(4 5 1 2 3))
-(= (rotate-sequence 6 [1 2 3 4 5]) '(2 3 4 5 1))
-(= (rotate-sequence 1 '(:a :b :c)) '(:b :c :a))
-(= (rotate-sequence -4 '(:a :b :c)) '(:c :a :b))</code></pre>
+[(= (rotate-sequence 2 [1 2 3 4 5]) '(3 4 5 1 2))
+ (= (rotate-sequence -2 [1 2 3 4 5]) '(4 5 1 2 3))
+ (= (rotate-sequence 6 [1 2 3 4 5]) '(2 3 4 5 1))
+ (= (rotate-sequence 1 '(:a :b :c)) '(:b :c :a))
+ (= (rotate-sequence -4 '(:a :b :c)) '(:c :a :b))]</code></pre>
 </div>
 </div>
 </div>
@@ -178,10 +139,10 @@
   (fn [a b]
     (f b a)))
 
-(= 3 ((flipping-out nth) 2 [1 2 3 4 5]))
-(= true ((flipping-out &gt;) 7 8))
-(= 4 ((flipping-out quot) 2 8))
-(= [1 2 3] ((flipping-out take) [1 2 3 4 5] 3))</code></pre>
+[(= 3 ((flipping-out nth) 2 [1 2 3 4 5]))
+ (= true ((flipping-out &gt;) 7 8))
+ (= 4 ((flipping-out quot) 2 8))
+ (= [1 2 3] ((flipping-out take) [1 2 3 4 5] 3))]</code></pre>
 </div>
 </div>
 </div>
@@ -197,9 +158,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn split-by-type [v]
   (vals (group-by #(type %) v)))
 
-(= (set (split-by-type [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]})
-(= (set (split-by-type [:a "foo"  "bar" :b])) #{[:a :b] ["foo" "bar"]})
-(= (set (split-by-type [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]})</code></pre>
+[(= (set (split-by-type [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]})
+ (= (set (split-by-type [:a "foo"  "bar" :b])) #{[:a :b] ["foo" "bar"]})
+ (= (set (split-by-type [[1 2] :a [3 4] 5 6 :b])) #{[[1 2] [3 4]] [:a :b] [5 6]})]</code></pre>
 </div>
 </div>
 </div>
@@ -218,9 +179,9 @@
               (* (quot (count s) n) n)
               n)))
 
-(= (partition-a-sequence 3 (range 9)) '((0 1 2) (3 4 5) (6 7 8)))
-(= (partition-a-sequence 2 (range 8)) '((0 1) (2 3) (4 5) (6 7)))
-(= (partition-a-sequence 3 (range 8)) '((0 1 2) (3 4 5)))</code></pre>
+[(= (partition-a-sequence 3 (range 9)) '((0 1 2) (3 4 5) (6 7 8)))
+ (= (partition-a-sequence 2 (range 8)) '((0 1) (2 3) (4 5) (6 7)))
+ (= (partition-a-sequence 3 (range 8)) '((0 1 2) (3 4 5)))]</code></pre>
 </div>
 </div>
 </div>
@@ -236,9 +197,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn count-occurrences [s]
   (into {} (map #(vector (first %) (count (second %))) (group-by identity s))))
 
-(= (count-occurrences [1 1 2 3 2 1 1]) {1 4, 2 2, 3 1})
-(= (count-occurrences [:b :a :b :a :b]) {:a 2, :b 3})
-(= (count-occurrences '([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2})</code></pre>
+[(= (count-occurrences [1 1 2 3 2 1 1]) {1 4, 2 2, 3 1})
+ (= (count-occurrences [:b :a :b :a :b]) {:a 2, :b 3})
+ (= (count-occurrences '([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2})]</code></pre>
 </div>
 </div>
 </div>
@@ -255,10 +216,10 @@
   (sort-by #(.indexOf s %)
            (keys (group-by identity s))))
 
-(= (find-distinct-items [1 2 1 3 1 2 4]) [1 2 3 4])
-(= (find-distinct-items [:a :a :b :b :c :c]) [:a :b :c])
-(= (find-distinct-items '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3]))
-(= (find-distinct-items (range 50)) (range 50))</code></pre>
+[(= (find-distinct-items [1 2 1 3 1 2 4]) [1 2 3 4])
+ (= (find-distinct-items [:a :a :b :b :c :c]) [:a :b :c])
+ (= (find-distinct-items '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3]))
+ (= (find-distinct-items (range 50)) (range 50))]</code></pre>
 </div>
 </div>
 </div>
@@ -279,10 +240,10 @@
               args
               (reverse functions)))))
 
-(= [3 2 1] ((function-composition rest reverse) [1 2 3 4]))
-(= 5 ((function-composition (partial + 3) second) [1 2 3 4]))
-(= true ((function-composition zero? #(mod % 8) +) 3 5 7 9))
-(= "HELLO" ((function-composition #(.toUpperCase %) #(apply str %) take) 5 "hello world"))</code></pre>
+[(= [3 2 1] ((function-composition rest reverse) [1 2 3 4]))
+ (= 5 ((function-composition (partial + 3) second) [1 2 3 4]))
+ (= true ((function-composition zero? #(mod % 8) +) 3 5 7 9))
+ (= "HELLO" ((function-composition #(.toUpperCase %) #(apply str %) take) 5 "hello world"))]</code></pre>
 </div>
 </div>
 </div>
@@ -299,9 +260,9 @@
   (fn [&amp; parameters]
     (map #(apply % parameters) functions)))
 
-(= [21 6 1] ((juxtaposition + max min) 2 3 5 1 6 4))
-(= ["HELLO" 5] ((juxtaposition #(.toUpperCase %) count) "hello"))
-(= [2 6 4] ((juxtaposition :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10}))</code></pre>
+[(= [21 6 1] ((juxtaposition + max min) 2 3 5 1 6 4))
+ (= ["HELLO" 5] ((juxtaposition #(.toUpperCase %) count) "hello"))
+ (= [2 6 4] ((juxtaposition :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10}))]</code></pre>
 </div>
 </div>
 </div>
@@ -325,9 +286,9 @@
                                   (f i (first s))
                                   (rest s)))))))
 
-(= (take 5 (sequence-reductions + (range))) [0 1 3 6 10])
-(= (sequence-reductions conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]])
-(= (last (sequence-reductions * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120)</code></pre>
+[(= (take 5 (sequence-reductions + (range))) [0 1 3 6 10])
+ (= (sequence-reductions conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]])
+ (= (last (sequence-reductions * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120)]</code></pre>
 </div>
 </div>
 </div>
@@ -348,11 +309,11 @@
       (= [1 2] (first result)) :vector
       :else :list)))
 
-(= :map (black-box-testing {:a 1, :b 2}))
-(= :list (black-box-testing (range (rand-int 20))))
-(= :vector (black-box-testing [1 2 3 4 5 6]))
-(= :set (black-box-testing #{10 (rand-int 5)}))
-(= [:map :set :vector :list] (map black-box-testing [{} #{} [] ()]))</code></pre>
+[(= :map (black-box-testing {:a 1, :b 2}))
+ (= :list (black-box-testing (range (rand-int 20))))
+ (= :vector (black-box-testing [1 2 3 4 5 6]))
+ (= :set (black-box-testing #{10 (rand-int 5)}))
+ (= [:map :set :vector :list] (map black-box-testing [{} #{} [] ()]))]</code></pre>
 </div>
 </div>
 </div>
@@ -373,12 +334,12 @@
                [(key e) (second (first (val e)))]))
       (group-by first (apply concat m)))))
 
-(= (merge-with-a-function * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5})
-   {:a 4, :b 6, :c 20})
-(= (merge-with-a-function - {1 10, 2 20} {1 3, 2 10, 3 15})
-   {1 7, 2 10, 3 15})
-(= (merge-with-a-function concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
-   {:a [3 4 5], :b [6 7], :c [8 9]})</code></pre>
+[(= (merge-with-a-function * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5})
+    {:a 4, :b 6, :c 20})
+ (= (merge-with-a-function - {1 10, 2 20} {1 3, 2 10, 3 15})
+    {1 7, 2 10, 3 15})
+ (= (merge-with-a-function concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
+    {:a [3 4 5], :b [6 7], :c [8 9]})]</code></pre>
 </div>
 </div>
 </div>
@@ -398,12 +359,12 @@
                                    (take (dec (count s)) s))
                             #"\s"))))
 
-(= (word-sorting  "Have a nice day.")
-   ["a" "day" "Have" "nice"])
-(= (word-sorting "Clojure is a fun language!")
-   ["a" "Clojure" "fun" "is" "language"])
-(= (word-sorting "Fools fall for foolish follies.")
-   ["fall" "follies" "foolish" "Fools" "for"])</code></pre>
+[(= (word-sorting  "Have a nice day.")
+    ["a" "day" "Have" "nice"])
+ (= (word-sorting "Clojure is a fun language!")
+    ["a" "Clojure" "fun" "is" "language"])
+ (= (word-sorting "Fools fall for foolish follies.")
+    ["fall" "follies" "foolish" "Fools" "for"])]</code></pre>
 </div>
 </div>
 </div>
@@ -423,8 +384,8 @@
                          (filter perfect-square?
                                  (clojure.string/split s #",")))))
 
-(= (filter-perfect-squares "4,5,6,7,8,9") "4,9")
-(= (filter-perfect-squares "15,16,25,36,37") "16,25,36")</code></pre>
+[(= (filter-perfect-squares "4,5,6,7,8,9") "4,9")
+ (= (filter-perfect-squares "15,16,25,36,37") "16,25,36")]</code></pre>
 </div>
 </div>
 </div>
@@ -445,10 +406,10 @@
   (count
     (filter #(= 1 (gcd n %)) (range n)))))
 
-(= (eulers-totient-function 1) 1)
-(= (eulers-totient-function 10) (count '(1 3 7 9)) 4)
-(= (eulers-totient-function 40) 16)
-(= (eulers-totient-function 99) 60)</code></pre>
+[(= (eulers-totient-function 1) 1)
+ (= (eulers-totient-function 10) (count '(1 3 7 9)) 4)
+ (= (eulers-totient-function 40) 16)
+ (= (eulers-totient-function 99) 60)]</code></pre>
 </div>
 </div>
 </div>
@@ -463,13 +424,13 @@
 <div class="content">
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(def intro-to-trampoline [1 3 5 7 9 11])
 
-(= intro-to-trampoline
-   (letfn
-     [(foo [x y] #(bar (conj x y) y))
-      (bar [x y] (if (&gt; (last x) 10)
-                   x
-                   #(foo x (+ 2 y))))]
-     (trampoline foo [] 1)))</code></pre>
+[(= intro-to-trampoline
+    (letfn
+      [(foo [x y] #(bar (conj x y) y))
+       (bar [x y] (if (&gt; (last x) 10)
+                    x
+                    #(foo x (+ 2 y))))]
+      (trampoline foo [] 1)))]</code></pre>
 </div>
 </div>
 </div>
@@ -488,10 +449,10 @@
        (map #(set (val %)))
        (set)))
 
-(= (anagram-finder ["meat" "mat" "team" "mate" "eat"])
-   #{#{"meat" "team" "mate"}})
-(= (anagram-finder ["veer" "lake" "item" "kale" "mite" "ever"])
-  #{#{"veer" "ever"} #{"lake" "kale"} #{"mite" "item"}})</code></pre>
+[(= (anagram-finder ["meat" "mat" "team" "mate" "eat"])
+    #{#{"meat" "team" "mate"}})
+ (= (anagram-finder ["veer" "lake" "item" "kale" "mite" "ever"])
+   #{#{"veer" "ever"} #{"lake" "kale"} #{"mite" "item"}})]</code></pre>
 </div>
 </div>
 </div>
@@ -513,15 +474,15 @@
   ([f &amp; args]
    (reimplement-trampoline #(apply f args))))
 
-(= (letfn [(triple [x] #(sub-two (* 3 x)))
-          (sub-two [x] #(stop?(- x 2)))
-          (stop? [x] (if (&gt; x 50) x #(triple x)))]
-    (reimplement-trampoline triple 2))
-  82)
-(= (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))
-          (my-odd? [x] (if (zero? x) false #(my-even? (dec x))))]
-    (map (partial reimplement-trampoline my-even?) (range 6)))
-  [true false true false true false])</code></pre>
+[(= (letfn [(triple [x] #(sub-two (* 3 x)))
+           (sub-two [x] #(stop?(- x 2)))
+           (stop? [x] (if (&gt; x 50) x #(triple x)))]
+     (reimplement-trampoline triple 2))
+   82)
+ (= (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))
+           (my-odd? [x] (if (zero? x) false #(my-even? (dec x))))]
+     (map (partial reimplement-trampoline my-even?) (range 6)))
+    [true false true false true false])]</code></pre>
 </div>
 </div>
 </div>
@@ -540,11 +501,11 @@
              (filter #(zero? (mod n %))
                      (range 1 (inc (/ n 2)))))))
 
-(= (perfect-numbers 6) true)
-(= (perfect-numbers 7) false)
-(= (perfect-numbers 496) true)
-(= (perfect-numbers 500) false)
-(= (perfect-numbers 8128) true)</code></pre>
+[(= (perfect-numbers 6) true)
+ (= (perfect-numbers 7) false)
+ (= (perfect-numbers 496) true)
+ (= (perfect-numbers 500) false)
+ (= (perfect-numbers 8128) true)]</code></pre>
 </div>
 </div>
 </div>
@@ -566,11 +527,11 @@
            #{#{}}
            s))
 
-(= (power-set #{1 :a}) #{#{1 :a} #{:a} #{} #{1}})
-(= (power-set #{}) #{#{}})
-(= (power-set #{1 2 3})
-   #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}})
-(= (count (power-set (into #{} (range 10)))) 1024)</code></pre>
+[(= (power-set #{1 :a}) #{#{1 :a} #{:a} #{} #{1}})
+ (= (power-set #{}) #{#{}})
+ (= (power-set #{1 2 3})
+    #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}})
+ (= (count (power-set (into #{} (range 10)))) 1024)]</code></pre>
 </div>
 </div>
 </div>
@@ -598,10 +559,10 @@
         (contains? r s) false
         :else (recur (conj r s) s))))))
 
-(= (happy-numbers 7) true)
-(= (happy-numbers 986543210) true)
-(= (happy-numbers 2) false)
-(= (happy-numbers 3) false)</code></pre>
+[(= (happy-numbers 7) true)
+ (= (happy-numbers 986543210) true)
+ (= (happy-numbers 2) false)
+ (= (happy-numbers 3) false)]</code></pre>
 </div>
 </div>
 </div>
@@ -622,12 +583,12 @@
                       (partially-flatten-a-sequence x))))
           [] s))
 
-(= (partially-flatten-a-sequence [["Do"] ["Nothing"]])
-   [["Do"] ["Nothing"]])
-(= (partially-flatten-a-sequence [[[[:a :b]]] [[:c :d]] [:e :f]])
-   [[:a :b] [:c :d] [:e :f]])
-(= (partially-flatten-a-sequence '((1 2)((3 4)((((5 6)))))))
-   '((1 2)(3 4)(5 6)))</code></pre>
+[(= (partially-flatten-a-sequence [["Do"] ["Nothing"]])
+    [["Do"] ["Nothing"]])
+ (= (partially-flatten-a-sequence [[[[:a :b]]] [[:c :d]] [:e :f]])
+    [[:a :b] [:c :d] [:e :f]])
+ (= (partially-flatten-a-sequence '((1 2)((3 4)((((5 6)))))))
+    '((1 2)(3 4)(5 6)))]</code></pre>
 </div>
 </div>
 </div>
@@ -647,14 +608,14 @@
            (group-by second
                      (map #(list % (f %)) d))))))
 
-(= (equivalence-classes #(* % %) #{-2 -1 0 1 2})
-   #{#{0} #{1 -1} #{2 -2}})
-(= (equivalence-classes #(rem % 3) #{0 1 2 3 4 5 })
-   #{#{0 3} #{1 4} #{2 5}})
-(= (equivalence-classes identity #{0 1 2 3 4})
-   #{#{0} #{1} #{2} #{3} #{4}})
-(= (equivalence-classes (constantly true) #{0 1 2 3 4})
-   #{#{0 1 2 3 4}})</code></pre>
+[(= (equivalence-classes #(* % %) #{-2 -1 0 1 2})
+    #{#{0} #{1 -1} #{2 -2}})
+ (= (equivalence-classes #(rem % 3) #{0 1 2 3 4 5 })
+    #{#{0 3} #{1 4} #{2 5}})
+ (= (equivalence-classes identity #{0 1 2 3 4})
+    #{#{0} #{1} #{2} #{3} #{4}})
+ (= (equivalence-classes (constantly true) #{0 1 2 3 4})
+    #{#{0 1 2 3 4}})]</code></pre>
 </div>
 </div>
 </div>
@@ -676,9 +637,9 @@
           (map clojure.string/capitalize (rest split)))))
     s))
 
-(= (into-camel-case "something") "something")
-(= (into-camel-case "multi-word-key") "multiWordKey")
-(= (into-camel-case "leaveMeAlone") "leaveMeAlone")</code></pre>
+[(= (into-camel-case "something") "something")
+ (= (into-camel-case "multi-word-key") "multiWordKey")
+ (= (into-camel-case "leaveMeAlone") "leaveMeAlone")]</code></pre>
 </div>
 </div>
 </div>
@@ -702,14 +663,14 @@
                                    s)
                            (filter #(= k (count %)))))))
 
-(= (generating-k-combinations 1 #{4 5 6}) #{#{4} #{5} #{6}})
-(= (generating-k-combinations 10 #{4 5 6}) #{})
-(= (generating-k-combinations 2 #{0 1 2}) #{#{0 1} #{0 2} #{1 2}})
-(= (generating-k-combinations 3 #{0 1 2 3 4}) #{#{0 1 2} #{0 1 3} #{0 1 4} #{0 2 3} #{0 2 4}
-                                                #{0 3 4} #{1 2 3} #{1 2 4} #{1 3 4} #{2 3 4}})
-(= (generating-k-combinations 4 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a "abc" "efg"}})
-(= (generating-k-combinations 2 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a} #{[1 2 3] "abc"} #{[1 2 3] "efg"}
-                                                           #{:a "abc"} #{:a "efg"} #{"abc" "efg"}})</code></pre>
+[(= (generating-k-combinations 1 #{4 5 6}) #{#{4} #{5} #{6}})
+ (= (generating-k-combinations 10 #{4 5 6}) #{})
+ (= (generating-k-combinations 2 #{0 1 2}) #{#{0 1} #{0 2} #{1 2}})
+ (= (generating-k-combinations 3 #{0 1 2 3 4}) #{#{0 1 2} #{0 1 3} #{0 1 4} #{0 2 3} #{0 2 4}
+                                                 #{0 3 4} #{1 2 3} #{1 2 4} #{1 3 4} #{2 3 4}})
+ (= (generating-k-combinations 4 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a "abc" "efg"}})
+ (= (generating-k-combinations 2 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a} #{[1 2 3] "abc"} #{[1 2 3] "efg"}
+                                                            #{:a "abc"} #{:a "efg"} #{"abc" "efg"}})]</code></pre>
 </div>
 </div>
 </div>
@@ -731,10 +692,10 @@
                                  @new)
                               s)))))
 
-(= {} (identify-keys-and-values []))
-(= {:a [1]} (identify-keys-and-values [:a 1]))
-(= {:a [1], :b [2]} (identify-keys-and-values [:a 1, :b 2]))
-(= {:a [1 2 3], :b [], :c [4]} (identify-keys-and-values [:a 1 2 3 :b :c 4]))</code></pre>
+[(= {} (identify-keys-and-values []))
+ (= {:a [1]} (identify-keys-and-values [:a 1]))
+ (= {:a [1], :b [2]} (identify-keys-and-values [:a 1, :b 2]))
+ (= {:a [1 2 3], :b [], :c [4]} (identify-keys-and-values [:a 1 2 3 :b :c 4]))]</code></pre>
 </div>
 </div>
 </div>
@@ -754,10 +715,10 @@
     (lazy-seq
       (cons n (sequence-of-pronounciations n)))))
 
-(= [[1 1] [2 1] [1 2 1 1]] (take 3 (sequence-of-pronounciations [1])))
-(= [3 1 2 4] (first (sequence-of-pronounciations [1 1 1 4 4])))
-(= [1 1 1 3 2 1 3 2 1 1] (nth (sequence-of-pronounciations [1]) 6))
-(= 338 (count (nth (sequence-of-pronounciations [3 2]) 15)))</code></pre>
+[(= [[1 1] [2 1] [1 2 1 1]] (take 3 (sequence-of-pronounciations [1])))
+ (= [3 1 2 4] (first (sequence-of-pronounciations [1 1 1 4 4])))
+ (= [1 1 1 3 2 1 3 2 1 1] (nth (sequence-of-pronounciations [1]) 6))
+ (= 338 (count (nth (sequence-of-pronounciations [3 2]) 15)))]</code></pre>
 </div>
 </div>
 </div>
@@ -778,15 +739,15 @@
       '()
       (lazy-seq (cons x (global-take-while n-next p xs))))))
 
-(= [2 3 5 7 11 13]
-   (global-take-while 4 #(= 2 (mod % 3))
-         [2 3 5 7 11 13 17 19 23]))
-(= ["this" "is" "a" "sentence"]
-   (global-take-while 3 #(some #{\i} %)
-         ["this" "is" "a" "sentence" "i" "wrote"]))
-(= ["this" "is"]
-   (global-take-while 1 #{"a"}
-         ["this" "is" "a" "sentence" "i" "wrote"]))</code></pre>
+[(= [2 3 5 7 11 13]
+    (global-take-while 4 #(= 2 (mod % 3))
+          [2 3 5 7 11 13 17 19 23]))
+ (= ["this" "is" "a" "sentence"]
+    (global-take-while 3 #(some #{\i} %)
+          ["this" "is" "a" "sentence" "i" "wrote"]))
+ (= ["this" "is"]
+    (global-take-while 1 #{"a"}
+          ["this" "is" "a" "sentence" "i" "wrote"]))]</code></pre>
 </div>
 </div>
 </div>
@@ -808,15 +769,15 @@
         (sum (take half s))
         (sum (take-last half s))))))
 
-(= true (the-balance-of-n 11))
-(= true (the-balance-of-n 121))
-(= false (the-balance-of-n 123))
-(= true (the-balance-of-n 0))
-(= false (the-balance-of-n 88099))
-(= true (the-balance-of-n 89098))
-(= true (the-balance-of-n 89089))
-(= (take 20 (filter the-balance-of-n (range)))
-   [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101])</code></pre>
+[(= true (the-balance-of-n 11))
+ (= true (the-balance-of-n 121))
+ (= false (the-balance-of-n 123))
+ (= true (the-balance-of-n 0))
+ (= false (the-balance-of-n 88099))
+ (= true (the-balance-of-n 89098))
+ (= true (the-balance-of-n 89089))
+ (= (take 20 (filter the-balance-of-n (range)))
+    [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101])]</code></pre>
 </div>
 </div>
 </div>
@@ -843,9 +804,9 @@
             prime-after (first (drop (count primes-before) primes))]
          (= n (/ (+ prime-before prime-after) 2))))))
 
-(= false (prime-sandwich? 4))
-(= true (prime-sandwich? 563))
-(= 1103 (nth (filter prime-sandwich? (range)) 15))</code></pre>
+[(= false (prime-sandwich? 4))
+ (= true (prime-sandwich? 563))
+ (= 1103 (nth (filter prime-sandwich? (range)) 15))]</code></pre>
 </div>
 </div>
 </div>
@@ -866,19 +827,19 @@
                 (number? x) x))]
       (evaluate (clojure.walk/prewalk-replace parameters formula)))))
 
-(= 2 ((universal-computation-engine '(/ a b))
-                                    '{b 8 a 16}))
-(= 8 ((universal-computation-engine '(+ a b 2))
-                                    '{a 2 b 4}))
-(= [6 0 -4]
-     (map (universal-computation-engine '(* (+ 2 a)
-                  (- 10 b)))
-            '[{a 1 b 8}
-              {b 5 a -2}
-              {a 2 b 11}]))
-(= 1 ((universal-computation-engine '(/ (+ x 2)
-              (* 3 (+ y 1))))
-      '{x 4 y 1}))</code></pre>
+[(= 2 ((universal-computation-engine '(/ a b))
+                                     '{b 8 a 16}))
+ (= 8 ((universal-computation-engine '(+ a b 2))
+                                     '{a 2 b 4}))
+ (= [6 0 -4]
+      (map (universal-computation-engine '(* (+ 2 a)
+                   (- 10 b)))
+             '[{a 1 b 8}
+               {b 5 a -2}
+               {a 2 b 11}]))
+ (= 1 ((universal-computation-engine '(/ (+ x 2)
+               (* 3 (+ y 1))))
+       '{x 4 y 1}))]</code></pre>
 </div>
 </div>
 </div>
@@ -901,17 +862,17 @@
                      (second %))
                    (partition 2 1 s))))))
 
-(= '(1 :less 6 :less 7 4 3) (insert-between-two-items &lt; :less [1 6 7 4 3]))
-(= '(2) (insert-between-two-items &gt; :more [2]))
-(= [0 1 :x 2 :x 3 :x 4]  (insert-between-two-items #(and (pos? %) (&lt; % %2)) :x (range 5)))
-(empty? (insert-between-two-items &gt; :more ()))
-(= [0 1 :same 1 2 3 :same 5 8 13 :same 21]
-   (take 12 (-&gt;&gt; [0 1]
-                 (iterate (fn [[a b]] [b (+ a b)]))
-                 (map first) ; fibonacci numbers
-                 (insert-between-two-items (fn [a b] ; both even or both odd
-                                             (= (mod a 2) (mod b 2)))
-                                             :same))))</code></pre>
+[(= '(1 :less 6 :less 7 4 3) (insert-between-two-items &lt; :less [1 6 7 4 3]))
+ (= '(2) (insert-between-two-items &gt; :more [2]))
+ (= [0 1 :x 2 :x 3 :x 4]  (insert-between-two-items #(and (pos? %) (&lt; % %2)) :x (range 5)))
+ (empty? (insert-between-two-items &gt; :more ()))
+ (= [0 1 :same 1 2 3 :same 5 8 13 :same 21]
+    (take 12 (-&gt;&gt; [0 1]
+                  (iterate (fn [[a b]] [b (+ a b)]))
+                  (map first) ; fibonacci numbers
+                  (insert-between-two-items (fn [a b] ; both even or both odd
+                                              (= (mod a 2) (mod b 2)))
+                                              :same))))]</code></pre>
 </div>
 </div>
 </div>
@@ -936,11 +897,11 @@
       '(0)
       (step '() n base))))
 
-(= [1 2 3 4 5 0 1] (digits-and-bases 1234501 10))
-(= [0] (digits-and-bases 0 11))
-(= [1 0 0 1] (digits-and-bases 9 2))
-(= [1 0] (let [n (rand-int 100000)](digits-and-bases n n)))
-(= [16 18 5 24 15 1] (digits-and-bases 2147483647 42))</code></pre>
+[(= [1 2 3 4 5 0 1] (digits-and-bases 1234501 10))
+ (= [0] (digits-and-bases 0 11))
+ (= [1 0 0 1] (digits-and-bases 9 2))
+ (= [1 0] (let [n (rand-int 100000)](digits-and-bases n n)))
+ (= [16 18 5 24 15 1] (digits-and-bases 2147483647 42))]</code></pre>
 </div>
 </div>
 </div>
@@ -956,9 +917,9 @@
 <pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn oscilrate [v &amp; fs]
   (reductions (fn [v f] (f v)) v (cycle fs)))
 
-(= (take 3 (oscilrate 3.14 int double)) [3.14 3 3.0])
-(= (take 5 (oscilrate 3 #(- % 3) #(+ 5 %))) [3 0 5 2 7])
-(= (take 12 (oscilrate 0 inc dec inc dec inc)) [0 1 0 1 0 1 2 1 2 1 2 3])</code></pre>
+[(= (take 3 (oscilrate 3.14 int double)) [3.14 3 3.0])
+ (= (take 5 (oscilrate 3 #(- % 3) #(+ 5 %))) [3 0 5 2 7])
+ (= (take 12 (oscilrate 0 inc dec inc dec inc)) [0 1 0 1 0 1 2 1 2 1 2 3])]</code></pre>
 </div>
 </div>
 </div>
@@ -982,16 +943,16 @@
         (sum b))
       (sum (* a b)))))
 
-(= 0 (the-big-divide 3 17 11))
-(= 23 (the-big-divide 10 3 5))
-(= 233168 (the-big-divide 1000 3 5))
-(= "2333333316666668" (str (the-big-divide 100000000 3 5)))
-(= "110389610389889610389610"
-  (str (the-big-divide (* 10000 10000 10000) 7 11)))
-(= "1277732511922987429116"
-  (str (the-big-divide (* 10000 10000 10000) 757 809)))
-(= "4530161696788274281"
-  (str (the-big-divide (* 10000 10000 1000) 1597 3571))))</code></pre>
+[(= 0 (the-big-divide 3 17 11))
+ (= 23 (the-big-divide 10 3 5))
+ (= 233168 (the-big-divide 1000 3 5))
+ (= "2333333316666668" (str (the-big-divide 100000000 3 5)))
+ (= "110389610389889610389610"
+    (str (the-big-divide (* 10000 10000 10000) 7 11)))
+ (= "1277732511922987429116"
+    (str (the-big-divide (* 10000 10000 10000) 757 809)))
+ (= "4530161696788274281"
+    (str (the-big-divide (* 10000 10000 1000) 1597 3571))))]</code></pre>
 </div>
 </div>
 </div>
@@ -1008,22 +969,22 @@
   (fn [&amp; args]
     (reduce #(%1 %2) f args)))
 
-(= 10 ((decurry (fn [a]
-                  (fn [b]
-                    (fn [c]
-                      (fn [d]
-                        (+ a b c d))))))
+[(= 10 ((decurry (fn [a]
+                   (fn [b]
+                     (fn [c]
+                       (fn [d]
+                         (+ a b c d))))))
+          1 2 3 4))
+ (= 24 ((decurry (fn [a]
+                   (fn [b]
+                     (fn [c]
+                       (fn [d]
+                         (* a b c d))))))
          1 2 3 4))
-(= 24 ((decurry (fn [a]
-                  (fn [b]
-                    (fn [c]
-                      (fn [d]
-                        (* a b c d))))))
-        1 2 3 4))
-(= 25 ((decurry (fn [a]
-                  (fn [b]
-                    (* a b))))
-         5 5))</code></pre>
+ (= 25 ((decurry (fn [a]
+                   (fn [b]
+                     (* a b))))
+          5 5))]</code></pre>
 </div>
 </div>
 </div>
@@ -1042,12 +1003,12 @@
          (map #(map last %)
               (partition-by #(apply - %) (map-indexed vector (sort (distinct s))))))))
 
-(= (intervals [1 2 3]) [[1 3]])
-(= (intervals [10 9 8 1 2 3]) [[1 3] [8 10]])
-(= (intervals [1 1 1 1 1 1 1]) [[1 1]])
-(= (intervals []) [])
-(= (intervals [19 4 17 1 3 10 2 13 13 2 16 4 2 15 13 9 6 14 2 11])
-              [[1 4] [6 6] [9 11] [13 17] [19 19]])</code></pre>
+[(= (intervals [1 2 3]) [[1 3]])
+ (= (intervals [10 9 8 1 2 3]) [[1 3] [8 10]])
+ (= (intervals [1 1 1 1 1 1 1]) [[1 1]])
+ (= (intervals []) [])
+ (= (intervals [19 4 17 1 3 10 2 13 13 2 16 4 2 15 13 9 6 14 2 11])
+               [[1 4] [6 6] [9 11] [13 17] [19 19]])]</code></pre>
 </div>
 </div>
 </div>
@@ -1060,6 +1021,12 @@
     
     
     
+    
+      
+      
+      
+        
+      
     
       
       
@@ -1189,6 +1156,12 @@
           
           
           
+            <li><a href="http://www.anthony-galea.com/blog/post/iterated-function-systems/">Iterated Function Systems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
             <li><a href="http://www.anthony-galea.com/blog/post/the-template-method-pattern/">The Template Method Pattern</a> <a class="label" href="http://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="http://www.anthony-galea.com/categories/java">java</a><a class="label" href="http://www.anthony-galea.com/categories/scala">scala</a><a class="label" href="http://www.anthony-galea.com/categories/kotlin">kotlin</a><a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
           
         
@@ -1306,6 +1279,10 @@
           
           
         
+        
+            
+            
+            
         
             
             

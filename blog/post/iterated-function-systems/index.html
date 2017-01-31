@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>4Clojure solutions over time</title>
+  <title>Iterated Function Systems</title>
 
   
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.css">
@@ -25,7 +25,7 @@
   
 
   <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="clojure">
   
 
   
@@ -71,9 +71,9 @@
 <div class="content">
   <div class="post">
     <div class="post-header">
-      <h1 class="post-title">4Clojure solutions over time</h1>
+      <h1 class="post-title">Iterated Function Systems</h1>
       <span class="post-date">
-      Aug 3, 2016 &middot; 1 minute read
+      Jan 31, 2017 &middot; 3 minute read
       
       <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
       
@@ -82,26 +82,225 @@
       </span>
     </div>
     <div class="paragraph">
-<iframe
-  width="100%" height="400"
-  src="//jsfiddle.net/anthonygalea/yukpa0os/embedded/result,js/"
-  allowfullscreen="allowfullscreen"
-  frameborder="0">
-</iframe>
+<p>If everything goes according to plan your browser should paint a picture of a tree within the next few seconds. Assuming that works, you can experiment with <code>iterations</code> and <code>transformations</code> below and the tree will repaint. Go ahead, give it a try.</p>
 </div>
+<div class="listingblock" style="display: none;"><div class="content"><pre class="highlight">
+<code class="language-klipse">
+
+(defn transform [transformation point]
+  (let [[a b c d e f] transformation
+        [x y] point]
+    [(+ e
+        (+ (* a x)
+           (* b y)))
+     (+ f
+        (+ (* c x)
+           (* d y)))]))
+
+(defn ifs [{:keys [iterations
+                   transformations]}]
+  (loop [i 0
+         r (transient [[1 1]])]
+    (if (< i iterations)
+      (recur (inc i)
+             (conj! r (transform (rand-nth transformations)
+                                 (nth r (- (count r) 1)))))
+      (drop 100 (persistent! r)))))
+
+(defn log [x y]
+  (/ (.log js/Math y)
+     (.log js/Math x)))
+
+(def colour-1 [122 92 29])
+(def colour-2 [154 89 40])
+
+(defn draw [points canvas]
+  (let [canvas (js/document.getElementById canvas)
+        ctx (.getContext canvas "2d")
+        width (.-width canvas)
+        height (.-height canvas)
+        image (.createImageData ctx width height)
+        max-x (apply max (map first points))
+        max-y (apply max (map second points))
+        mapped (frequencies (map (fn [[x y]]
+                                     [(int (* width (/ x max-x)))
+                                      (int (* height (/ y max-y)))]) points))
+        max-v (apply max (map second mapped))
+        total-pixels (* width height)
+        pixel-data (map (fn [[[x y] v]]
+                          (let [r1 (log v max-v)
+                                r2 (- 1 r1)]
+                            (into [(* 4 (+ x (- total-pixels (* width y))))]
+                                  (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))) mapped)]
+      (doseq [[i r g b] pixel-data]
+       (aset image.data i r)
+       (aset image.data (+ i 1) g)
+       (aset image.data (+ i 2) b)
+       (aset image.data (+ i 3) 255))
+      (.putImageData ctx image 0 0)))
+
+</code></pre></div></div>
+<div class="paragraph"><canvas id="canvas-tree" class="center" width="350" height="350"></canvas></div>
+
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse">
+
+(def tree {:iterations 60000
+           :transformations [[0.195 -0.488 0.344 0.443 0.4431 0.2453]
+                             [0.462 0.414 -0.252 0.361 0.2511 0.5692]
+                             [-0.058 -0.07 0.453 -0.111 0.5976 0.0969]
+                             [-0.035 0.07 -0.469 -0.022 0.4884 0.5069]
+                             [-0.637 0 0 0.501 0.8562 0.2513]]})
+
+(draw (ifs tree) "canvas-tree")
+
+</code></pre></div></div>
 <div class="paragraph">
-<p>Somebody recently posted in the Clojure subreddit that there had just been over 1 million problems solved on the <a href="http://www.4clojure.com/">4Clojure</a> website. When I saw this I wondered if we could get a graph of the number of solutions solved over time, so I sent an email to the 4Clojure guys asking if they had the data to generate such a graph. The reply:</p>
+<p>Let&#8217;s try again, this time with a snowflake:</p>
 </div>
-<div class="quoteblock">
-<blockquote>
+<div class="paragraph"><canvas id="canvas-snowflake" class="center" width="350" height="350"></canvas></div>
+
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse">
+
+(def colour-1 [125 92 69])
+(def colour-2 [254 89 40])
+
+(def snowflake {:iterations 60000
+                :transformations [[0.75 0 0 0.75 0.125 0.125]
+                                  [0.5 0.5 -0.5 0.5 0 0.5]
+                                  [0.25 0 0 0.25 0 0.75]
+                                  [0.25 0 0 0.25 0.75 0.75]
+                                  [0.25 0 0 0.25 0 0]
+                                  [0.25 0 0 0.25 0.75 0]]})
+
+(draw (ifs snowflake) "canvas-snowflake")
+
+</code></pre></div></div>
 <div class="paragraph">
-<p>I don&#8217;t think we actually save that anywhere, no. Too bad; that&#8217;d be a neat graph.</p>
+<p>Perhaps not the best choice of colours, but I&#8217;m sure you can fix that. And here&#8217;s a couple more examples to play around with:</p>
 </div>
-</blockquote>
-</div>
+<div class="paragraph"><canvas id="canvas-weed" class="center" width="350" height="350"></canvas></div>
+
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse">
+
+(def colour-1 [122 92 29])
+(def colour-2 [154 89 40])
+
+(def weed {:iterations 60000
+           :transformations [[0.5 0 0 0.75 0.25 0]
+                             [0.25 0.1 -0.2 0.3 0.25 0.5]
+                             [0.25 -0.1 0.2 0.3 0.5 0.4]
+                             [0.2 0 0 0.3 0.4 0.55]]})
+
+(draw (ifs weed) "canvas-weed")
+
+</code></pre></div></div>
+<div class="paragraph"><canvas id="canvas-crystal" class="center" width="350" height="350"></canvas></div>
+
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse">
+
+(def colour-1 [51 60 139])
+(def colour-2 [54 34 63])
+
+(def crystal {:iterations 60000
+              :transformations [[0.0 -0.5  0.5 0.0 0.5  0.0]
+                                [0.0  0.5 -0.5 0.0 0.5  0.5]
+                                [0.5  0.0  0.0 0.5 0.25 0.5]]})
+
+(draw (ifs crystal) "canvas-crystal")
+</code></pre></div></div>
+<div class="paragraph"><canvas id="canvas-fractals-island" class="center" width="350" height="350"></canvas></div>
+
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-external-libs="https://raw.githubusercontent.com/mikera/core.matrix/develop/src/main/clojure">
+
+(def colour-1 [165 92 69])
+(def colour-2 [122 89 20])
+
+(def fractals-island {:iterations 60000
+                      :transformations [[0 0.577 -0.577 0 0.0951 0.5893]
+                                        [0 0.577 -0.577 0 0.4413 0.7893]
+                                        [0 0.577 -0.577 0 0.0952 0.9893]]})
+
+(draw (ifs fractals-island) "canvas-fractals-island")
+
+</code></pre></div></div>
+<div class="paragraph"><canvas id="canvas-pine-tree" class="center" width="350" height="350"></canvas></div>
+
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse">
+
+(def colour-1 [122 92 29])
+(def colour-2 [154 89 40])
+
+(def pine-tree {:iterations 60000
+                :transformations [[0.25 0 0 0.9 0.375 0]
+                                  [0.65 0 0 0.75 0.175 0.25]
+                                  [0 -0.5 0.25 0 0.5 0.2]
+                                  [0 0.5 -0.25 0 0.5 0.45]]})
+
+(draw (ifs pine-tree) "canvas-pine-tree")
+
+</code></pre></div></div>
 <div class="paragraph">
-<p>Checked <a href="http://web.archive.org/web/*/4clojure.com">Wayback machine</a> and there were a bunch of snapshots since 2011. A few curl requests and some grep filtering later I had the counts and could plot a graph with <a href="http://c3js.org/">C3.js</a>.</p>
+<p>But how does it work? Well, it is using a technique for drawing fractals known as <a href="https://en.wikipedia.org/wiki/Iterated_function_system">Iterated Functions Systems</a>. You can find all the code required for this page to work below:</p>
 </div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse">
+
+(defn transform [transformation point]
+  (let [[a b c d e f] transformation
+        [x y] point]
+    [(+ e
+        (+ (* a x)
+           (* b y)))
+     (+ f
+        (+ (* c x)
+           (* d y)))]))
+
+(defn ifs [{:keys [iterations
+                   transformations]}]
+  (loop [i 0
+         r (transient [[1 1]])]
+    (if (< i iterations)
+      (recur (inc i)
+             (conj! r (transform (rand-nth transformations)
+                                 (nth r (- (count r) 1)))))
+      (drop 100 (persistent! r)))))
+
+(defn log [x y]
+  (/ (.log js/Math y)
+     (.log js/Math x)))
+
+(defn draw [points canvas]
+  (let [canvas (js/document.getElementById canvas)
+        ctx (.getContext canvas "2d")
+        width (.-width canvas)
+        height (.-height canvas)
+        image (.createImageData ctx width height)
+        max-x (apply max (map first points))
+        max-y (apply max (map second points))
+        mapped (frequencies (map (fn [[x y]]
+                                     [(int (* width (/ x max-x)))
+                                      (int (* height (/ y max-y)))]) points))
+        max-v (apply max (map second mapped))
+        total-pixels (* width height)
+        pixel-data (map (fn [[[x y] v]]
+                          (let [r1 (log v max-v)
+                                r2 (- 1 r1)]
+                            (into [(* 4 (+ x (- total-pixels (* width y))))]
+                                  (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))) mapped)]
+      (doseq [[i r g b] pixel-data]
+       (aset image.data i r)
+       (aset image.data (+ i 1) g)
+       (aset image.data (+ i 2) b)
+       (aset image.data (+ i 3) 255))
+      (.putImageData ctx image 0 0)))
+
+</code></pre></div></div>
 
 
     <div class="post-footer">
@@ -114,8 +313,6 @@
       
       
       
-        
-      
     
       
       
@@ -125,6 +322,8 @@
     
       
       
+      
+        
       
     
       
@@ -245,8 +444,6 @@
           
           
           
-            <li><a href="http://www.anthony-galea.com/blog/post/iterated-function-systems/">Iterated Function Systems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
-          
         
           
           
@@ -256,6 +453,8 @@
         
           
           
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/">4Clojure solutions over time</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
           
         
           
