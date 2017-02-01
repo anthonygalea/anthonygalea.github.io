@@ -18,7 +18,7 @@
 &lt;p&gt;If everything goes according to plan your browser should paint a picture of a tree within the next few seconds. Assuming that works, you can experiment with &lt;code&gt;iterations&lt;/code&gt; and &lt;code&gt;transformations&lt;/code&gt; below and the tree will repaint. Go ahead, give it a try.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34; style=&#34;display: none;&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
-&lt;code class=&#34;language-klipse&#34;&gt;
+&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
 
 (defn transform [transformation point]
   (let [[a b c d e f] transformation
@@ -76,7 +76,7 @@
 &lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-tree&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
-&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;30000&#34;&gt;
+&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
 
 (def tree {:iterations 60000
            :transformations [[0.195 -0.488 0.344 0.443 0.4431 0.2453]
@@ -94,7 +94,7 @@
 &lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-snowflake&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
-&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;30000&#34;&gt;
+&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
 
 (def colour-1 [125 92 69])
 (def colour-2 [254 89 40])
@@ -116,7 +116,7 @@
 &lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-weed&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
-&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;30000&#34;&gt;
+&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
 
 (def colour-1 [122 92 29])
 (def colour-2 [154 89 40])
@@ -133,7 +133,7 @@
 &lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-crystal&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
-&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;30000&#34;&gt;
+&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
 
 (def colour-1 [51 60 139])
 (def colour-2 [54 34 63])
@@ -148,7 +148,7 @@
 &lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-fractals-island&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
-&lt;code class=&#34;language-klipse&#34;  data-max-eval-duration=&#34;30000&#34;&gt;
+&lt;code class=&#34;language-klipse&#34;  data-max-eval-duration=&#34;60000&#34;&gt;
 
 (def colour-1 [65 92 69])
 (def colour-2 [12 89 80])
@@ -164,7 +164,7 @@
 &lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-pine-tree&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
-&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;30000&#34;&gt;
+&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
 
 (def colour-1 [122 92 29])
 (def colour-2 [154 89 40])
@@ -182,7 +182,7 @@
 &lt;p&gt;But how does it work? Well, it is using a technique for drawing fractals known as &lt;a href=&#34;https://en.wikipedia.org/wiki/Iterated_function_system&#34;&gt;Iterated Functions Systems&lt;/a&gt;. You can find all the code required for this page to work below:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
-&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;30000&#34;&gt;
+&lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
 
 (defn transform [transformation point]
   (let [[a b c d e f] transformation

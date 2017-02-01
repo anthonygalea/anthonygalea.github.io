@@ -85,7 +85,7 @@
 <p>If everything goes according to plan your browser should paint a picture of a tree within the next few seconds. Assuming that works, you can experiment with <code>iterations</code> and <code>transformations</code> below and the tree will repaint. Go ahead, give it a try.</p>
 </div>
 <div class="listingblock" style="display: none;"><div class="content"><pre class="highlight">
-<code class="language-klipse">
+<code class="language-klipse" data-max-eval-duration="60000">
 
 (defn transform [transformation point]
   (let [[a b c d e f] transformation
@@ -143,7 +143,7 @@
 <div class="paragraph"><canvas id="canvas-tree" class="center" width="350" height="350"></canvas></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="30000">
+<code class="language-klipse" data-max-eval-duration="60000">
 
 (def tree {:iterations 60000
            :transformations [[0.195 -0.488 0.344 0.443 0.4431 0.2453]
@@ -161,7 +161,7 @@
 <div class="paragraph"><canvas id="canvas-snowflake" class="center" width="350" height="350"></canvas></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="30000">
+<code class="language-klipse" data-max-eval-duration="60000">
 
 (def colour-1 [125 92 69])
 (def colour-2 [254 89 40])
@@ -183,7 +183,7 @@
 <div class="paragraph"><canvas id="canvas-weed" class="center" width="350" height="350"></canvas></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="30000">
+<code class="language-klipse" data-max-eval-duration="60000">
 
 (def colour-1 [122 92 29])
 (def colour-2 [154 89 40])
@@ -200,7 +200,7 @@
 <div class="paragraph"><canvas id="canvas-crystal" class="center" width="350" height="350"></canvas></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="30000">
+<code class="language-klipse" data-max-eval-duration="60000">
 
 (def colour-1 [51 60 139])
 (def colour-2 [54 34 63])
@@ -215,7 +215,7 @@
 <div class="paragraph"><canvas id="canvas-fractals-island" class="center" width="350" height="350"></canvas></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse"  data-max-eval-duration="30000">
+<code class="language-klipse"  data-max-eval-duration="60000">
 
 (def colour-1 [65 92 69])
 (def colour-2 [12 89 80])
@@ -231,7 +231,7 @@
 <div class="paragraph"><canvas id="canvas-pine-tree" class="center" width="350" height="350"></canvas></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="30000">
+<code class="language-klipse" data-max-eval-duration="60000">
 
 (def colour-1 [122 92 29])
 (def colour-2 [154 89 40])
@@ -249,7 +249,7 @@
 <p>But how does it work? Well, it is using a technique for drawing fractals known as <a href="https://en.wikipedia.org/wiki/Iterated_function_system">Iterated Functions Systems</a>. You can find all the code required for this page to work below:</p>
 </div>
 <div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="30000">
+<code class="language-klipse" data-max-eval-duration="60000">
 
 (defn transform [transformation point]
   (let [[a b c d e f] transformation
