@@ -151,8 +151,8 @@
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
 &lt;code class=&#34;language-klipse&#34;  data-max-eval-duration=&#34;30000&#34;&gt;
 
-(def colour-1 [165 92 69])
-(def colour-2 [122 89 20])
+(def colour-1 [65 92 69])
+(def colour-2 [12 89 80])
 
 (def fractals-island {:iterations 60000
                       :transformations [[0 0.577 -0.577 0 0.0951 0.5893]
