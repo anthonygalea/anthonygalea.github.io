@@ -73,7 +73,7 @@
     <div class="post-header">
       <h1 class="post-title">Iterated Function Systems</h1>
       <span class="post-date">
-      Jan 31, 2017 &middot; 3 minute read
+      Jan 31, 2017 &middot; 4 minute read
       
       <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
       
@@ -81,11 +81,20 @@
       
       </span>
     </div>
-    <div class="paragraph">
-<p>If everything goes according to plan your browser should paint a picture of a tree within the next few seconds. Assuming that works, you can experiment with <code>iterations</code> and <code>transformations</code> below and the tree will repaint. Go ahead, give it a try.</p>
+    <div class="imageblock">
+<div class="content">
+<img src="/images/2017-01-31-weird.png" alt="2017 01 31 weird">
 </div>
-<div class="listingblock" style="display: none;"><div class="content"><pre class="highlight">
+</div>
+<div class="paragraph">
+<p>Above you can see a static image generated using this web page. Below you should see a picture of a tree that your browser just generated using the code snippet below it. You can experiment with the values for <code>iterations</code> and <code>transformations</code> and the tree will repaint. Go ahead, give it a try.</p>
+</div>
+<div class="listingblock" style="display:none"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
+
+(ns ifs
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
+	(:require [cljs.core.async :refer [put! chan &lt;! &gt;! timeout close!]]))
 
 (defn transform [transformation point]
   (let [[a b c d e f] transformation
@@ -97,76 +106,92 @@
         (+ (* c x)
            (* d y)))]))
 
-(defn ifs [{:keys [iterations
-                   transformations]}]
-  (loop [i 0
-         r (transient [[1 1]])]
-    (if (< i iterations)
-      (recur (inc i)
-             (conj! r (transform (rand-nth transformations)
-                                 (nth r (- (count r) 1)))))
-      (drop 100 (persistent! r)))))
-
 (defn log [x y]
-  (/ (.log js/Math y)
-     (.log js/Math x)))
+  (/ (.log js/Math x)
+     (.log js/Math y)))
 
-(def colour-1 [122 92 29])
-(def colour-2 [154 89 40])
-
-(defn draw [points canvas]
+(defn draw-ifs [{:keys [iterations transformations colour-1 colour-2]}
+                canvas]
   (let [canvas (js/document.getElementById canvas)
         ctx (.getContext canvas "2d")
         width (.-width canvas)
-        height (.-height canvas)
-        image (.createImageData ctx width height)
-        max-x (apply max (map first points))
-        max-y (apply max (map second points))
-        mapped (frequencies (map (fn [[x y]]
-                                     [(int (* width (/ x max-x)))
-                                      (int (* height (/ y max-y)))]) points))
-        max-v (apply max (map second mapped))
-        total-pixels (* width height)
-        pixel-data (map (fn [[[x y] v]]
-                          (let [r1 (log v max-v)
-                                r2 (- 1 r1)]
-                            (into [(* 4 (+ x (- total-pixels (* width y))))]
-                                  (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))) mapped)]
-      (doseq [[i r g b] pixel-data]
-       (aset image.data i r)
-       (aset image.data (+ i 1) g)
-       (aset image.data (+ i 2) b)
-       (aset image.data (+ i 3) 255))
-      (.putImageData ctx image 0 0)))
+        height (.-height canvas)]
+    (.clearRect ctx 0 0 width height)
+    (let [image (.createImageData ctx width height)
+          progress-bar-chan (let [c (chan)]
+                              (go-loop [percentage (&lt;! c)]
+                                (when percentage
+                                  (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
+                                  (recur (&lt;! c))))
+                              c)
+          points-chan (let [c (chan)
+                            o (int (/ iterations 100))]
+                        (go-loop [i 1
+                                  r (transient [[1 1]])]
+                          (if (< i iterations)
+                            (do
+                              (when (= 0 (mod i o))
+                                (&gt;! progress-bar-chan (/ i iterations)))
+                              (recur (inc i)
+                                (conj! r (transform (rand-nth transformations)
+                                                    (nth r (- (count r) 1))))))
+                            (do
+                              (close! progress-bar-chan)
+                              (&gt! c (drop 100 (persistent! r))))))
+                        c)
+          pixel-data-chan (let [c (chan)]
+                            (go
+                              (let [points (&lt;! points-chan)
+                                    max-x (apply max (map first points))
+                                    max-y (apply max (map second points))
+                                    mapped (frequencies (map (fn [[x y]]
+                                                               [(int (* width (/ x max-x)))
+                                                                (int (* height (/ y max-y)))]) points))
+                                    max-v (apply max (map second mapped))]
+                                (&gt;! c (map (fn [[[x y] v]]
+                                                (let [r1 (log v max-v)
+                                                      r2 (- 1 r1)]
+                                                  (into [(* 4 (+ x (- (* width height) (* width y))))]
+                                                        (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))) mapped))))
+                           c)]
+         (go
+           (let [pixel-data (&lt;! pixel-data-chan)]
+             (doseq [[i r g b] pixel-data]
+               (aset image.data i r)
+               (aset image.data (+ i 1) g)
+               (aset image.data (+ i 2) b)
+               (aset image.data (+ i 3) 255))
+             (.putImageData ctx image 0 0))))))
 
 </code></pre></div></div>
-<div class="paragraph"><canvas id="canvas-tree" class="center" width="350" height="350"></canvas></div>
+<canvas id="canvas-tree" class="center" width="350" height="350"></canvas>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
 
-(def tree {:iterations 60000
+(def tree {:colour-1 [23 2 10]
+           :colour-2 [58 173 75]
+           :iterations 60000
            :transformations [[0.195 -0.488 0.344 0.443 0.4431 0.2453]
                              [0.462 0.414 -0.252 0.361 0.2511 0.5692]
                              [-0.058 -0.07 0.453 -0.111 0.5976 0.0969]
                              [-0.035 0.07 -0.469 -0.022 0.4884 0.5069]
                              [-0.637 0 0 0.501 0.8562 0.2513]]})
 
-(draw (ifs tree) "canvas-tree")
+(draw-ifs tree "canvas-tree")
 
 </code></pre></div></div>
 <div class="paragraph">
 <p>Let&#8217;s try again, this time with a snowflake:</p>
 </div>
-<div class="paragraph"><canvas id="canvas-snowflake" class="center" width="350" height="350"></canvas></div>
+<canvas id="canvas-snowflake" class="center" width="350" height="350"></canvas>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
 
-(def colour-1 [125 92 69])
-(def colour-2 [254 89 40])
-
-(def snowflake {:iterations 60000
+(def snowflake {:colour-1 [225 255 255]
+                :colour-2 [0 29 30]
+                :iterations 60000
                 :transformations [[0.75 0 0 0.75 0.125 0.125]
                                   [0.5 0.5 -0.5 0.5 0 0.5]
                                   [0.25 0 0 0.25 0 0.75]
@@ -174,7 +199,7 @@
                                   [0.25 0 0 0.25 0 0]
                                   [0.25 0 0 0.25 0.75 0]]})
 
-(draw (ifs snowflake) "canvas-snowflake")
+(draw-ifs snowflake "canvas-snowflake")
 
 </code></pre></div></div>
 <div class="paragraph">
@@ -185,47 +210,15 @@
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
 
-(def colour-1 [122 92 29])
-(def colour-2 [154 89 40])
-
-(def weed {:iterations 60000
-           :transformations [[0.5 0 0 0.75 0.25 0]
-                             [0.25 0.1 -0.2 0.3 0.25 0.5]
+(def weed {:colour-1 [2 2 0]
+           :colour-2 [154 189 40]
+           :iterations 60000
+           :transformations [[0.5 0 0 0.75 0.2 0]
+                             [0.25 0.1 -0.2 0.3 0.2 0.5]
                              [0.25 -0.1 0.2 0.3 0.5 0.4]
                              [0.2 0 0 0.3 0.4 0.55]]})
 
-(draw (ifs weed) "canvas-weed")
-
-</code></pre></div></div>
-<div class="paragraph"><canvas id="canvas-crystal" class="center" width="350" height="350"></canvas></div>
-
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(def colour-1 [51 60 139])
-(def colour-2 [54 34 63])
-
-(def crystal {:iterations 60000
-              :transformations [[0.0 -0.5  0.5 0.0 0.5  0.0]
-                                [0.0  0.5 -0.5 0.0 0.5  0.5]
-                                [0.5  0.0  0.0 0.5 0.25 0.5]]})
-
-(draw (ifs crystal) "canvas-crystal")
-</code></pre></div></div>
-<div class="paragraph"><canvas id="canvas-fractals-island" class="center" width="350" height="350"></canvas></div>
-
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse"  data-max-eval-duration="60000">
-
-(def colour-1 [65 92 69])
-(def colour-2 [12 89 80])
-
-(def fractals-island {:iterations 60000
-                      :transformations [[0 0.547 -0.547 0 0.0951 0.5893]
-                                        [0 0.547 -0.547 0 0.4413 0.7893]
-                                        [0 0.547 -0.547 0 0.0952 0.9893]]})
-
-(draw (ifs fractals-island) "canvas-fractals-island")
+(draw-ifs weed "canvas-weed")
 
 </code></pre></div></div>
 <div class="paragraph"><canvas id="canvas-pine-tree" class="center" width="350" height="350"></canvas></div>
@@ -233,23 +226,61 @@
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
 
-(def colour-1 [122 92 29])
-(def colour-2 [154 89 40])
-
-(def pine-tree {:iterations 60000
+(def pine-tree {:colour-1 [3 2 10]
+                :colour-2 [58 173 75]
+                :iterations 60000
                 :transformations [[0.25 0 0 0.9 0.375 0]
                                   [0.65 0 0 0.75 0.175 0.25]
                                   [0 -0.5 0.25 0 0.5 0.2]
                                   [0 0.5 -0.25 0 0.5 0.45]]})
 
-(draw (ifs pine-tree) "canvas-pine-tree")
+(draw-ifs pine-tree "canvas-pine-tree")
 
+</code></pre></div></div>
+<div class="paragraph">
+<p>If you play around a bit things can get pretty weird:</p>
+</div>
+<div class="paragraph"><canvas id="canvas-weird" class="center" width="350" height="350"></canvas></div>
+
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="60000">
+
+(def weird {:colour-1 [215 122 126]
+            :colour-2 [0 2 8]
+            :iterations 60000
+            :transformations [[0.5 0.557 -0.357 0.1 0.0951 0.5893]
+                              [0.1 0.157 -0.557 0.4 0.4413 0.5893]
+                              [-0.2 0.257 -0.547 0.3 0.2313 0.5893]
+                              [0.7 0.517 -0.547 0.4 0.0952 0.9893]]})
+
+(draw-ifs weird "canvas-weird")
+
+</code></pre></div></div>
+<div class="paragraph"><canvas id="canvas-weird-2" class="center" width="350" height="350"></canvas></div>
+
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="60000">
+
+(def weird-2 {:colour-1 [125 215 255]
+              :colour-2 [3 32 1]
+              :iterations 60000
+              :transformations [[0.10 -0.5  0.15 0.12 0.5  0.0]
+                                [0.40  0.35 -0.5 -0.82 0.5  0.45]
+                                [0.20  0.5 -0.95 0.2 0.5  0.35]
+                                [0.20  0.45 -0.35 0.2 0.45  0.35]
+                                [0.5  0.0  0.0 0.5 0.25 0.5]]})
+
+(draw-ifs weird-2 "canvas-weird-2")
 </code></pre></div></div>
 <div class="paragraph">
 <p>But how does it work? Well, it is using a technique for drawing fractals known as <a href="https://en.wikipedia.org/wiki/Iterated_function_system">Iterated Functions Systems</a>. You can find all the code required for this page to work below:</p>
 </div>
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
+
+(ns ifs
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
+	(:require [cljs.core.async :refer [put! chan &lt;! &gt;! timeout close!]]))
 
 (defn transform [transformation point]
   (let [[a b c d e f] transformation
@@ -261,44 +292,62 @@
         (+ (* c x)
            (* d y)))]))
 
-(defn ifs [{:keys [iterations
-                   transformations]}]
-  (loop [i 0
-         r (transient [[1 1]])]
-    (if (< i iterations)
-      (recur (inc i)
-             (conj! r (transform (rand-nth transformations)
-                                 (nth r (- (count r) 1)))))
-      (drop 100 (persistent! r)))))
-
 (defn log [x y]
-  (/ (.log js/Math y)
-     (.log js/Math x)))
+  (/ (.log js/Math x)
+     (.log js/Math y)))
 
-(defn draw [points canvas]
+(defn draw-ifs [{:keys [iterations transformations colour-1 colour-2]}
+                canvas]
   (let [canvas (js/document.getElementById canvas)
         ctx (.getContext canvas "2d")
         width (.-width canvas)
-        height (.-height canvas)
-        image (.createImageData ctx width height)
-        max-x (apply max (map first points))
-        max-y (apply max (map second points))
-        mapped (frequencies (map (fn [[x y]]
-                                     [(int (* width (/ x max-x)))
-                                      (int (* height (/ y max-y)))]) points))
-        max-v (apply max (map second mapped))
-        total-pixels (* width height)
-        pixel-data (map (fn [[[x y] v]]
-                          (let [r1 (log v max-v)
-                                r2 (- 1 r1)]
-                            (into [(* 4 (+ x (- total-pixels (* width y))))]
-                                  (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))) mapped)]
-      (doseq [[i r g b] pixel-data]
-       (aset image.data i r)
-       (aset image.data (+ i 1) g)
-       (aset image.data (+ i 2) b)
-       (aset image.data (+ i 3) 255))
-      (.putImageData ctx image 0 0)))
+        height (.-height canvas)]
+    (.clearRect ctx 0 0 width height)
+    (let [image (.createImageData ctx width height)
+          progress-bar-chan (let [c (chan)]
+                              (go-loop [percentage (&lt;! c)]
+                                (when percentage
+                                  (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
+                                  (recur (&lt;! c))))
+                              c)
+          points-chan (let [c (chan)
+                            o (int (/ iterations 100))]
+                        (go-loop [i 1
+                                  r (transient [[1 1]])]
+                          (if (< i iterations)
+                            (do
+                              (when (= 0 (mod i o))
+                                (&gt;! progress-bar-chan (/ i iterations)))
+                              (recur (inc i)
+                                (conj! r (transform (rand-nth transformations)
+                                                    (nth r (- (count r) 1))))))
+                            (do
+                              (close! progress-bar-chan)
+                              (&gt! c (drop 100 (persistent! r))))))
+                        c)
+          pixel-data-chan (let [c (chan)]
+                            (go
+                              (let [points (&lt;! points-chan)
+                                    max-x (apply max (map first points))
+                                    max-y (apply max (map second points))
+                                    mapped (frequencies (map (fn [[x y]]
+                                                               [(int (* width (/ x max-x)))
+                                                                (int (* height (/ y max-y)))]) points))
+                                    max-v (apply max (map second mapped))]
+                                (&gt;! c (map (fn [[[x y] v]]
+                                                (let [r1 (log v max-v)
+                                                      r2 (- 1 r1)]
+                                                  (into [(* 4 (+ x (- (* width height) (* width y))))]
+                                                        (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))) mapped))))
+                           c)]
+         (go
+           (let [pixel-data (&lt;! pixel-data-chan)]
+             (doseq [[i r g b] pixel-data]
+               (aset image.data i r)
+               (aset image.data (+ i 1) g)
+               (aset image.data (+ i 2) b)
+               (aset image.data (+ i 3) 255))
+             (.putImageData ctx image 0 0))))))
 
 </code></pre></div></div>
 <div class="paragraph">

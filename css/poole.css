@@ -649,6 +649,12 @@ a.label:focus {
   border-radius: 3px;
 }
 
+canvas {
+  display: block;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
 
 .CodeMirror {height: 100%;}
    .cm-s-default.CodeMirror {
