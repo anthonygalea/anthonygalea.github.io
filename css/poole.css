@@ -442,6 +442,10 @@ pre {
     text-align: center;
 }
 
+.imageblock {
+    text-align: center;
+}
+
 .listingblock > .content, .stemblock {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -650,11 +654,10 @@ a.label:focus {
 }
 
 canvas {
-  display: block;
+  display: inline-block;
   margin: auto;
-  padding-bottom: 20px;
+  padding: 20px;
 }
-
 
 .CodeMirror {height: 100%;}
    .cm-s-default.CodeMirror {

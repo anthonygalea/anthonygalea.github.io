@@ -44,8 +44,26 @@
   (/ (.log js/Math x)
      (.log js/Math y)))
 
+(defn draw-transformations [transformations canvas]
+  (let [canvas (js/document.getElementById canvas)
+        ctx (.getContext canvas &#34;2d&#34;)
+        width (.-width canvas)
+        height (.-height canvas)
+        clear (.clearRect ctx 0 0 width height)
+        n (count transformations)]
+    (.rect ctx 0 0 width height)
+    (.stroke ctx)
+    (doseq [[[a b c d e f] colour] (map vector transformations
+                                               (cycle (map #(+ 100 (int (/ 125 %))) (range n))))]
+      (.setTransform ctx a b c d (* e width) (* f height))
+      (set! (.-fillStyle ctx) (str &#34;rgb(&#34; colour &#34;,&#34; colour &#34;,&#34; colour &#34;)&#34;))
+      (.fillRect ctx 0 0 width height))
+    (.setTransform ctx 1 0 0 1 0 0)
+  ))
+
 (defn draw-ifs [{:keys [iterations transformations colour-1 colour-2]}
                 canvas]
+  (draw-transformations transformations (str canvas &#34;-transformations&#34;))
   (let [canvas (js/document.getElementById canvas)
         ctx (.getContext canvas &#34;2d&#34;)
         width (.-width canvas)
@@ -53,14 +71,14 @@
         clear (.clearRect ctx 0 0 width height)
         image (.createImageData ctx width height)
         progress-bar-chan (let [c (chan)]
-                            (set! (.-fillStyle ctx) &#34;grey&#34;)
+                            (set! (.-fillStyle ctx) &#34;#f9f9f9&#34;)
                             (.fillRect ctx 0 (/ height 2) width 10)
-                            (set! (.-fillStyle ctx) &#34;black&#34;)
+                            (set! (.-fillStyle ctx) &#34;#337ab7&#34;)
                             (go-loop [percentage (&amp;lt;! c)]
-                              (when percentage
-                                (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
-                                (&amp;lt;! (timeout 1))
-                                (recur (&amp;lt;! c))))
+                                     (when percentage
+                                       (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
+                                       (&amp;lt;! (timeout 1))
+                                       (recur (&amp;lt;! c))))
                             c)
         points-chan (let [c (chan)
                           o (int (/ iterations 100))]
@@ -104,7 +122,10 @@
     nil))
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;canvas id=&#34;canvas-tree&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+&lt;div class=&#34;imageblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;
+  &lt;canvas id=&#34;canvas-tree-transformations&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+  &lt;canvas id=&#34;canvas-tree&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
 &lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
@@ -122,9 +143,12 @@
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Let&amp;#8217;s try again, this time with a snowflake:&lt;/p&gt;
+&lt;p&gt;You can see a preview of the transformations being made on the left. Let&amp;#8217;s try again, this time with a snowflake:&lt;/p&gt;
 &lt;/div&gt;
-&lt;canvas id=&#34;canvas-snowflake&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+&lt;div class=&#34;imageblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;
+  &lt;canvas id=&#34;canvas-snowflake-transformations&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+  &lt;canvas id=&#34;canvas-snowflake&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
 &lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
@@ -145,7 +169,10 @@
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;Perhaps not the best choice of colours, but I&amp;#8217;m sure you can fix that. And here&amp;#8217;s a couple more examples to play around with:&lt;/p&gt;
 &lt;/div&gt;
-&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-weed&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;
+  &lt;canvas id=&#34;canvas-weed-transformations&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+  &lt;canvas id=&#34;canvas-weed&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
 &lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
@@ -161,7 +188,10 @@
 (draw-ifs weed &#34;canvas-weed&#34;)
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-pine-tree&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;
+  &lt;canvas id=&#34;canvas-pine-tree-transformations&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+  &lt;canvas id=&#34;canvas-pine-tree&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
 &lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34; data-eval-idle-msec=&#34;1000&#34;&gt;
@@ -180,7 +210,10 @@
 &lt;div class=&#34;paragraph&#34;&gt;
 &lt;p&gt;If you play around a bit things can get pretty weird:&lt;/p&gt;
 &lt;/div&gt;
-&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-weird&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;
+  &lt;canvas id=&#34;canvas-weird-transformations&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+  &lt;canvas id=&#34;canvas-weird&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
 &lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
@@ -196,7 +229,10 @@
 (draw-ifs weird &#34;canvas-weird&#34;)
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&#34;paragraph&#34;&gt;&lt;canvas id=&#34;canvas-weird-2&#34; class=&#34;center&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;&lt;/div&gt;
+&lt;div class=&#34;imageblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;
+  &lt;canvas id=&#34;canvas-weird-2-transformations&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+  &lt;canvas id=&#34;canvas-weird-2&#34; width=&#34;350&#34; height=&#34;350&#34;&gt;&lt;/canvas&gt;
+&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&#34;listingblock&#34;&gt;&lt;div class=&#34;content&#34;&gt;&lt;pre class=&#34;highlight&#34;&gt;
 &lt;code class=&#34;language-klipse&#34; data-max-eval-duration=&#34;60000&#34;&gt;
@@ -236,8 +272,26 @@
   (/ (.log js/Math x)
      (.log js/Math y)))
 
+(defn draw-transformations [transformations canvas]
+  (let [canvas (js/document.getElementById canvas)
+        ctx (.getContext canvas &#34;2d&#34;)
+        width (.-width canvas)
+        height (.-height canvas)
+        clear (.clearRect ctx 0 0 width height)
+        n (count transformations)]
+    (.rect ctx 0 0 width height)
+    (.stroke ctx)
+    (doseq [[[a b c d e f] colour] (map vector transformations
+                                               (cycle (map #(+ 100 (int (/ 125 %))) (range n))))]
+      (.setTransform ctx a b c d (* e width) (* f height))
+      (set! (.-fillStyle ctx) (str &#34;rgb(&#34; colour &#34;,&#34; colour &#34;,&#34; colour &#34;)&#34;))
+      (.fillRect ctx 0 0 width height))
+    (.setTransform ctx 1 0 0 1 0 0)
+  ))
+
 (defn draw-ifs [{:keys [iterations transformations colour-1 colour-2]}
                 canvas]
+  (draw-transformations transformations (str canvas &#34;-transformations&#34;))
   (let [canvas (js/document.getElementById canvas)
         ctx (.getContext canvas &#34;2d&#34;)
         width (.-width canvas)
@@ -245,14 +299,14 @@
         clear (.clearRect ctx 0 0 width height)
         image (.createImageData ctx width height)
         progress-bar-chan (let [c (chan)]
-                            (set! (.-fillStyle ctx) &#34;grey&#34;)
+                            (set! (.-fillStyle ctx) &#34;#f9f9f9&#34;)
                             (.fillRect ctx 0 (/ height 2) width 10)
-                            (set! (.-fillStyle ctx) &#34;black&#34;)
+                            (set! (.-fillStyle ctx) &#34;#337ab7&#34;)
                             (go-loop [percentage (&amp;lt;! c)]
-                              (when percentage
-                                (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
-                                (&amp;lt;! (timeout 1))
-                                (recur (&amp;lt;! c))))
+                                     (when percentage
+                                       (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
+                                       (&amp;lt;! (timeout 1))
+                                       (recur (&amp;lt;! c))))
                             c)
         points-chan (let [c (chan)
                           o (int (/ iterations 100))]

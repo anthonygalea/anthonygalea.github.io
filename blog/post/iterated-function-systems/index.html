@@ -73,7 +73,7 @@
     <div class="post-header">
       <h1 class="post-title">Iterated Function Systems</h1>
       <span class="post-date">
-      Jan 31, 2017 &middot; 4 minute read
+      Jan 31, 2017 &middot; 5 minute read
       
       <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a>
       
@@ -110,8 +110,26 @@
   (/ (.log js/Math x)
      (.log js/Math y)))
 
+(defn draw-transformations [transformations canvas]
+  (let [canvas (js/document.getElementById canvas)
+        ctx (.getContext canvas "2d")
+        width (.-width canvas)
+        height (.-height canvas)
+        clear (.clearRect ctx 0 0 width height)
+        n (count transformations)]
+    (.rect ctx 0 0 width height)
+    (.stroke ctx)
+    (doseq [[[a b c d e f] colour] (map vector transformations
+                                               (cycle (map #(+ 100 (int (/ 125 %))) (range n))))]
+      (.setTransform ctx a b c d (* e width) (* f height))
+      (set! (.-fillStyle ctx) (str "rgb(" colour "," colour "," colour ")"))
+      (.fillRect ctx 0 0 width height))
+    (.setTransform ctx 1 0 0 1 0 0)
+  ))
+
 (defn draw-ifs [{:keys [iterations transformations colour-1 colour-2]}
                 canvas]
+  (draw-transformations transformations (str canvas "-transformations"))
   (let [canvas (js/document.getElementById canvas)
         ctx (.getContext canvas "2d")
         width (.-width canvas)
@@ -119,14 +137,14 @@
         clear (.clearRect ctx 0 0 width height)
         image (.createImageData ctx width height)
         progress-bar-chan (let [c (chan)]
-                            (set! (.-fillStyle ctx) "grey")
+                            (set! (.-fillStyle ctx) "#f9f9f9")
                             (.fillRect ctx 0 (/ height 2) width 10)
-                            (set! (.-fillStyle ctx) "black")
+                            (set! (.-fillStyle ctx) "#337ab7")
                             (go-loop [percentage (&lt;! c)]
-                              (when percentage
-                                (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
-                                (&lt;! (timeout 1))
-                                (recur (&lt;! c))))
+                                     (when percentage
+                                       (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
+                                       (&lt;! (timeout 1))
+                                       (recur (&lt;! c))))
                             c)
         points-chan (let [c (chan)
                           o (int (/ iterations 100))]
@@ -170,7 +188,10 @@
     nil))
 
 </code></pre></div></div>
-<canvas id="canvas-tree" class="center" width="350" height="350"></canvas>
+<div class="imageblock"><div class="content">
+  <canvas id="canvas-tree-transformations" width="350" height="350"></canvas>
+  <canvas id="canvas-tree" width="350" height="350"></canvas>
+</div></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
@@ -188,9 +209,12 @@
 
 </code></pre></div></div>
 <div class="paragraph">
-<p>Let&#8217;s try again, this time with a snowflake:</p>
+<p>You can see a preview of the transformations being made on the left. Let&#8217;s try again, this time with a snowflake:</p>
 </div>
-<canvas id="canvas-snowflake" class="center" width="350" height="350"></canvas>
+<div class="imageblock"><div class="content">
+  <canvas id="canvas-snowflake-transformations" width="350" height="350"></canvas>
+  <canvas id="canvas-snowflake" width="350" height="350"></canvas>
+</div></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
@@ -211,7 +235,10 @@
 <div class="paragraph">
 <p>Perhaps not the best choice of colours, but I&#8217;m sure you can fix that. And here&#8217;s a couple more examples to play around with:</p>
 </div>
-<div class="paragraph"><canvas id="canvas-weed" class="center" width="350" height="350"></canvas></div>
+<div class="imageblock"><div class="content">
+  <canvas id="canvas-weed-transformations" width="350" height="350"></canvas>
+  <canvas id="canvas-weed" width="350" height="350"></canvas>
+</div></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
@@ -227,7 +254,10 @@
 (draw-ifs weed "canvas-weed")
 
 </code></pre></div></div>
-<div class="paragraph"><canvas id="canvas-pine-tree" class="center" width="350" height="350"></canvas></div>
+<div class="imageblock"><div class="content">
+  <canvas id="canvas-pine-tree-transformations" width="350" height="350"></canvas>
+  <canvas id="canvas-pine-tree" width="350" height="350"></canvas>
+</div></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000" data-eval-idle-msec="1000">
@@ -246,7 +276,10 @@
 <div class="paragraph">
 <p>If you play around a bit things can get pretty weird:</p>
 </div>
-<div class="paragraph"><canvas id="canvas-weird" class="center" width="350" height="350"></canvas></div>
+<div class="imageblock"><div class="content">
+  <canvas id="canvas-weird-transformations" width="350" height="350"></canvas>
+  <canvas id="canvas-weird" width="350" height="350"></canvas>
+</div></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
@@ -262,7 +295,10 @@
 (draw-ifs weird "canvas-weird")
 
 </code></pre></div></div>
-<div class="paragraph"><canvas id="canvas-weird-2" class="center" width="350" height="350"></canvas></div>
+<div class="imageblock"><div class="content">
+  <canvas id="canvas-weird-2-transformations" width="350" height="350"></canvas>
+  <canvas id="canvas-weird-2" width="350" height="350"></canvas>
+</div></div>
 
 <div class="listingblock"><div class="content"><pre class="highlight">
 <code class="language-klipse" data-max-eval-duration="60000">
@@ -302,8 +338,26 @@
   (/ (.log js/Math x)
      (.log js/Math y)))
 
+(defn draw-transformations [transformations canvas]
+  (let [canvas (js/document.getElementById canvas)
+        ctx (.getContext canvas "2d")
+        width (.-width canvas)
+        height (.-height canvas)
+        clear (.clearRect ctx 0 0 width height)
+        n (count transformations)]
+    (.rect ctx 0 0 width height)
+    (.stroke ctx)
+    (doseq [[[a b c d e f] colour] (map vector transformations
+                                               (cycle (map #(+ 100 (int (/ 125 %))) (range n))))]
+      (.setTransform ctx a b c d (* e width) (* f height))
+      (set! (.-fillStyle ctx) (str "rgb(" colour "," colour "," colour ")"))
+      (.fillRect ctx 0 0 width height))
+    (.setTransform ctx 1 0 0 1 0 0)
+  ))
+
 (defn draw-ifs [{:keys [iterations transformations colour-1 colour-2]}
                 canvas]
+  (draw-transformations transformations (str canvas "-transformations"))
   (let [canvas (js/document.getElementById canvas)
         ctx (.getContext canvas "2d")
         width (.-width canvas)
@@ -311,14 +365,14 @@
         clear (.clearRect ctx 0 0 width height)
         image (.createImageData ctx width height)
         progress-bar-chan (let [c (chan)]
-                            (set! (.-fillStyle ctx) "grey")
+                            (set! (.-fillStyle ctx) "#f9f9f9")
                             (.fillRect ctx 0 (/ height 2) width 10)
-                            (set! (.-fillStyle ctx) "black")
+                            (set! (.-fillStyle ctx) "#337ab7")
                             (go-loop [percentage (&lt;! c)]
-                              (when percentage
-                                (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
-                                (&lt;! (timeout 1))
-                                (recur (&lt;! c))))
+                                     (when percentage
+                                       (.fillRect ctx 0 (/ height 2) (* width percentage) 10)
+                                       (&lt;! (timeout 1))
+                                       (recur (&lt;! c))))
                             c)
         points-chan (let [c (chan)
                           o (int (/ iterations 100))]
