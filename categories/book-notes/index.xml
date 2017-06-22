@@ -2,11 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Book Notes on Anthony Galea</title>
-    <link>http://www.anthony-galea.com/categories/book-notes/index.xml</link>
+    <link>http://www.anthony-galea.com/categories/book-notes/</link>
     <description>Recent content in Book Notes on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.anthony-galea.com/categories/book-notes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 May 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.anthony-galea.com/categories/book-notes/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>How to Fail at Almost Everything and Still Win Big - Scott Adams</title>
@@ -14,123 +17,10 @@
       <pubDate>Mon, 02 May 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/</guid>
-      <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In &lt;a href=&#34;https://www.goodreads.com/book/show/17859574-how-to-fail-at-almost-everything-and-still-win-big&#34;&gt;How to Fail at Almost Everything and Still Win Big&lt;/a&gt;, Scott Adams, creator of the &lt;a href=&#34;http://dilbert.com&#34;&gt;Dilbert comic strip&lt;/a&gt;, doles out some great nuggets of wisdom such as:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;money distorts truth like a hippo in a thong&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Really enjoyed reading this one. Some highlights below.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_simplicity&#34;&gt;On Simplicity&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;My wife, Shelly, is a world-class optimizer. I, on the other hand, cling to simplicity like a monkey on a coconut.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Simplicity transforms ordinary into amazing.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_being_an_expert&#34;&gt;On being an Expert&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;I’m also not an expert at anything, including my own job. I draw like an inebriated howler monkey and my writing style falls somewhere between baffling and sophomoric. It’s an ongoing mystery to me why I keep getting paid.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_humility&#34;&gt;On Humility&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;When it comes to any big or complicated question, humility is the only sensible point of view.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_failure&#34;&gt;On Failure&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;The short answer is that over the years I have cultivated a unique relationship with failure. I invite it. I survive it. I appreciate it. And then I mug the shit out of it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_good_ideas_vs_execution&#34;&gt;On Good Ideas vs Execution&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Good ideas have no value because the world already has too many of them. The market rewards execution, not ideas.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_goals&#34;&gt;On Goals&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;To put it bluntly, goals are for losers. &amp;#8230;&amp;#8203; you will spend every moment until you reach the goal—if you reach it at all—feeling as if you were short of your goal. In other words, goal-oriented people exist in a state of nearly continuous failure that they hope will be temporary. That feeling wears on you. In time, it becomes heavy and uncomfortable. It might even drive you out of the game.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_knowledge&#34;&gt;On Knowledge&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Reality is overrated and impossible to understand with any degree of certainty. What you do know for sure is that some ways of looking at the world work better than others. Pick the way that works, even if you don’t know why.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_success&#34;&gt;On Success&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;One of the best pieces of advice I’ve ever heard goes something like this: If you want success, figure out the price, then pay it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-</description>
+      <description>In How to Fail at Almost Everything and Still Win Big, Scott Adams, creator of the Dilbert comic strip, doles out some great nuggets of wisdom such as:
+  money distorts truth like a hippo in a thong
+   Really enjoyed reading this one. Some highlights below.
+ On Simplicity  My wife, Shelly, is a world-class optimizer. I, on the other hand, cling to simplicity like a monkey on a coconut.</description>
     </item>
     
     <item>
@@ -139,168 +29,8 @@
       <pubDate>Wed, 23 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/</guid>
-      <description>&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In his book &lt;a href=&#34;https://www.goodreads.com/book/show/18170143-an-astronaut-s-guide-to-life-on-earth&#34;&gt;An Astronaut&amp;#8217;s Guide to Life on Earth&lt;/a&gt;, Christian Hadfield presents a collection of sometimes counterintuitive lessons he learned during his career as an astronaut. It is a fun read interspersed with paragraphs like:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;At this point, when your hands are covered with blobs of urine and drops are floating around the bathroom, too, it’s usually helpful to remind yourself that you are doing all this in the name of scientific inquiry.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Below you can find some excerpts that have rang a bell while I was reading it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_control_and_attitude&#34;&gt;On Control and Attitude&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Too many variables are out of my control. There’s really just one thing I can control: my attitude during the journey, which is what keeps me feeling steady and stable, and what keeps me headed in the right direction. So I consciously monitor and correct, if necessary, because losing attitude would be far worse than not achieving my goal.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_emotion&#34;&gt;On Emotion&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;As I have discovered again and again, things are never as bad (or as good) as they seem at the time.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Our training pushes us to develop a new set of instincts: instead of reacting to danger with a fight-or-flight adrenaline rush, we’re trained to respond unemotionally by immediately prioritizing threats and methodically seeking to defuse them. We go from wanting to bolt for the exit to wanting to engage and understand what’s going wrong, then fix it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;When you see red, count to 10.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_taking_risks_and_having_a_plan&#34;&gt;On taking Risks and having a Plan&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;To me, the only good reason to take a risk is that there’s a decent possibility of a reward that outweighs the hazard.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;A lot of people talk about expecting the best but preparing for the worst, but I think that’s a seductively misleading concept. There’s never just one “worst.” Almost always there’s a whole spectrum of bad possibilities. The only thing that would really qualify as the worst would be not having a plan for how to cope.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Part of preparing for the worst is keeping in mind that your sim itself may be based on the wrong assumptions, in which case you’ll draw the wrong, perfectly polished conclusions.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_criticism&#34;&gt;On Criticism&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;In any field, it’s a plus if you view criticism as potentially helpful advice rather than as a personal attack.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_success&#34;&gt;On Success&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Early success is a terrible teacher. You’re essentially being rewarded for a lack of preparation, so when you find yourself in a situation where you must prepare, you can’t do it. You don’t know how.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_iatrogenics&#34;&gt;On Iatrogenics&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Just as a panel of hairdressers is likely to recommend that you change your hairstyle, a panel of surgeons is likely to recommend surgery.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_convincing_others&#34;&gt;On Convincing Others&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;You can present all the random sample studies you want to prove that it’s safe to walk under a ladder, but a superstitious person will still avoid that ladder.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_knowledge&#34;&gt;On Knowledge&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;You don’t yet know what you don’t know—and regardless of your abilities, your experience and your level of authority, there will definitely be something you don’t know.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_leadership&#34;&gt;On Leadership&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;Ultimately, leadership is not about glorious crowning acts. It’s about keeping your team focused on a goal and motivated to do their best to achieve it, especially when the stakes are high and the consequences really matter. It is about laying the groundwork for others’ success, and then standing back and letting them shine.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;sect1&#34;&gt;
-&lt;h2 id=&#34;_on_humility&#34;&gt;On Humility&lt;/h2&gt;
-&lt;div class=&#34;sectionbody&#34;&gt;
-&lt;div class=&#34;quoteblock&#34;&gt;
-&lt;blockquote&gt;
-&lt;div class=&#34;paragraph&#34;&gt;
-&lt;p&gt;The most important lessons I’ve learned &amp;#8230;&amp;#8203; to value the wisdom of humility, as well as the sense of perspective it gives you.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-</description>
+      <description>In his book An Astronaut&amp;#8217;s Guide to Life on Earth, Christian Hadfield presents a collection of sometimes counterintuitive lessons he learned during his career as an astronaut. It is a fun read interspersed with paragraphs like:
+  At this point, when your hands are covered with blobs of urine and drops are floating around the bathroom, too, it’s usually helpful to remind yourself that you are doing all this in the name of scientific inquiry.</description>
     </item>
     
   </channel>
