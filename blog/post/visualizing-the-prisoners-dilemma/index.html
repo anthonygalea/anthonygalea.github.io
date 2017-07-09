@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Visualizing the Prisoner&#39;s Dilemma</title>
+
+  
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.min.css">
+  <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
+  
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
+  
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="clojure">
+  
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-38752250-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container">
+  <div class="title">
+    <h1><a href="/">Anthony Galea</a></h1>
+  </div>
+  <div class="links">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="fa fa-github-square fa-1x"></i></a>
+      
+      
+      
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="fa fa-envelope-square fa-1x"></i></a>
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="fa fa-rss-square fa-1x"></i></a>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+
+
+<div class="content">
+  <div class="post">
+    <div class="post-header">
+      <h1 class="post-title">Visualizing the Prisoner&#39;s Dilemma</h1>
+      <span class="post-date">
+      Jul 9, 2017 &middot; 8 minute read
+      
+      <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="http://www.anthony-galea.com/categories/interactive">interactive</a>
+      
+
+      
+      </span>
+    </div>
+    <div class="paragraph">
+<p>The grid you see below is a simulation running in your browser of a game called <code>The Prisoner&#8217;s Dilemma</code>. Each cell represents a player, and the colour of the cell indicates the strategy the player is using. Notice how the strategies that perform best gain more territory.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+  <canvas id="canvas-intro" width="300" height="300"></canvas>
+</div>
+</div>
+
+<div class="listingblock" style="display:none"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="6000000">
+
+(ns prisoners.dilemma
+  (:require-macros [cljs.core.async.macros :as async.macros])
+  (:require [cljs.core.async :as async]))
+
+(defmulti play :strategy)
+
+(defmethod play :always-cooperate [_]
+  :cooperate)
+
+(defmethod play :always-defect [_]
+  :defect)
+
+(defmethod play :tit-for-tat [{:keys [opponent-last-decision]}]
+  (if (nil? opponent-last-decision)
+    :cooperate
+    opponent-last-decision))
+
+(defn match-results
+  ([s1 s2] (match-results s1 s2 nil nil))
+  ([s1 s2 lm1 lm2]
+    (let [m1 (play {:strategy s1 :opponent-last-decision lm2})
+          m2 (play {:strategy s2 :opponent-last-decision lm1})
+          score (case [m1 m2]
+                  [:cooperate :cooperate] [3 3]
+                  [:defect    :cooperate] [5 0]
+                  [:cooperate :defect   ] [0 5]
+                  [:defect    :defect   ] [1 1])]
+      (lazy-seq
+         (cons [score m1 m2] (match-results s1 s2 m1 m2))))))
+
+(defn random-player-strategies [strategy-distribution]
+  (let [strategies (reduce-kv #(into %1 (repeat %3 %2))
+                              []
+                              strategy-distribution)]
+    (repeatedly #(rand-nth strategies))))
+
+(defn render-player-strategies! [canvas strategies]
+  (let [ctx (.getContext canvas "2d")
+        width (.-width canvas)
+        height (.-height canvas)
+        grid-width (js/Math.sqrt (count strategies))
+        cell-width (/ width grid-width)
+        cell-height (/ height grid-width)]
+    (.clearRect ctx 0 0 width height)
+    (doseq [[i strategy] (map-indexed vector strategies)]
+      (set! (.-fillStyle ctx) (case strategy
+                                :always-cooperate "green"
+                                :always-defect    "red"
+                                :tit-for-tat      "orange"))
+      (.fillRect ctx
+                 (* (mod i grid-width) cell-width)
+                 (* (quot i grid-width) cell-height)
+                 (dec cell-width)
+                 (dec cell-height)))))
+
+(defn compare-grid [g l r]
+ (let [c (compare (mod l g) (mod r g))]
+   (if (zero? c)
+     (compare l r)
+     c)))
+
+(defn generate-matches [grid-width]
+  (let [no-of-players (* grid-width grid-width)
+        players-horizontal (range no-of-players)
+        players-vertical (sort (partial compare-grid grid-width)
+                               (range no-of-players))
+        players (concat players-horizontal players-vertical)]
+    (mapcat #(partition 2 1 %)
+            (partition grid-width players))))
+
+(defn generate-neighbours [matches]
+  (reduce (fn [m d]
+               (let [k (first d)
+                     v (get m k [(first d)])]
+                 (assoc m k (conj v (second d)))))
+             []
+             (mapcat #(vector % (reverse %)) matches)))
+
+(defn matches-results [player-strategies match-last-decisions no-of-plays]
+  (reduce (fn [results match]
+            (let [[strategy-p1 strategy-p2] (vals (select-keys player-strategies match))
+                  [last-decision-p1 last-decision-p2] (match-last-decisions match)
+                  result (reduce (fn [[s1 _ _][s2 m1 m2]]
+                                   (vector (map + s1 s2) m1 m2))
+                                 (take no-of-plays
+                                   (match-results strategy-p1 strategy-p2 last-decision-p1 last-decision-p2)))]
+              (assoc results match result)))
+          {}
+          (keys match-last-decisions)))
+
+(defn get-scores [matches-results]
+  (into []
+    (vals
+      (reduce-kv (fn [scores match result]
+                    (merge-with + scores (zipmap match (first result))))
+                 (sorted-map)
+                 matches-results))))
+
+(defn calculate-next-strategies [current-strategies scores neighbours]
+  (into []
+        (map-indexed (fn [i s]
+	                     (let [n (neighbours i)
+                             sn (select-keys scores n)
+                             m (val (apply max-key val sn))
+                             w (into {} (filter #(= (val %) m) sn))]
+                         (if (w i)
+                           s
+                           (current-strategies (rand-nth (keys w))))))
+             		 current-strategies)))
+
+(defn calculate-changed-strategies [previous-strategies next-strategies]
+  (into #{}
+    (filter #(not= (previous-strategies %) (next-strategies %)))
+            (range (count previous-strategies))))
+
+(defn get-last-decisions [matches-results changed-strategies]
+  (reduce-kv (fn [scores match result]
+               (let [last-decisions (if (some changed-strategies match)
+                                  [nil nil]
+                                  (rest result))]
+                 (assoc scores match last-decisions)))
+              {}
+              matches-results))
+
+(defn frame-seq
+  ([grid-width no-of-plays strategy-distribution]
+    (let [matches        (generate-matches grid-width)
+          neighbours     (generate-neighbours matches)
+          strategies     (->> (random-player-strategies strategy-distribution)
+                              (take (* grid-width grid-width))
+                              (into []))
+          last-decisions (zipmap matches (repeat [nil nil]))]
+      (lazy-seq
+        (cons strategies (frame-seq neighbours strategies last-decisions no-of-plays)))))
+
+  ([neighbours previous-strategies previous-last-decisions no-of-plays]
+    (let [results             (matches-results previous-strategies previous-last-decisions no-of-plays)
+          scores              (get-scores results)
+          next-strategies     (calculate-next-strategies previous-strategies scores neighbours)
+          changed-strategies  (calculate-changed-strategies previous-strategies next-strategies)
+          next-last-decisions (get-last-decisions results changed-strategies)]
+      (lazy-seq
+        (cons next-strategies (frame-seq neighbours next-strategies next-last-decisions no-of-plays))))))
+
+(defn render-frames [strategy-frames canvas-id wait-msec no-of-frames]
+  (let [canvas (js/document.getElementById canvas-id)]
+    (async.macros/go
+      (doseq [frame (take no-of-frames strategy-frames)]
+        (.requestAnimationFrame js/window #(render-player-strategies! canvas frame))
+        (async/&lt;! (async/timeout wait-msec))))))
+
+</code></pre></div></div>
+
+<div class="listingblock" style="display:none"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="6000000" data-loop-msec="12000">
+
+(def intro-frames
+  (frame-seq 15 5 {:always-cooperate 1
+                   :always-defect    1
+                   :tit-for-tat      2}))
+
+(render-frames intro-frames "canvas-intro" 1000 10)
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>In this article we will walk through the code that runs the simulation, but first let&#8217;s explain the rules of the game:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>each player makes a decision to either <code>cooperate</code> or <code>defect</code></p>
+</li>
+<li>
+<p>the players cannot communicate with each other while making their decision</p>
+</li>
+<li>
+<p>the points the players get after deciding are determined by the following table:</p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 25%;">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="2" rowspan="2"></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">player 2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cooperate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">defect</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">player 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cooperate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(3,3)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(0,5)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">defect</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(5,0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1,1)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For example, if player 1 defects and player 2 cooperates, player 1 would get 5 points and player 2 would get 0 points. When the game is played more than once it is known as <a href="https://en.wikipedia.org/wiki/Prisoner%27s_dilemma#The_iterated_prisoner.27s_dilemma">Iterated Prisoner&#8217;s dilemma</a> and it&#8217;s what we are simulating in this article.</p>
+</div>
+<div class="paragraph">
+<p>Now that the game is clear let&#8217;s take a look at the implementation. We will have 3 simple strategies:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>always-cooperate</code> - keep cooperating no matter what the opponent does</p>
+</li>
+<li>
+<p><code>always-defect</code> - keep defecting no matter what the opponent does</p>
+</li>
+<li>
+<p><code>tit-for-tat</code> - start by cooperating and subsequently do whatever the opponent did in the previous round</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We can capture these strategies using a multimethod:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defmulti play :strategy)
+
+(defmethod play :always-cooperate [_]
+  :cooperate)
+
+(defmethod play :always-defect [_]
+  :defect)
+
+(defmethod play :tit-for-tat [{:keys [opponent-last-decision]}]
+  (if (nil? opponent-last-decision)
+    :cooperate
+    opponent-last-decision))
+
+(play {:strategy               :tit-for-tat
+       :opponent-last-decision :defect})
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>(Note: You can edit the code blocks directly in the browser. Just press <code>Ctrl+Enter</code> to trigger reevaluation.)</p>
+</div>
+<div class="paragraph">
+<p>Given any 2 strategies we can generates a sequence of results containing a <code>score</code> and the two <code>decisions</code> made:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn match-results
+  ([s1 s2] (match-results s1 s2 nil nil))
+  ([s1 s2 lm1 lm2]
+    (let [m1 (play {:strategy s1 :opponent-last-decision lm2})
+          m2 (play {:strategy s2 :opponent-last-decision lm1})
+          score (case [m1 m2]
+                  [:cooperate :cooperate] [3 3]
+                  [:defect    :cooperate] [5 0]
+                  [:cooperate :defect   ] [0 5]
+                  [:defect    :defect   ] [1 1])]
+      (lazy-seq
+         (cons [score m1 m2] (match-results s1 s2 m1 m2))))))
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>So if a player using <code>tit-for-tat</code> and another using <code>always-defect</code> play 4 rounds:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(take 4 (match-results :tit-for-tat :always-defect))
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>For the first frame we generate random strategies:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(take 9
+  (repeatedly
+    #(rand-nth [:always-cooperate :always-defect :tit-for-tat])))
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>This works, but let&#8217;s write a version that takes a <code>strategy-distribution</code> so that we can try out different densities of a particular strategy:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(def strategy-distribution {:always-cooperate 2
+                            :always-defect    1
+                            :tit-for-tat      5})
+
+(defn random-player-strategies [strategy-distribution]
+  (let [strategies (reduce-kv #(into %1 (repeat %3 %2))
+                              []
+                              strategy-distribution)]
+    (repeatedly #(rand-nth strategies))))
+
+(take 9 (random-player-strategies strategy-distribution))
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>Now that we can generate strategies we can render them to a canvas:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn render-player-strategies! [canvas strategies]
+  (let [ctx (.getContext canvas "2d")
+        width (.-width canvas)
+        height (.-height canvas)
+        grid-width (js/Math.sqrt (count strategies))
+        cell-width (/ width grid-width)
+        cell-height (/ height grid-width)]
+    (.clearRect ctx 0 0 width height)
+    (doseq [[i strategy] (map-indexed vector strategies)]
+      (set! (.-fillStyle ctx) (case strategy
+                                :always-cooperate "green"
+                                :always-defect    "red"
+                                :tit-for-tat      "orange"))
+      (.fillRect ctx
+                 (* (mod i grid-width) cell-width)
+                 (* (quot i grid-width) cell-height)
+                 (dec cell-width)
+                 (dec cell-height)))))
+</code></pre></div></div>
+<div class="paragraph">
+<p>Let&#8217;s try it out:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(def grid-width 15)
+
+(render-player-strategies!
+  (js/document.getElementById "canvas-render")
+  (take (* grid-width grid-width)
+        (random-player-strategies {:always-cooperate 4
+                                   :always-defect    4
+                                   :tit-for-tat      2})))
+
+</code></pre></div></div>
+
+<div class="imageblock"><div class="content">
+  <canvas id="canvas-render" width="300" height="300"></canvas>
+</div></div>
+<div class="paragraph">
+<p>As you can see in the diagram below, each player will play against his neighbours. In other words, there is a <code>match</code> for each one of the red lines between the cells:</p>
+</div>
+<div class="imageblock"><div class="content">
+  <svg width="200" height="200">
+    <rect x="0" y="0" width="50" height="50" style="fill:orange"/>
+    <text x="21" y="31">0</text>
+    <rect x="75" y="0" width="50" height="50" style="fill:orange"/>
+    <text x="93" y="31">1</text>
+    <rect x="150" y="0" width="50" height="50" style="fill:orange"/>
+    <text x="170" y="31">2</text>
+    <rect x="0" y="75" width="50" height="50" style="fill:orange"/>
+    <text x="21" y="106">3</text>
+    <rect x="75" y="75" width="50" height="50" style="fill:orange"/>
+    <text x="93" y="106">4</text>
+    <rect x="150" y="75" width="50" height="50" style="fill:orange"/>
+    <text x="170" y="106">5</text>
+    <rect x="0" y="150" width="50" height="50" style="fill:orange"/>
+    <text x="21" y="181">6</text>
+    <rect x="75" y="150" width="50" height="50" style="fill:orange"/>
+    <text x="93" y="181">7</text>
+    <rect x="150" y="150" width="50" height="50" style="fill:orange"/>
+    <text x="170" y="181">8</text>
+
+    <line x1="50" y1="25" x2="75" y2="25" style="stroke:red;stroke-width:5"/>
+    <line x1="125" y1="25" x2="150" y2="25" style="stroke:red;stroke-width:5"/>
+    <line x1="50" y1="100" x2="75" y2="100" style="stroke:red;stroke-width:5"/>
+    <line x1="125" y1="100" x2="150" y2="100" style="stroke:red;stroke-width:5"/>
+    <line x1="50" y1="175" x2="75" y2="175" style="stroke:red;stroke-width:5"/>
+    <line x1="125" y1="175" x2="150" y2="175" style="stroke:red;stroke-width:5"/>
+
+    <line x1="25" y1="50" x2="25" y2="75" style="stroke:red;stroke-width:5"/>
+    <line x1="25" y1="125" x2="25" y2="150" style="stroke:red;stroke-width:5"/>
+    <line x1="100" y1="50" x2="100" y2="75" style="stroke:red;stroke-width:5"/>
+    <line x1="100" y1="125" x2="100" y2="150" style="stroke:red;stroke-width:5"/>
+    <line x1="175" y1="50" x2="175" y2="75" style="stroke:red;stroke-width:5"/>
+    <line x1="175" y1="125" x2="175" y2="150" style="stroke:red;stroke-width:5"/>
+  </svg>
+</div></div>
+<div class="paragraph">
+<p>Given a certain <code>grid-width</code> we can generate a list of these <code>matches</code>:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn compare-grid [g l r]
+ (let [c (compare (mod l g) (mod r g))]
+   (if (zero? c)
+     (compare l r)
+     c)))
+
+(defn generate-matches [grid-width]
+  (let [no-of-players (* grid-width grid-width)
+        players-horizontal (range no-of-players)
+        players-vertical (sort (partial compare-grid grid-width)
+                               (range no-of-players))
+        players (concat players-horizontal players-vertical)]
+    (mapcat #(partition 2 1 %)
+            (partition grid-width players))))
+
+(def m (generate-matches 3))
+
+m
+</code></pre></div></div>
+<div class="paragraph">
+<p>Given the <code>matches</code> we can build a vector containing the <code>neighbours</code> of a particular player:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn generate-neighbours [matches]
+  (reduce (fn [m d]
+               (let [k (first d)
+                     v (get m k [(first d)])]
+                 (assoc m k (conj v (second d)))))
+             []
+             (mapcat #(vector % (reverse %)) matches)))
+
+(def n (generate-neighbours m))
+
+n
+</code></pre></div></div>
+<div class="paragraph">
+<p>So for example the neighbours for player 4 would be:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(n 4)
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>Ok now given the <code>strategies</code> and <code>last-decisions</code> from the previous matches, we can calculate the next set of results:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn matches-results [player-strategies match-last-decisions no-of-matches-per-frame]
+  (reduce
+    (fn [results match]
+      (let [[strategy-p1 strategy-p2] (vals (select-keys player-strategies match))
+            [last-decision-p1 last-decision-p2] (match-last-decisions match)
+            result (reduce (fn [[s1 _ _][s2 m1 m2]]
+                             (vector (map + s1 s2) m1 m2))
+                           (take no-of-matches-per-frame
+                             (match-results strategy-p1 strategy-p2 last-decision-p1 last-decision-p2)))]
+        (assoc results match result)))
+    {}
+    (keys match-last-decisions)))
+
+(def frame-1
+  (into []
+        (take 9 (random-player-strategies {:always-cooperate 1
+                                           :always-defect    1
+                                           :tit-for-tat      2}))))
+
+(def mr
+  (matches-results frame-1
+                   (zipmap m (repeat [nil nil]))
+                   5))
+
+mr
+</code></pre></div></div>
+<div class="paragraph">
+<p>To get the final scores we will need to aggregate the results:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn get-scores [matches-results]
+  (into []
+    (vals
+      (reduce-kv (fn [scores match result]
+                    (merge-with + scores (zipmap match (first result))))
+                 (sorted-map)
+                 matches-results))))
+
+(def s (get-scores mr))
+
+s
+</code></pre></div></div>
+<div class="paragraph">
+<p>We calculate the strategies for the next frame using the <code>strategies</code> and <code>scores</code> from the current frame and the <code>neighbours</code> vector:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn calculate-next-strategies [current-strategies scores neighbours]
+  (into []
+        (map-indexed (fn [i s]
+	                     (let [n (neighbours i)
+                             sn (select-keys scores n)
+                             m (val (apply max-key val sn))
+                             w (into {} (filter #(= (val %) m) sn))]
+                         (if (w i)
+                           s
+                           (current-strategies (rand-nth (keys w))))))
+             		 current-strategies)))
+
+(def frame-2 (calculate-next-strategies frame-1 s n))
+
+frame-2
+</code></pre></div></div>
+<div class="paragraph">
+<p>Given any two frames with strategies we can find out which players have changed strategies:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn calculate-changed-strategies [previous-strategies next-strategies]
+  (into #{}
+    (filter #(not= (previous-strategies %) (next-strategies %)))
+            (range (count previous-strategies))))
+
+(calculate-changed-strategies frame-1 frame-2)
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>And when extracting the <code>last-decisions</code> from the <code>matches-results</code> we reset to <code>[nil nil]</code> those where the players changed strategies:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn get-last-decisions [matches-results changed-strategies]
+  (reduce-kv (fn [scores match result]
+               (let [last-decisions (if (some changed-strategies match)
+                                      [nil nil]
+                                      (rest result))]
+                 (assoc scores match last-decisions)))
+              {}
+              matches-results))
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>Using the building blocks above we can build a lazy sequence where each element is a <code>frame</code> in the simulation:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn frame-seq
+  ([grid-width no-of-plays strategy-distribution]
+    (let [matches        (generate-matches grid-width)
+          neighbours     (generate-neighbours matches)
+          strategies     (->> (random-player-strategies strategy-distribution)
+                              (take (* grid-width grid-width))
+                              (into []))
+          last-decisions (zipmap matches (repeat [nil nil]))]
+      (lazy-seq
+        (cons strategies (frame-seq neighbours strategies last-decisions no-of-plays)))))
+
+  ([neighbours previous-strategies previous-last-decisions no-of-plays]
+    (let [results             (matches-results previous-strategies previous-last-decisions no-of-plays)
+          scores              (get-scores results)
+          next-strategies     (calculate-next-strategies previous-strategies scores neighbours)
+          changed-strategies  (calculate-changed-strategies previous-strategies next-strategies)
+          next-last-decisions (get-last-decisions results changed-strategies)]
+      (lazy-seq
+        (cons next-strategies (frame-seq neighbours next-strategies next-last-decisions no-of-plays))))))
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>Now that we have defined the sequence it&#8217;s easy to render it:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="30000" data-eval-idle-msec="4000">
+
+(defn render-frames [strategy-frames canvas-id wait-msec no-of-frames]
+  (let [canvas (js/document.getElementById canvas-id)]
+    (async.macros/go
+      (doseq [frame (take no-of-frames strategy-frames)]
+        (.requestAnimationFrame js/window #(render-player-strategies! canvas frame))
+        (async/&lt;! (async/timeout wait-msec))))))
+
+</code></pre></div></div>
+<div class="paragraph">
+<p>We just take <code>no-of-frames</code> frames from the sequence and for each one call <code>requestAnimationFrame</code> with a timeout of <code>wait-msec</code> between each frame. Feel free to experiment with the values below. Remember press <code>Ctrl+Enter</code> to rerender after changing something:</p>
+</div>
+<div class="listingblock"><div class="content"><pre class="highlight">
+<code class="language-klipse" data-max-eval-duration="60000" data-eval-idle-msec="60000000">
+
+(def strategy-frames
+  (frame-seq 15 5 {:always-cooperate 1
+                   :always-defect    1
+                   :tit-for-tat      2}))
+
+(render-frames strategy-frames "canvas-walkthrough" 500 10)
+
+</code></pre></div></div>
+
+<div class="imageblock"><div class="content">
+  <canvas id="canvas-walkthrough" width="300" height="300"></canvas>
+</div></div>
+<div class="paragraph">
+<p>The interactive code snippets in this article are powered by <a href="https://github.com/viebel/klipse">KLIPSE</a>.</p>
+</div>
+
+
+    <div class="post-footer">
+      
+
+    
+    
+    
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+
+    <h1>See also</h1>
+      <div class="paragraph">
+        <ul>
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/iterated-function-systems/">Iterated Function Systems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="http://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/the-template-method-pattern/">The Template Method Pattern</a> <a class="label" href="http://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="http://www.anthony-galea.com/categories/java">java</a><a class="label" href="http://www.anthony-galea.com/categories/scala">scala</a><a class="label" href="http://www.anthony-galea.com/categories/kotlin">kotlin</a><a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/">4Clojure solutions over time</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">Hello parking garage, meet clojure.spec</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/">Simulating a parking garage with Clojure Refs</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/">Using Datomic in a simple use case</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4Clojure Medium Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="http://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/">Getting started with compojure-api</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4Clojure Easy Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="http://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4Clojure Elementary Problems</a> <a class="label" href="http://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="http://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/">How to Fail at Almost Everything and Still Win Big - Scott Adams</a> <a class="label" href="http://www.anthony-galea.com/categories/book-notes">book-notes</a></li>
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/">An Astronaut&#39;s Guide to Life on Earth - Christian Hadfield</a> <a class="label" href="http://www.anthony-galea.com/categories/book-notes">book-notes</a></li>
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/">Better APIs with Java Optional</a> <a class="label" href="http://www.anthony-galea.com/categories/java">java</a><a class="label" href="http://www.anthony-galea.com/categories/groovy">groovy</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/">The Builder Pattern in Java</a> <a class="label" href="http://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="http://www.anthony-galea.com/categories/java">java</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/">An Introduction to Load Testing with Gatling</a> <a class="label" href="http://www.anthony-galea.com/categories/testing">testing</a><a class="label" href="http://www.anthony-galea.com/categories/http">http</a><a class="label" href="http://www.anthony-galea.com/categories/scala">scala</a></li>
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+        </ul>
+    </div>
+    </div>
+  
+  
+
+</div>
+
+
+
+
+</div>
+
+
+<script>
+ window.klipse_settings = {
+     selector: '.language-klipse',
+     codemirror_options_in: {
+         indentUnit: 2,
+         lineWrapping: true,
+         lineNumbers: true,
+         autoCloseBrackets: true
+     }
+ };
+
+</script>
+<script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+</body>
+</html>
+
