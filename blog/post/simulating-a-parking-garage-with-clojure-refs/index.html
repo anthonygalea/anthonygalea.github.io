@@ -200,14 +200,14 @@
 <span class="tok-o">@</span><span class="tok-nv">vehicles</span>
 <span class="tok-c1">;; {}</span>
 <span class="tok-c1">;; to change it we use swap!:</span>
-<span class="tok-p">(</span><span class="tok-nf">swap!</span> <span class="tok-nv">vehicles</span> <span class="tok-nb">conj </span><span class="tok-p">[[</span><span class="tok-s">&quot;JAFA017&quot;</span><span class="tok-p">]</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]])</span>
-<span class="tok-c1">;; =&gt; {[&quot;JAFA017&quot;] [1 1]})</span>
+<span class="tok-p">(</span><span class="tok-nf">swap!</span> <span class="tok-nv">vehicles</span> <span class="tok-nb">conj </span><span class="tok-p">[</span><span class="tok-s">&quot;JAFA017&quot;</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]])</span>
+<span class="tok-c1">;; =&gt; {&quot;JAFA017&quot; [1 1]})</span>
 <span class="tok-c1">;; once again:</span>
 <span class="tok-p">(</span><span class="tok-nf">swap!</span> <span class="tok-nv">vehicles</span> <span class="tok-nb">conj </span><span class="tok-p">[</span><span class="tok-s">&quot;HSLE328&quot;</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">2</span><span class="tok-p">]])</span>
-<span class="tok-c1">;; =&gt; {&quot;HSLE328&quot; [1 2], [&quot;JAFA017&quot;] [1 1]}</span>
+<span class="tok-c1">;; =&gt; {&quot;HSLE328&quot; [1 2], &quot;JAFA017&quot; [1 1]}</span>
 <span class="tok-c1">;; and if we check what vehicles stores:</span>
 <span class="tok-o">@</span><span class="tok-nv">vehicles</span>
-<span class="tok-c1">;; =&gt; {&quot;HSLE328&quot; [1 2], [&quot;JAFA017&quot;] [1 1]}</span></code></pre>
+<span class="tok-c1">;; =&gt; {&quot;HSLE328&quot; [1 2], &quot;JAFA017&quot; [1 1]}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
