@@ -28,7 +28,7 @@
       
       <guid>http://www.anthony-galea.com/blog/post/iterated-function-systems/</guid>
       <description>Above you can see a static image generated using this web page. Below you should see a picture of a tree that your browser just generated using the code snippet below it. You can increase the value for iterations and the tree will repaint. Go ahead, give it a try.
- (ns fractals.ifs (:require-macros [cljs.core.async.macros :refer [go go-loop]]) (:require [cljs.core.async :refer [chan &amp;lt;! &amp;gt;! timeout close!]])) (defn transform [transformation point] (let [[a b c d e f] transformation [x y] point] [(+ e (+ (* a x) (* b y))) (+ f (+ (* c x) (* d y)))])) (defn log [x y] (/ (.</description>
+ (ns fractals.ifs) (defn transform [transformation point] (let [[a b c d e f] transformation [x y] point] [(+ e (+ (* a x) (* b y))) (+ f (+ (* c x) (* d y)))])) (defn log [x y] (/ (.</description>
     </item>
     
     <item>

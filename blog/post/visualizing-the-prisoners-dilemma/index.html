@@ -13,7 +13,6 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.min.css">
   <link rel="stylesheet" href="http://www.anthony-galea.com/css/poole.min.css">
   
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
   
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.anthony-galea.com/touch-icon-144-precomposed.png">
@@ -50,7 +49,7 @@
   <div class="links">
     <ul>
       <li>
-      <a href="https://github.com/anthonygalea" target="_blank"><i class="fa fa-github-square fa-1x"></i></a>
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="icon-github-squared"></i></a>
       
       
       
@@ -58,8 +57,8 @@
       
       
       
-      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="fa fa-envelope-square fa-1x"></i></a>
-      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="fa fa-rss-square fa-1x"></i></a>
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="icon-mail-squared"></i></a>
+      <a href="http://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="icon-rss-squared"></i></a>
       </li>
     </ul>
   </div>
@@ -205,8 +204,8 @@
 
 (defn calculate-changed-strategies [previous-strategies next-strategies]
   (into #{}
-    (filter #(not= (previous-strategies %) (next-strategies %)))
-            (range (count previous-strategies))))
+    (filter #(not= (previous-strategies %) (next-strategies %))
+            (range (count previous-strategies)))))
 
 (defn get-last-decisions [matches-results changed-strategies]
   (reduce-kv (fn [scores match result]
@@ -622,8 +621,8 @@ frame-2
 
 (defn calculate-changed-strategies [previous-strategies next-strategies]
   (into #{}
-    (filter #(not= (previous-strategies %) (next-strategies %)))
-            (range (count previous-strategies))))
+    (filter #(not= (previous-strategies %) (next-strategies %))
+            (range (count previous-strategies)))))
 
 (calculate-changed-strategies frame-1 frame-2)
 
