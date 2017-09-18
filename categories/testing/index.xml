@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Testing on Anthony Galea</title>
-    <link>http://www.anthony-galea.com/categories/testing/</link>
+    <link>https://www.anthony-galea.com/categories/testing/</link>
     <description>Recent content in Testing on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 03 Jan 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://www.anthony-galea.com/categories/testing/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.anthony-galea.com/categories/testing/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>An Introduction to Load Testing with Gatling</title>
-      <link>http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</link>
+      <link>https://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</link>
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</guid>
       <description>Many developers are familiar with the Apache JMeter or Apache Bench tools for writing load tests. Gatling is an alternative tool which provides:
    a concise Scala DSL in order to Describe a Load Test
   a simple means to Run a Simulation

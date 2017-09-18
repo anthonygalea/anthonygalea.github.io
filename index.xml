@@ -2,71 +2,71 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Anthony Galea</title>
-    <link>http://www.anthony-galea.com/</link>
+    <link>https://www.anthony-galea.com/</link>
     <description>Recent content on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 09 Jul 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://www.anthony-galea.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.anthony-galea.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Visualizing the Prisoner&#39;s Dilemma</title>
-      <link>http://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/</link>
+      <link>https://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/</link>
       <pubDate>Sun, 09 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/</guid>
       <description>The grid you see below is a simulation running in your browser of a game called The Prisoner&amp;#8217;s Dilemma. Each cell represents a player, and the colour of the cell indicates the strategy the player is using. Notice how the strategies that perform best gain more territory.
     (ns prisoners.dilemma (:require-macros [cljs.core.async.macros :as async.macros]) (:require [cljs.core.async :as async])) (defmulti play :strategy) (defmethod play :always-cooperate [_] :cooperate) (defmethod play :always-defect [_] :defect) (defmethod play :tit-for-tat [{:keys [opponent-last-decision]}] (if (nil?</description>
     </item>
     
     <item>
       <title>Iterated Function Systems</title>
-      <link>http://www.anthony-galea.com/blog/post/iterated-function-systems/</link>
+      <link>https://www.anthony-galea.com/blog/post/iterated-function-systems/</link>
       <pubDate>Tue, 31 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/iterated-function-systems/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/iterated-function-systems/</guid>
       <description>Above you can see a static image generated using this web page. Below you should see a picture of a tree that your browser just generated using the code snippet below it. You can increase the value for iterations and the tree will repaint. Go ahead, give it a try.
  (ns fractals.ifs) (defn transform [transformation point] (let [[a b c d e f] transformation [x y] point] [(+ e (+ (* a x) (* b y))) (+ f (+ (* c x) (* d y)))])) (defn log [x y] (/ (.</description>
     </item>
     
     <item>
       <title>The Template Method Pattern</title>
-      <link>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</link>
+      <link>https://www.anthony-galea.com/blog/post/the-template-method-pattern/</link>
       <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/the-template-method-pattern/</guid>
       <description>The Template Method pattern is a behavioral design pattern commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article, we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.
  As an example consider arithmetic and geometric progressions in mathematics. \$3, 5, 7, 9, 11...\$ is an example of an arithmetic progression which has the generic form: \$a, a+f, a+2f, a+3f.</description>
     </item>
     
     <item>
       <title>4Clojure solutions over time</title>
-      <link>http://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/</link>
+      <link>https://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/</link>
       <pubDate>Wed, 03 Aug 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/</guid>
       <description>Somebody recently posted in the Clojure subreddit that there had just been over 1 million problems solved on the 4Clojure website. When I saw this I wondered if we could get a graph of the number of solutions solved over time, so I sent an email to the 4Clojure guys asking if they had the data to generate such a graph. The reply:
   I don&amp;#8217;t think we actually save that anywhere, no.</description>
     </item>
     
     <item>
       <title>Hello parking garage, meet clojure.spec</title>
-      <link>http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/</link>
+      <link>https://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/</link>
       <pubDate>Tue, 26 Jul 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/</guid>
       <description>In this post, we will take the parking garage problem from the previous post and see how clojure.spec might be applied. If you are new to clojure.spec you can check out the rationale and the guide on clojure.org. Let&amp;#8217;s start by specing the data. Recall that we used a map to state how many parking spaces are available on each garage level:
  (def parking-spaces {0 15 1 10})   We could spec the components of this map level and number-of-parking-spaces as positive integers:</description>
     </item>
     
     <item>
       <title>Simulating a parking garage with Clojure Refs</title>
-      <link>http://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/</link>
+      <link>https://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/</link>
       <pubDate>Thu, 21 Jul 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/</guid>
       <description>In this post, we will use a simple problem to illustrate Clojure Refs. All sources are on GitHub. The problem is to simulate operations on a garage used for parking vehicles.
    The vehicles are uniquely identified using their licence plate. We will represent locations in the garage with vectors like [1 2]. This vector would represent parking space 2 on level 1. The operations required are:
  (defn locate-vehicle &amp;quot;Given a licence plate, returns the location of a vehicle as a vector with the level and parking space number, nil if not present.</description>
@@ -74,19 +74,19 @@
     
     <item>
       <title>Using Datomic in a simple use case</title>
-      <link>http://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/</link>
+      <link>https://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/</link>
       <pubDate>Thu, 16 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/</guid>
       <description>In a previous post, we started building an account service in Clojure using compojure-api. In this post, we will add persistence using Datomic. The sources are available on GitHub. For an introduction to Datomic as well as the value-proposition behind it, you should take a look at the training resources on the Datomic website. If the videos are too much of an investment at this stage, you might want to take a look at Daniel Higginbotham&amp;#8217;s article Datomic for Five Year Olds.</description>
     </item>
     
     <item>
       <title>Solutions to 4Clojure Medium Problems</title>
-      <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</link>
+      <link>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</link>
       <pubDate>Thu, 09 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</guid>
       <description>This is the third post on solutions to 4Clojure problems. Once again all solutions are on GitHub, and if you have any suggestions for alternative solutions I would love to hear from you.
  43. Reverse Interleave Write a function which reverses the interleave process into x number of subsequences.
  (defn reverse-interleave [s n] ((fn reverse-interleave [s n i] (if (= i 1) (list (take-nth n s)) (cons (take-nth n s) (reverse-interleave (rest s) n (dec i))))) s n n)) [(= (reverse-interleave [1 2 3 4 5 6] 2) &#39;((1 3 5) (2 4 6))) (= (reverse-interleave (range 9) 3) &#39;((0 3 6) (1 4 7) (2 5 8))) (= (reverse-interleave (range 10) 5) &#39;((0 5) (1 6) (2 7) (3 8) (4 9)))]     44.</description>
@@ -94,10 +94,10 @@
     
     <item>
       <title>How to Fail at Almost Everything and Still Win Big - Scott Adams</title>
-      <link>http://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/</link>
+      <link>https://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/</link>
       <pubDate>Mon, 02 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/</guid>
       <description>In How to Fail at Almost Everything and Still Win Big, Scott Adams, creator of the Dilbert comic strip, doles out some great nuggets of wisdom such as:
   money distorts truth like a hippo in a thong
    Really enjoyed reading this one. Some highlights below.
@@ -106,10 +106,10 @@
     
     <item>
       <title>Getting started with compojure-api</title>
-      <link>http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/</link>
+      <link>https://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/</link>
       <pubDate>Thu, 28 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/</guid>
       <description>In this post, I will give a walkthrough of building a simple service using compojure-api. As a use case we will build a simple account service that offers two functions:
    creating an account with some initial balance
   transferring some amount from one account to another.
@@ -118,10 +118,10 @@
     
     <item>
       <title>Solutions to 4Clojure Easy Problems</title>
-      <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</link>
+      <link>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</link>
       <pubDate>Tue, 29 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</guid>
       <description>Following the first post on solutions to 4Clojure problems, in this post I will continue with the next set of problems. Once again all solutions are on GitHub, and if you have any suggestions/alternative solutions I would love to hear from you.
  19. Last Element Write a function which returns the last element in a sequence.
  (defn last-element [s] (nth s (dec (count s)))) [(= (last-element [1 2 3 4 5]) 5) (= (last-element &#39;(5 4 3)) 3) (= (last-element [&#34;</description>
@@ -129,20 +129,20 @@
     
     <item>
       <title>An Astronaut&#39;s Guide to Life on Earth - Christian Hadfield</title>
-      <link>http://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/</link>
+      <link>https://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/</link>
       <pubDate>Wed, 23 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/</guid>
       <description>In his book An Astronaut&amp;#8217;s Guide to Life on Earth, Christian Hadfield presents a collection of sometimes counterintuitive lessons he learned during his career as an astronaut. It is a fun read interspersed with paragraphs like:
   At this point, when your hands are covered with blobs of urine and drops are floating around the bathroom, too, it’s usually helpful to remind yourself that you are doing all this in the name of scientific inquiry.</description>
     </item>
     
     <item>
       <title>Solutions to 4Clojure Elementary Problems</title>
-      <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</link>
+      <link>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</link>
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</guid>
       <description>In this post, I will share solutions to the elementary problems I solved on 4Clojure. You can find all the solutions on GitHub. If you have any suggestions/alternative solutions I would love to hear from you.
  1. Nothing but the Truth This is a clojure form. Enter a value which will make the form evaluate to true.
  (def nothing-but-the-truth true) [(= nothing-but-the-truth true)]     2. Simple Math If you are not familiar with polish notation, simple arithmetic might seem confusing.</description>
@@ -150,10 +150,10 @@
     
     <item>
       <title>Better APIs with Java Optional</title>
-      <link>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</link>
+      <link>https://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</link>
       <pubDate>Sun, 17 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</guid>
       <description>In Java codebases it is very typical to come across code similar to the following:
  interface PlaneProvider { Plane getPlane(); }   The contract for PlaneProvider.getPlane() indicates that a Plane will be returned. Typically a client using this interface would use it writing something like this:
  Plane plane = planeProvider.getPlane(); if (plane != null) { plane.fly(); }   Notice that if the client doesn&amp;#8217;t perform the null check and a null is returned by getPlane() we would get a NullPointerException at runtime when we call plane.</description>
@@ -161,20 +161,20 @@
     
     <item>
       <title>The Builder Pattern in Java</title>
-      <link>http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</link>
+      <link>https://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</link>
       <pubDate>Sat, 09 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</guid>
       <description>The Builder pattern is a creational design pattern which can be used to address the telescoping constructor anti-pattern. It accomplishes this by separating the construction of an object from its representation.
  Telescoping constructor anti-pattern This pattern arises when there are multiple ways of constructing an object, usually because some properties are optional. You can see that as the number of fields for an object increases, the number of constructors we need to provide can grow exponentially:</description>
     </item>
     
     <item>
       <title>An Introduction to Load Testing with Gatling</title>
-      <link>http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</link>
+      <link>https://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</link>
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/</guid>
       <description>Many developers are familiar with the Apache JMeter or Apache Bench tools for writing load tests. Gatling is an alternative tool which provides:
    a concise Scala DSL in order to Describe a Load Test
   a simple means to Run a Simulation

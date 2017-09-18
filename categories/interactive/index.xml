@@ -2,41 +2,41 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Interactive on Anthony Galea</title>
-    <link>http://www.anthony-galea.com/categories/interactive/</link>
+    <link>https://www.anthony-galea.com/categories/interactive/</link>
     <description>Recent content in Interactive on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 09 Jul 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://www.anthony-galea.com/categories/interactive/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.anthony-galea.com/categories/interactive/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Visualizing the Prisoner&#39;s Dilemma</title>
-      <link>http://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/</link>
+      <link>https://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/</link>
       <pubDate>Sun, 09 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/</guid>
       <description>The grid you see below is a simulation running in your browser of a game called The Prisoner&amp;#8217;s Dilemma. Each cell represents a player, and the colour of the cell indicates the strategy the player is using. Notice how the strategies that perform best gain more territory.
     (ns prisoners.dilemma (:require-macros [cljs.core.async.macros :as async.macros]) (:require [cljs.core.async :as async])) (defmulti play :strategy) (defmethod play :always-cooperate [_] :cooperate) (defmethod play :always-defect [_] :defect) (defmethod play :tit-for-tat [{:keys [opponent-last-decision]}] (if (nil?</description>
     </item>
     
     <item>
       <title>Iterated Function Systems</title>
-      <link>http://www.anthony-galea.com/blog/post/iterated-function-systems/</link>
+      <link>https://www.anthony-galea.com/blog/post/iterated-function-systems/</link>
       <pubDate>Tue, 31 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/iterated-function-systems/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/iterated-function-systems/</guid>
       <description>Above you can see a static image generated using this web page. Below you should see a picture of a tree that your browser just generated using the code snippet below it. You can increase the value for iterations and the tree will repaint. Go ahead, give it a try.
  (ns fractals.ifs) (defn transform [transformation point] (let [[a b c d e f] transformation [x y] point] [(+ e (+ (* a x) (* b y))) (+ f (+ (* c x) (* d y)))])) (defn log [x y] (/ (.</description>
     </item>
     
     <item>
       <title>Solutions to 4Clojure Medium Problems</title>
-      <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</link>
+      <link>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</link>
       <pubDate>Thu, 09 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/</guid>
       <description>This is the third post on solutions to 4Clojure problems. Once again all solutions are on GitHub, and if you have any suggestions for alternative solutions I would love to hear from you.
  43. Reverse Interleave Write a function which reverses the interleave process into x number of subsequences.
  (defn reverse-interleave [s n] ((fn reverse-interleave [s n i] (if (= i 1) (list (take-nth n s)) (cons (take-nth n s) (reverse-interleave (rest s) n (dec i))))) s n n)) [(= (reverse-interleave [1 2 3 4 5 6] 2) &#39;((1 3 5) (2 4 6))) (= (reverse-interleave (range 9) 3) &#39;((0 3 6) (1 4 7) (2 5 8))) (= (reverse-interleave (range 10) 5) &#39;((0 5) (1 6) (2 7) (3 8) (4 9)))]     44.</description>
@@ -44,10 +44,10 @@
     
     <item>
       <title>Solutions to 4Clojure Easy Problems</title>
-      <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</link>
+      <link>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</link>
       <pubDate>Tue, 29 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/</guid>
       <description>Following the first post on solutions to 4Clojure problems, in this post I will continue with the next set of problems. Once again all solutions are on GitHub, and if you have any suggestions/alternative solutions I would love to hear from you.
  19. Last Element Write a function which returns the last element in a sequence.
  (defn last-element [s] (nth s (dec (count s)))) [(= (last-element [1 2 3 4 5]) 5) (= (last-element &#39;(5 4 3)) 3) (= (last-element [&#34;</description>
@@ -55,10 +55,10 @@
     
     <item>
       <title>Solutions to 4Clojure Elementary Problems</title>
-      <link>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</link>
+      <link>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</link>
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/</guid>
       <description>In this post, I will share solutions to the elementary problems I solved on 4Clojure. You can find all the solutions on GitHub. If you have any suggestions/alternative solutions I would love to hear from you.
  1. Nothing but the Truth This is a clojure form. Enter a value which will make the form evaluate to true.
  (def nothing-but-the-truth true) [(= nothing-but-the-truth true)]     2. Simple Math If you are not familiar with polish notation, simple arithmetic might seem confusing.</description>

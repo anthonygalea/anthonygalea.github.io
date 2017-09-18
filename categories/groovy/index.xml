@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Groovy on Anthony Galea</title>
-    <link>http://www.anthony-galea.com/categories/groovy/</link>
+    <link>https://www.anthony-galea.com/categories/groovy/</link>
     <description>Recent content in Groovy on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 17 Jan 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://www.anthony-galea.com/categories/groovy/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.anthony-galea.com/categories/groovy/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Better APIs with Java Optional</title>
-      <link>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</link>
+      <link>https://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</link>
       <pubDate>Sun, 17 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</guid>
       <description>In Java codebases it is very typical to come across code similar to the following:
  interface PlaneProvider { Plane getPlane(); }   The contract for PlaneProvider.getPlane() indicates that a Plane will be returned. Typically a client using this interface would use it writing something like this:
  Plane plane = planeProvider.getPlane(); if (plane != null) { plane.fly(); }   Notice that if the client doesn&amp;#8217;t perform the null check and a null is returned by getPlane() we would get a NullPointerException at runtime when we call plane.</description>

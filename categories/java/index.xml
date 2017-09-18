@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on Anthony Galea</title>
-    <link>http://www.anthony-galea.com/categories/java/</link>
+    <link>https://www.anthony-galea.com/categories/java/</link>
     <description>Recent content in Java on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Sep 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://www.anthony-galea.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.anthony-galea.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>The Template Method Pattern</title>
-      <link>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</link>
+      <link>https://www.anthony-galea.com/blog/post/the-template-method-pattern/</link>
       <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/the-template-method-pattern/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/the-template-method-pattern/</guid>
       <description>The Template Method pattern is a behavioral design pattern commonly used when a number of algorithms have a common skeleton but they vary in the specifics of the steps. In this article, we will write implementations for a simple example in Java, Scala, Kotlin and Clojure.
  As an example consider arithmetic and geometric progressions in mathematics. \$3, 5, 7, 9, 11...\$ is an example of an arithmetic progression which has the generic form: \$a, a+f, a+2f, a+3f.</description>
     </item>
     
     <item>
       <title>Better APIs with Java Optional</title>
-      <link>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</link>
+      <link>https://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</link>
       <pubDate>Sun, 17 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/better-apis-with-java-optional/</guid>
       <description>In Java codebases it is very typical to come across code similar to the following:
  interface PlaneProvider { Plane getPlane(); }   The contract for PlaneProvider.getPlane() indicates that a Plane will be returned. Typically a client using this interface would use it writing something like this:
  Plane plane = planeProvider.getPlane(); if (plane != null) { plane.fly(); }   Notice that if the client doesn&amp;#8217;t perform the null check and a null is returned by getPlane() we would get a NullPointerException at runtime when we call plane.</description>
@@ -34,10 +34,10 @@
     
     <item>
       <title>The Builder Pattern in Java</title>
-      <link>http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</link>
+      <link>https://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</link>
       <pubDate>Sat, 09 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</guid>
+      <guid>https://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</guid>
       <description>The Builder pattern is a creational design pattern which can be used to address the telescoping constructor anti-pattern. It accomplishes this by separating the construction of an object from its representation.
  Telescoping constructor anti-pattern This pattern arises when there are multiple ways of constructing an object, usually because some properties are optional. You can see that as the number of fields for an object increases, the number of constructors we need to provide can grow exponentially:</description>
     </item>
