@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Modeling Big two</title>
+
+  <link href="https://www.anthony-galea.com/favicon.png" rel="icon">
+
+  <style media="screen">
+    .navbar,.navbar>.container>.title{position:fixed}.links,time{float:right}.label,abbr,dt{font-weight:700}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}body,html{margin:0;padding:0}html{font-family:Lato,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.25}body{color:#515151;background-color:#fff;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}.olist,.paragraph,.post-date,.pygments,.quoteblock,.ulist,h1,h2,h3{max-width:56rem;margin:auto}.paragraph{margin-top:2rem;margin-bottom:2rem}p,pre{margin-top:0;margin-bottom:1rem}.post-footer,.post-header{background-color:#f9f9f9;padding-top:2rem;padding-bottom:1.5rem}.post-footer ul{line-height:1.5rem}.navbar{margin-right:0;margin-left:0;background-color:#337ab7;height:3rem;width:100%;z-index:100}code,pre,tbody tr:nth-child(odd) td,tbody tr:nth-child(odd) th{background-color:#f9f9f9}.navbar a{color:#fff;text-decoration:none!important}.links ul{list-style-type:none;font-size:1.5rem;line-height:3rem}.navbar h1{color:#fff;margin-top:0;font-size:1.1rem;line-height:3rem}h1,h2,h4,h5,h6{margin-top:2rem}a{color:#337ab7;text-decoration:none}a:focus,a:hover{text-decoration:underline}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.25;color:#2b2b2b;text-rendering:optimizeLegibility}h1{font-size:2rem}h2{font-size:1.5rem}h3{margin-top:1.5rem;font-size:1.25rem}h4,h5,h6{font-size:1rem}abbr,code{font-size:85%}strong{color:#303030}dl,ol,ul{margin-top:0}dd{margin-bottom:.5rem}hr{position:relative;margin:.5rem 0;border:0;border-top:1px solid #eee;border-bottom:1px solid #fff}abbr{color:#555;text-transform:uppercase}abbr[title]{cursor:help;border-bottom:1px dotted #e5e5e5}code,pre{font-family:Menlo,Monaco,"Courier New",monospace}code{padding:.25em .5em;color:#bf616a;border-radius:3px}pre{display:block;font-size:.8rem;line-height:1.4;white-space:pre;white-space:pre-wrap}pre code{padding:0;font-size:90%;color:inherit;background-color:transparent}.highlight{margin:auto;border-radius:4px;max-width:56rem}.highlight pre,blockquote p:last-child{margin-bottom:0}blockquote{margin:.8rem 0;color:#7a7a7a;border-left:.25rem solid #e5e5e5}@media (max-width:38em){a.label,time{display:none}}@media (min-width:30em){blockquote{padding-right:0;padding-left:1.25rem}}blockquote .paragraph{padding-top:1rem;padding-bottom:1rem}img{display:block;max-width:100%;margin:auto;border-radius:5px}table,td,th{border:1px solid #e5e5e5}table{margin:auto auto 1rem;border-collapse:collapse}td,th{padding:.25rem .5rem}.container{max-width:56rem;margin-left:auto;margin-right:auto}.page-title,.post-title,.post-title a{color:#2b2b2b}.page-title,.post-title{margin-top:-.6rem}.post-date{display:block;color:#9a9a9a}@media (min-width:48em){html{font-size:16px}}@media (min-width:58em){html{font-size:20px}}.content{padding-top:3rem;margin:0 auto}.posts{margin-bottom:2rem;list-style:none;margin-left:-2rem;max-width:60rem;font-size:.9rem;line-height:1.5rem;padding-top:2rem}.post p{margin:0;text-align:justify}.imageblock,.imageblock>.title,.label{text-align:center}pre{padding:0}.imageblock>.content,.listingblock>.content{margin:auto;padding-top:0;padding-bottom:0}.listingblock>.content{padding-top:.75rem;padding-bottom:.75rem;background-color:#272822}.label,.post .label{background-color:#337ab7;color:#fff}.label{display:inline;padding:.2em .6em .3em;font-size:75%;line-height:1;white-space:nowrap;vertical-align:baseline;border-radius:.25em;margin:0 .25em}a.label:focus,a.label:hover{color:#fff;text-decoration:none;cursor:pointer}.label:empty{display:none}.post-date a.label,.posts a.label{color:#fff;text-decoration:none;cursor:pointer}.tableblock .MathJax_Display,.tableblock p{margin:0}canvas{display:inline-block;margin:20px}
+  </style>
+
+  
+  
+  
+  
+
+  <meta name="description" content="">
+  <meta name="keywords" content="clojure,clojure spec,async,introduction,tutorial,example">
+  
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-38752250-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container">
+  <div class="title">
+    <h1><a href="/">Anthony Galea</a></h1>
+  </div>
+  <div class="links">
+    <ul>
+      <li>
+      <a href="https://github.com/anthonygalea" target="_blank"><i class="icon-github-squared"></i></a>
+      
+      
+      
+      
+      
+      
+      
+      <a href="mailto:anthony.galea@gmail.com" target="_blank"><i class="icon-mail-squared"></i></a>
+      <a href="https://www.anthony-galea.com/index.xml" type="application/rss+xml" target="_blank"><i class="icon-rss-squared"></i></a>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+
+
+<div class="content">
+  <div class="post">
+    <div class="post-header">
+      <h1 class="post-title">Modeling Big two</h1>
+      <span class="post-date">
+      Oct 22, 2017 &middot; 10 minute read
+      
+      <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a>
+      
+
+      
+      </span>
+    </div>
+    <div class="paragraph">
+<p>In this post I will describe an approach for modeling the card game <a href="https://en.wikipedia.org/wiki/Big_two">Big two</a>. The game is played with a regular deck of cards and the typical poker hands. You are dealt 13 cards and your objective is to get rid of the cards before your opponents.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;re going to represent a card as a vector with a rank and a suit. For example <code>[:10 :s]</code> represents the 10 of spades.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(ns big.two
+  (:require-macros [cljs.core.async.macros :as async.macros])
+  (:require [cljs.core.async :as async]
+            [clojure.set]
+            [clojure.spec :as s]))
+
+(def ranks [:2 :1 :k :q :j :10 :9 :8 :7 :6 :5 :4 :3])
+
+(def suits [:s :h :c :d])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this game 2 is the strongest card. The suit rank also matters. For example, the 9 of spades <code>[:9 :s]</code> is stronger than the 9 of hearts <code>[:9 :h]</code>. For this reason the values for the <code>ranks</code> and the <code>suits</code> are stored in vectors left to right from strongest to weakest.</p>
+</div>
+<div class="paragraph">
+<p>Now that we have the ranks and the suits we can describe precisely what a card is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::card (s/tuple (set ranks) (set suits)))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using this spec we can check whether something represents a valid card using <code>s/valid?</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">[(s/valid? ::card [:2 :d])
+ (s/valid? ::card [:5 :c])
+ (s/valid? ::card [:15 :s])
+ (s/valid? ::card [:d :2])]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If <code>s/valid?</code> returns <code>false</code> we can check why using <code>s/explain</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/explain ::card [:15 :s])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Makes sense, 15 is not a valid rank.</p>
+</div>
+<div class="paragraph">
+<p>Next we can write functions to compare 2 ranks:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn stronger-rank? [r1 r2]
+  (= r1 (first (filter #{r1 r2} ranks))))
+
+[(stronger-rank? :2 :6)
+ (stronger-rank? :5 :k)]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or 2 suits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn stronger-suit? [s1 s2]
+  (= s1 (first (filter #{s1 s2} suits))))
+
+[(stronger-suit? :s :d)
+ (stronger-suit? :d :h)]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And finally we can make a deck of cards:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def deck (set (for [rank ranks
+                     suit suits]
+                 [rank suit])))
+
+(count deck)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At the start of the game players get 13 cards each:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn deal-cards
+  "Deal random cards from a deck to n players."
+  [n]
+  (-&gt;&gt; (shuffle deck)
+       (partition 13)
+       (take n)
+       (map set)
+       (into [])))
+
+(deal-cards 2)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that the players have cards, let&#8217;s describe the different possible hands that the players can play. We can start by defining a <code>hand</code> as a collection of distinct cards:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::hand
+       (s/coll-of ::card :distinct true))
+
+[(s/valid? ::hand #{[:2 :h][:3 :d]})
+ (s/valid? ::hand #{[:2 :h][:2 :g]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The simplest <code>valid hand</code> is a single card:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::single-card (s/coll-of ::card :count 1))
+
+[(s/valid? ::single-card #{[:5 :s]})
+ (s/valid? ::single-card #{[:5 :s][:5 :h]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Another valid hand is a <code>pair</code> i.e. any two cards with the same rank:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::pair
+       (s/and (s/coll-of ::card :count 2 :distinct true)
+              #(= 1 (count (group-by first %)))))
+
+[(s/valid? ::pair #{[:5 :s][:5 :h]})
+ (s/valid? ::pair #{[:5 :s]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>Three of a kind</code> is similar:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::three-of-a-kind
+       (s/and (s/coll-of ::card :count 3 :distinct true)
+              #(= 1 (count (group-by first %)))))
+
+[(s/valid? ::three-of-a-kind #{[:7 :d][:7 :s][:7 :h]})
+ (s/valid? ::three-of-a-kind #{[:7 :d][:5 :s][:2 :h]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s move on to the five card hands starting with the straight i.e. 5 distinct cards in consecutive order:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::five-cards
+       (s/coll-of ::card :count 5 :distinct true))
+
+(def straight-ranks [#{:j :q :k :1 :2}
+                     #{:1 :2 :3 :4 :5}
+                     #{:2 :3 :4 :5 :6}
+                     #{:10 :j :q :k :1}
+                     #{:9 :10 :j :q :k}
+                     #{:8 :9 :10 :j :q}
+                     #{:7 :8 :9 :10 :j}
+                     #{:6 :7 :8 :9 :10}
+                     #{:5 :6 :7 :8 :9}
+                     #{:4 :5 :6 :7 :8}
+                     #{:3 :4 :5 :6 :7}])
+
+(def straight? (set straight-ranks))
+
+(s/def ::straight
+       (s/and ::five-cards
+              #(straight? (set (map first %)))))
+
+[(s/valid? ::straight #{[:9 :s] [:7 :d] [:8 :s] [:j :h] [:10 :c]})
+ (s/valid? ::straight #{[:3 :s] [:7 :d] [:8 :s] [:j :h] [:10 :c]})
+ (s/valid? ::straight #{[:9 :s] [:7 :d] [:8 :s]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly for flush:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::flush
+       (s/and ::five-cards
+              #(= 1 (count (group-by second %)))))
+
+[(s/valid? ::flush #{[:3 :s] [:6 :s] [:1 :s] [:j :s] [:10 :s]})
+ (s/valid? ::flush #{[:9 :s] [:7 :d] [:8 :s] [:j :h] [:10 :c]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Full house:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::full-house
+       (s/and ::five-cards
+              #(= #{3 2} (set (map (fn [rank] (count rank))
+                                   (vals (group-by first %)))))))
+
+[(s/valid? ::full-house #{[:9 :s] [:9 :d] [:8 :s] [:8 :h] [:8 :c]})
+ (s/valid? ::full-house #{[:9 :s] [:9 :d] [:8 :s] [:j :h] [:10 :c]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Poker:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::poker
+       (s/and ::five-cards
+              #(= #{4 1} (set (map (fn [rank] (count rank))
+                                   (vals (group-by first %)))))))
+
+[(s/valid? ::poker #{[:9 :s] [:9 :d] [:9 :c] [:9 :h] [:10 :c]})
+ (s/valid? ::poker #{[:9 :s] [:9 :d] [:9 :c] [:j :h] [:10 :c]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And finally straight flush:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::straight-flush (s/and ::straight
+                               ::flush))
+
+[(s/valid? ::straight-flush #{[:9 :s] [:7 :s] [:8 :s] [:j :s] [:10 :s]})
+ (s/valid? ::straight-flush #{[:9 :s] [:7 :d] [:8 :s] [:j :h] [:10 :c]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Building on the specs above we can write the following specs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(s/def ::five-card-hand (s/or ::straight-flush ::straight-flush
+                              ::poker          ::poker
+                              ::full-house     ::full-house
+                              ::flush          ::flush
+                              ::straight       ::straight))
+
+(s/def ::valid-hand (s/or ::single-card     ::single-card
+                          ::pair            ::pair
+                          ::three-of-a-kind ::three-of-a-kind
+                          ::straight-flush  ::straight-flush
+                          ::poker           ::poker
+                          ::full-house      ::full-house
+                          ::flush           ::flush
+                          ::straight        ::straight))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These hands form a taxonomy as seen in the diagram below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2017-10-22-big-two-taxonomy.png" alt="2017 10 22 big two taxonomy">
+</div>
+</div>
+<div class="paragraph">
+<p>We can express this using <code>derive</code> between the specs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(derive ::single-card     ::valid-hand)
+(derive ::pair            ::valid-hand)
+(derive ::three-of-a-kind ::valid-hand)
+(derive ::five-card-hand  ::valid-hand)
+
+(derive ::straight       ::five-card-hand)
+(derive ::flush          ::five-card-hand)
+(derive ::full-house     ::five-card-hand)
+(derive ::poker          ::five-card-hand)
+(derive ::straight-flush ::five-card-hand)
+
+(isa? ::poker ::valid-hand)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The specs used in conjunction with a multimethod will allow us to determine if a hand will beat another one. Note that in Big two you can only play hands with the same number of cards in the current round. For example you can&#8217;t beat a pair with a three of a kind:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defmulti beats-hand?
+  (fn [hand-1 hand-2]
+    (let [type-1 (s/conform ::valid-hand hand-1)
+          type-2 (s/conform ::valid-hand hand-2)]
+      (if-not ((set [type-1 type-2]) :cljs.spec/invalid)
+        [(first type-1) (first type-2)]))))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The dispatching function uses <code>s/conform</code> to determine the type of hand and call an appropriate handler. So for the case where we have two single cards we define this handler:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defmethod beats-hand? [::single-card ::single-card]
+  [hand-1 hand-2]
+  (let [[rank-1 suit-1] (first hand-1)
+        [rank-2 suit-2] (first hand-2)]
+    (if (= rank-1 rank-2)
+      (stronger-suit? suit-1 suit-2)
+      (stronger-rank? rank-1 rank-2))))
+
+[(beats-hand? #{[:k :s]} #{[:q :d]})
+ (beats-hand? #{[:10 :h]} #{[:10 :s]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the ranks are the same, the hand with the stronger suit wins, otherwise the stronger rank determines which hand wins.</p>
+</div>
+<div class="paragraph">
+<p>For two pairs, if the ranks are the same then the hand with a spade wins, otherwise the hand with the stronger rank wins:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defmethod beats-hand? [::pair ::pair]
+  [hand-1 hand-2]
+  (let [[rank-1 suit-1] (first hand-1)
+        [     _ suit-2] (second hand-1)
+        [rank-3 suit-3] (first hand-2)]
+    (if (= rank-1 rank-3)
+      (contains? #{suit-1 suit-2} :s)
+      (stronger-rank? rank-1 rank-3))))
+
+[(beats-hand? #{[:1 :h][:1 :d]} #{[:j :s][:j :c]})
+ (beats-hand? #{[:7 :s][:7 :c]} #{[:9 :h][:9 :d]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For three of a kind:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defmethod beats-hand? [::three-of-a-kind ::three-of-a-kind]
+  [hand-1 hand-2]
+  (let [[rank-1] (first hand-1)
+        [rank-2] (first hand-2)]
+    (stronger-rank? rank-1 rank-2)))
+
+[(beats-hand? #{[:q :h][:q :d][:q :s]} #{[:9 :s][:9 :c][:9 :h]})
+ (beats-hand? #{[:7 :s][:7 :c][:7 :h]} #{[:8 :h][:8 :d][:8 :s]})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And so on for Straight, Flush, Full-house, Straight Flush and Poker. These are left as an exercise to the reader:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defmethod beats-hand? [::straight ::straight]
+  [straight-1 straight-2]
+  )
+
+(defmethod beats-hand? [::flush ::flush]
+  [flush-1 flush-2]
+  )
+
+(defmethod beats-hand? [::full-house ::full-house]
+  [full-house-1 full-house-2]
+  )
+
+(defmethod beats-hand? [::straight-flush ::straight-flush]
+  [straight-flush-1 straight-flush-2]
+  )
+
+(defmethod beats-hand? [::poker ::poker]
+  [poker-1 poker-2]
+  )</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What about the cases where the two five card hands are different. For this we need one more handler:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def five-card-hand-rank [::straight-flush ::poker ::full-house ::flush ::straight])
+
+(defmethod beats-hand? [::five-card-hand ::five-card-hand]
+  [hand-1 hand-2]
+  (let [type-1 (first (s/conform ::five-card-hand hand-1))
+        type-2 (first (s/conform ::five-card-hand hand-2))]
+    (= type-1 (first (filter #{type-1 type-2} five-card-hand-rank)))))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Just like hold&#8217;em poker, the straight flush is the strongest and the straight is the weakest.</p>
+</div>
+<div class="paragraph">
+<p>For every other combination the hands are not compatible. We handle this using the default handler which just returns <code>false</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defmethod beats-hand? :default
+  [_ _]
+  false)
+
+(beats-hand? #{[:2 :d] [:2 :s]} #{[:3 :h]})</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that we can determine whether a hand is stronger than another one, let&#8217;s move on to the game. The players take turns playing moves one after the other. We will need a way to determine who should play next:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn find-next-player
+  "Determines the next player given the current-player and the number-of-players in the game."
+  [current-player number-of-players]
+  {:pre [(&lt;= 2 number-of-players 4)
+         (or (nil? current-player)
+             (&lt;= 0 current-player (dec number-of-players)))]}
+  (if (nil? current-player)
+    0
+    (mod (inc current-player) number-of-players)))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The diagram below shows what we are aiming for using an example with 3 players. A player notifies the server that he is making a move. If the move is a valid one the server updates the game state and pushes the new game state out to the players.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2017-10-22-big-two-channels.png" alt="2017 10 22 big two channels">
+</div>
+</div>
+<div class="paragraph">
+<p>We can keep track of the current state of a game with a map:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">{:number-of-players 2
+ :cards (deal-cards 2)
+ :moves [[0 #{}] [1 #{}]]
+ :move-channels []
+ :game-state-channels []}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each move can either be a hand with the same number of cards and which is stronger than the previous one, or a <code>pass</code>. A player can choose to pass even if he has a stronger hand. With each move we need to verify that the player is not playing out of turn and that the hand he wants to play beats the previous one. If we use an atom to hold the current game state we can use a validator to make the 2 checks:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn move-validator [{:keys [moves table-hand number-of-players]}]
+  (let [[[previous-player previous-hand] [last-player last-hand]] (take-last 2 moves)]
+    (and (= last-player (find-next-player previous-player number-of-players)) ;; check player is not playing out of turn
+         (if (= #{} last-hand)
+           true
+           (beats-hand? last-hand table-hand))))) ;; check if hand played beats the previous one
+
+(defn create-game
+  "Creates a game for n players."
+  [n]
+  {:pre [(&lt;= 2 n 4)]}
+  (let [game (atom {:number-of-players n
+                    :cards (deal-cards n)
+                    :moves [[(- n 2) #{}] [(dec n) #{}]]
+                    :table-hand #{}
+                    :move-channels []
+                    :game-state-channels []}
+                   :validator move-validator)]
+    game))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once a game is created we need a way for players to join it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn join-game [game]
+  (let [game-state-channel (async/chan)
+        move-channel       (async/chan)]
+    (swap! game
+           (fn [previous-game-state]
+             (let [{:keys [move-channels game-state-channels]} previous-game-state]
+               (assoc previous-game-state
+                 :move-channels (conj move-channels move-channel)
+                 :game-state-channels (conj game-state-channels game-state-channel)))))
+    (async.macros/go-loop []
+      (let [game-state (async/&lt;! game-state-channel)]
+        (println (str "got game state from server: " game-state)))
+      (recur))
+    move-channel))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then we need a function to transition the game state as moves are received:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn move
+  "Simulates a player playing a hand. An empty hand means the player is passing."
+  [game player hand]
+  (swap! game
+         (fn [previous-game-state]
+           (let [{:keys [cards moves number-of-players table-hand]} previous-game-state
+                 player-cards (nth cards player)]
+             (if (clojure.set/superset? player-cards hand)
+               (assoc previous-game-state
+                      :cards (assoc cards player (clojure.set/difference player-cards hand))
+                      :moves (conj moves [player hand])
+                      :table-hand (if (not= #{} hand)
+                                    hand
+                                    table-hand))
+               previous-game-state)))))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once all the players have joined we need to start the game:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn extract-relevant-game-state-for-player [game-state player-number]
+  (let [{:keys [moves cards table-hand number-of-players]} game-state]
+    {:table-hand table-hand
+     :card-counts (map count cards)
+     :turn (find-next-player (first (last moves)) number-of-players)
+     :cards (nth cards player-number)}))
+
+(defn move-watch [key game old-state new-state]
+  "Pushes new state to each player after a move is made."
+  (async.macros/go
+    (doseq [[i channel] (map-indexed vector (new-state :game-state-channels))]
+      (println (str "sending state to player " i ":") (extract-relevant-game-state-for-player new-state i))
+      (async/&gt;! channel (extract-relevant-game-state-for-player new-state i)))))
+
+(defn start-game [game]
+  (add-watch game :game-move-watch move-watch)
+  (async.macros/go-loop []
+    (let [[message channel] (async/alts! (@game :move-channels))]
+      (println (str "got move from player: " message))
+      (move game (.indexOf (@game :move-channels) channel) message))
+    (recur)))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that we attach a watch which pushes the new game state to the players over a channel. The watch actually sends a slightly modified version of the game state using the <code>extract-relevant-game-state-for-player</code> function because the players shouldn&#8217;t know what cards their opponents hold.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s try it out:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def game (create-game 3))
+
+(def player-1-chan (join-game game))
+(def player-2-chan (join-game game))
+(def player-3-chan (join-game game))
+
+(start-game game)
+
+@game</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we simulate a move played by player 1:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def player-1-cards (first (:cards @game)))
+
+(async.macros/go
+  (async/&gt;! player-1-chan #{(first player-1-cards)}))
+
+@game</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can see that the state transition is allowed by the validator and the new game state is pushed to the other players by the watch. If we now make an invalid move the transition is not allowed. For example if player 1 attempts to play again before player 2 has played:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(async.macros/go
+  (async/&gt;! player-1-chan #{(second player-1-cards)}))
+
+@game</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you open your browser&#8217;s inspector you should see <code>Error: Validator rejected reference state</code>.</p>
+</div>
+
+
+    <div class="post-footer">
+      
+
+    
+    
+    
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+        
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+
+    <h1>See also</h1>
+      <div class="paragraph">
+        <ul>
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/">Visualizing the Prisoner&#39;s Dilemma</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/iterated-function-systems/">Iterated Function Systems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/the-template-method-pattern/">The Template Method Pattern</a> <a class="label" href="https://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="https://www.anthony-galea.com/categories/java">java</a><a class="label" href="https://www.anthony-galea.com/categories/scala">scala</a><a class="label" href="https://www.anthony-galea.com/categories/kotlin">kotlin</a><a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/">4Clojure solutions over time</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">Hello parking garage, meet clojure.spec</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/">Simulating a parking garage with Clojure Refs</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/">Using Datomic in a simple use case</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4Clojure Medium Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/">Getting started with compojure-api</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4Clojure Easy Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4Clojure Elementary Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big---scott-adams/">How to Fail at Almost Everything and Still Win Big - Scott Adams</a> <a class="label" href="https://www.anthony-galea.com/categories/book-notes">book-notes</a></li>
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth---christian-hadfield/">An Astronaut&#39;s Guide to Life on Earth - Christian Hadfield</a> <a class="label" href="https://www.anthony-galea.com/categories/book-notes">book-notes</a></li>
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/better-apis-with-java-optional/">Better APIs with Java Optional</a> <a class="label" href="https://www.anthony-galea.com/categories/java">java</a><a class="label" href="https://www.anthony-galea.com/categories/groovy">groovy</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/">The Builder Pattern in Java</a> <a class="label" href="https://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="https://www.anthony-galea.com/categories/java">java</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/an-introduction-to-load-testing-with-gatling/">An Introduction to Load Testing with Gatling</a> <a class="label" href="https://www.anthony-galea.com/categories/testing">testing</a><a class="label" href="https://www.anthony-galea.com/categories/http">http</a><a class="label" href="https://www.anthony-galea.com/categories/scala">scala</a></li>
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+        
+        </ul>
+    </div>
+    </div>
+  
+  
+
+</div>
+
+
+
+
+</div>
+
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.min.css">
+<link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Lato' type='text/css'>
+<link rel="stylesheet" href="https://www.anthony-galea.com/css/below-the-fold.min.css">
+
+<script>
+ window.klipse_settings = {
+     selector: '.language-klipse',
+     codemirror_options_in: {
+         indentUnit: 2,
+         lineWrapping: true,
+         lineNumbers: true,
+         autoCloseBrackets: true
+     }
+ };
+</script>
+<script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+</body>
+</html>
+

@@ -6,10 +6,20 @@
     <description>Recent content in Interactive on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Jul 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Oct 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.anthony-galea.com/categories/interactive/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Modeling Big two</title>
+      <link>https://www.anthony-galea.com/blog/post/modeling-big-two/</link>
+      <pubDate>Sun, 22 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.anthony-galea.com/blog/post/modeling-big-two/</guid>
+      <description>In this post I will describe an approach for modeling the card game Big two. The game is played with a regular deck of cards and the typical poker hands. You are dealt 13 cards and your objective is to get rid of the cards before your opponents.
+ We&amp;#8217;re going to represent a card as a vector with a rank and a suit. For example [:10 :s] represents the 10 of spades.</description>
+    </item>
     
     <item>
       <title>Visualizing the Prisoner&#39;s Dilemma</title>
