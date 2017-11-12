@@ -6,10 +6,20 @@
     <description>Recent content in Interactive on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 22 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 12 Nov 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.anthony-galea.com/categories/interactive/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How many eggs should a woodchuck chuck?</title>
+      <link>https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/</guid>
+      <description>Say you&amp;#8217;re in a building which has 10 floors. Somebody walks up to you and gives you a box of eggs. He asks if you can find out which is the highest floor in the building from which it is safe to throw an egg, such that the egg remains intact when it hits the ground.
+  Figure 1. Building with 10 floors  You can make the following assumptions:</description>
+    </item>
     
     <item>
       <title>Modeling Big two</title>

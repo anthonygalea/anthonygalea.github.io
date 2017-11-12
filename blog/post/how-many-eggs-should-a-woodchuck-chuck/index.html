@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>4Clojure solutions over time</title>
+  <title>How many eggs should a woodchuck chuck?</title>
 
   <link href="https://www.anthony-galea.com/favicon.png" rel="icon">
 
@@ -19,7 +19,7 @@
   
 
   <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="clojure,dynamic programming,egg dropping">
   
 
   
@@ -65,36 +65,239 @@
 <div class="content">
   <div class="post">
     <div class="post-header">
-      <h1 class="post-title">4Clojure solutions over time</h1>
+      <h1 class="post-title">How many eggs should a woodchuck chuck?</h1>
       <span class="post-date">
-      Aug 3, 2016 &middot; 1 minute read
+      Nov 12, 2017 &middot; 6 minute read
       
-      <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a>
+      <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a>
       
 
       
       </span>
     </div>
     <div class="paragraph">
-<iframe
-  width="100%" height="400"
-  src="//jsfiddle.net/anthonygalea/yukpa0os/embedded/result,js/"
-  allowfullscreen="allowfullscreen"
-  frameborder="0">
-</iframe>
+<p>Say you&#8217;re in a building which has 10 floors. Somebody walks up to you and gives you a box of eggs. He asks if you can find out which is the highest floor in the building from which it is safe to throw an egg, such that the egg remains intact when it hits the ground.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2017-11-12-eggs-1.png" alt="2017 11 12 eggs 1">
+</div>
+<div class="title">Figure 1. Building with 10 floors</div>
 </div>
 <div class="paragraph">
-<p>Somebody recently posted in the Clojure subreddit that there had just been over 1 million problems solved on the <a href="http://www.4clojure.com/">4Clojure</a> website. When I saw this I wondered if we could get a graph of the number of solutions solved over time, so I sent an email to the 4Clojure guys asking if they had the data to generate such a graph. The reply:</p>
+<p>You can make the following assumptions:</p>
 </div>
-<div class="quoteblock">
-<blockquote>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If an egg breaks then it can&#8217;t be reused, but if it doesn&#8217;t break, you can go down, pick it up and drop it again from another floor.</p>
+</li>
+<li>
+<p>All the eggs have the same strength. If one of them breaks when dropped from a particular floor, all the other eggs would also break from the same floor.</p>
+</li>
+<li>
+<p>If an egg doesn&#8217;t break when dropped from a certain floor, then it will also not break from all floors below that one.</p>
+</li>
+<li>
+<p>If an egg breaks, then it would also break if dropped from a higher floor.</p>
+</li>
+<li>
+<p>It&#8217;s possible for the egg to break when thrown from the first floor, and it is also possible that the egg doesn&#8217;t break when thrown from the top floor.</p>
+</li>
+</ol>
+</div>
 <div class="paragraph">
-<p>I don&#8217;t think we actually save that anywhere, no. Too bad; that&#8217;d be a neat graph.</p>
+<p>Let&#8217;s start assuming you only have 1 egg. The only approach is to drop the egg from the first floor. If it doesn&#8217;t break you try again from the second floor etc. Once the egg breaks you will know which is the highest floor that is safe. In the worst case you will need to drop the egg 10 times.</p>
 </div>
-</blockquote>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2017-11-12-eggs-2.gif" alt="2017 11 12 eggs 2">
+</div>
+<div class="title">Figure 2. Given only 1 egg</div>
 </div>
 <div class="paragraph">
-<p>Checked <a href="http://web.archive.org/web/*/4clojure.com">Wayback machine</a> and there were a bunch of snapshots since 2011. A few curl requests and some grep filtering later I had the counts and could plot a graph with <a href="http://c3js.org/">C3.js</a>.</p>
+<p>What if we have 2 eggs? Well with 2 eggs you could just use the same strategy with the first egg and save the second one for breakfast the next day. But if you&#8217;re not feeling that hungry you could try a different strategy. For example you could directly drop the first egg from the 5th floor. If the egg breaks you know you don&#8217;t need to check any of the floors above using the second egg. And if it doesn&#8217;t break you don&#8217;t need to try any of the floors below. So if you take this approach, in the worst case you only need 6 drops.</p>
+</div>
+<div class="paragraph">
+<p>But if you think about it a bit longer you will realise that this is not the best strategy. In fact with 2 eggs and 10 floors 4 drops are enough. Think about it and you will see why. (Hint: start at the 4th floor)</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2017-11-12-eggs-3.png" alt="2017 11 12 eggs 3">
+</div>
+<div class="title">Figure 3. Given 2 eggs</div>
+</div>
+<div class="paragraph">
+<p>We can generalise this problem to any number of eggs and floors. Given <code>no-of-eggs</code> and <code>no-of-floors</code>, what is the <code>min-no-of-drops</code> that need to be performed (in the worst case) to determine the highest floor from which eggs can be safely dropped? Let&#8217;s start with the most basic cases:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>no-of-floors = 0</code> - With 0 floors, it doesn&#8217;t matter how many eggs we have. We can&#8217;t drop any.</p>
+</li>
+<li>
+<p><code>no-of-floors = 1</code> - With 1 floor, it also doesn&#8217;t matter how many eggs we have. We just need 1 drop.</p>
+</li>
+<li>
+<p><code>no-of-eggs = 1</code> - With 1 egg, as we&#8217;ve seen above, there is no other strategy except to start at the bottom and work our way up 1 floor at a time. So the <code>min-no-of-drops</code> would be equal to whatever the <code>no-of-floors</code> is.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn min-no-of-drops [no-of-eggs no-of-floors]
+   (cond
+     (= no-of-floors 0) 0
+     (= no-of-floors 1) 1
+     (= no-of-eggs 1) no-of-floors))
+
+ [(min-no-of-drops 2 0)
+  (min-no-of-drops 2 1)
+  (min-no-of-drops 1 15)]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So far so good. What about when <code>no-of-floors &gt; 1</code> and <code>no-of-eggs &gt; 1</code>? Well we could calculate the number of drops required when starting at each floor. The lowest result is the <code>min-no-of-drops</code>. For each floor <code>f</code> there are two options once we drop an egg:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If the egg breaks we call <code>min-no-of-drops</code> with one less egg and <code>f - 1</code> floors (because we only need to try the floors below the current one)</p>
+</li>
+<li>
+<p>If the egg doesn&#8217;t break we call <code>min-no-of-drops</code> with the same number of eggs and <code>no-of-floors - f</code> floors (because we only need to try the floors above the current one)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The maximum of these two options is the worst case we&#8217;re looking for. If we picture this as a tree we get something like this for 2 eggs and 10 floors:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2017-11-12-eggs-4.png" alt="2017 11 12 eggs 4">
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s add this logic to <code>min-no-of-drops</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn min-no-of-drops [no-of-eggs no-of-floors]
+  (cond
+    (= no-of-floors 0) 0
+    (= no-of-floors 1) 1
+    (= no-of-eggs 1) no-of-floors
+    :else (let [floors (range 1 (inc no-of-floors))
+                drops  (map (fn [floor]
+                              (max (min-no-of-drops (dec no-of-eggs) (dec floor))
+                                   (min-no-of-drops no-of-eggs (- no-of-floors floor))))
+                            floors)]
+            (inc (apply min drops)))))
+
+(min-no-of-drops 2 5)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This works when the <code>no-of-floors</code> is small. But the number of calculations grows very quickly as <code>no-of-floors</code> increases:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">[(time (min-no-of-drops 2 10))
+ (time (min-no-of-drops 2 13))
+ (time (min-no-of-drops 2 15))
+ (time (min-no-of-drops 2 18))]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, if you look closer at the graph above, you will see that we sometimes call <code>min-no-of-drops</code> with the same parameters. This is an example of a problem with  <a href="https://en.wikipedia.org/wiki/Optimal_substructure">optimal substructure</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2017-11-12-eggs-5.png" alt="2017 11 12 eggs 5">
+</div>
+</div>
+<div class="paragraph">
+<p>Also notice the function <code>min-no-of-drops</code> is <a href="https://en.wikipedia.org/wiki/Referential_transparency">referentially transparent</a> i.e. it will always return the same output if you give it the same inputs. This means that if we store the result when a call is made the first time, we could just reuse the result for all subsequent calls with the same parameters, instead of having to perform the computation again.</p>
+</div>
+<div class="paragraph">
+<p>We can do this with the <code>memoize</code> function. <code>memoize</code> takes a function as input and returns another function which caches results as they are calculated and on subsequent calls with the same parameters just returns the previous calculation. Let&#8217;s look at a simple example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn factorial [n]
+  (println (str "calculating factorial for " n))
+  (apply * (range 1 (inc n))))
+
+[(factorial 3)
+ (factorial 3)]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that <code>println</code> is executed twice. Now let&#8217;s use <code>memoize</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def factorial-memoized
+  (memoize factorial))
+
+[(factorial-memoized 3)
+ (factorial-memoized 3)
+ (factorial-memoized 3)]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that <code>println</code> is executed only once even though we call factorial 3 times. If you look at the source code it might be easier to understand what&#8217;s going on:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(defn memoize
+  "Returns a memoized version of a referentially transparent function. The
+  memoized version of the function keeps a cache of the mapping from arguments
+  to results and, when calls with the same arguments are repeated often, has
+  higher performance at the expense of higher memory use."
+  {:added "1.0"
+   :static true}
+  [f]
+  (let [mem (atom {})]
+    (fn [&amp; args]
+      (if-let [e (find @mem args)]
+        (val e)
+        (let [ret (apply f args)]
+          (swap! mem assoc args ret)
+          ret)))))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With each call, a lookup is made in a map to see if a previous call with the same arguments was already made. If yes the value in the map is returned. If not the function is called and the result is stored in the map ready for subsequent calls.</p>
+</div>
+<div class="paragraph">
+<p>Now that we know how to use memoize let&#8217;s use it with <code>min-no-of-drops</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-klipse" data-lang="klipse">(def min-no-of-drops
+  (memoize
+    (fn [no-of-eggs no-of-floors]
+      (cond
+        (= no-of-floors 0) 0
+        (= no-of-floors 1) 1
+        (= no-of-eggs 1) no-of-floors
+        :else (let [floors (range 1 (inc no-of-floors))
+                    drops  (map (fn [floor]
+                                  (max (min-no-of-drops (dec no-of-eggs) (dec floor))
+                                       (min-no-of-drops no-of-eggs (- no-of-floors floor))))
+                               floors)]
+               (inc (apply min drops)))))))
+
+[(time (min-no-of-drops 3 18))
+ (time (min-no-of-drops 4 67))]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see the memoized version is much faster.</p>
+</div>
+<div class="paragraph">
+<p>Note: No eggs were harmed while you were reading this blog post.</p>
 </div>
 
 
@@ -108,8 +311,6 @@
       
       
       
-        
-      
     
       
       
@@ -137,6 +338,8 @@
     
       
       
+      
+        
       
     
       
@@ -261,8 +464,6 @@
           
           
           
-            <li><a href="https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/">How many eggs should a woodchuck chuck?</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
-          
         
           
           
@@ -290,6 +491,8 @@
         
           
           
+          
+            <li><a href="https://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/">4Clojure solutions over time</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
           
         
           

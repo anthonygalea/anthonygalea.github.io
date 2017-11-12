@@ -88,7 +88,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">locate-vehicle</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">locate-vehicle</span>
   <span class="tok-s">&quot;Given a licence plate, returns the location of a vehicle as a vector with the</span>
 <span class="tok-s">   level and parking space number, nil if not present.&quot;</span>
   <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">])</span>
@@ -113,7 +113,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">parking-spaces</span> <span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">15</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">parking-spaces</span> <span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">15</span>
                      <span class="tok-mi">1</span> <span class="tok-mi">10</span><span class="tok-p">})</span></code></pre>
 </div>
 </div>
@@ -122,7 +122,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">initialize-garage!</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">initialize-garage!</span>
   <span class="tok-s">&quot;Sets the initial state of the garage.&quot;</span>
   <span class="tok-p">[</span><span class="tok-nv">parking-spaces</span><span class="tok-p">])</span></code></pre>
 </div>
@@ -132,7 +132,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">against-background</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">against-background</span>
  <span class="tok-p">[(</span><span class="tok-nf">before</span> <span class="tok-ss">:facts</span> <span class="tok-p">(</span><span class="tok-nf">initialize-garage!</span> <span class="tok-p">{</span><span class="tok-mi">0</span> <span class="tok-mi">2</span> <span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">}))]</span>
 
  <span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;After a vehicle enters the garage it should be possible to locate it.&quot;</span>
@@ -175,7 +175,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-c1">;; declare an empty map called vehicles</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-c1">;; declare an empty map called vehicles</span>
 <span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">vehicles</span> <span class="tok-p">{})</span>
 <span class="tok-c1">;; next we apply conj to it to add a new vehicle and it&#39;s location in the garage</span>
 <span class="tok-p">(</span><span class="tok-nb">conj </span><span class="tok-nv">vehicles</span> <span class="tok-p">[</span><span class="tok-s">&quot;JAFA017&quot;</span> <span class="tok-p">[</span><span class="tok-mi">1</span> <span class="tok-mi">1</span><span class="tok-p">]])</span>
@@ -209,7 +209,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="klipse">(def vehicles (ref {}))
+<pre class="pygments highlight"><code data-lang="klipse"><span></span>(def vehicles (ref {}))
 (def empty-parking-spaces (ref #{}))</code></pre>
 </div>
 </div>
@@ -218,7 +218,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">enter-garage!</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">enter-garage!</span>
   <span class="tok-s">&quot;Simulates a vehicle entering the garage. Return the state of the garage if</span>
 <span class="tok-s">   there is still free space, nil if no empty parking space exists.&quot;</span>
   <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">]</span>
@@ -234,7 +234,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">exit-garage!</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">exit-garage!</span>
   <span class="tok-s">&quot;Simulates a vehicle exiting the garage. Returns the state of the garage if</span>
 <span class="tok-s">   such a vehicle exists in the garage, nil otherwise.&quot;</span>
   <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">]</span>
@@ -250,7 +250,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">locate-vehicle</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">locate-vehicle</span>
   <span class="tok-s">&quot;Given a licence plate, returns the location of a vehicle as a vector with the</span>
 <span class="tok-s">   level and parking space number, nil if not present.&quot;</span>
   <span class="tok-p">[</span><span class="tok-nv">licence-plate</span><span class="tok-p">]</span>
@@ -273,6 +273,12 @@
     
     
     
+    
+      
+      
+      
+        
+      
     
       
       
@@ -424,6 +430,12 @@
           
           
           
+            <li><a href="https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/">How many eggs should a woodchuck chuck?</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
             <li><a href="https://www.anthony-galea.com/blog/post/modeling-big-two/">Modeling Big two</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
           
         
@@ -563,6 +575,11 @@
           
           
         
+        
+            
+            
+            
+            
         
             
             

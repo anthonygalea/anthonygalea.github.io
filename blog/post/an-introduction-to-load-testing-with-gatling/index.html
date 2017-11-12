@@ -136,7 +136,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="java"><span class="tok-kd">class</span> <span class="tok-nc">SimpleSimulation</span> <span class="tok-kd">extends</span> <span class="tok-n">Simulation</span> <span class="tok-o">{</span>
+<pre class="pygments highlight"><code data-lang="java"><span></span><span class="tok-kd">class</span> <span class="tok-nc">SimpleSimulation</span> <span class="tok-kd">extends</span> <span class="tok-n">Simulation</span> <span class="tok-o">{</span>
   <span class="tok-c1">//declare a scenario with a simple get request performed 5 times</span>
   <span class="tok-n">val</span> <span class="tok-n">scn</span> <span class="tok-o">=</span> <span class="tok-n">scenario</span><span class="tok-o">(</span><span class="tok-s">&quot;myScenario&quot;</span><span class="tok-o">)</span>
             <span class="tok-o">.</span><span class="tok-na">exec</span><span class="tok-o">(</span><span class="tok-n">http</span><span class="tok-o">(</span><span class="tok-s">&quot;myRequest&quot;</span><span class="tok-o">).</span><span class="tok-na">get</span><span class="tok-o">(</span><span class="tok-s">&quot;http://test.com/page.html&quot;</span><span class="tok-o">))</span>
@@ -152,7 +152,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">http</span><span class="tok-o">(</span><span class="tok-s">&quot;myRequest&quot;</span><span class="tok-o">)</span>
+<pre class="pygments highlight"><code data-lang="java"><span></span><span class="tok-n">http</span><span class="tok-o">(</span><span class="tok-s">&quot;myRequest&quot;</span><span class="tok-o">)</span>
   <span class="tok-o">.</span><span class="tok-na">get</span><span class="tok-o">(</span><span class="tok-s">&quot;http://test.com/page.html&quot;</span><span class="tok-o">)</span>
   <span class="tok-o">.</span><span class="tok-na">header</span><span class="tok-o">(</span><span class="tok-s">&quot;Content-Type&quot;</span><span class="tok-o">,</span> <span class="tok-s">&quot;text/html&quot;</span><span class="tok-o">)</span>
   <span class="tok-o">.</span><span class="tok-na">check</span><span class="tok-o">(</span><span class="tok-n">status</span><span class="tok-o">.</span><span class="tok-na">is</span><span class="tok-o">(</span><span class="tok-mi">200</span><span class="tok-o">))</span></code></pre>
@@ -163,7 +163,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">http</span><span class="tok-o">(</span><span class="tok-s">&quot;myRequest&quot;</span><span class="tok-o">)</span>
+<pre class="pygments highlight"><code data-lang="java"><span></span><span class="tok-n">http</span><span class="tok-o">(</span><span class="tok-s">&quot;myRequest&quot;</span><span class="tok-o">)</span>
   <span class="tok-o">.</span><span class="tok-na">post</span><span class="tok-o">(</span><span class="tok-s">&quot;http://test.com/someresource&quot;</span><span class="tok-o">))</span>
   <span class="tok-o">.</span><span class="tok-na">body</span><span class="tok-o">(</span><span class="tok-n">StringBody</span><span class="tok-o">(</span><span class="tok-s">&quot;&quot;&quot;{ &quot;</span><span class="tok-n">myContent</span><span class="tok-s">&quot;: &quot;</span><span class="tok-n">myValue</span><span class="tok-s">&quot; }&quot;&quot;&quot;</span><span class="tok-o">))</span>
   <span class="tok-o">.</span><span class="tok-na">asJSON</span>
@@ -192,7 +192,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">http</span><span class="tok-o">(</span><span class="tok-s">&quot;myRequest&quot;</span><span class="tok-o">)</span>
+<pre class="pygments highlight"><code data-lang="java"><span></span><span class="tok-n">http</span><span class="tok-o">(</span><span class="tok-s">&quot;myRequest&quot;</span><span class="tok-o">)</span>
   <span class="tok-o">.</span><span class="tok-na">post</span><span class="tok-o">(</span><span class="tok-s">&quot;http://test.com/someresource&quot;</span><span class="tok-o">))</span>
   <span class="tok-o">.</span><span class="tok-na">bodyPart</span><span class="tok-o">(</span><span class="tok-n">StringBodyPart</span><span class="tok-o">(</span><span class="tok-s">&quot;&quot;&quot;{ &quot;</span><span class="tok-n">myContent</span><span class="tok-s">&quot;: &quot;</span><span class="tok-n">myValue</span><span class="tok-s">&quot; }&quot;&quot;&quot;</span><span class="tok-o">))</span>
   <span class="tok-o">.</span><span class="tok-na">bodyPart</span><span class="tok-o">(</span><span class="tok-n">RawFileBodyPart</span><span class="tok-o">(</span><span class="tok-s">&quot;file&quot;</span><span class="tok-o">,</span> <span class="tok-s">&quot;test.txt&quot;</span><span class="tok-o">)</span>
@@ -204,7 +204,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">scenario</span><span class="tok-o">(</span><span class="tok-s">&quot;myScenario&quot;</span><span class="tok-o">)</span>
+<pre class="pygments highlight"><code data-lang="java"><span></span><span class="tok-n">scenario</span><span class="tok-o">(</span><span class="tok-s">&quot;myScenario&quot;</span><span class="tok-o">)</span>
   <span class="tok-o">.</span><span class="tok-na">exec</span><span class="tok-o">(</span><span class="tok-n">http</span><span class="tok-o">(</span><span class="tok-s">&quot;request1&quot;</span><span class="tok-o">)</span>
           <span class="tok-o">.</span><span class="tok-na">post</span><span class="tok-o">(</span><span class="tok-s">&quot;http://test.com/resource1&quot;</span><span class="tok-o">)</span>
           <span class="tok-o">.</span><span class="tok-na">body</span><span class="tok-o">(</span><span class="tok-n">StringBody</span><span class="tok-s">&quot;&quot;&quot;{ &quot;</span><span class="tok-n">myContent</span><span class="tok-s">&quot;: &quot;&quot;}&quot;&quot;&quot;</span><span class="tok-o">)</span>
@@ -222,7 +222,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="java"><span class="tok-n">setUp</span><span class="tok-o">(</span><span class="tok-n">scn</span><span class="tok-o">.</span><span class="tok-na">users</span><span class="tok-o">(</span><span class="tok-mi">1000</span><span class="tok-o">).</span><span class="tok-na">ramp</span><span class="tok-o">(</span><span class="tok-mi">20</span><span class="tok-o">))</span></code></pre>
+<pre class="pygments highlight"><code data-lang="java"><span></span><span class="tok-n">setUp</span><span class="tok-o">(</span><span class="tok-n">scn</span><span class="tok-o">.</span><span class="tok-na">users</span><span class="tok-o">(</span><span class="tok-mi">1000</span><span class="tok-o">).</span><span class="tok-na">ramp</span><span class="tok-o">(</span><span class="tok-mi">20</span><span class="tok-o">))</span></code></pre>
 </div>
 </div>
 </div>
@@ -238,7 +238,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="xml"><span class="tok-nt">&lt;dependencies&gt;</span>
+<pre class="pygments highlight"><code data-lang="xml"><span></span><span class="tok-nt">&lt;dependencies&gt;</span>
   <span class="tok-nt">&lt;dependency&gt;</span>
     <span class="tok-nt">&lt;groupId&gt;</span>io.gatling.highcharts<span class="tok-nt">&lt;/groupId&gt;</span>
     <span class="tok-nt">&lt;artifactId&gt;</span>gatling-charts-highcharts<span class="tok-nt">&lt;/artifactId&gt;</span>
@@ -261,7 +261,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash">mvn gatling:execute -Dgatling.simulationClass<span class="tok-o">=</span>com.company.service.YourSimulation</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span></span>mvn gatling:execute -Dgatling.simulationClass<span class="tok-o">=</span>com.company.service.YourSimulation</code></pre>
 </div>
 </div>
 </div>
@@ -282,6 +282,10 @@
     
     
     
+    
+      
+      
+      
     
       
       
@@ -425,6 +429,10 @@
           
           
           
+        
+          
+          
+          
             <li><a href="https://www.anthony-galea.com/blog/post/the-template-method-pattern/">The Template Method Pattern</a> <a class="label" href="https://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="https://www.anthony-galea.com/categories/java">java</a><a class="label" href="https://www.anthony-galea.com/categories/scala">scala</a><a class="label" href="https://www.anthony-galea.com/categories/kotlin">kotlin</a><a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
           
         
@@ -532,6 +540,13 @@
           
           
         
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/">How many eggs should a woodchuck chuck?</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+            
         
             
             

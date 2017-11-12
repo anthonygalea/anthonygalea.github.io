@@ -91,7 +91,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
  <span class="tok-ss">:db/ident</span>              <span class="tok-ss">:account/balance</span>
  <span class="tok-ss">:db/valueType</span>          <span class="tok-ss">:db.type/bigdec</span>
  <span class="tok-ss">:db/cardinality</span>        <span class="tok-ss">:db.cardinality/one</span>
@@ -104,7 +104,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
  <span class="tok-ss">:db/ident</span>              <span class="tok-ss">:transfer/amount</span>
  <span class="tok-ss">:db/valueType</span>          <span class="tok-ss">:db.type/bigdec</span>
  <span class="tok-ss">:db/cardinality</span>        <span class="tok-ss">:db.cardinality/one</span>
@@ -131,7 +131,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">{</span><span class="tok-ss">:db/id</span>                 <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/db</span><span class="tok-p">]</span>
  <span class="tok-ss">:db/ident</span>              <span class="tok-ss">:transfer/status</span>
  <span class="tok-ss">:db/valueType</span>          <span class="tok-ss">:db.type/ref</span>
  <span class="tok-ss">:db/cardinality</span>        <span class="tok-ss">:db.cardinality/one</span>
@@ -158,7 +158,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.db</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.db</span>
   <span class="tok-p">(</span><span class="tok-ss">:require</span> <span class="tok-p">[</span><span class="tok-nv">datomic.api</span> <span class="tok-ss">:as</span> <span class="tok-nv">d</span><span class="tok-p">]))</span>
 
 <span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">uri</span> <span class="tok-s">&quot;datomic:free://localhost:4334/account-service-db&quot;</span><span class="tok-p">)</span>
@@ -175,7 +175,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.db-test</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">ns </span><span class="tok-nv">account-service.db-test</span>
   <span class="tok-p">(</span><span class="tok-ss">:require</span> <span class="tok-p">[</span><span class="tok-nv">account-service.db</span> <span class="tok-ss">:refer</span> <span class="tok-ss">:all</span><span class="tok-p">]</span>
             <span class="tok-p">[</span><span class="tok-nv">midje.sweet</span> <span class="tok-ss">:refer</span> <span class="tok-ss">:all</span><span class="tok-p">]</span>
             <span class="tok-p">[</span><span class="tok-nv">datomic.api</span> <span class="tok-ss">:as</span> <span class="tok-nv">d</span><span class="tok-p">]))</span></code></pre>
@@ -186,7 +186,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defproject </span><span class="tok-nv">account-service</span> <span class="tok-s">&quot;0.1.0-SNAPSHOT&quot;</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defproject </span><span class="tok-nv">account-service</span> <span class="tok-s">&quot;0.1.0-SNAPSHOT&quot;</span>
   <span class="tok-ss">:dependencies</span> <span class="tok-p">[[</span><span class="tok-nv">org.clojure/clojure</span> <span class="tok-s">&quot;1.8.0&quot;</span><span class="tok-p">]</span>
                  <span class="tok-p">[</span><span class="tok-nv">com.datomic/datomic-free</span> <span class="tok-s">&quot;0.9.5372&quot;</span><span class="tok-p">]</span>
                  <span class="tok-p">[</span><span class="tok-nv">clj-time</span> <span class="tok-s">&quot;0.12.0&quot;</span><span class="tok-p">]</span>
@@ -211,7 +211,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">create-empty-in-memory-db</span> <span class="tok-p">[]</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">create-empty-in-memory-db</span> <span class="tok-p">[]</span>
   <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">uri</span> <span class="tok-s">&quot;datomic:mem://account-service-test-db&quot;</span><span class="tok-p">]</span>
     <span class="tok-p">(</span><span class="tok-nf">d/delete-database</span> <span class="tok-nv">uri</span><span class="tok-p">)</span>
     <span class="tok-p">(</span><span class="tok-nf">d/create-database</span> <span class="tok-nv">uri</span><span class="tok-p">)</span>
@@ -226,7 +226,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Adding one account should allow us to find that account using the returned id&quot;</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Adding one account should allow us to find that account using the returned id&quot;</span>
   <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
     <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">161.80</span><span class="tok-nv">M</span><span class="tok-p">})]</span>
       <span class="tok-p">(</span><span class="tok-nf">get-account</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">account</span><span class="tok-p">))</span> <span class="tok-nv">=&gt;</span> <span class="tok-p">{</span><span class="tok-ss">:id</span> <span class="tok-p">(</span><span class="tok-ss">:id</span> <span class="tok-nv">account</span><span class="tok-p">)</span> <span class="tok-ss">:balance</span> <span class="tok-mf">161.80</span><span class="tok-nv">M</span><span class="tok-p">})))</span></code></pre>
@@ -237,7 +237,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Adding multiple accounts should allow us to find all those accounts&quot;</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Adding multiple accounts should allow us to find all those accounts&quot;</span>
   <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
     <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">account-1</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">12.34</span><span class="tok-nv">M</span><span class="tok-p">})</span>
           <span class="tok-nv">account-2</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">56.78</span><span class="tok-nv">M</span><span class="tok-p">})</span>
@@ -252,7 +252,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash">$ lein midje</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span></span>$ lein midje</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -268,7 +268,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">add-account</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">add-account</span>
   <span class="tok-s">&quot;Adds an account&quot;</span>
   <span class="tok-p">[</span><span class="tok-nv">account</span><span class="tok-p">]</span>
   <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">balance</span> <span class="tok-p">(</span><span class="tok-nf">bigdec</span> <span class="tok-p">(</span><span class="tok-ss">:balance</span> <span class="tok-nv">account</span><span class="tok-p">))</span>
@@ -285,7 +285,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">get-account</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">get-account</span>
   <span class="tok-s">&quot;Retrieves an account given it&#39;s id&quot;</span>
   <span class="tok-p">[</span><span class="tok-nv">id</span><span class="tok-p">]</span>
   <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">res</span> <span class="tok-p">(</span><span class="tok-nb">first </span><span class="tok-p">(</span><span class="tok-nf">d/q</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-ss">:find</span> <span class="tok-nv">?id</span> <span class="tok-nv">?balance</span>
@@ -318,7 +318,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Making a transfer between two valid accounts with sufficient funds should succeed&quot;</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Making a transfer between two valid accounts with sufficient funds should succeed&quot;</span>
   <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
     <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">from-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">1618.00</span><span class="tok-nv">M</span><span class="tok-p">})</span>
             <span class="tok-nv">to-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">200.00</span><span class="tok-nv">M</span><span class="tok-p">})]</span>
@@ -337,7 +337,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Making a transfer from an account with insufficient funds should fail with status insufficient-funds&quot;</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-nf">fact</span> <span class="tok-s">&quot;Making a transfer from an account with insufficient funds should fail with status insufficient-funds&quot;</span>
   <span class="tok-p">(</span><span class="tok-nf">with-redefs</span> <span class="tok-p">[</span><span class="tok-nv">conn</span> <span class="tok-p">(</span><span class="tok-nf">create-empty-in-memory-db</span><span class="tok-p">)]</span>
     <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">from-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">18.00</span><span class="tok-nv">M</span><span class="tok-p">})</span>
             <span class="tok-nv">to-account</span> <span class="tok-p">(</span><span class="tok-nf">add-account</span> <span class="tok-p">{</span><span class="tok-ss">:balance</span> <span class="tok-mf">200.00</span><span class="tok-nv">M</span><span class="tok-p">})</span>
@@ -374,7 +374,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">{</span><span class="tok-ss">:db/id</span>    <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/user</span><span class="tok-p">]</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">{</span><span class="tok-ss">:db/id</span>    <span class="tok-o">#</span><span class="tok-nv">db/id</span><span class="tok-p">[</span><span class="tok-ss">:db.part/user</span><span class="tok-p">]</span>
  <span class="tok-ss">:db/ident</span> <span class="tok-ss">:make-transfer</span>
  <span class="tok-ss">:db/doc</span>   <span class="tok-s">&quot;Performs a transfer between two accounts&quot;</span>
  <span class="tok-ss">:db/fn</span>    <span class="tok-o">#</span><span class="tok-nv">db/fn</span>
@@ -398,7 +398,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">make-transfer</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">make-transfer</span>
   <span class="tok-s">&quot;Performs a transfer&quot;</span>
   <span class="tok-p">[</span><span class="tok-nv">transfer</span><span class="tok-p">]</span>
   <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">amount</span> <span class="tok-p">(</span><span class="tok-nf">bigdec</span> <span class="tok-p">(</span><span class="tok-ss">:amount</span> <span class="tok-nv">transfer</span><span class="tok-p">))</span>
@@ -422,7 +422,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">app</span>
+<pre class="pygments highlight"><code data-lang="clojure"><span></span><span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">app</span>
   <span class="tok-p">(</span><span class="tok-nf">api</span>
     <span class="tok-p">{</span><span class="tok-ss">:swagger</span>
      <span class="tok-p">{</span><span class="tok-ss">:ui</span>   <span class="tok-s">&quot;/&quot;</span>
@@ -484,6 +484,12 @@
     
     
     
+    
+      
+      
+      
+        
+      
     
       
       
@@ -635,6 +641,12 @@
           
           
           
+            <li><a href="https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/">How many eggs should a woodchuck chuck?</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+          
+        
+          
+          
+          
             <li><a href="https://www.anthony-galea.com/blog/post/modeling-big-two/">Modeling Big two</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
           
         
@@ -774,6 +786,11 @@
           
           
         
+        
+            
+            
+            
+            
         
             
             
