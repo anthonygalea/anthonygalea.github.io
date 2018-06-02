@@ -1,0 +1,22 @@
+@startuml
+
+agent player1
+agent referee
+agent player2
+agent grid
+
+player1 <- referee : (3) opponent id
+player1 -> referee : (2) player id
+player1 -> referee : (4) move
+
+referee <- player2 : (4) move
+referee -> player2 : (3) opponent id
+referee <- player2 : (2) player id
+
+player1 <-down- grid : (1) cell channels
+player1 -down-> grid : score
+
+player2 <-down- grid : (1) cell channels
+player2 -down-> grid : score
+
+@enduml
