@@ -68,7 +68,7 @@ h1, h2, h3, .quoteblock, .post-date, .paragraph, .ulist, .olist, .pygments {
 
 .links {
   float: right;
-  line-height: 1.8em;
+  line-height: 1.9em;
   font-size: 1.8em;
 }
 
@@ -77,9 +77,10 @@ h1, h2, h3, .quoteblock, .post-date, .paragraph, .ulist, .olist, .pygments {
 }
 
 .icon {
-    width: 0.9em;
+    width: 0.8em;
     height: 0.9em;
-}	       
+}
+
 .navbar h1 {
   color: #fff;
   margin-top: 0;

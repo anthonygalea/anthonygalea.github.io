@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
 
-  <title>Iterated Function Systems</title>
+  <title>How to Fail at Almost Everything and Still Win Big - Scott Adams</title>
 
   <link href="https://www.anthony-galea.com/favicon.png" rel="icon">
 
@@ -19,7 +19,7 @@
   
 
   <meta name="description" content="">
-  <meta name="keywords" content="clojure">
+  <meta name="keywords" content="">
   
 
   
@@ -73,316 +73,131 @@
 <div class="content">
   <div class="post">
     <div class="post-header">
-      <h1 class="post-title">Iterated Function Systems</h1>
+      <h1 class="post-title">How to Fail at Almost Everything and Still Win Big - Scott Adams</h1>
       <span class="post-date">
-      Jan 31, 2017 &middot; 5 minute read
+      May 2, 2016 &middot; 2 minute read
       
-      <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a>
+      <a class="label" href="https://www.anthony-galea.com/categories/book-notes">book-notes</a>
       
 
       
       </span>
     </div>
-    <div class="imageblock">
-<div class="content">
-<img src="/images/2017-01-31-weird.png" alt="2017 01 31 weird">
+    <div class="paragraph">
+<p>In <a href="https://www.goodreads.com/book/show/17859574-how-to-fail-at-almost-everything-and-still-win-big">How to Fail at Almost Everything and Still Win Big</a>, Scott Adams, creator of the <a href="http://dilbert.com">Dilbert comic strip</a>, doles out some great nuggets of wisdom such as:</p>
 </div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>money distorts truth like a hippo in a thong</p>
+</div>
+</blockquote>
 </div>
 <div class="paragraph">
-<p>Above you can see a static image generated using this web page. Below you should see a picture of a tree that your browser just generated using the code snippet below it. You can increase the value for <code>iterations</code> and the tree will repaint. Go ahead, give it a try.</p>
+<p>Really enjoyed reading this one. Some highlights below.</p>
 </div>
-<div class="listingblock" style="display:none"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(ns fractals.ifs)
-
-(defn transform [transformation point]
-  (let [[a b c d e f] transformation
-        [x y] point]
-    [(+ e
-        (+ (* a x)
-           (* b y)))
-     (+ f
-        (+ (* c x)
-           (* d y)))]))
-
-(defn log [x y]
-  (/ (.log js/Math x)
-     (.log js/Math y)))
-
-(defn draw-transformations [transformations canvas]
-  (let [canvas (js/document.getElementById canvas)
-        ctx (.getContext canvas "2d")
-        width (.-width canvas)
-        height (.-height canvas)
-        clear (.clearRect ctx 0 0 width height)
-        n (count transformations)]
-    (.rect ctx 0 0 width height)
-    (.stroke ctx)
-    (doseq [[[a b c d e f] colour]
-            (map vector transformations
-                 (cycle (map #(+ 100 (int (/ 125 %))) (range n))))]
-      (.setTransform ctx a b c d (* e width) (* f height))
-      (set! (.-fillStyle ctx) (str "rgb(" colour "," colour "," colour ")"))
-      (.fillRect ctx 0 0 width height))
-    (.setTransform ctx 1 0 0 1 0 0)))
-
-(defn draw-ifs [{:keys [iterations transformations colour-1 colour-2]}
-                canvas]
-  (draw-transformations transformations (str canvas "-transformations"))
-  (let [canvas (js/document.getElementById canvas)
-        ctx (.getContext canvas "2d")
-        width (.-width canvas)
-        height (.-height canvas)
-        clear (.clearRect ctx 0 0 width height)
-        image (.createImageData ctx width height)
-        points (drop 100
-                     (persistent!
-                       (reduce (fn [points i]
-                                 (conj! points
-                                        (transform (rand-nth transformations)
-                                                   (nth points i))))
-                               (transient [[1 1]])
-                               (range iterations))))
-        max-x (apply max (map first points))
-        max-y (apply max (map second points))
-        mapped (frequencies
-                (map (fn [[x y]]
-                       [(int (* width (/ x max-x)))
-                        (int (* height (/ y max-y)))])
-                     points))
-        max-v (apply max (map second mapped))
-        pixel-count (* width height)
-        pixel-data (persistent!
-                    (reduce (fn [pixels [[x y] v]]
-                              (let [r1 (log v max-v)
-                                    r2 (- 1 r1)]
-                                (conj! pixels
-                                       (into [(* 4 (+ x (- pixel-count (* width y))))]
-                                             (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))))
-                            (transient [])
-                            mapped))]
-    (doseq [[i r g b] pixel-data]
-      (aset image.data i r)
-      (aset image.data (+ i 1) g)
-      (aset image.data (+ i 2) b)
-      (aset image.data (+ i 3) 255))
-    (.putImageData ctx image 0 0)))
-
-</code></pre></div></div>
-<div class="imageblock"><div class="content">
-  <canvas id="canvas-tree-transformations" width="350" height="350"></canvas>
-  <canvas id="canvas-tree" width="350" height="350"></canvas>
-</div></div>
-
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(def tree {:colour-1 [23 2 10]
-           :colour-2 [58 173 75]
-           :iterations 40000
-           :transformations [[0.195 -0.488 0.344 0.443 0.4431 0.2453]
-                             [0.462 0.414 -0.252 0.361 0.2511 0.5692]
-                             [-0.058 -0.07 0.453 -0.111 0.5976 0.0969]
-                             [-0.035 0.07 -0.469 -0.022 0.4884 0.5069]
-                             [-0.637 0 0 0.501 0.8562 0.2513]]})
-
-(draw-ifs tree "canvas-tree")
-
-</code></pre></div></div>
+<div class="sect1">
+<h2 id="_on_simplicity">On Simplicity</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
 <div class="paragraph">
-<p>You can see a preview of the transformations on the left. Let&#8217;s try again, this time with a snowflake:</p>
+<p>My wife, Shelly, is a world-class optimizer. I, on the other hand, cling to simplicity like a monkey on a coconut.</p>
 </div>
-<div class="imageblock"><div class="content">
-  <canvas id="canvas-snowflake-transformations" width="350" height="350"></canvas>
-  <canvas id="canvas-snowflake" width="350" height="350"></canvas>
-</div></div>
-
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(def snowflake {:colour-1 [225 255 255]
-                :colour-2 [0 29 30]
-                :iterations 40000
-                :transformations [[0.75 0 0 0.75 0.125 0.125]
-                                  [0.5 0.5 -0.5 0.5 0 0.5]
-                                  [0.25 0 0 0.25 0 0.75]
-                                  [0.25 0 0 0.25 0.75 0.75]
-                                  [0.25 0 0 0.25 0 0]
-                                  [0.25 0 0 0.25 0.75 0]]})
-
-(draw-ifs snowflake "canvas-snowflake")
-
-</code></pre></div></div>
-<div class="paragraph">
-<p>Perhaps not the best choice of colours, but I&#8217;m sure you can fix that. They&#8217;re RGB. Here&#8217;s a couple more examples:</p>
+</blockquote>
 </div>
-<div class="imageblock"><div class="content">
-  <canvas id="canvas-weed-transformations" width="350" height="350"></canvas>
-  <canvas id="canvas-weed" width="350" height="350"></canvas>
-</div></div>
-
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(def weed {:colour-1 [2 2 0]
-           :colour-2 [154 189 40]
-           :iterations 40000
-           :transformations [[0.5 0 0 0.75 0.2 0]
-                             [0.25 0.1 -0.2 0.3 0.2 0.5]
-                             [0.25 -0.1 0.2 0.3 0.5 0.4]
-                             [0.2 0 0 0.3 0.4 0.55]]})
-
-(draw-ifs weed "canvas-weed")
-
-</code></pre></div></div>
-<div class="imageblock"><div class="content">
-  <canvas id="canvas-pine-tree-transformations" width="350" height="350"></canvas>
-  <canvas id="canvas-pine-tree" width="350" height="350"></canvas>
-</div></div>
-
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000" data-eval-idle-msec="1000">
-
-(def pine-tree {:colour-1 [3 2 10]
-                :colour-2 [58 173 75]
-                :iterations 40000
-                :transformations [[0.25 0 0 0.9 0.375 0]
-                                  [0.65 0 0 0.75 0.175 0.25]
-                                  [0 -0.5 0.25 0 0.5 0.2]
-                                  [0 0.5 -0.25 0 0.5 0.45]]})
-
-(draw-ifs pine-tree "canvas-pine-tree")
-
-</code></pre></div></div>
+<div class="quoteblock">
+<blockquote>
 <div class="paragraph">
-<p>If you play around a bit things can get weird:</p>
+<p>Simplicity transforms ordinary into amazing.</p>
 </div>
-<div class="imageblock"><div class="content">
-  <canvas id="canvas-weird-transformations" width="350" height="350"></canvas>
-  <canvas id="canvas-weird" width="350" height="350"></canvas>
-</div></div>
-
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(def weird {:colour-1 [215 122 126]
-            :colour-2 [0 2 8]
-            :iterations 40000
-            :transformations [[0.5 0.557 -0.357 0.1 0.0951 0.5893]
-                              [0.1 0.157 -0.557 0.4 0.4413 0.5893]
-                              [-0.2 0.257 -0.547 0.3 0.2313 0.5893]
-                              [0.7 0.517 -0.547 0.4 0.0952 0.9893]]})
-
-(draw-ifs weird "canvas-weird")
-
-</code></pre></div></div>
-<div class="paragraph">
-<p>But how does it work? Well, it is using a technique for drawing fractals known as <a href="https://en.wikipedia.org/wiki/Iterated_function_system">Iterated Functions Systems</a>.</p>
+</blockquote>
 </div>
-<div class="paragraph">
-<p>You can find all the code required for this page to work below. Let&#8217;s go through it step by step. First a helper function to perform a transformation on a point:</p>
 </div>
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(defn transform [transformation point]
-  (let [[a b c d e f] transformation
-        [x y] point]
-    [(+ e
-        (+ (* a x)
-           (* b y)))
-     (+ f
-        (+ (* c x)
-           (* d y)))]))
-
-</code></pre></div></div>
-<div class="paragraph">
-<p>and another helper function to calculate \$\log_y  x\$ which will be used to determine the colour of a pixel:</p>
 </div>
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(defn log [x y]
-  (/ (.log js/Math x)
-     (.log js/Math y)))
-
-</code></pre></div></div>
+<div class="sect1">
+<h2 id="_on_being_an_expert">On being an Expert</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
 <div class="paragraph">
-<p>Next we have another function that is used to display a preview of the transformations on a canvas:</p>
+<p>I’m also not an expert at anything, including my own job. I draw like an inebriated howler monkey and my writing style falls somewhere between baffling and sophomoric. It’s an ongoing mystery to me why I keep getting paid.</p>
 </div>
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-usinggettingduration="60000">
-
-(defn draw-transformations [transformations canvas]
-  (let [canvas (js/document.getElementById canvas)
-        ctx (.getContext canvas "2d")
-        width (.-width canvas)
-        height (.-height canvas)
-        clear (.clearRect ctx 0 0 width height)
-        n (count transformations)]
-    (.rect ctx 0 0 width height)
-    (.stroke ctx)
-    (doseq [[[a b c d e f] colour]
-            (map vector transformations
-                 (cycle (map #(+ 100 (int (/ 125 %))) (range n))))]
-      (.setTransform ctx a b c d (* e width) (* f height))
-      (set! (.-fillStyle ctx) (str "rgb(" colour "," colour "," colour ")"))
-      (.fillRect ctx 0 0 width height))
-    (.setTransform ctx 1 0 0 1 0 0)))
-
-</code></pre></div></div>
-<div class="paragraph">
-<p>And finally the <code>draw-ifs</code> function that renders the fractal using the parameters provided:</p>
+</blockquote>
 </div>
-<div class="listingblock"><div class="content"><pre class="highlight">
-<code class="language-klipse" data-max-eval-duration="60000">
-
-(defn draw-ifs [{:keys [iterations transformations colour-1 colour-2]}
-                canvas]
-  (draw-transformations transformations (str canvas "-transformations"))
-  (let [canvas (js/document.getElementById canvas)
-        ctx (.getContext canvas "2d")
-        width (.-width canvas)
-        height (.-height canvas)
-        clear (.clearRect ctx 0 0 width height)
-        image (.createImageData ctx width height)
-        points (drop 100
-                     (persistent!
-                       (reduce (fn [points i]
-                                 (conj! points
-                                        (transform (rand-nth transformations)
-                                                   (nth points i))))
-                               (transient [[1 1]])
-                               (range iterations))))
-        max-x (apply max (map first points))
-        max-y (apply max (map second points))
-        mapped (frequencies
-                (map (fn [[x y]]
-                       [(int (* width (/ x max-x)))
-                        (int (* height (/ y max-y)))])
-                     points))
-        max-v (apply max (map second mapped))
-        pixel-count (* width height)
-        pixel-data (persistent!
-                    (reduce (fn [pixels [[x y] v]]
-                              (let [r1 (log v max-v)
-                                    r2 (- 1 r1)]
-                                (conj! pixels
-                                       (into [(* 4 (+ x (- pixel-count (* width y))))]
-                                             (map #(+ (* r1 %1) (* r2 %2)) colour-1 colour-2)))))
-                            (transient [])
-                            mapped))]
-    (doseq [[i r g b] pixel-data]
-      (aset image.data i r)
-      (aset image.data (+ i 1) g)
-      (aset image.data (+ i 2) b)
-      (aset image.data (+ i 3) 255))
-    (.putImageData ctx image 0 0)))
-
-</code></pre></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_on_humility">On Humility</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
 <div class="paragraph">
-<p>The interactive code snippets in this article are powered by <a href="https://github.com/viebel/klipse">KLIPSE</a>.</p>
+<p>When it comes to any big or complicated question, humility is the only sensible point of view.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_on_failure">On Failure</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The short answer is that over the years I have cultivated a unique relationship with failure. I invite it. I survive it. I appreciate it. And then I mug the shit out of it.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_on_good_ideas_vs_execution">On Good Ideas vs Execution</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Good ideas have no value because the world already has too many of them. The market rewards execution, not ideas.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_on_goals">On Goals</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>To put it bluntly, goals are for losers. &#8230;&#8203; you will spend every moment until you reach the goal—if you reach it at all—feeling as if you were short of your goal. In other words, goal-oriented people exist in a state of nearly continuous failure that they hope will be temporary. That feeling wears on you. In time, it becomes heavy and uncomfortable. It might even drive you out of the game.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_on_knowledge">On Knowledge</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Reality is overrated and impossible to understand with any degree of certainty. What you do know for sure is that some ways of looking at the world work better than others. Pick the way that works, even if you don’t know why.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_on_success">On Success</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>One of the best pieces of advice I’ve ever heard goes something like this: If you want success, figure out the price, then pay it.</p>
+</div>
+</blockquote>
+</div>
+</div>
 </div>
 
 
@@ -396,19 +211,13 @@
       
       
       
-        
-      
     
       
       
       
-        
-      
     
       
       
-      
-        
       
     
       
@@ -418,37 +227,33 @@
       
       
       
-        
+    
+      
+      
       
     
       
       
       
-        
+    
+      
+      
       
     
       
       
       
-        
+    
+      
+      
       
     
       
       
       
-        
-      
     
       
       
-      
-        
-      
-    
-      
-      
-      
-        
       
     
       
@@ -463,18 +268,6 @@
     
       
       
-      
-        
-      
-    
-      
-      
-      
-    
-      
-      
-      
-        
       
     
       
@@ -549,86 +342,6 @@
           
           
           
-            <li><a href="https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/">How many eggs should a woodchuck chuck?</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/modeling-big-two/">Modeling Big two</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/">Visualizing the Prisoner&#39;s Dilemma</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
-          
-        
-          
-          
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/the-template-method-pattern/">The Template Method Pattern</a> <a class="label" href="https://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="https://www.anthony-galea.com/categories/java">java</a><a class="label" href="https://www.anthony-galea.com/categories/scala">scala</a><a class="label" href="https://www.anthony-galea.com/categories/kotlin">kotlin</a><a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/">4Clojure solutions over time</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">Hello parking garage, meet clojure.spec</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/">Simulating a parking garage with Clojure Refs</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/">Using Datomic in a simple use case</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4Clojure Medium Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
-          
-        
-          
-          
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/">Getting started with compojure-api</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4Clojure Easy Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
-          
-        
-          
-          
-          
-        
-          
-          
-          
-            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4Clojure Elementary Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
-          
         
           
           
@@ -681,97 +394,177 @@
           
           
           
-        
-          
-          
-          
-        
-          
-          
-          
-        
-          
-          
-          
-        
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-            <li><a href="https://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big-scott-adams/">How to Fail at Almost Everything and Still Win Big - Scott Adams</a> <a class="label" href="https://www.anthony-galea.com/categories/book-notes">book-notes</a></li>
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
-        
-            
-            
-            
-            
             <li><a href="https://www.anthony-galea.com/blog/post/an-astronauts-guide-to-life-on-earth-christian-hadfield/">An Astronaut&#39;s Guide to Life on Earth - Christian Hadfield</a> <a class="label" href="https://www.anthony-galea.com/categories/book-notes">book-notes</a></li>
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+          
+          
+          
+        
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/">How many eggs should a woodchuck chuck?</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
             
         
             
             
             
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/modeling-big-two/">Modeling Big two</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/visualizing-the-prisoners-dilemma/">Visualizing the Prisoner&#39;s Dilemma</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/iterated-function-systems/">Iterated Function Systems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/the-template-method-pattern/">The Template Method Pattern</a> <a class="label" href="https://www.anthony-galea.com/categories/design-patterns">design-patterns</a><a class="label" href="https://www.anthony-galea.com/categories/java">java</a><a class="label" href="https://www.anthony-galea.com/categories/scala">scala</a><a class="label" href="https://www.anthony-galea.com/categories/kotlin">kotlin</a><a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/">4Clojure solutions over time</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/">Hello parking garage, meet clojure.spec</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/simulating-a-parking-garage-with-clojure-refs/">Simulating a parking garage with Clojure Refs</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/using-datomic-in-a-simple-use-case/">Using Datomic in a simple use case</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-medium-problems/">Solutions to 4Clojure Medium Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/getting-started-with-compojure-api/">Getting started with compojure-api</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a></li>
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-easy-problems/">Solutions to 4Clojure Easy Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
+            
+        
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            <li><a href="https://www.anthony-galea.com/blog/post/solutions-to-4clojure-elementary-problems/">Solutions to 4Clojure Elementary Problems</a> <a class="label" href="https://www.anthony-galea.com/categories/clojure">clojure</a><a class="label" href="https://www.anthony-galea.com/categories/interactive">interactive</a></li>
             
         
             
