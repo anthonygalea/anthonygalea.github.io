@@ -62,16 +62,6 @@
     </item>
     
     <item>
-      <title>4Clojure solutions over time</title>
-      <link>https://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/</link>
-      <pubDate>Wed, 03 Aug 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.anthony-galea.com/blog/post/4clojure-solutions-over-time/</guid>
-      <description>Somebody recently posted in the Clojure subreddit that there had just been over 1 million problems solved on the 4Clojure website. When I saw this I wondered if we could get a graph of the number of solutions solved over time, so I sent an email to the 4Clojure guys asking if they had the data to generate such a graph. The reply:
-  I don&amp;#8217;t think we actually save that anywhere, no.</description>
-    </item>
-    
-    <item>
       <title>Hello parking garage, meet clojure.spec</title>
       <link>https://www.anthony-galea.com/blog/post/hello-parking-garage-meet-clojure.spec/</link>
       <pubDate>Tue, 26 Jul 2016 00:00:00 +0000</pubDate>
