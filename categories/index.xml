@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Anthony Galea</title>
@@ -6,22 +6,13 @@
     <description>Recent content in Categories on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 May 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 12 Nov 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.anthony-galea.com/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Book Notes</title>
-      <link>https://www.anthony-galea.com/categories/book-notes/</link>
-      <pubDate>Mon, 02 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.anthony-galea.com/categories/book-notes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Clojure</title>
+      <title>clojure</title>
       <link>https://www.anthony-galea.com/categories/clojure/</link>
       <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
       
@@ -30,34 +21,7 @@
     </item>
     
     <item>
-      <title>Design Patterns</title>
-      <link>https://www.anthony-galea.com/categories/design-patterns/</link>
-      <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.anthony-galea.com/categories/design-patterns/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Groovy</title>
-      <link>https://www.anthony-galea.com/categories/groovy/</link>
-      <pubDate>Sun, 17 Jan 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.anthony-galea.com/categories/groovy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Http</title>
-      <link>https://www.anthony-galea.com/categories/http/</link>
-      <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.anthony-galea.com/categories/http/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Interactive</title>
+      <title>interactive</title>
       <link>https://www.anthony-galea.com/categories/interactive/</link>
       <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
       
@@ -66,7 +30,16 @@
     </item>
     
     <item>
-      <title>Java</title>
+      <title>design-patterns</title>
+      <link>https://www.anthony-galea.com/categories/design-patterns/</link>
+      <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.anthony-galea.com/categories/design-patterns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>java</title>
       <link>https://www.anthony-galea.com/categories/java/</link>
       <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
       
@@ -75,7 +48,7 @@
     </item>
     
     <item>
-      <title>Kotlin</title>
+      <title>kotlin</title>
       <link>https://www.anthony-galea.com/categories/kotlin/</link>
       <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
       
@@ -84,7 +57,7 @@
     </item>
     
     <item>
-      <title>Scala</title>
+      <title>scala</title>
       <link>https://www.anthony-galea.com/categories/scala/</link>
       <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
       
@@ -93,7 +66,34 @@
     </item>
     
     <item>
-      <title>Testing</title>
+      <title>book-notes</title>
+      <link>https://www.anthony-galea.com/categories/book-notes/</link>
+      <pubDate>Mon, 02 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.anthony-galea.com/categories/book-notes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>groovy</title>
+      <link>https://www.anthony-galea.com/categories/groovy/</link>
+      <pubDate>Sun, 17 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.anthony-galea.com/categories/groovy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>http</title>
+      <link>https://www.anthony-galea.com/categories/http/</link>
+      <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.anthony-galea.com/categories/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>testing</title>
       <link>https://www.anthony-galea.com/categories/testing/</link>
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       

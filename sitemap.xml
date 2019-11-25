@@ -1,9 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.anthony-galea.com/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.anthony-galea.com/categories/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.anthony-galea.com/categories/clojure/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.anthony-galea.com/blog/post/how-many-eggs-should-a-woodchuck-chuck/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.anthony-galea.com/categories/interactive/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.anthony-galea.com/post/</loc>
     <lastmod>2017-11-12T00:00:00+00:00</lastmod>
   </url>
   
@@ -20,6 +45,26 @@
   <url>
     <loc>https://www.anthony-galea.com/blog/post/iterated-function-systems/</loc>
     <lastmod>2017-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.anthony-galea.com/categories/design-patterns/</loc>
+    <lastmod>2016-09-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.anthony-galea.com/categories/java/</loc>
+    <lastmod>2016-09-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.anthony-galea.com/categories/kotlin/</loc>
+    <lastmod>2016-09-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.anthony-galea.com/categories/scala/</loc>
+    <lastmod>2016-09-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -53,6 +98,11 @@
   </url>
   
   <url>
+    <loc>https://www.anthony-galea.com/categories/book-notes/</loc>
+    <lastmod>2016-05-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.anthony-galea.com/blog/post/how-to-fail-at-almost-everything-and-still-win-big-scott-adams/</loc>
     <lastmod>2016-05-02T00:00:00+00:00</lastmod>
   </url>
@@ -83,6 +133,11 @@
   </url>
   
   <url>
+    <loc>https://www.anthony-galea.com/categories/groovy/</loc>
+    <lastmod>2016-01-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.anthony-galea.com/blog/post/the-builder-pattern-in-java/</loc>
     <lastmod>2016-01-09T00:00:00+00:00</lastmod>
   </url>
@@ -93,81 +148,13 @@
   </url>
   
   <url>
-    <loc>https://www.anthony-galea.com/</loc>
-    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/book-notes/</loc>
-    <lastmod>2016-05-02T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/</loc>
-    <lastmod>2016-05-02T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/clojure/</loc>
-    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/design-patterns/</loc>
-    <lastmod>2016-09-15T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/groovy/</loc>
-    <lastmod>2016-01-17T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://www.anthony-galea.com/categories/http/</loc>
     <lastmod>2016-01-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/interactive/</loc>
-    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/java/</loc>
-    <lastmod>2016-09-15T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/kotlin/</loc>
-    <lastmod>2016-09-15T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/post/</loc>
-    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.anthony-galea.com/categories/scala/</loc>
-    <lastmod>2016-09-15T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://www.anthony-galea.com/categories/testing/</loc>
     <lastmod>2016-01-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>

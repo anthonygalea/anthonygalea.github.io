@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Scala on Anthony Galea</title>
+    <title>scala on Anthony Galea</title>
     <link>https://www.anthony-galea.com/categories/scala/</link>
-    <description>Recent content in Scala on Anthony Galea</description>
+    <description>Recent content in scala on Anthony Galea</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Sep 2016 00:00:00 +0000</lastBuildDate>
